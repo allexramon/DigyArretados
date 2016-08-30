@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package telas;
+package birdpoint.telas;
 
 /**
  *
  * @author Marcelio
  */
-public class TelaRh extends javax.swing.JFrame {
+public class telaRh extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaRh
      */
-    public TelaRh() {
+    public telaRh() {
         initComponents();
     }
 
@@ -33,7 +33,6 @@ public class TelaRh extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
@@ -44,13 +43,14 @@ public class TelaRh extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 633, Short.MAX_VALUE)
+            .addGap(0, 724, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
+            .addGap(0, 389, Short.MAX_VALUE)
         );
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenu2.setText("Cadastro");
 
         jMenuItem1.setText("Cadastrar Administrador");
@@ -61,11 +61,9 @@ public class TelaRh extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/user_add.png"))); // NOI18N
         jMenuItem2.setText("Cadastrar Professor ");
         jMenu2.add(jMenuItem2);
-
-        jMenuItem3.setText("Cadastrar Cidade");
-        jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Cadastrar Titulação ");
         jMenu2.add(jMenuItem4);
@@ -109,20 +107,21 @@ public class TelaRh extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(telaRh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaRh().setVisible(true);
+                new telaRh().setVisible(true);
             }
         });
     }
@@ -133,7 +132,6 @@ public class TelaRh extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
