@@ -33,7 +33,8 @@ public class TelaRh extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -52,7 +53,7 @@ public class TelaRh extends javax.swing.JFrame {
 
         jMenu2.setText("Cadastro");
 
-        jMenuItem1.setText("Cadsatrar Usuário");
+        jMenuItem1.setText("Cadastrar Administrador");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -63,10 +64,13 @@ public class TelaRh extends javax.swing.JFrame {
         jMenuItem2.setText("Cadastrar Professor ");
         jMenu2.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu2);
+        jMenuItem3.setText("Cadastrar Cidade");
+        jMenu2.add(jMenuItem3);
 
-        jMenu3.setText("Edit");
-        jMenuBar1.add(jMenu3);
+        jMenuItem4.setText("Cadastrar Titulação ");
+        jMenu2.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -126,10 +130,11 @@ public class TelaRh extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
