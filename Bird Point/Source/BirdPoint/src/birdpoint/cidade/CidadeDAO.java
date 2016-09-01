@@ -17,7 +17,7 @@ public class CidadeDAO extends GenericDAO<Cidade> {
         super(Cidade.class);
     }
 
-    
+
     
 
 }
