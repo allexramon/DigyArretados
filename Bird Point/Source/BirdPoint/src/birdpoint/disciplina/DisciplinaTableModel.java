@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Adriano Lima
  */
 public class DisciplinaTableModel extends AbstractTableModel{
-      private List<Disciplina> disciplinas = new ArrayList<>();
+     private List<Disciplina> disciplinas = new ArrayList<>();
     private String[] colunas = {"Nome Curso", "Nome Disciplina","Semestre","Carga Horária","ID Disciplina"};
 
     public DisciplinaTableModel(List<Disciplina> disciplina) {
