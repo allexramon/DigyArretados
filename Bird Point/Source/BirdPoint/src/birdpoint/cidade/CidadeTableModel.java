@@ -17,16 +17,16 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CidadeTableModel extends AbstractTableModel{
 
-    private List<Cidade> cidade = new ArrayList<>();
+    private List<Cidade> cidades = new ArrayList<>();
     private String[] colunas = {"Nome", "CEP", "Estado"};
 
     public CidadeTableModel(List<Cidade> cidade) {
-        this.cidade = cidade;
+        this.cidades = cidade;
     }
 
     @Override
     public int getRowCount() {
-        return cidade.size();
+        return cidades.size();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CidadeTableModel extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Cidade cidade = cidade.get(rowIndex);
+        Cidade cidade = cidades.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return cidade.getNomeCidade();
