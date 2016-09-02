@@ -5,10 +5,83 @@
  */
 package birdpoint.cidade;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author Adriano Lima
  */
+@Entity
 public class Cidade {
     
+    @Id
+    @GeneratedValue
+    private int idCidade;
+    
+    @Column(length = 50,nullable = false)
+    private String nomeCidade;
+    @Column(length = 50,nullable = false)
+    private String estadoCidade;
+    @Column(length = 50,nullable = false)
+    private int cepCidade;
+
+    /**
+     * @return the idCidade
+     */
+    public int getIdCidade() {
+        return idCidade;
+    }
+
+    /**
+     * @param idCidade the idCidade to set
+     */
+    public void setIdCidade(int idCidade) {
+        this.idCidade = idCidade;
+    }
+
+    /**
+     * @return the nomeCidade
+     */
+    public String getNomeCidade() {
+        return nomeCidade;
+    }
+
+    /**
+     * @param nomeCidade the nomeCidade to set
+     */
+    public void setNomeCidade(String nomeCidade) {
+        this.nomeCidade = nomeCidade;
+    }
+
+    /**
+     * @return the estadoCidade
+     */
+    public String getEstadoCidade() {
+        return estadoCidade;
+    }
+
+    /**
+     * @param estadoCidade the estadoCidade to set
+     */
+    public void setEstadoCidade(String estadoCidade) {
+        this.estadoCidade = estadoCidade;
+    }
+
+    /**
+     * @return the cepCidade
+     */
+    public int getCepCidade() {
+        return cepCidade;
+    }
+
+    /**
+     * @param cepCidade the cepCidade to set
+     */
+    public void setCepCidade(int cepCidade) {
+        this.cepCidade = cepCidade;
+    }
+
 }
