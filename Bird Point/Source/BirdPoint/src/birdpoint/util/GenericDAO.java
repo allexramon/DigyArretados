@@ -1,4 +1,3 @@
-
 package birdpoint.util;
 
 import java.util.List;
@@ -8,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
-
 
 @SuppressWarnings("unchecked")
 public abstract class GenericDAO<T> {
@@ -34,7 +32,7 @@ public abstract class GenericDAO<T> {
             this.getTransacao().commit();
 
         } catch (HibernateException e) {
-           JOptionPane.showMessageDialog(null, "Não foi possível inserir " + entity.getClass()
+            JOptionPane.showMessageDialog(null, "Não foi possível inserir " + entity.getClass()
                     + ". Erro: " + e.getMessage());
             return false;
         } finally {
@@ -52,7 +50,7 @@ public abstract class GenericDAO<T> {
             this.getTransacao().commit();
 
         } catch (HibernateException e) {
-          //  JOptionPane.showMessageDialog(null, "Não foi possível atualizar " + entity.getClass()
+            //  JOptionPane.showMessageDialog(null, "Não foi possível atualizar " + entity.getClass()
             //         + ". Erro: " + e.getMessage());
             return false;
         } finally {
@@ -95,8 +93,6 @@ public abstract class GenericDAO<T> {
         }
         return lista;
     }
-    
-
 
     /*
      * ao passar uma chave primária
@@ -131,7 +127,7 @@ public abstract class GenericDAO<T> {
         return lista;
 
     }
-    
+
     public List<T> checkExistseq(String campo, Object valor) {
         List<T> lista = null;
         try {
@@ -176,4 +172,6 @@ public abstract class GenericDAO<T> {
     public void setTransacao(Transaction transacao) {
         this.transacao = transacao;
     }
+    
+    
 }

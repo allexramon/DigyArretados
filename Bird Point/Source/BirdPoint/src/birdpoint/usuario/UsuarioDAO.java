@@ -6,15 +6,26 @@
 package birdpoint.usuario;
 
 import birdpoint.util.GenericDAO;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Nóbrega
  */
-public class UsuarioDAO extends GenericDAO<Usuario>{
+public class UsuarioDAO extends GenericDAO<Usuario> {
 
     public UsuarioDAO() {
         super(Usuario.class);
     }
-    
+
+    public void salvar(Usuario usuario) {
+        if (usuario.getIdUsuario() == 0) {
+            adicionar(usuario);
+            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+        } else {
+            atualizar(usuario);
+            JOptionPane.showMessageDialog(null, "Usuário editado com sucesso!");
+        }
+    }
+
 }

@@ -31,7 +31,7 @@ public class Usuario {
     private String senhaUsuario;
     
     @Column(length = 100, nullable = false)
-    private String tipoDeAcedssoUsuario;
+    private String tipoDeAcessoUsuario;
 
     /**
      * @return the idUsuario
@@ -90,17 +90,19 @@ public class Usuario {
     }
 
     /**
-     * @return the tipoDeAcedssoUsuario
+     * @return the tipoDeAcessoUsuario
      */
-    public String getTipoDeAcedssoUsuario() {
-        return tipoDeAcedssoUsuario;
+    public String getTipoDeAcessoUsuario() {
+        return tipoDeAcessoUsuario;
     }
 
     /**
-     * @param tipoDeAcedssoUsuario the tipoDeAcedssoUsuario to set
+     * @param tipoDeAcessoUsuario the tipoDeAcessoUsuario to set
      */
-    public void setTipoDeAcedssoUsuario(String tipoDeAcedssoUsuario) {
-        this.tipoDeAcedssoUsuario = tipoDeAcedssoUsuario;
+    public void setTipoDeAcessoUsuario(String tipoDeAcessoUsuario) {
+        this.tipoDeAcessoUsuario = tipoDeAcessoUsuario;
     }
+
+
     
 }

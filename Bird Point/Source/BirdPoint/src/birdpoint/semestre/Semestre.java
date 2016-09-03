@@ -26,10 +26,6 @@ public class Semestre {
     @Column(length = 50, nullable = false)
     private String nomeSemestre;
     
-    @OneToOne
-    @Column(nullable = false)
-    private Curso curso;
-
     /**
      * @return the idSemestre
      */
@@ -58,17 +54,4 @@ public class Semestre {
         this.nomeSemestre = nomeSemestre;
     }
 
-    /**
-     * @return the curso
-     */
-    public Curso getCurso() {
-        return curso;
-    }
-
-    /**
-     * @param curso the curso to set
-     */
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
 }
