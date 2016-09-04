@@ -6,7 +6,10 @@
 package birdpoint.usuario;
 
 import birdpoint.util.GenericDAO;
+import birdpoint.util.HibernateUtil;
 import javax.swing.JOptionPane;
+import org.hibernate.Hibernate;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -26,6 +29,19 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
             atualizar(usuario);
             JOptionPane.showMessageDialog(null, "Usuário editado com sucesso!");
         }
+    }
+
+    public Usuario autenticarUsuario(String login, String senha) {
+        sessao = HibernateUtil.getSessionFactory().openSession();
+        transacao = sessao.beginTransaction();
+        Usuario usuario = (Usuario) sessao.createCriteria(Usuario.class).add(Restrictions.eq("senhaUsuario", senha)).add(Restrictions.eq("loginUsuario", login)).uniqueResult();
+        if (usuario == null) {
+            JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválidos!");
+        } else {
+            sessao.close();
+            return usuario;
+        }
+        return usuario;
     }
 
 }

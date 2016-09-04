@@ -1,22 +1,21 @@
-package birdpoint.telas;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package birdpoint.telas;
 
+import birdpoint.usuario.Usuario;
+import birdpoint.usuario.UsuarioDAO;
+import birdpoint.util.Util;
 
-/**
- *
- * @author Marcelio
- */
-public class Autenticacao extends javax.swing.JFrame {
+public class TelaAutenticacao extends javax.swing.JDialog {
 
-    /**
-     * Creates new form Login
-     */
-    public Autenticacao() {
+    Usuario usuario = new Usuario();
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    public TelaAutenticacao(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
 
@@ -35,14 +34,15 @@ public class Autenticacao extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        tfLogin = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        btEntrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        tfSenha = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModal(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -55,8 +55,8 @@ public class Autenticacao extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 140, 50));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Login:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 60, -1));
+        jLabel2.setText("Usuário.:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 60, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Senha:");
@@ -66,32 +66,29 @@ public class Autenticacao extends javax.swing.JFrame {
         jLabel4.setText("Ano de Exercício: ");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 110, 20));
 
-        jTextField1.setBackground(new java.awt.Color(204, 255, 255));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        tfLogin.setBackground(new java.awt.Color(204, 255, 255));
+        tfLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                tfLoginActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 210, 30));
-
-        jTextField2.setBackground(new java.awt.Color(204, 255, 255));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 210, 30));
+        jPanel1.add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 210, 30));
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2016.2", "2017.1", "2017.2", "2018.1", "2018.2" }));
         jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 100, 30));
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/accept.png"))); // NOI18N
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btEntrar.setBackground(new java.awt.Color(0, 153, 255));
+        btEntrar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/accept.png"))); // NOI18N
+        btEntrar.setText("Entrar");
+        btEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btEntrarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, -1, -1));
+        jPanel1.add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(51, 204, 255));
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -99,6 +96,7 @@ public class Autenticacao extends javax.swing.JFrame {
         jButton2.setText("Sair");
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 90, -1));
         jPanel1.add(filler1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
+        jPanel1.add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 210, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,19 +109,28 @@ public class Autenticacao extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void tfLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_tfLoginActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
+        if (Util.chkVazio(tfLogin.getText(), tfSenha.getText())) {
+            usuario = usuarioDAO.autenticarUsuario(tfLogin.getText(), tfSenha.getText());
+            if (usuario != null) {
+                MenuPrincipal menu = new MenuPrincipal(usuario);
+                dispose();
+                menu.setVisible(true);
+            }
+
+        }
+
+    }//GEN-LAST:event_btEntrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,30 +149,34 @@ public class Autenticacao extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAutenticacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAutenticacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAutenticacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAutenticacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                TelaAutenticacao dialog = new TelaAutenticacao(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btEntrar;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -173,8 +184,8 @@ public class Autenticacao extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel jlLogo2;
+    private javax.swing.JTextField tfLogin;
+    private javax.swing.JPasswordField tfSenha;
     // End of variables declaration//GEN-END:variables
 }

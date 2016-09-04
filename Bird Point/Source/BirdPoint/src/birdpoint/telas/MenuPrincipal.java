@@ -5,16 +5,14 @@
  */
 package birdpoint.telas;
 
-/**
- *
- * @author Marcelio
- */
+import birdpoint.usuario.Usuario;
+
 public class MenuPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaRh
      */
-    public MenuPrincipal() {
+    public MenuPrincipal(Usuario usuario) {
         initComponents();
     }
 
@@ -135,7 +133,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal().setVisible(true);
+                new MenuPrincipal(null).setVisible(true);
             }
         });
     }
