@@ -1,6 +1,6 @@
-
 package birdpoint.util;
 
+import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -19,11 +19,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static javassist.CtMethod.ConstParameter.string;
 import javax.swing.AbstractAction;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 /**
@@ -106,6 +111,7 @@ public class Util {
         //comparar o digito verificador do cpf com o primeiro resto + o segundo resto.  
         return nDigVerific.equals(nDigResult);
     }
+
     /* @MD5 Método de Encriptação da Senha em um HASH Hexadecimal */
 
     public static String md5(String senha) {
@@ -122,7 +128,7 @@ public class Util {
     public static boolean chkVazio(String... campos) {
         for (String chk : campos) {
             if (chk.isEmpty() || chk.equals("-----") || chk.equals("  /  /    ") || chk.equals("  .   .   /    -  ")
-            || chk.equals("(  )     -    ")) {
+                    || chk.equals("(  )     -    ")) {
                 JOptionPane.showMessageDialog(null, "Existem campos obrigatórios que não foram preenchidos!");
                 return false;
             }
@@ -217,7 +223,6 @@ public class Util {
         jframe.setIconImage(Toolkit.getDefaultToolkit().getImage(classe.getResource("/fvsosp/caminhodaimagem")));
     }
 
-
     static public boolean validaCNPJ(String str_cnpj) {
         int soma = 0, aux, dig;
         String cnpj_calc = str_cnpj.substring(0, 12);
@@ -261,6 +266,28 @@ public class Util {
                 ? "0" : Integer.toString(dig);
 
         return str_cnpj.equals(cnpj_calc);
+    }
+
+    public static void limparCamposGenerico(JDialog Frame) {
+        //limpa os campos     
+        for (int i = 0; i < Frame.getContentPane().getComponentCount(); i++) {
+            //varre todos os componentes     
+            Component c = Frame.getContentPane().getComponent(i);
+            if (c instanceof JComboBox) {
+                JComboBox field = (JComboBox) c;
+                field.setSelectedItem("-----");
+            }else if (c instanceof JTextField) {
+                JTextField field = (JTextField) c;
+                field.setText("");
+            }else if (c instanceof JRadioButton) {
+                JRadioButton field = (JRadioButton) c;
+                field.setSelected(false);
+            }else if (c instanceof JCheckBox) {
+                JCheckBox field = (JCheckBox) c;
+                field.setSelected(false);
+            }
+            
+        }
     }
 
 }

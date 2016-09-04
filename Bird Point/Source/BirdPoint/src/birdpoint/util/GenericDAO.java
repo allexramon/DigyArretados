@@ -144,6 +144,23 @@ public abstract class GenericDAO<T> {
         return lista;
 
     }
+    
+    public T consultarObjetoId(String campo, Object valor) {
+        T objeto = null;
+        try {
+            this.setSessao(HibernateUtil.getSessionFactory().openSession());
+            setTransacao(getSessao().beginTransaction());
+            objeto = (T) this.getSessao().createCriteria(classe).add(Restrictions.eq(campo, valor)).uniqueResult();
+            sessao.close();
+        } catch (Throwable e) {
+            if (getTransacao().isActive()) {
+                getTransacao().rollback();
+            }
+            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+        }
+        return objeto;
+
+    }
 
     /**
      * @return the sessao
