@@ -8,12 +8,16 @@ package birdpoint.telas;
 import birdpoint.usuario.Usuario;
 import birdpoint.usuario.UsuarioDAO;
 import birdpoint.util.Util;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class TelaAutenticacao extends javax.swing.JDialog {
-
+    
     Usuario usuario = new Usuario();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-
+   
+    
     public TelaAutenticacao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -28,91 +32,63 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jlLogo2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         tfLogin = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        btEntrar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         tfSenha = new javax.swing.JPasswordField();
+        jComboBox1 = new javax.swing.JComboBox();
+        btCancelar = new javax.swing.JButton();
+        btEntrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
+        setUndecorated(true);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jlLogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/logo-1.png"))); // NOI18N
-        jPanel1.add(jlLogo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 200, 140));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 153, 0));
-        jLabel1.setText("Bird Point ");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 140, 50));
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Usuário.:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 60, -1));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Senha:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 50, 30));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ano de Exercício: ");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 110, 20));
-
-        tfLogin.setBackground(new java.awt.Color(204, 255, 255));
         tfLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfLoginActionPerformed(evt);
             }
         });
-        jPanel1.add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 210, 30));
+        getContentPane().add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 280, 290, 40));
+        getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 210, 290, 40));
 
-        jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
+        jComboBox1.setBackground(new java.awt.Color(255, 153, 0));
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2016.2", "2017.1", "2017.2", "2018.1", "2018.2" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 100, 30));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 360, 100, 30));
 
-        btEntrar.setBackground(new java.awt.Color(0, 153, 255));
+        btCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btCancelar.setForeground(new java.awt.Color(255, 255, 255));
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cancelar.png"))); // NOI18N
+        btCancelar.setBorder(null);
+        btCancelar.setBorderPainted(false);
+        btCancelar.setContentAreaFilled(false);
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 440, -1, 110));
+
+        btEntrar.setBackground(new java.awt.Color(255, 255, 255));
         btEntrar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/accept.png"))); // NOI18N
-        btEntrar.setText("Entrar");
+        btEntrar.setForeground(new java.awt.Color(255, 255, 255));
+        btEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/entrar.png"))); // NOI18N
+        btEntrar.setContentAreaFilled(false);
         btEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEntrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, -1, -1));
+        getContentPane().add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 440, 100, 110));
 
-        jButton2.setBackground(new java.awt.Color(51, 204, 255));
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cross.png"))); // NOI18N
-        jButton2.setText("Sair");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 90, -1));
-        jPanel1.add(filler1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
-        jPanel1.add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 210, 30));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/login.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1000, 580));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfLoginActionPerformed
@@ -131,6 +107,25 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_btEntrarActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+     
+        Icon figura = new ImageIcon(getToolkit().createImage(getClass().getResource("/birdpoint/imagens/adverte.png")));
+       
+      Object[] options = {"SIM",
+            "NÃO"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Deseja Realmente SAIR?",
+                "BIRD POINT",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.PLAIN_MESSAGE,
+                figura,               
+                options,
+                options[1]);
+        if (n == 0) {
+            System.exit(0);
+        }     
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,16 +170,10 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEntrar;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel jlLogo2;
     private javax.swing.JTextField tfLogin;
     private javax.swing.JPasswordField tfSenha;
     // End of variables declaration//GEN-END:variables
