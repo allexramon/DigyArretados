@@ -92,6 +92,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
         btExcluir.setText("Excluir");
+        btExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btExcluirActionPerformed(evt);
