@@ -116,7 +116,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         if (Util.chkVazio(tfLogin.getText(), tfSenha.getText())) {
             usuario = usuarioDAO.autenticarUsuario(tfLogin.getText(), tfSenha.getText());
             if (usuario != null) {
-                MenuPrincipal menu = new MenuPrincipal(usuario);
+                MenuPrincipal menu = new MenuPrincipal(null, true, usuario);
                 dispose();
                 menu.setVisible(true);
             }

@@ -6,14 +6,29 @@
 package birdpoint.telas;
 
 import birdpoint.usuario.Usuario;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuElement;
+import javax.swing.plaf.basic.BasicMenuBarUI;
 
-public class MenuPrincipal extends javax.swing.JFrame {
+/**
+ *
+ * @author AlexRamon
+ */
+public class MenuPrincipal extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaRh
-     */
-    public MenuPrincipal(Usuario usuario) {
+    
+    public MenuPrincipal(java.awt.Frame parent, boolean modal, Usuario usuario) {
+        super(parent, modal);
         initComponents();
+       
+
     }
 
     /**
@@ -25,68 +40,71 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+        jlHome = new javax.swing.JLabel();
+        jMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jPanel1 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
-        jMenu1.setText("jMenu1");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationByPlatform(true);
+        setMaximumSize(new java.awt.Dimension(900, 570));
+        setMinimumSize(new java.awt.Dimension(900, 570));
+        setUndecorated(true);
+        setResizable(false);
+        getContentPane().setLayout(null);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jButton1.setText("sair");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(800, 390, 73, 23);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 724, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
-        );
+        jlHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/home.png"))); // NOI18N
+        getContentPane().add(jlHome);
+        jlHome.setBounds(0, 0, 900, 450);
 
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
-        jMenu2.setText("Cadastro");
+        jMenu.setForeground(new java.awt.Color(51, 204, 0));
+        jMenu.setMaximumSize(new java.awt.Dimension(900, 200));
+        jMenu.setMinimumSize(new java.awt.Dimension(900, 200));
 
-        jMenuItem1.setText("Cadastrar Administrador");
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/btCadastro.png"))); // NOI18N
+        jMenu1.setText("Cadastro");
+        jMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenu1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jMenu1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jMenu1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        jMenuItem1.setText("jMenuItem1");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/user_add.png"))); // NOI18N
-        jMenuItem2.setText("Cadastrar Professor ");
-        jMenu2.add(jMenuItem2);
+        jMenu.add(jMenu1);
 
-        jMenuItem4.setText("Cadastrar Titulação ");
-        jMenu2.add(jMenuItem4);
+        jMenu2.setText("Edit");
+        jMenu.add(jMenu2);
 
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        setJMenuBar(jMenu);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,37 +132,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal(null).setVisible(true);
+                MenuPrincipal dialog = new MenuPrincipal(new javax.swing.JFrame(), true, null);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JMenuBar jMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jlHome;
     // End of variables declaration//GEN-END:variables
 }
