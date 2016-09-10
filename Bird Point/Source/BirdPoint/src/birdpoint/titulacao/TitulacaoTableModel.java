@@ -5,7 +5,6 @@
  */
 package birdpoint.titulacao;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,14 +13,16 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Adriano Lima
  */
-public class TitulacaoTableModel  extends AbstractTableModel{
-     private List<Titulacao> titulacaos = new ArrayList<>();
-    private String[] colunas = {"id titulacao", "nome","numero titulacao","valor titulacao"};
+public class TitulacaoTableModel extends AbstractTableModel {
+
+    private List<Titulacao> titulacaos = new ArrayList<>();
+    private String[] colunas = {"Código", "Titulação", "Valor da H/A"};
 
     public TitulacaoTableModel(List<Titulacao> titulacao) {
-        this.titulacaos= titulacao;
+        this.titulacaos = titulacao;
     }
-     @Override
+
+    @Override
     public int getRowCount() {
         return titulacaos.size();
     }
@@ -32,19 +33,16 @@ public class TitulacaoTableModel  extends AbstractTableModel{
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex)  {
-        Titulacao titulacao  = titulacaos.get(rowIndex);
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Titulacao titulacao = titulacaos.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return titulacao.getIdTitulacao();
-            
             case 1:
                 return titulacao.getNome();
             case 2:
-                return titulacao.getNumeroTilulacao();
-            case 3:
                 return titulacao.getValorTitulacao();
-            
+
         }
         return null;
     }
@@ -57,12 +55,6 @@ public class TitulacaoTableModel  extends AbstractTableModel{
                 return colunas[1];
             case 2:
                 return colunas[2];
-            case 3:
-                return colunas[3];
-            
-                
-            
-
 
         }
         return null;

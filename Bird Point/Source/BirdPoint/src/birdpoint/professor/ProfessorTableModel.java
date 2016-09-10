@@ -13,9 +13,10 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Adriano Lima
  */
-public class ProfessorTableModel extends AbstractTableModel{
+public class ProfessorTableModel extends AbstractTableModel {
+
     private List<Professor> professores = new ArrayList<>();
-    private String[] colunas = {"Nome Professor", "Rua","Bairro","Cidade","Telefone","Email","Titulação","Situação","ID"};
+    private String[] colunas = {"Código", "Nome", "CPF", "Cidade", "Telefone", "Email"};
 
     public ProfessorTableModel(List<Professor> professor) {
         this.professores = professor;
@@ -36,23 +37,17 @@ public class ProfessorTableModel extends AbstractTableModel{
         Professor professor = professores.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return professor.getNomeProfessor();
+                return professor.getIdProfessor();
             case 1:
-                return professor.getRuaProfessor();
+                return professor.getNomeProfessor();
             case 2:
-                return professor.getBairroProfessor();
+                return professor.getCpfProfessor();
             case 3:
                 return professor.getCidadeProfessor();
             case 4:
                 return professor.getTelefoneProfessor();
             case 5:
                 return professor.getEmailProfessor();
-            case 6:
-                return professor.getTitulacaoProfessor();
-            case 7:
-                return professor.isSituacaoProfessor();
-            case 8:
-                return professor.getIdProfessor();
         }
         return null;
     }
@@ -71,17 +66,9 @@ public class ProfessorTableModel extends AbstractTableModel{
                 return colunas[4];
             case 5:
                 return colunas[5];
-            case 6:
-                return colunas[6];
-            case 7:
-                return colunas[7];
-            case 8:
-                return colunas[8];
-
 
         }
         return null;
     }
 
-  
 }

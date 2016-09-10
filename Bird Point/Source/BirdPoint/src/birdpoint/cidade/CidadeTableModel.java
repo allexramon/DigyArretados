@@ -11,14 +11,15 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author Adriano Lima
  */
-public class CidadeTableModel extends AbstractTableModel{
+public class CidadeTableModel extends AbstractTableModel {
 
     private List<Cidade> cidades = new ArrayList<>();
-    private String[] colunas = {"Nome", "CEP", "Estado"};
+    private String[] colunas = {"Código", "Cidade", "Estado", "CEP"};
 
     public CidadeTableModel(List<Cidade> cidade) {
         this.cidades = cidade;
@@ -39,11 +40,13 @@ public class CidadeTableModel extends AbstractTableModel{
         Cidade cidade = cidades.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return cidade.getNomeCidade();
+                return cidade.getIdCidade();
             case 1:
-                return cidade.getCepCidade();
+                return cidade.getNomeCidade();
             case 2:
                 return cidade.getEstadoCidade();
+            case 3:
+                return cidade.getCepCidade();
 
         }
         return null;
@@ -57,10 +60,10 @@ public class CidadeTableModel extends AbstractTableModel{
                 return colunas[1];
             case 2:
                 return colunas[2];
+            case 3:
+                return colunas[3];
         }
         return null;
     }
 
 }
- 
-
