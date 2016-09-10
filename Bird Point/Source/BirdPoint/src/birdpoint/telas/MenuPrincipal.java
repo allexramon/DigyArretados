@@ -40,29 +40,37 @@ public class MenuPrincipal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btLogout = new javax.swing.JButton();
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jmCadastrar = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
-        setMaximumSize(new java.awt.Dimension(900, 570));
         setMinimumSize(new java.awt.Dimension(900, 570));
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jButton1.setText("sair");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btLogout.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/logout.png"))); // NOI18N
+        btLogout.setText("Sair");
+        btLogout.setToolTipText("Sair");
+        btLogout.setContentAreaFilled(false);
+        btLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btLogout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btLogout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(800, 390, 73, 23);
+        getContentPane().add(btLogout);
+        btLogout.setBounds(790, 330, 80, 107);
 
         jlHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/home.png"))); // NOI18N
         getContentPane().add(jlHome);
@@ -72,25 +80,36 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jMenu.setMaximumSize(new java.awt.Dimension(900, 200));
         jMenu.setMinimumSize(new java.awt.Dimension(900, 200));
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/btCadastro.png"))); // NOI18N
-        jMenu1.setText("Cadastro");
-        jMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenu1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        jMenu1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMenu1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jmCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/btCadastro.png"))); // NOI18N
+        jmCadastrar.setText("Cadastro");
+        jmCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jmCadastrar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        jMenuItem1.setText("jMenuItem1");
+        jMenuItem1.setText("Cidade");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jmCadastrar.add(jMenuItem1);
 
-        jMenu.add(jMenu1);
+        jMenuItem2.setText("Titulação");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem2);
 
-        jMenu2.setText("Edit");
-        jMenu.add(jMenu2);
+        jMenuItem3.setText("Professor");
+        jmCadastrar.add(jMenuItem3);
+
+        jMenuItem4.setText("Usuário");
+        jmCadastrar.add(jMenuItem4);
+
+        jMenu.add(jmCadastrar);
 
         setJMenuBar(jMenu);
 
@@ -102,9 +121,13 @@ public class MenuPrincipal extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btLogoutActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,11 +172,13 @@ public class MenuPrincipal extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btLogout;
     private javax.swing.JMenuBar jMenu;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JLabel jlHome;
+    private javax.swing.JMenu jmCadastrar;
     // End of variables declaration//GEN-END:variables
 }
