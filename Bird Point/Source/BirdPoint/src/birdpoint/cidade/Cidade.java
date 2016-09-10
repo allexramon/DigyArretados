@@ -23,8 +23,10 @@ public class Cidade {
     
     @Column(length = 50,nullable = false)
     private String nomeCidade;
+    
     @Column(length = 50,nullable = false)
     private String estadoCidade;
+    
     @Column(length = 50,nullable = false)
     private int cepCidade;
 

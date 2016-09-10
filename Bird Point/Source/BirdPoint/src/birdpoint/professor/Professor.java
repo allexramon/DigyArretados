@@ -5,10 +5,15 @@
  */
 package birdpoint.professor;
 
+import birdpoint.cidade.Cidade;
+import birdpoint.titulacao.Titulacao;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -16,40 +21,46 @@ import javax.persistence.Id;
  */
 @Entity
 public class Professor {
-    
+
     @Id
     @GeneratedValue
     private int IdProfessor;
-    
-    @Column(length = 100,nullable = false)
+
+    @Column(length = 100, nullable = false)
     private String nomeProfessor;
-    
-    @Column(length = 100,nullable = false)
+
+    @Column(length = 100, nullable = false)
     private String ruaProfessor;
     
-    @Column(length = 100,nullable = false)
+    @Column(length = 100, nullable = false)
+    private String cpfProfessor;
+    
+    @Column(length = 100, nullable = false)
+    private String RGProfessor;
+
+    @Column(length = 100, nullable = false)
     private String bairroProfessor;
-    
-    @Column(length = 100,nullable = false)
-    private String cidadeProfessor;
-    
-    @Column(length = 100,nullable = false)
+
+    @Column(length = 100, nullable = false)
     private String telefoneProfessor;
-    
-    @Column(length = 100,nullable = false)
+
+    @Column(length = 100, nullable = false)
     private String emailProfessor;
-    
-    @Column(length = 100,nullable = false)
+
+    @Column(length = 100, nullable = false)
     private String fotoProfessor;
-    
-    @Column(length = 100,nullable = false)
-    private String titulacaoProfessor;
-    
+
     @Column(nullable = false)
     private boolean situacaoProfessor;
-    
-    @Column(length = 100,nullable = false)
+
+    @Column(length = 100, nullable = false)
     private int numeroCasa;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Titulacao titulacaoProfessor;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Cidade cidadeProfessor;
 
     /**
      * @return the IdProfessor
@@ -108,20 +119,6 @@ public class Professor {
     }
 
     /**
-     * @return the cidadeProfessor
-     */
-    public String getCidadeProfessor() {
-        return cidadeProfessor;
-    }
-
-    /**
-     * @param cidadeProfessor the cidadeProfessor to set
-     */
-    public void setCidadeProfessor(String cidadeProfessor) {
-        this.cidadeProfessor = cidadeProfessor;
-    }
-
-    /**
      * @return the telefoneProfessor
      */
     public String getTelefoneProfessor() {
@@ -164,20 +161,6 @@ public class Professor {
     }
 
     /**
-     * @return the titulacaoProfessor
-     */
-    public String getTitulacaoProfessor() {
-        return titulacaoProfessor;
-    }
-
-    /**
-     * @param titulacaoProfessor the titulacaoProfessor to set
-     */
-    public void setTitulacaoProfessor(String titulacaoProfessor) {
-        this.titulacaoProfessor = titulacaoProfessor;
-    }
-
-    /**
      * @return the situacaoProfessor
      */
     public boolean isSituacaoProfessor() {
@@ -205,7 +188,60 @@ public class Professor {
         this.numeroCasa = numeroCasa;
     }
 
-    
-    
-    
+    /**
+     * @return the titulacaoProfessor
+     */
+    public Titulacao getTitulacaoProfessor() {
+        return titulacaoProfessor;
+    }
+
+    /**
+     * @param titulacaoProfessor the titulacaoProfessor to set
+     */
+    public void setTitulacaoProfessor(Titulacao titulacaoProfessor) {
+        this.titulacaoProfessor = titulacaoProfessor;
+    }
+
+    /**
+     * @return the cidadeProfessor
+     */
+    public Cidade getCidadeProfessor() {
+        return cidadeProfessor;
+    }
+
+    /**
+     * @param cidadeProfessor the cidadeProfessor to set
+     */
+    public void setCidadeProfessor(Cidade cidadeProfessor) {
+        this.cidadeProfessor = cidadeProfessor;
+    }
+
+    /**
+     * @return the cpfProfessor
+     */
+    public String getCpfProfessor() {
+        return cpfProfessor;
+    }
+
+    /**
+     * @param cpfProfessor the cpfProfessor to set
+     */
+    public void setCpfProfessor(String cpfProfessor) {
+        this.cpfProfessor = cpfProfessor;
+    }
+
+    /**
+     * @return the RGProfessor
+     */
+    public String getRGProfessor() {
+        return RGProfessor;
+    }
+
+    /**
+     * @param RGProfessor the RGProfessor to set
+     */
+    public void setRGProfessor(String RGProfessor) {
+        this.RGProfessor = RGProfessor;
+    }
+
 }

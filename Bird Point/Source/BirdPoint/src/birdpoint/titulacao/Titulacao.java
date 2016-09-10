@@ -16,17 +16,16 @@ import javax.persistence.Id;
  */
 @Entity
 public class Titulacao {
+
     @Id
     @GeneratedValue
     private int IdTitulacao;
-   @Column(length = 100,nullable = false) 
-   private String nome;
-   
-   @Column(length = 100,nullable = false)
-   private int  numeroTilulacao;
-   
-   @Column(length = 100,nullable = false)
-   private double valorTitulacao;
+
+    @Column(length = 100, nullable = false)
+    private String nome;
+
+    @Column(length = 100, nullable = false)
+    private double valorTitulacao;
 
     /**
      * @return the IdTitulacao
@@ -57,20 +56,6 @@ public class Titulacao {
     }
 
     /**
-     * @return the numeroTilulacao
-     */
-    public int getNumeroTilulacao() {
-        return numeroTilulacao;
-    }
-
-    /**
-     * @param numeroTilulacao the numeroTilulacao to set
-     */
-    public void setNumeroTilulacao(int numeroTilulacao) {
-        this.numeroTilulacao = numeroTilulacao;
-    }
-
-    /**
      * @return the valorTitulacao
      */
     public double getValorTitulacao() {
@@ -83,6 +68,5 @@ public class Titulacao {
     public void setValorTitulacao(double valorTitulacao) {
         this.valorTitulacao = valorTitulacao;
     }
- 
-  
+
 }

@@ -45,7 +45,7 @@ public class CadastroCidade extends javax.swing.JDialog {
         jLabel2.setText("Nome da Cidade:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setText("Cep:");
+        jLabel3.setText("CEP.:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Estado:");

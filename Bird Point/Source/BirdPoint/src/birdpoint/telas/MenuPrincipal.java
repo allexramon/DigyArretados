@@ -45,7 +45,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
@@ -88,9 +87,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jMenu1.add(jMenuItem1);
 
         jMenu.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenu.add(jMenu2);
 
         setJMenuBar(jMenu);
 
@@ -152,7 +148,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JMenuBar jMenu;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel jlHome;
     // End of variables declaration//GEN-END:variables
