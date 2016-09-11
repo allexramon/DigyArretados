@@ -5,18 +5,26 @@
  */
 package birdpoint.telas;
 
+import birdpoint.cidade.Cidade;
+import birdpoint.cidade.CidadeDAO;
+import birdpoint.cidade.CidadeTableModel;
+import birdpoint.util.Util;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Adriano Lima
  */
 public class CadastroCidade extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaCadastroCidade
-     */
+    Cidade cidade = new Cidade();
+    CidadeDAO cidadeDAO = new CidadeDAO();
+    
     public CadastroCidade(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        btLimparActionPerformed(null);
     }
 
     /**
@@ -31,12 +39,14 @@ public class CadastroCidade extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         tfCidade = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        tfCep = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        comboEstado = new javax.swing.JComboBox();
-        btSalvar = new javax.swing.JButton();
+        jcEstado = new javax.swing.JComboBox();
+        btVoltar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
-        btCancelar = new javax.swing.JButton();
+        btPesquisar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
+        tfCep = new javax.swing.JFormattedTextField();
+        btSalvar = new javax.swing.JButton();
         jlCadCidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -59,40 +69,37 @@ public class CadastroCidade extends javax.swing.JDialog {
         getContentPane().add(jLabel3);
         jLabel3.setBounds(120, 200, 40, 20);
 
-        tfCep.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tfCep.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
-        getContentPane().add(tfCep);
-        tfCep.setBounds(170, 190, 240, 30);
-
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel4.setText("Estado:");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(100, 240, 60, 19);
 
-        comboEstado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
-        comboEstado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
-        getContentPane().add(comboEstado);
-        comboEstado.setBounds(170, 230, 100, 30);
+        jcEstado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+        jcEstado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        getContentPane().add(jcEstado);
+        jcEstado.setBounds(170, 230, 100, 30);
 
-        btSalvar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
-        btSalvar.setText("Salvar");
-        btSalvar.setContentAreaFilled(false);
-        btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btSalvar.addActionListener(new java.awt.event.ActionListener() {
+        btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
+        btVoltar.setText("Voltar");
+        btVoltar.setContentAreaFilled(false);
+        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btVoltar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btVoltar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSalvarActionPerformed(evt);
+                btVoltarActionPerformed(evt);
             }
         });
-        getContentPane().add(btSalvar);
-        btSalvar.setBounds(480, 340, 70, 70);
+        getContentPane().add(btVoltar);
+        btVoltar.setBounds(20, 340, 90, 70);
 
-        btLimpar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
         btLimpar.setText("Limpar");
         btLimpar.setContentAreaFilled(false);
+        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btLimpar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btLimpar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -101,23 +108,68 @@ public class CadastroCidade extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(410, 340, 73, 70);
+        btLimpar.setBounds(180, 340, 80, 70);
 
-        btCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cancelar2.png"))); // NOI18N
-        btCancelar.setText("Cancelar");
-        btCancelar.setContentAreaFilled(false);
-        btCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btPesquisar.setText("Pesquisar");
+        btPesquisar.setContentAreaFilled(false);
+        btPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesquisar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btPesquisar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCancelarActionPerformed(evt);
+                btPesquisarActionPerformed(evt);
             }
         });
-        getContentPane().add(btCancelar);
-        btCancelar.setBounds(330, 340, 83, 70);
+        getContentPane().add(btPesquisar);
+        btPesquisar.setBounds(280, 340, 100, 69);
+
+        btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
+        btExcluir.setText("Excluir");
+        btExcluir.setContentAreaFilled(false);
+        btExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btExcluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btExcluir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btExcluir);
+        btExcluir.setBounds(390, 340, 80, 70);
+
+        tfCep.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        try {
+            tfCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tfCep.setToolTipText("");
+        tfCep.setMinimumSize(new java.awt.Dimension(2, 19));
+        tfCep.setName(""); // NOI18N
+        tfCep.setPreferredSize(new java.awt.Dimension(2, 19));
+        getContentPane().add(tfCep);
+        tfCep.setBounds(170, 190, 239, 30);
+
+        btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
+        btSalvar.setText("Salvar");
+        btSalvar.setContentAreaFilled(false);
+        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalvarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btSalvar);
+        btSalvar.setBounds(480, 340, 80, 70);
 
         jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadCidade.png"))); // NOI18N
+        jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadCidade);
         jlCadCidade.setBounds(0, 0, 600, 420);
 
@@ -125,17 +177,56 @@ public class CadastroCidade extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btSalvarActionPerformed
-
-    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         dispose();
-    }//GEN-LAST:event_btCancelarActionPerformed
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-        // TODO add your handling code here:
+        Util.limparCamposGenerico(this);
+        btExcluir.setEnabled(false);
+        cidade = new Cidade();
     }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
+        List<Cidade> lista;
+        lista = (cidadeDAO.listar());
+        CidadeTableModel itm = new CidadeTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Cidade");
+        if (objetoRetorno != null) {
+            cidade = cidadeDAO.consultarObjetoId("idCidade", objetoRetorno);
+            tfCidade.setText(cidade.getNomeCidade());
+            tfCep.setText(cidade.getCepCidade());
+            jcEstado.setSelectedItem(cidade.getEstadoCidade());
+            btExcluir.setEnabled(true);
+        }
+    }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        if (cidade.getIdCidade()!= 0) {
+            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir a Cidade " + cidade.getNomeCidade()
+                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (cidadeDAO.remover(cidade)) {
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Cidade " + cidade.getNomeCidade(),
+                    "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
+        }
+
+        }
+        btLimparActionPerformed(null);
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        if(Util.chkVazio(tfCep.getText(),tfCidade.getText())){
+            cidade.setNomeCidade(tfCidade.getText());
+            cidade.setEstadoCidade(String.valueOf(jcEstado.getSelectedItem()));
+            cidade.setCepCidade(tfCep.getText());
+            cidadeDAO.salvar(cidade);
+            btLimparActionPerformed(null);
+        }
+    }//GEN-LAST:event_btSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,15 +272,17 @@ public class CadastroCidade extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JComboBox comboEstado;
+    private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox jcEstado;
     private javax.swing.JLabel jlCadCidade;
-    private javax.swing.JTextField tfCep;
+    private javax.swing.JFormattedTextField tfCep;
     private javax.swing.JTextField tfCidade;
     // End of variables declaration//GEN-END:variables
 }

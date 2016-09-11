@@ -24,58 +24,45 @@ public class Professor {
 
     @Id
     @GeneratedValue
-    private int IdProfessor;
+    private int idProfessor;
 
     @Column(length = 100, nullable = false)
     private String nomeProfessor;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String ruaProfessor;
     
     @Column(length = 100, nullable = false)
     private String cpfProfessor;
     
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String RGProfessor;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String bairroProfessor;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String telefoneProfessor;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String emailProfessor;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String fotoProfessor;
 
     @Column(nullable = false)
     private boolean situacaoProfessor;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private int numeroCasa;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Titulacao titulacaoProfessor;
+    @Column(length = 100, nullable = false)
+    private String titulacaoProfessor;
+    
+    @Column(length = 100)
+    private String cidadeProfessor;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Cidade cidadeProfessor;
-
-    /**
-     * @return the IdProfessor
-     */
-    public int getIdProfessor() {
-        return IdProfessor;
-    }
-
-    /**
-     * @param IdProfessor the IdProfessor to set
-     */
-    public void setIdProfessor(int IdProfessor) {
-        this.IdProfessor = IdProfessor;
-    }
-
+   
     /**
      * @return the nomeProfessor
      */
@@ -102,6 +89,34 @@ public class Professor {
      */
     public void setRuaProfessor(String ruaProfessor) {
         this.ruaProfessor = ruaProfessor;
+    }
+
+    /**
+     * @return the cpfProfessor
+     */
+    public String getCpfProfessor() {
+        return cpfProfessor;
+    }
+
+    /**
+     * @param cpfProfessor the cpfProfessor to set
+     */
+    public void setCpfProfessor(String cpfProfessor) {
+        this.cpfProfessor = cpfProfessor;
+    }
+
+    /**
+     * @return the RGProfessor
+     */
+    public String getRGProfessor() {
+        return RGProfessor;
+    }
+
+    /**
+     * @param RGProfessor the RGProfessor to set
+     */
+    public void setRGProfessor(String RGProfessor) {
+        this.RGProfessor = RGProfessor;
     }
 
     /**
@@ -191,57 +206,43 @@ public class Professor {
     /**
      * @return the titulacaoProfessor
      */
-    public Titulacao getTitulacaoProfessor() {
+    public String getTitulacaoProfessor() {
         return titulacaoProfessor;
     }
 
     /**
      * @param titulacaoProfessor the titulacaoProfessor to set
      */
-    public void setTitulacaoProfessor(Titulacao titulacaoProfessor) {
+    public void setTitulacaoProfessor(String titulacaoProfessor) {
         this.titulacaoProfessor = titulacaoProfessor;
     }
 
     /**
      * @return the cidadeProfessor
      */
-    public Cidade getCidadeProfessor() {
+    public String getCidadeProfessor() {
         return cidadeProfessor;
     }
 
     /**
      * @param cidadeProfessor the cidadeProfessor to set
      */
-    public void setCidadeProfessor(Cidade cidadeProfessor) {
+    public void setCidadeProfessor(String cidadeProfessor) {
         this.cidadeProfessor = cidadeProfessor;
     }
 
     /**
-     * @return the cpfProfessor
+     * @return the idProfessor
      */
-    public String getCpfProfessor() {
-        return cpfProfessor;
+    public int getIdProfessor() {
+        return idProfessor;
     }
 
     /**
-     * @param cpfProfessor the cpfProfessor to set
+     * @param idProfessor the idProfessor to set
      */
-    public void setCpfProfessor(String cpfProfessor) {
-        this.cpfProfessor = cpfProfessor;
-    }
-
-    /**
-     * @return the RGProfessor
-     */
-    public String getRGProfessor() {
-        return RGProfessor;
-    }
-
-    /**
-     * @param RGProfessor the RGProfessor to set
-     */
-    public void setRGProfessor(String RGProfessor) {
-        this.RGProfessor = RGProfessor;
+    public void setIdProfessor(int idProfessor) {
+        this.idProfessor = idProfessor;
     }
 
 }

@@ -26,7 +26,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
      */
     public CadastroUsuario(java.awt.Frame parent, boolean modal) {
         initComponents();
-        btExcluir.setEnabled(false);
+        btLimparActionPerformed(null);
         setModal(true);
     }
     
@@ -47,16 +47,16 @@ public class CadastroUsuario extends javax.swing.JDialog {
         tfTipoDeUsuario = new javax.swing.JComboBox();
         jlNomeUsuario = new javax.swing.JLabel();
         tfNomeUsuario = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btVoltar = new javax.swing.JButton();
+        btPesquisar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(600, 421));
-        setMinimumSize(new java.awt.Dimension(600, 421));
+        setMaximumSize(new java.awt.Dimension(602, 421));
+        setMinimumSize(new java.awt.Dimension(602, 421));
         setModal(true);
         setUndecorated(true);
         setResizable(false);
@@ -111,35 +111,35 @@ public class CadastroUsuario extends javax.swing.JDialog {
         getContentPane().add(tfNomeUsuario);
         tfNomeUsuario.setBounds(170, 143, 340, 30);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
-        jButton3.setText("Voltar");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
+        btVoltar.setText("Voltar");
+        btVoltar.setContentAreaFilled(false);
+        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btVoltar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btVoltar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btVoltarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3);
-        jButton3.setBounds(490, 340, 90, 70);
+        getContentPane().add(btVoltar);
+        btVoltar.setBounds(20, 340, 90, 70);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
-        jButton2.setText("Pesquisar");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btPesquisar.setText("Pesquisar");
+        btPesquisar.setContentAreaFilled(false);
+        btPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesquisar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btPesquisar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btPesquisarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2);
-        jButton2.setBounds(270, 340, 100, 69);
+        getContentPane().add(btPesquisar);
+        btPesquisar.setBounds(280, 340, 100, 69);
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
@@ -154,7 +154,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btExcluir);
-        btExcluir.setBounds(350, 340, 80, 70);
+        btExcluir.setBounds(390, 340, 80, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
@@ -169,7 +169,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(210, 340, 80, 70);
+        btLimpar.setBounds(180, 340, 80, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
@@ -184,17 +184,18 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(410, 340, 80, 70);
+        btSalvar.setBounds(480, 340, 80, 70);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadUsuario.png"))); // NOI18N
+        jLabel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(0, 0, 600, 420);
+        jLabel6.setBounds(0, 0, 602, 420);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         List<Usuario> lista;
         lista = (usuarioDAO.listar());
         UsuarioTableModel itm = new UsuarioTableModel(lista);
@@ -207,7 +208,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
             btExcluir.setEnabled(true);
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
        if (usuario.getIdUsuario() != 0) {
@@ -248,9 +249,9 @@ public class CadastroUsuario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNomeUsuarioActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
        dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,9 +299,9 @@ public class CadastroUsuario extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jlLogin;
     private javax.swing.JLabel jlNomeUsuario;

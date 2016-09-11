@@ -28,7 +28,7 @@ public class Cidade {
     private String estadoCidade;
     
     @Column(length = 50,nullable = false)
-    private int cepCidade;
+    private String cepCidade;
 
     /**
      * @return the idCidade
@@ -75,15 +75,16 @@ public class Cidade {
     /**
      * @return the cepCidade
      */
-    public int getCepCidade() {
+    public String getCepCidade() {
         return cepCidade;
     }
 
     /**
      * @param cepCidade the cepCidade to set
      */
-    public void setCepCidade(int cepCidade) {
+    public void setCepCidade(String cepCidade) {
         this.cepCidade = cepCidade;
     }
 
+    
 }

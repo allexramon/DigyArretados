@@ -52,7 +52,8 @@ public class MenuPrincipal extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
-        setMinimumSize(new java.awt.Dimension(900, 570));
+        setMinimumSize(new java.awt.Dimension(902, 563));
+        setModal(true);
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(null);
@@ -77,7 +78,9 @@ public class MenuPrincipal extends javax.swing.JDialog {
         getContentPane().add(jlHome);
         jlHome.setBounds(0, 0, 900, 450);
 
+        jMenu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMenu.setForeground(new java.awt.Color(51, 204, 0));
+        jMenu.setBorderPainted(false);
         jMenu.setMaximumSize(new java.awt.Dimension(900, 200));
         jMenu.setMinimumSize(new java.awt.Dimension(900, 200));
 
@@ -108,6 +111,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem3.setText("Professor");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jmCadastrar.add(jMenuItem3);
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
@@ -133,17 +141,25 @@ public class MenuPrincipal extends javax.swing.JDialog {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
-        System.exit(0);
+        TelaAutenticacao telaAutenticar = new TelaAutenticacao(null, rootPaneCheckingEnabled);
+        telaAutenticar.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btLogoutActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        CadastroTitulacao cadastroTitulacao = new CadastroTitulacao(null, rootPaneCheckingEnabled);
+        cadastroTitulacao.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         CadastroUsuario cadUsuario = new CadastroUsuario(null, rootPaneCheckingEnabled);
         cadUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        CadastroProfessor cadastroProfessor = new CadastroProfessor(null, rootPaneCheckingEnabled);
+        cadastroProfessor.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

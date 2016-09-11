@@ -45,6 +45,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(1000, 563));
         setModal(true);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1000, 560));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

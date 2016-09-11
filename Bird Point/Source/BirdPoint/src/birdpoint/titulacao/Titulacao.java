@@ -19,7 +19,7 @@ public class Titulacao {
 
     @Id
     @GeneratedValue
-    private int IdTitulacao;
+    private int idTitulacao;
 
     @Column(length = 100, nullable = false)
     private String nome;
@@ -28,17 +28,17 @@ public class Titulacao {
     private double valorTitulacao;
 
     /**
-     * @return the IdTitulacao
+     * @return the idTitulacao
      */
     public int getIdTitulacao() {
-        return IdTitulacao;
+        return idTitulacao;
     }
 
     /**
-     * @param IdTitulacao the IdTitulacao to set
+     * @param idTitulacao the idTitulacao to set
      */
-    public void setIdTitulacao(int IdTitulacao) {
-        this.IdTitulacao = IdTitulacao;
+    public void setIdTitulacao(int idTitulacao) {
+        this.idTitulacao = idTitulacao;
     }
 
     /**
@@ -69,4 +69,5 @@ public class Titulacao {
         this.valorTitulacao = valorTitulacao;
     }
 
+   
 }

@@ -26,8 +26,14 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
             adicionar(usuario);
             JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
         } else {
-            atualizar(usuario);
-            JOptionPane.showMessageDialog(null, "Usuário editado com sucesso!");
+            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                atualizar(usuario);
+                JOptionPane.showMessageDialog(null, "Usuário editado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
+            }
+
         }
     }
 
