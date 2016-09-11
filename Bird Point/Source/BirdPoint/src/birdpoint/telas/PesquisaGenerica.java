@@ -113,7 +113,7 @@ public class PesquisaGenerica extends javax.swing.JDialog {
         jScrollPane1.setBounds(20, 100, 560, 240);
 
         btEditar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/paintbrush.png"))); // NOI18N
+        btEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/editar.png"))); // NOI18N
         btEditar.setText("Editar");
         btEditar.setContentAreaFilled(false);
         btEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -124,7 +124,7 @@ public class PesquisaGenerica extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btEditar);
-        btEditar.setBounds(480, 350, 80, 60);
+        btEditar.setBounds(420, 350, 80, 60);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -138,7 +138,7 @@ public class PesquisaGenerica extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btVoltar);
-        btVoltar.setBounds(410, 350, 70, 60);
+        btVoltar.setBounds(480, 350, 80, 60);
 
         tfPesquisa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(tfPesquisa);

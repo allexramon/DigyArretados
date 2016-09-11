@@ -62,7 +62,7 @@
           <Font name="Tahoma" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/birdpoint/imagens/paintbrush.png"/>
+          <Image iconType="3" name="/birdpoint/imagens/editar.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Editar"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
@@ -74,7 +74,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="480" y="350" width="80" height="60"/>
+          <AbsoluteConstraints x="420" y="350" width="80" height="60"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -96,7 +96,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="410" y="350" width="70" height="60"/>
+          <AbsoluteConstraints x="480" y="350" width="80" height="60"/>
         </Constraint>
       </Constraints>
     </Component>

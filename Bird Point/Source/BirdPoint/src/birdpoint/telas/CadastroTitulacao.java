@@ -7,12 +7,12 @@ package birdpoint.telas;
 
 /**
  *
- * @author Adriano Lima
+ * @author AlexRamon
  */
 public class CadastroTitulacao extends javax.swing.JDialog {
 
     /**
-     * Creates new form TelaCadastroTitulacao
+     * Creates new form CadastroTitulacao
      */
     public CadastroTitulacao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -28,94 +28,81 @@ public class CadastroTitulacao extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfNome = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        tfValor = new javax.swing.JTextField();
         btCancelar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
-        cadTitulacao = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        tfNome = new javax.swing.JTextField();
+        tfValor = new javax.swing.JTextField();
+        jlValor = new javax.swing.JLabel();
+        jlNome = new javax.swing.JLabel();
+        jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(600, 421));
         setMinimumSize(new java.awt.Dimension(600, 421));
         getContentPane().setLayout(null);
-
-        tfNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
-        getContentPane().add(tfNome);
-        tfNome.setBounds(120, 130, 430, 30);
-
-        jCheckBox1.setText("jCheckBox1");
-        getContentPane().add(jCheckBox1);
-        jCheckBox1.setBounds(120, 220, 81, 23);
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jLabel2.setText("Nome:");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(60, 130, 60, 30);
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jLabel4.setText("Valor H/A.:");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(30, 180, 84, 30);
-
-        tfValor.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
-        getContentPane().add(tfValor);
-        tfValor.setBounds(120, 180, 200, 30);
 
         btCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cancelar2.png"))); // NOI18N
         btCancelar.setText("Cancelar");
         btCancelar.setContentAreaFilled(false);
+        btCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCancelarActionPerformed(evt);
-            }
-        });
         getContentPane().add(btCancelar);
-        btCancelar.setBounds(320, 350, 83, 60);
+        btCancelar.setBounds(330, 340, 90, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
         btLimpar.setText("Limpar");
         btLimpar.setContentAreaFilled(false);
+        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btLimpar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btLimpar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btLimpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btLimparActionPerformed(evt);
-            }
-        });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(410, 350, 73, 60);
+        btLimpar.setBounds(420, 340, 73, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
+        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
         btSalvar.setText("Salvar");
         btSalvar.setContentAreaFilled(false);
+        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(490, 350, 73, 60);
+        btSalvar.setBounds(500, 340, 70, 70);
 
-        cadTitulacao.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        cadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadTitulacao.png"))); // NOI18N
-        getContentPane().add(cadTitulacao);
-        cadTitulacao.setBounds(0, 0, 600, 421);
+        jCheckBox1.setText("jCheckBox1");
+        getContentPane().add(jCheckBox1);
+        jCheckBox1.setBounds(130, 220, 81, 23);
+
+        tfNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        getContentPane().add(tfNome);
+        tfNome.setBounds(130, 130, 390, 30);
+
+        tfValor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfValor.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        getContentPane().add(tfValor);
+        tfValor.setBounds(130, 170, 220, 30);
+
+        jlValor.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlValor.setText("Valor H/A.:");
+        getContentPane().add(jlValor);
+        jlValor.setBounds(40, 180, 90, 20);
+
+        jlNome.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNome.setText("Nome.:");
+        getContentPane().add(jlNome);
+        jlNome.setBounds(70, 140, 60, 20);
+
+        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadTitulacao.png"))); // NOI18N
+        getContentPane().add(jlCadTitulacao);
+        jlCadTitulacao.setBounds(0, 0, 600, 420);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btLimparActionPerformed
-
-    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        dispose();
-    }//GEN-LAST:event_btCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,7 +120,7 @@ public class CadastroTitulacao extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (btCancelarFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(CadastroTitulacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(CadastroTitulacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -142,7 +129,6 @@ public class CadastroTitulacao extends javax.swing.JDialog {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(CadastroTitulacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -164,10 +150,10 @@ public class CadastroTitulacao extends javax.swing.JDialog {
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JLabel cadTitulacao;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jlCadTitulacao;
+    private javax.swing.JLabel jlNome;
+    private javax.swing.JLabel jlValor;
     private javax.swing.JTextField tfNome;
     private javax.swing.JTextField tfValor;
     // End of variables declaration//GEN-END:variables

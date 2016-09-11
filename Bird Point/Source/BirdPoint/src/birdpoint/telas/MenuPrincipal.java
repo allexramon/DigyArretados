@@ -88,6 +88,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem1.setText("Cidade");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,6 +97,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem2.setText("Titulação");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,9 +106,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem2);
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem3.setText("Professor");
         jmCadastrar.add(jMenuItem3);
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem4.setText("Usuário");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
