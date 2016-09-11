@@ -80,10 +80,11 @@ public class PesquisaGenerica extends javax.swing.JDialog {
         btEditar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
         tfPesquisa = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jlPesquisar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
+        getContentPane().setLayout(null);
 
         tbPesquisa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,63 +109,45 @@ public class PesquisaGenerica extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tbPesquisa);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(20, 100, 560, 240);
+
+        btEditar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/paintbrush.png"))); // NOI18N
         btEditar.setText("Editar");
+        btEditar.setContentAreaFilled(false);
+        btEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEditarActionPerformed(evt);
             }
         });
+        getContentPane().add(btEditar);
+        btEditar.setBounds(480, 350, 80, 60);
 
+        btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.setContentAreaFilled(false);
+        btVoltar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btVoltar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btVoltarActionPerformed(evt);
             }
         });
+        getContentPane().add(btVoltar);
+        btVoltar.setBounds(410, 350, 70, 60);
 
         tfPesquisa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(tfPesquisa);
+        tfPesquisa.setBounds(100, 60, 340, 23);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Pesquisar.:");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jlPesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar_1.png"))); // NOI18N
+        getContentPane().add(jlPesquisar);
+        jlPesquisar.setBounds(0, 0, 610, 420);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -243,8 +226,8 @@ public class PesquisaGenerica extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btEditar;
     private javax.swing.JButton btVoltar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlPesquisar;
     private javax.swing.JTable tbPesquisa;
     private javax.swing.JTextField tfPesquisa;
     // End of variables declaration//GEN-END:variables

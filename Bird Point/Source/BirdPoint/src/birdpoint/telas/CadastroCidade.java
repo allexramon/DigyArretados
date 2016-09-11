@@ -29,93 +29,113 @@ public class CadastroCidade extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfCidade = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        tfCep = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        comboEstado = new javax.swing.JComboBox();
+        btSalvar = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        jlCadCidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 450));
-        setMinimumSize(new java.awt.Dimension(900, 450));
+        setMinimumSize(new java.awt.Dimension(600, 421));
         setUndecorated(true);
         getContentPane().setLayout(null);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel2.setText("Nome da Cidade:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(30, 160, 120, 17);
+        jLabel2.setBounds(30, 160, 130, 19);
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(160, 160, 239, 23);
+        tfCidade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        getContentPane().add(tfCidade);
+        tfCidade.setBounds(170, 150, 239, 30);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel3.setText("Cep:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(110, 190, 40, 17);
+        jLabel3.setBounds(120, 200, 40, 20);
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(jTextField2);
-        jTextField2.setBounds(160, 190, 240, 20);
+        tfCep.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfCep.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        getContentPane().add(tfCep);
+        tfCep.setBounds(170, 190, 240, 30);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel4.setText("Estado:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(90, 220, 53, 17);
+        jLabel4.setBounds(100, 240, 60, 19);
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(160, 220, 80, 21);
+        comboEstado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+        comboEstado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        getContentPane().add(comboEstado);
+        comboEstado.setBounds(170, 230, 100, 30);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar_1.png"))); // NOI18N
-        jButton1.setText("Salvar");
-        jButton1.setContentAreaFilled(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btSalvar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
+        btSalvar.setText("Salvar");
+        btSalvar.setContentAreaFilled(false);
+        btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btSalvarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(550, 330, 100, 100);
+        getContentPane().add(btSalvar);
+        btSalvar.setBounds(480, 340, 70, 70);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
-        jButton3.setText("Limpar");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        getContentPane().add(jButton3);
-        jButton3.setBounds(450, 330, 100, 100);
+        btLimpar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
+        btLimpar.setText("Limpar");
+        btLimpar.setContentAreaFilled(false);
+        btLimpar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btLimpar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btLimpar);
+        btLimpar.setBounds(410, 340, 73, 70);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cancelar 2.png"))); // NOI18N
-        jButton4.setText("Cancelar");
-        jButton4.setContentAreaFilled(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        getContentPane().add(jButton4);
-        jButton4.setBounds(360, 330, 90, 100);
+        btCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cancelar2.png"))); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.setContentAreaFilled(false);
+        btCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btCancelar);
+        btCancelar.setBounds(330, 340, 83, 70);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadCidade.png"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 900, 450);
+        jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadCidade.png"))); // NOI18N
+        getContentPane().add(jlCadCidade);
+        jlCadCidade.setBounds(0, 0, 600, 420);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btLimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,15 +181,15 @@ public class CadastroCidade extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btSalvar;
+    private javax.swing.JComboBox comboEstado;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel jlCadCidade;
+    private javax.swing.JTextField tfCep;
+    private javax.swing.JTextField tfCidade;
     // End of variables declaration//GEN-END:variables
 }

@@ -26,6 +26,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
     
     public MenuPrincipal(java.awt.Frame parent, boolean modal, Usuario usuario) {
         super(parent, modal);
+        setModal(true);
         initComponents();
        
 
@@ -56,7 +57,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        btLogout.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btLogout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/logout.png"))); // NOI18N
         btLogout.setText("Sair");
         btLogout.setToolTipText("Sair");
@@ -70,7 +71,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLogout);
-        btLogout.setBounds(790, 330, 80, 107);
+        btLogout.setBounds(790, 330, 80, 109);
 
         jlHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/home.png"))); // NOI18N
         getContentPane().add(jlHome);
@@ -107,6 +108,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jmCadastrar.add(jMenuItem3);
 
         jMenuItem4.setText("Usuário");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jmCadastrar.add(jMenuItem4);
 
         jMenu.add(jmCadastrar);
@@ -118,7 +124,8 @@ public class MenuPrincipal extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+       CadastroCidade cadastroCidade = new CadastroCidade(null, rootPaneCheckingEnabled);
+       cadastroCidade.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
@@ -128,6 +135,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        CadastroUsuario cadUsuario = new CadastroUsuario(null, rootPaneCheckingEnabled);
+        cadUsuario.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

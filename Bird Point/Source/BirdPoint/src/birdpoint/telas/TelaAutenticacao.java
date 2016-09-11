@@ -13,13 +13,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class TelaAutenticacao extends javax.swing.JDialog {
-
+    
     Usuario usuario = new Usuario();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     public TelaAutenticacao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
     }
 
     /**
@@ -36,6 +37,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         jComboBox1 = new javax.swing.JComboBox();
         btCancelar = new javax.swing.JButton();
         btEntrar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -43,11 +45,11 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(1000, 563));
         setModal(true);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1000, 563));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tfLogin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tfLogin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
         tfLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfLoginActionPerformed(evt);
@@ -56,17 +58,19 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         getContentPane().add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 290, 40));
 
         tfSenha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tfSenha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
         getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 290, 40));
 
         jComboBox1.setBackground(new java.awt.Color(255, 153, 0));
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2016.2" }));
+        jComboBox1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 110, 40));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 140, 40));
 
         btCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -99,6 +103,11 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 440, 100, 110));
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Copyright © DigyArretados 2016");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, 270, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/login.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -199,6 +208,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     private javax.swing.JButton btEntrar;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField tfLogin;
     private javax.swing.JPasswordField tfSenha;
     // End of variables declaration//GEN-END:variables

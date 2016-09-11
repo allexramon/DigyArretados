@@ -55,55 +55,61 @@ public class CadastroUsuario extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 450));
-        setMinimumSize(new java.awt.Dimension(900, 450));
+        setMaximumSize(new java.awt.Dimension(600, 421));
+        setMinimumSize(new java.awt.Dimension(600, 421));
         setModal(true);
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jlLogin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlLogin.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlLogin.setText("Login.:");
         getContentPane().add(jlLogin);
-        jlLogin.setBounds(110, 180, 50, 17);
+        jlLogin.setBounds(100, 190, 60, 19);
 
-        jlSenha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlSenha.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlSenha.setText("Senha.:");
         getContentPane().add(jlSenha);
-        jlSenha.setBounds(110, 210, 52, 17);
+        jlSenha.setBounds(100, 230, 60, 19);
 
-        jlTipoAcesso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlTipoAcesso.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlTipoAcesso.setText("Tipo de Acesso.:");
         getContentPane().add(jlTipoAcesso);
-        jlTipoAcesso.setBounds(50, 240, 112, 20);
+        jlTipoAcesso.setBounds(40, 270, 120, 20);
 
         tfLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfLogin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
         getContentPane().add(tfLogin);
-        tfLogin.setBounds(170, 180, 340, 23);
+        tfLogin.setBounds(170, 180, 340, 30);
 
         tfSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfSenha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
         getContentPane().add(tfSenha);
-        tfSenha.setBounds(170, 210, 340, 20);
+        tfSenha.setBounds(170, 220, 340, 30);
 
         tfTipoDeUsuario.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tfTipoDeUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "Administrador", "Coordenador", "Copex", "RH" }));
         tfTipoDeUsuario.setAutoscrolls(true);
+        tfTipoDeUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
         getContentPane().add(tfTipoDeUsuario);
-        tfTipoDeUsuario.setBounds(170, 240, 140, 20);
+        tfTipoDeUsuario.setBounds(170, 260, 140, 30);
 
-        jlNomeUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlNomeUsuario.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNomeUsuario.setText("Nome do Usuário.:");
         getContentPane().add(jlNomeUsuario);
-        jlNomeUsuario.setBounds(30, 150, 140, 20);
+        jlNomeUsuario.setBounds(20, 150, 150, 20);
 
         tfNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfNomeUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        tfNomeUsuario.setMaximumSize(new java.awt.Dimension(8, 200));
+        tfNomeUsuario.setMinimumSize(new java.awt.Dimension(8, 200));
         tfNomeUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNomeUsuarioActionPerformed(evt);
             }
         });
         getContentPane().add(tfNomeUsuario);
-        tfNomeUsuario.setBounds(170, 150, 340, 23);
+        tfNomeUsuario.setBounds(170, 143, 340, 30);
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -112,8 +118,13 @@ public class CadastroUsuario extends javax.swing.JDialog {
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3);
-        jButton3.setBounds(790, 330, 90, 100);
+        jButton3.setBounds(490, 340, 90, 70);
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
@@ -128,7 +139,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(380, 330, 100, 109);
+        jButton2.setBounds(270, 340, 100, 69);
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
@@ -143,7 +154,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btExcluir);
-        btExcluir.setBounds(500, 330, 80, 100);
+        btExcluir.setBounds(350, 340, 80, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
@@ -158,10 +169,10 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(280, 330, 90, 100);
+        btLimpar.setBounds(210, 340, 80, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar_1.png"))); // NOI18N
+        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
         btSalvar.setText("Salvar");
         btSalvar.setContentAreaFilled(false);
         btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -173,11 +184,11 @@ public class CadastroUsuario extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(600, 330, 90, 100);
+        btSalvar.setBounds(410, 340, 80, 70);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadUsuario.png"))); // NOI18N
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(0, 0, 900, 450);
+        jLabel6.setBounds(0, 0, 600, 420);
 
         pack();
         setLocationRelativeTo(null);
@@ -236,6 +247,10 @@ public class CadastroUsuario extends javax.swing.JDialog {
     private void tfNomeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNomeUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNomeUsuarioActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
