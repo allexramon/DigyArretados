@@ -77,6 +77,11 @@ public class CadastroCidade extends javax.swing.JDialog {
         jcEstado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
         jcEstado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        jcEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcEstadoActionPerformed(evt);
+            }
+        });
         getContentPane().add(jcEstado);
         jcEstado.setBounds(170, 230, 100, 30);
 
@@ -227,6 +232,10 @@ public class CadastroCidade extends javax.swing.JDialog {
             btLimparActionPerformed(null);
         }
     }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void jcEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcEstadoActionPerformed
 
     /**
      * @param args the command line arguments
