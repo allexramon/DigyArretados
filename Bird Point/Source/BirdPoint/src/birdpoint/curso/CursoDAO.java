@@ -6,7 +6,9 @@
 package birdpoint.curso;
 
 import birdpoint.cidade.Cidade;
+import birdpoint.professor.Professor;
 import birdpoint.util.GenericDAO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +20,20 @@ public class CursoDAO extends GenericDAO<Curso>{
         super(Curso.class);
     }
     
-    
+  public void salvar(Curso curso) {
+        if (curso.getIdCurso() == 0) {
+            adicionar(curso);
+            JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso!");
+        } else {
+            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                atualizar(curso);
+                JOptionPane.showMessageDialog(null, "Curso editado com sucesso!!");
+            } else {
+                JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
+            }
+
+        }
+    }
     
 }
