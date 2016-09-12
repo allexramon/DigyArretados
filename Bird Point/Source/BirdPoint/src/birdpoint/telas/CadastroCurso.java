@@ -7,6 +7,7 @@ package birdpoint.telas;
 
 import birdpoint.curso.Curso;
 import birdpoint.curso.CursoDAO;
+import birdpoint.curso.CursoTableModel;
 import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.titulacao.TitulacaoTableModel;
@@ -159,12 +160,12 @@ public class CadastroCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        if (titulacao.getIdTitulacao() != 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir a Titulação " + titulacao.getNome()
+        if (curso.getIdCurso() != 0) {
+            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o Curso " + curso.getNomeCurso()
                     + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-                if (titulacaoDAO.remover(titulacao)) {
+                if (cursoDAO.remover(curso)) {
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Titulação " + titulacao.getNome(),
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Curso " + curso.getNomeCurso(),
                             "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
@@ -179,18 +180,17 @@ public class CadastroCurso extends javax.swing.JDialog {
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         Util.limparCamposGenerico(this);
         btExcluir.setEnabled(false);
-        titulacao = new Titulacao();
+        curso = new Curso();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        List<Titulacao> lista;
-        lista = (titulacaoDAO.listar());
-        TitulacaoTableModel itm = new TitulacaoTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Titulação");
+        List<Curso> lista;
+        lista = (cursoDAO.listar());
+        CursoTableModel itm = new CursoTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Curso");
         if (objetoRetorno != null) {
-            titulacao = titulacaoDAO.consultarObjetoId("idTitulacao", objetoRetorno);
-            tfNomeCurso.setText(titulacao.getNome());
-            tfValor.setText(String.valueOf(titulacao.getValorTitulacao()));
+            curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
+            tfNomeCurso.setText(curso.getNomeCurso());
             btExcluir.setEnabled(true);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed

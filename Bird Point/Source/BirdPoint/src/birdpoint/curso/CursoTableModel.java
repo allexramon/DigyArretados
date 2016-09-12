@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class CursoTableModel extends AbstractTableModel{
     
     private List<Curso> cursos = new ArrayList<>();
-    private String[] colunas = {"Id Curso", "Nome Curso"};
+    private String[] colunas = {"Nome Curso", "ID Curso"};
 
     public CursoTableModel(List<Curso> curso) {
         this.cursos = curso;
