@@ -162,7 +162,7 @@ public class PesquisaGenerica extends javax.swing.JDialog {
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
         int row = tbPesquisa.getSelectedRow();
         if (row > -1) {
-            objeto = tbPesquisa.getValueAt(row, 1);
+            objeto = tbPesquisa.getValueAt(row, 0);
             dispose();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Selecione o Ítem!",

@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class CursoTableModel extends AbstractTableModel{
     
     private List<Curso> cursos = new ArrayList<>();
-    private String[] colunas = {"Nome Curso", "ID Curso"};
+    private String[] colunas = {"Código", "Nome do Curso"};
 
     public CursoTableModel(List<Curso> curso) {
         this.cursos = curso;
@@ -38,9 +38,9 @@ public class CursoTableModel extends AbstractTableModel{
         Curso curso = cursos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return curso.getNomeCurso();
-            case 1:
                 return curso.getIdCurso();
+            case 1:
+                return curso.getNomeCurso();
         }
         return null;
     }
