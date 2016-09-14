@@ -296,7 +296,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
     private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
         List<Semestre> lista;
-        lista = (semestreDAO.checkExistseq("curso", curso.getIdCurso()));
+        lista = (semestreDAO.consultarSemestresDoCurso(curso.getIdCurso()));
         SemestreTableModel itm = new SemestreTableModel(lista);
         Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
         if (objetoRetorno != null) {

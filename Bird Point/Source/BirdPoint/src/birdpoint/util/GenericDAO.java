@@ -161,6 +161,23 @@ public abstract class GenericDAO<T> {
         return objeto;
 
     }
+    
+    public List<T> consultarSemestresDoCurso(Object valor) {
+        List<T> lista = null;
+        try {
+            this.setSessao(HibernateUtil.getSessionFactory().openSession());
+            setTransacao(getSessao().beginTransaction());
+            lista =  this.getSessao().createSQLQuery("SELECT * FROM Semestre Where id="+valor).list();
+            sessao.close();
+        } catch (Throwable e) {
+            if (getTransacao().isActive()) {
+                getTransacao().rollback();
+            }
+            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+        }
+        return lista;
+
+    }
 
     /**
      * @return the sessao
