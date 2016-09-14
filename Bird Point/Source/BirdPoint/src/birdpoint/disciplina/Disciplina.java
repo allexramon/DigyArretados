@@ -5,10 +5,15 @@
  */
 package birdpoint.disciplina;
 
+import birdpoint.curso.Curso;
+import birdpoint.semestre.Semestre;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,13 +30,10 @@ public class Disciplina {
     private String nomeDisciplina;
     
     @Column(length = 50,nullable = false)
-    private String nomeCurso;
-    
-    @Column(length = 50,nullable = false)
     private int cargaHoraria;
     
-    @Column(length = 50,nullable = false)
-    private int semestreCurso;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Semestre semestre;
 
     /**
      * @return the idDisciplina
@@ -62,20 +64,6 @@ public class Disciplina {
     }
 
     /**
-     * @return the nomeCurso
-     */
-    public String getNomeCurso() {
-        return nomeCurso;
-    }
-
-    /**
-     * @param nomeCurso the nomeCurso to set
-     */
-    public void setNomeCurso(String nomeCurso) {
-        this.nomeCurso = nomeCurso;
-    }
-
-    /**
      * @return the cargaHoraria
      */
     public int getCargaHoraria() {
@@ -90,17 +78,17 @@ public class Disciplina {
     }
 
     /**
-     * @return the semestreCurso
+     * @return the semestre
      */
-    public int getSemestreCurso() {
-        return semestreCurso;
+    public Semestre getSemestre() {
+        return semestre;
     }
 
     /**
-     * @param semestreCurso the semestreCurso to set
+     * @param semestre the semestre to set
      */
-    public void setSemestreCurso(int semestreCurso) {
-        this.semestreCurso = semestreCurso;
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
     }
     
 }

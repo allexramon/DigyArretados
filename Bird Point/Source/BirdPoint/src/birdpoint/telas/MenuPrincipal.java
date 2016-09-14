@@ -45,9 +45,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
         jmCadastrar = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -91,6 +93,15 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem5.setText("Curso");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem5);
+
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem1.setText("Cidade");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +128,15 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         jmCadastrar.add(jMenuItem3);
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem6.setText("Semestre");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem6);
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem4.setText("Usuário");
@@ -160,6 +180,16 @@ public class MenuPrincipal extends javax.swing.JDialog {
         CadastroProfessor cadastroProfessor = new CadastroProfessor(null, rootPaneCheckingEnabled);
         cadastroProfessor.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
+        cadastroCurso.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       CadastroSemestre cadastroSemestre = new CadastroSemestre(null, rootPaneCheckingEnabled);
+       cadastroSemestre.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,6 +240,8 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JLabel jlHome;
     private javax.swing.JMenu jmCadastrar;
     // End of variables declaration//GEN-END:variables

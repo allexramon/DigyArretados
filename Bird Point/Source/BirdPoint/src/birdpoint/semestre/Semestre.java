@@ -6,8 +6,10 @@
 package birdpoint.semestre;
 
 import birdpoint.curso.Curso;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -25,6 +27,9 @@ public class Semestre {
     
     @Column(length = 50, nullable = false)
     private String nomeSemestre;
+    
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Curso curso;
     
     /**
      * @return the idSemestre
@@ -52,6 +57,20 @@ public class Semestre {
      */
     public void setNomeSemestre(String nomeSemestre) {
         this.nomeSemestre = nomeSemestre;
+    }
+
+    /**
+     * @return the curso
+     */
+    public Curso getCurso() {
+        return curso;
+    }
+
+    /**
+     * @param curso the curso to set
+     */
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 
 }

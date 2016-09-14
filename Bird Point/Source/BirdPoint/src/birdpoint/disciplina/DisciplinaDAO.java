@@ -5,7 +5,9 @@
  */
 package birdpoint.disciplina;
 
+import birdpoint.curso.Curso;
 import birdpoint.util.GenericDAO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +19,20 @@ public class DisciplinaDAO extends GenericDAO<Disciplina>{
         super(Disciplina.class);
     }
     
-    
+    public void salvar(Disciplina disciplina) {
+        if (disciplina.getIdDisciplina()== 0) {
+            adicionar(disciplina);
+            JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!");
+        } else {
+            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                atualizar(disciplina);
+                JOptionPane.showMessageDialog(null, "Disciplina editada com sucesso!!");
+            } else {
+                JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
+            }
+
+        }
+    }
     
 }
