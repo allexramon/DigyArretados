@@ -178,7 +178,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         getContentPane().add(tfNomeCurso);
         tfNomeCurso.setBounds(190, 180, 310, 30);
 
-        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadTitulacao.png"))); // NOI18N
+        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroSemestre.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadTitulacao);
         jlCadTitulacao.setBounds(0, 0, 600, 420);

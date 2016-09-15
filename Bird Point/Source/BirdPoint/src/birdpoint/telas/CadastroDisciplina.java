@@ -218,7 +218,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         getContentPane().add(btSemestre);
         btSemestre.setBounds(500, 220, 30, 30);
 
-        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadTitulacao.png"))); // NOI18N
+        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroDisciplina.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadTitulacao);
         jlCadTitulacao.setBounds(0, 0, 600, 420);
