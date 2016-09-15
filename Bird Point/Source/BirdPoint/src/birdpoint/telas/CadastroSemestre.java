@@ -33,6 +33,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
     public CadastroSemestre(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
     }
 

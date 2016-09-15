@@ -24,6 +24,7 @@ public class CadastroTitulacao extends javax.swing.JDialog {
     public CadastroTitulacao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
     }
 

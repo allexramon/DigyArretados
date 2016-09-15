@@ -35,6 +35,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
     public CadastroProfessor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
         listarCidades();
         listarTitulacoes();

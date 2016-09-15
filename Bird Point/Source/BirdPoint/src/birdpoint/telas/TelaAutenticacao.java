@@ -8,6 +8,7 @@ package birdpoint.telas;
 import birdpoint.usuario.Usuario;
 import birdpoint.usuario.UsuarioDAO;
 import birdpoint.util.Util;
+import java.awt.event.KeyEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -56,10 +57,20 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 tfLoginActionPerformed(evt);
             }
         });
+        tfLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfLoginKeyPressed(evt);
+            }
+        });
         getContentPane().add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 290, 40));
 
         tfSenha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tfSenha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
+        tfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfSenhaKeyPressed(evt);
+            }
+        });
         getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 290, 40));
 
         jComboBox1.setBackground(new java.awt.Color(255, 153, 0));
@@ -69,6 +80,11 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
+            }
+        });
+        jComboBox1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox1KeyPressed(evt);
             }
         });
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 140, 40));
@@ -161,6 +177,24 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     private void btCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCancelarMouseEntered
 
     }//GEN-LAST:event_btCancelarMouseEntered
+
+    private void tfLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfLoginKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btEntrarActionPerformed(null);
+        }
+    }//GEN-LAST:event_tfLoginKeyPressed
+
+    private void tfSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btEntrarActionPerformed(null);
+        }
+    }//GEN-LAST:event_tfSenhaKeyPressed
+
+    private void jComboBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btEntrarActionPerformed(null);
+        }
+    }//GEN-LAST:event_jComboBox1KeyPressed
     
     /**
      * @param args the command line arguments

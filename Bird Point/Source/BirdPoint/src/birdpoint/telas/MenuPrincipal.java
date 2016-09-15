@@ -47,6 +47,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jmCadastrar = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -110,6 +111,15 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         jmCadastrar.add(jMenuItem1);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem7.setText("Disciplina");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem7);
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
         jMenuItem2.setText("Titulação");
@@ -191,6 +201,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
        cadastroSemestre.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+      CadastroDisciplina cadastroDisciplina = new CadastroDisciplina(null, rootPaneCheckingEnabled);
+      cadastroDisciplina.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +257,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JLabel jlHome;
     private javax.swing.JMenu jmCadastrar;
     // End of variables declaration//GEN-END:variables

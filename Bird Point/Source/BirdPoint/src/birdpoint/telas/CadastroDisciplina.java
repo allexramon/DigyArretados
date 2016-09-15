@@ -40,6 +40,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     public CadastroDisciplina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
     }
 

@@ -24,6 +24,7 @@ public class CadastroCidade extends javax.swing.JDialog {
     public CadastroCidade(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
     }
 

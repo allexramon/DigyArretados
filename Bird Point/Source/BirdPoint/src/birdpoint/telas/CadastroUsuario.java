@@ -26,6 +26,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
      */
     public CadastroUsuario(java.awt.Frame parent, boolean modal) {
         initComponents();
+        getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
         setModal(true);
     }
