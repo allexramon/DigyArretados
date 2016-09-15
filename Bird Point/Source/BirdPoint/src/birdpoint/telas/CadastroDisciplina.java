@@ -18,6 +18,7 @@ import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.titulacao.TitulacaoTableModel;
 import birdpoint.util.Util;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -295,13 +296,23 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btCursoActionPerformed
 
     private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
+        if(curso.getIdCurso()!=0){
         List<Semestre> lista;
-        lista = (semestreDAO.consultarSemestresDoCurso(curso.getIdCurso()));
-        SemestreTableModel itm = new SemestreTableModel(lista);
+        lista = (semestreDAO.listar());
+        List<Semestre> listaFiltrada = new ArrayList<>();
+        for (Semestre semestre1 : lista) {
+            if (semestre1.getCurso().getIdCurso() == curso.getIdCurso()) {
+                listaFiltrada.add(semestre1);
+            }
+        }
+        SemestreTableModel itm = new SemestreTableModel(listaFiltrada);
         Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
         if (objetoRetorno != null) {
             semestre = semestreDAO.consultarObjetoId("idSemestre", objetoRetorno);
             tfNomeSemestre.setText(semestre.getNomeSemestre());
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione o Semestre!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btSemestreActionPerformed
 
