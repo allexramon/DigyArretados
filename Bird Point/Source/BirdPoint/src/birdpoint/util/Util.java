@@ -127,7 +127,7 @@ public class Util {
 
     public static boolean chkVazio(String... campos) {
         for (String chk : campos) {
-            if (chk.isEmpty() || chk.equals("-----") || chk.equals("  /  /    ") || chk.equals("  .   .   /    -  ")
+            if (chk.isEmpty() || chk.equals("-----") || chk.equals("  /  /    ") || chk.equals("   .   .   -  ")
                     || chk.equals("(  )     -    ")) {
                 JOptionPane.showMessageDialog(null, "Existem campos obrigatórios que não foram preenchidos!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return false;

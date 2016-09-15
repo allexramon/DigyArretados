@@ -8,6 +8,8 @@ package birdpoint.telas;
 import birdpoint.curso.Curso;
 import birdpoint.curso.CursoDAO;
 import birdpoint.curso.CursoTableModel;
+import birdpoint.disciplina.Disciplina;
+import birdpoint.disciplina.DisciplinaDAO;
 import birdpoint.semestre.Semestre;
 import birdpoint.semestre.SemestreDAO;
 import birdpoint.semestre.SemestreTableModel;
@@ -15,6 +17,7 @@ import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.titulacao.TitulacaoTableModel;
 import birdpoint.util.Util;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -29,6 +32,9 @@ public class CadastroSemestre extends javax.swing.JDialog {
 
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
+
+    Disciplina disciplina = new Disciplina();
+    DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
 
     public CadastroSemestre(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -195,18 +201,23 @@ public class CadastroSemestre extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        if (semestre.getIdSemestre()!= 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o Semestre " + semestre.getNomeSemestre()
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-                if (semestreDAO.remover(semestre)) {
+        if (disciplina.getIdDisciplina()== 0) {
+            if (semestre.getIdSemestre() != 0) {
+                if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o " + semestre.getNomeSemestre()
+                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    if (semestreDAO.remover(semestre)) {
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o " + semestre.getNomeSemestre(),
+                                "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Semestre " + semestre.getNomeSemestre(),
-                            "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
                 }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
-            }
 
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o " + semestre.getNomeSemestre()+ " do Curso de "+semestre.getCurso().getNomeCurso()+
+                    "\n pois ele já possui disciplinas cadastradas!", "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
         }
         btLimparActionPerformed(null);
 
@@ -218,10 +229,12 @@ public class CadastroSemestre extends javax.swing.JDialog {
         tfNomeCurso.setEnabled(false);
         curso = new Curso();
         semestre = new Semestre();
+        disciplina = new Disciplina();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         List<Semestre> lista;
+        List<Disciplina> listaDisciplina;
         lista = (semestreDAO.listar());
         SemestreTableModel itm = new SemestreTableModel(lista);
         Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
@@ -230,6 +243,16 @@ public class CadastroSemestre extends javax.swing.JDialog {
             tfNomeSemestre.setText(semestre.getNomeSemestre());
             tfNomeCurso.setText(semestre.getCurso().getNomeCurso());
             curso = semestre.getCurso();
+
+            listaDisciplina = (disciplinaDAO.listar());
+            List<Disciplina> listaFiltrada = new ArrayList<>();
+            for (Disciplina disciplina1 : listaDisciplina) {
+                if (disciplina1.getSemestre().getIdSemestre() == semestre.getIdSemestre()) {
+                    listaFiltrada.add(disciplina1);
+                    disciplina = disciplina1;
+                }
+            }
+
             btExcluir.setEnabled(true);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
