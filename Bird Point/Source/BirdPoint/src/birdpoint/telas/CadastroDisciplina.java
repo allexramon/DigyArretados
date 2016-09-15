@@ -232,7 +232,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (Util.chkVazio(tfNomeDisciplina.getText(), tfNomeCurso.getText(), tfCargaHoraria.getText(), tfNomeDisciplina.getText())) {
+        if (Util.chkVazio(tfNomeDisciplina.getText(), tfNomeCurso.getText(), tfCargaHoraria.getText(), tfNomeSemestre.getText())) {
             disciplina.setNomeDisciplina(tfNomeDisciplina.getText());
             disciplina.setCargaHoraria(Integer.parseInt(tfCargaHoraria.getText()));
             disciplina.setSemestre(semestre);
@@ -270,22 +270,46 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        List<Disciplina> lista;
-        lista = (disciplinaDAO.listar());
-        DisciplinaTableModel itm = new DisciplinaTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Disciplina");
-        if (objetoRetorno != null) {
-            disciplina = disciplinaDAO.consultarObjetoId("idDisciplina", objetoRetorno);
-            tfNomeDisciplina.setText(disciplina.getNomeDisciplina());
-            tfNomeCurso.setText(disciplina.getSemestre().getCurso().getNomeCurso());
-            tfNomeSemestre.setText(disciplina.getSemestre().getNomeSemestre());
-            tfCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
-            semestre = disciplina.getSemestre();
-            btExcluir.setEnabled(true);
+        if (curso.getIdCurso() != 0) {
+            List<Disciplina> lista;
+            lista = (disciplinaDAO.listar());
+            List<Disciplina> listaFiltrada = new ArrayList<>();
+            for (Disciplina disciplina1 : lista) {
+                if (disciplina1.getSemestre().getCurso().getIdCurso() == curso.getIdCurso()) {
+                    listaFiltrada.add(disciplina1);
+                }
+            }
+            if (semestre.getIdSemestre() != 0) {
+                listaFiltrada.clear();
+                for (Disciplina disciplina1 : lista) {
+                    if (disciplina1.getSemestre().getIdSemestre() == semestre.getIdSemestre()) {
+                        listaFiltrada.add(disciplina1);
+                    }
+                }
+            }
+            DisciplinaTableModel itm = new DisciplinaTableModel(listaFiltrada);
+            Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Disciplina");
+            if (objetoRetorno != null) {
+                disciplina = disciplinaDAO.consultarObjetoId("idDisciplina", objetoRetorno);
+                tfNomeDisciplina.setText(disciplina.getNomeDisciplina());
+                tfNomeCurso.setText(disciplina.getSemestre().getCurso().getNomeCurso());
+                tfNomeSemestre.setText(disciplina.getSemestre().getNomeSemestre());
+                tfCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
+                semestre = disciplina.getSemestre();
+                curso = disciplina.getSemestre().getCurso();
+                btExcluir.setEnabled(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione o Curso!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCursoActionPerformed
+        if(semestre.getIdSemestre()!=0){
+            semestre = new Semestre();
+            tfNomeSemestre.setText("");
+        }
         List<Curso> lista;
         lista = (cursoDAO.listar());
         CursoTableModel itm = new CursoTableModel(lista);
@@ -294,26 +318,29 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
             tfNomeCurso.setText(curso.getNomeCurso());
         }
+        if (semestre.getIdSemestre() != 0) {
+            tfNomeSemestre.setText("");
+        }
     }//GEN-LAST:event_btCursoActionPerformed
 
     private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
-        if(curso.getIdCurso()!=0){
-        List<Semestre> lista;
-        lista = (semestreDAO.listar());
-        List<Semestre> listaFiltrada = new ArrayList<>();
-        for (Semestre semestre1 : lista) {
-            if (semestre1.getCurso().getIdCurso() == curso.getIdCurso()) {
-                listaFiltrada.add(semestre1);
+        if (curso.getIdCurso() != 0) {
+            List<Semestre> lista;
+            lista = (semestreDAO.listar());
+            List<Semestre> listaFiltrada = new ArrayList<>();
+            for (Semestre semestre1 : lista) {
+                if (semestre1.getCurso().getIdCurso() == curso.getIdCurso()) {
+                    listaFiltrada.add(semestre1);
+                }
             }
-        }
-        SemestreTableModel itm = new SemestreTableModel(listaFiltrada);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
-        if (objetoRetorno != null) {
-            semestre = semestreDAO.consultarObjetoId("idSemestre", objetoRetorno);
-            tfNomeSemestre.setText(semestre.getNomeSemestre());
-        }
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione o Semestre!", "Erro", JOptionPane.ERROR_MESSAGE);
+            SemestreTableModel itm = new SemestreTableModel(listaFiltrada);
+            Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
+            if (objetoRetorno != null) {
+                semestre = semestreDAO.consultarObjetoId("idSemestre", objetoRetorno);
+                tfNomeSemestre.setText(semestre.getNomeSemestre());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione o Curso!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btSemestreActionPerformed
 
