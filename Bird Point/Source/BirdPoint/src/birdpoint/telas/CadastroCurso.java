@@ -8,10 +8,13 @@ package birdpoint.telas;
 import birdpoint.curso.Curso;
 import birdpoint.curso.CursoDAO;
 import birdpoint.curso.CursoTableModel;
+import birdpoint.semestre.Semestre;
+import birdpoint.semestre.SemestreDAO;
 import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.titulacao.TitulacaoTableModel;
 import birdpoint.util.Util;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -23,6 +26,9 @@ public class CadastroCurso extends javax.swing.JDialog {
 
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
+
+    Semestre semestre = new Semestre();
+    SemestreDAO semestreDAO = new SemestreDAO();
 
     public CadastroCurso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -161,18 +167,24 @@ public class CadastroCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        if (curso.getIdCurso() != 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o Curso " + curso.getNomeCurso()
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-                if (cursoDAO.remover(curso)) {
+        if (semestre.getIdSemestre() == 0) {
+            if (curso.getIdCurso() != 0) {
+                if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o Curso " + curso.getNomeCurso()
+                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    if (cursoDAO.remover(curso)) {
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Curso " + curso.getNomeCurso(),
+                                "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Curso " + curso.getNomeCurso(),
-                            "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
                 }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
-            }
 
+            }
+        } else {
+
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Curso " + curso.getNomeCurso()+", pois já foi vinculado um semestre a ele!",
+                    "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
         }
         btLimparActionPerformed(null);
 
@@ -186,12 +198,22 @@ public class CadastroCurso extends javax.swing.JDialog {
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         List<Curso> lista;
+        List<Semestre> listaSemestre;
         lista = (cursoDAO.listar());
         CursoTableModel itm = new CursoTableModel(lista);
         Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Curso");
         if (objetoRetorno != null) {
             curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
             tfNomeCurso.setText(curso.getNomeCurso());
+            listaSemestre = (semestreDAO.listar());
+            List<Semestre> listaFiltrada = new ArrayList<>();
+            for (Semestre semestre1 : listaSemestre) {
+                if (semestre1.getCurso().getIdCurso() == curso.getIdCurso()) {
+                    listaFiltrada.add(semestre1);
+                    semestre = semestre1;
+                }
+            }
+
             btExcluir.setEnabled(true);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed

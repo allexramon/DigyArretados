@@ -28,7 +28,7 @@ public class Semestre {
     @Column(length = 50, nullable = false)
     private String nomeSemestre;
     
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private Curso curso;
     
     /**

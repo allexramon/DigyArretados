@@ -66,7 +66,6 @@ public abstract class GenericDAO<T> {
             this.setTransacao(getSessao().beginTransaction());
             this.getSessao().delete(entity);
             this.getTransacao().commit();
-
         } catch (HibernateException e) {
             JOptionPane.showMessageDialog(null, "Não foi possível remover " + entity.getClass()
                     + ". Erro: " + e.getMessage());

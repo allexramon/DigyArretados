@@ -32,7 +32,7 @@ public class Disciplina {
     @Column(length = 50,nullable = false)
     private int cargaHoraria;
     
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private Semestre semestre;
 
     /**
