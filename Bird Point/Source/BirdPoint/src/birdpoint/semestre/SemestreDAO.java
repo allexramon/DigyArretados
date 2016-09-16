@@ -21,12 +21,13 @@ public class SemestreDAO extends GenericDAO<Semestre>{
     }
     
      public void salvar(Semestre semestre) {
+        Object[] options = {"Sim", "Não"};
         if (semestre.getIdSemestre()== 0) {
             adicionar(semestre);
             JOptionPane.showMessageDialog(null, "Semestre cadastrado com sucesso!");
         } else {
-            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 atualizar(semestre);
                 JOptionPane.showMessageDialog(null, "Semestre editado com sucesso!!");
             } else {

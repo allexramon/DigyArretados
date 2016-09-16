@@ -58,10 +58,12 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btExcluir = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btPesquisar = new javax.swing.JButton();
-        jlNome1 = new javax.swing.JLabel();
         btCurso = new javax.swing.JButton();
+        jlNome1 = new javax.swing.JLabel();
         jlNome2 = new javax.swing.JLabel();
         tfNomeCurso = new javax.swing.JTextField();
+        jLObrigatorioCurso = new javax.swing.JLabel();
+        jLObrigatorioSemestre = new javax.swing.JLabel();
         jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -78,7 +80,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
         btVoltar.setText("Voltar");
         btVoltar.setContentAreaFilled(false);
-        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btVoltar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btVoltar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -93,7 +95,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
         btSalvar.setText("Salvar");
         btSalvar.setContentAreaFilled(false);
-        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +110,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
         btExcluir.setText("Excluir");
         btExcluir.setContentAreaFilled(false);
-        btExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btExcluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btExcluir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -123,7 +125,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
         btLimpar.setText("Limpar");
         btLimpar.setContentAreaFilled(false);
-        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btLimpar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btLimpar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +140,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
         btPesquisar.setText("Pesquisar");
         btPesquisar.setContentAreaFilled(false);
-        btPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btPesquisar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btPesquisar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -149,15 +151,10 @@ public class CadastroSemestre extends javax.swing.JDialog {
         getContentPane().add(btPesquisar);
         btPesquisar.setBounds(280, 340, 100, 69);
 
-        jlNome1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jlNome1.setText("Nome do Semestre.:");
-        getContentPane().add(jlNome1);
-        jlNome1.setBounds(30, 140, 160, 30);
-
         btCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/sub_pesquisar.png"))); // NOI18N
         btCurso.setContentAreaFilled(false);
-        btCurso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btCurso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btCurso.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btCurso.addActionListener(new java.awt.event.ActionListener() {
@@ -168,6 +165,11 @@ public class CadastroSemestre extends javax.swing.JDialog {
         getContentPane().add(btCurso);
         btCurso.setBounds(500, 180, 30, 30);
 
+        jlNome1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNome1.setText("Nome do Semestre.:");
+        getContentPane().add(jlNome1);
+        jlNome1.setBounds(30, 140, 160, 30);
+
         jlNome2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome2.setText("Curso.:");
         getContentPane().add(jlNome2);
@@ -177,6 +179,18 @@ public class CadastroSemestre extends javax.swing.JDialog {
         tfNomeCurso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfNomeCurso);
         tfNomeCurso.setBounds(190, 180, 310, 30);
+
+        jLObrigatorioCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCurso.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCurso.setText("*");
+        getContentPane().add(jLObrigatorioCurso);
+        jLObrigatorioCurso.setBounds(500, 170, 10, 30);
+
+        jLObrigatorioSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioSemestre.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioSemestre.setText("*");
+        getContentPane().add(jLObrigatorioSemestre);
+        jLObrigatorioSemestre.setBounds(500, 130, 10, 30);
 
         jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroSemestre.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -318,6 +332,8 @@ public class CadastroSemestre extends javax.swing.JDialog {
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
+    private javax.swing.JLabel jLObrigatorioCurso;
+    private javax.swing.JLabel jLObrigatorioSemestre;
     private javax.swing.JLabel jlCadTitulacao;
     private javax.swing.JLabel jlNome1;
     private javax.swing.JLabel jlNome2;

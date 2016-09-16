@@ -20,12 +20,13 @@ public class DisciplinaDAO extends GenericDAO<Disciplina>{
     }
     
     public void salvar(Disciplina disciplina) {
+        Object[] options = {"Sim", "Não"};
         if (disciplina.getIdDisciplina()== 0) {
             adicionar(disciplina);
             JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!");
         } else {
-            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição"
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,null, options, options[0]) == JOptionPane.YES_OPTION) {
                 atualizar(disciplina);
                 JOptionPane.showMessageDialog(null, "Disciplina editada com sucesso!!");
             } else {
