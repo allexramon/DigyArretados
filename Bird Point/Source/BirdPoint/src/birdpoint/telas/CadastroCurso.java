@@ -168,10 +168,11 @@ public class CadastroCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        Object[] options = {"Sim", "Não"};
         if (semestre.getIdSemestre() == 0) {
             if (curso.getIdCurso() != 0) {
-                if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o Curso " + curso.getNomeCurso()
-                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showOptionDialog(null, "Deseja excluir o Curso " + curso.getNomeCurso()
+                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                     if (cursoDAO.remover(curso)) {
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Curso " + curso.getNomeCurso(),
