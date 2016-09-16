@@ -53,6 +53,7 @@ public class CadastroCurso extends javax.swing.JDialog {
         btExcluir = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btPesquisar = new javax.swing.JButton();
+        jLObrigatorioCurso = new javax.swing.JLabel();
         jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -146,7 +147,13 @@ public class CadastroCurso extends javax.swing.JDialog {
         getContentPane().add(btPesquisar);
         btPesquisar.setBounds(280, 340, 100, 69);
 
-        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadTitulacao.png"))); // NOI18N
+        jLObrigatorioCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCurso.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCurso.setText("*");
+        getContentPane().add(jLObrigatorioCurso);
+        jLObrigatorioCurso.setBounds(550, 130, 20, 30);
+
+        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroCurso.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadTitulacao);
         jlCadTitulacao.setBounds(0, 0, 600, 420);
@@ -271,6 +278,7 @@ public class CadastroCurso extends javax.swing.JDialog {
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
+    private javax.swing.JLabel jLObrigatorioCurso;
     private javax.swing.JLabel jlCadTitulacao;
     private javax.swing.JLabel jlNome;
     private javax.swing.JTextField tfNomeCurso;
