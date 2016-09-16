@@ -242,9 +242,12 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        Object[] options = {"Sim", "Não"};
         if (disciplina.getIdDisciplina() != 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir a Disciplina " + semestre.getNomeSemestre()
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            /*if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir a Disciplina " + semestre.getNomeSemestre()
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {*/
+            if (JOptionPane.showOptionDialog(null, "Deseja excluir a Disciplina " + disciplina.getNomeDisciplina()
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 if (disciplinaDAO.remover(disciplina)) {
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Disciplina " + semestre.getNomeSemestre(),

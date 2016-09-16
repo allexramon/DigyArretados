@@ -24,7 +24,7 @@ public class DisciplinaDAO extends GenericDAO<Disciplina>{
             adicionar(disciplina);
             JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!");
         } else {
-            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
+            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição"
                     + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
                 atualizar(disciplina);
                 JOptionPane.showMessageDialog(null, "Disciplina editada com sucesso!!");

@@ -42,7 +42,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1000, 563));
         setModal(true);
         setUndecorated(true);
@@ -96,7 +96,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         btCancelar.setBorder(null);
         btCancelar.setBorderPainted(false);
         btCancelar.setContentAreaFilled(false);
-        btCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btCancelarMouseEntered(evt);
