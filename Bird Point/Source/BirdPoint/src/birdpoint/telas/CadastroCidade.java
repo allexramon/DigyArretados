@@ -208,9 +208,10 @@ public class CadastroCidade extends javax.swing.JDialog {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        Object[] options = {"Sim", "Não"};
         if (cidade.getIdCidade()!= 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir a Cidade " + cidade.getNomeCidade()
-                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir a Cidade " + cidade.getNomeCidade()
+                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
             if (cidadeDAO.remover(cidade)) {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Cidade " + cidade.getNomeCidade(),

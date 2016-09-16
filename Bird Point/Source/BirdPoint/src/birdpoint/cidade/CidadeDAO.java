@@ -20,12 +20,13 @@ public class CidadeDAO extends GenericDAO<Cidade> {
     }
 
     public void salvar(Cidade cidade) {
+        Object[] options = {"Sim", "Não"};
         if (cidade.getIdCidade() == 0) {
             adicionar(cidade);
             JOptionPane.showMessageDialog(null, "Cidade cadastrada com sucesso!");
         } else {
-            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 atualizar(cidade);
                 JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
             } else {

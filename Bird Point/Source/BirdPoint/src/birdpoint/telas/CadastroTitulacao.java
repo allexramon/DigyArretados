@@ -186,9 +186,10 @@ public class CadastroTitulacao extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        Object[] options = {"Sim", "Não"};
         if (titulacao.getIdTitulacao() != 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir a Titulação " + titulacao.getNome()
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir a Titulação " + titulacao.getNome()
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 if (titulacaoDAO.remover(titulacao)) {
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Titulação " + titulacao.getNome(),

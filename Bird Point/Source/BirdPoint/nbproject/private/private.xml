@@ -15,13 +15,14 @@
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroProfessor.java</file>
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroUsuario.java</file>
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroSemestre.java</file>
+            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/TelaAutenticacao.java</file>
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroCurso.java</file>
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/MenuPrincipal.java</file>
-            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/disciplina/Disciplina.java</file>
+            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/semestre/SemestreDAO.java</file>
+            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/PesquisaGenerica.java</file>
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroDisciplina.java</file>
             <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroTitulacao.java</file>
-            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/util/GenericDAO.java</file>
-            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/semestre/Semestre.java</file>
+            <file>file:/C:/Users/Katyeudo/Desktop/DigyArretados/Bird%20Point/Source/BirdPoint/src/birdpoint/telas/CadastroCidade.java</file>
         </group>
     </open-files>
 </project-private>
