@@ -20,12 +20,13 @@ public class ProfessorDAO extends GenericDAO<Professor> {
     }
 
     public void salvar(Professor professor) {
+        Object[] options = {"Sim", "Não"};
         if (professor.getIdProfessor()== 0) {
             adicionar(professor);
             JOptionPane.showMessageDialog(null, "Professor(a) cadastrado(a) com sucesso!");
         } else {
-            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 atualizar(professor);
                 JOptionPane.showMessageDialog(null, "Professor(a) editado(a) com sucesso!!");
             } else {

@@ -52,7 +52,11 @@ public class CadastroUsuario extends javax.swing.JDialog {
         btPesquisar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
+        jLObrigatorioNome = new javax.swing.JLabel();
         btSalvar = new javax.swing.JButton();
+        jLObrigatorioLogin = new javax.swing.JLabel();
+        jLObrigatorioSenha = new javax.swing.JLabel();
+        jLObrigatorioTipoAcesso = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -171,6 +175,12 @@ public class CadastroUsuario extends javax.swing.JDialog {
         getContentPane().add(btLimpar);
         btLimpar.setBounds(180, 340, 80, 70);
 
+        jLObrigatorioNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioNome.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioNome.setText("*");
+        getContentPane().add(jLObrigatorioNome);
+        jLObrigatorioNome.setBounds(510, 130, 20, 40);
+
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/salvar.png"))); // NOI18N
         btSalvar.setText("Salvar");
@@ -185,6 +195,24 @@ public class CadastroUsuario extends javax.swing.JDialog {
         });
         getContentPane().add(btSalvar);
         btSalvar.setBounds(480, 340, 80, 70);
+
+        jLObrigatorioLogin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioLogin.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioLogin.setText("*");
+        getContentPane().add(jLObrigatorioLogin);
+        jLObrigatorioLogin.setBounds(510, 170, 20, 30);
+
+        jLObrigatorioSenha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioSenha.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioSenha.setText("*");
+        getContentPane().add(jLObrigatorioSenha);
+        jLObrigatorioSenha.setBounds(510, 210, 20, 30);
+
+        jLObrigatorioTipoAcesso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioTipoAcesso.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioTipoAcesso.setText("*");
+        getContentPane().add(jLObrigatorioTipoAcesso);
+        jLObrigatorioTipoAcesso.setBounds(310, 250, 20, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadUsuario.png"))); // NOI18N
         jLabel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -211,9 +239,10 @@ public class CadastroUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-       if (usuario.getIdUsuario() != 0) {
-                if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o Usuário " + usuario.getLoginUsuario()
-                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+        Object[] options = {"Sim", "Não"};
+        if (usuario.getIdUsuario() != 0) {
+                if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir o Usuário " + usuario.getLoginUsuario()
+                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                     if (usuarioDAO.remover(usuario)) {
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Usuário " + usuario.getLoginUsuario(),
@@ -302,6 +331,10 @@ public class CadastroUsuario extends javax.swing.JDialog {
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
+    private javax.swing.JLabel jLObrigatorioLogin;
+    private javax.swing.JLabel jLObrigatorioNome;
+    private javax.swing.JLabel jLObrigatorioSenha;
+    private javax.swing.JLabel jLObrigatorioTipoAcesso;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jlLogin;
     private javax.swing.JLabel jlNomeUsuario;

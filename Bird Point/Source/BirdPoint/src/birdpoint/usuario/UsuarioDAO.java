@@ -22,12 +22,13 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
     }
 
     public void salvar(Usuario usuario) {
+        Object[] options = {"Sim", "Não"};
         if (usuario.getIdUsuario() == 0) {
             adicionar(usuario);
             JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
         } else {
-            if (JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa edição? "
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 atualizar(usuario);
                 JOptionPane.showMessageDialog(null, "Usuário editado com sucesso!");
             } else {

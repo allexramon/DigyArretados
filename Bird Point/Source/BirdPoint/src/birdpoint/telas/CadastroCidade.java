@@ -48,6 +48,8 @@ public class CadastroCidade extends javax.swing.JDialog {
         btExcluir = new javax.swing.JButton();
         tfCep = new javax.swing.JFormattedTextField();
         btSalvar = new javax.swing.JButton();
+        jLObrigatorioCidade = new javax.swing.JLabel();
+        jLObrigatorioCep = new javax.swing.JLabel();
         jlCadCidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -174,6 +176,18 @@ public class CadastroCidade extends javax.swing.JDialog {
         getContentPane().add(btSalvar);
         btSalvar.setBounds(480, 340, 80, 70);
 
+        jLObrigatorioCidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCidade.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCidade.setText("*");
+        getContentPane().add(jLObrigatorioCidade);
+        jLObrigatorioCidade.setBounds(410, 140, 20, 30);
+
+        jLObrigatorioCep.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCep.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCep.setText("*");
+        getContentPane().add(jLObrigatorioCep);
+        jLObrigatorioCep.setBounds(410, 180, 20, 30);
+
         jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadCidade.png"))); // NOI18N
         jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadCidade);
@@ -288,6 +302,8 @@ public class CadastroCidade extends javax.swing.JDialog {
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
+    private javax.swing.JLabel jLObrigatorioCep;
+    private javax.swing.JLabel jLObrigatorioCidade;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

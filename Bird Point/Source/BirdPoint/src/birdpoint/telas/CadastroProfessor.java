@@ -97,6 +97,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
         tfTelefone = new javax.swing.JFormattedTextField();
         tfCPF = new javax.swing.JFormattedTextField();
         tfNome = new javax.swing.JTextField();
+        jLObrigatorioNome = new javax.swing.JLabel();
+        jLObrigatorioCpf = new javax.swing.JLabel();
+        jLObrigatorioTitulacao = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
@@ -339,6 +342,24 @@ public class CadastroProfessor extends javax.swing.JDialog {
         getContentPane().add(tfNome);
         tfNome.setBounds(90, 100, 470, 23);
 
+        jLObrigatorioNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioNome.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioNome.setText("*");
+        getContentPane().add(jLObrigatorioNome);
+        jLObrigatorioNome.setBounds(560, 90, 20, 30);
+
+        jLObrigatorioCpf.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCpf.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCpf.setText("*");
+        getContentPane().add(jLObrigatorioCpf);
+        jLObrigatorioCpf.setBounds(560, 160, 20, 30);
+
+        jLObrigatorioTitulacao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioTitulacao.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioTitulacao.setText("*");
+        getContentPane().add(jLObrigatorioTitulacao);
+        jLObrigatorioTitulacao.setBounds(300, 160, 20, 30);
+
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadProfessores);
@@ -394,9 +415,10 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        Object[] options = {"Sim", "Não"};
         if (professor.getIdProfessor() != 0) {
-            if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o(a) Professor(a) " + professor.getNomeProfessor()
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir o(a) Professor(a) " + professor.getNomeProfessor()
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
                 if (professorDAO.remover(professor)) {
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o(a) Professor(a) " + professor.getNomeProfessor(),
@@ -503,6 +525,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLObrigatorioCpf;
+    private javax.swing.JLabel jLObrigatorioNome;
+    private javax.swing.JLabel jLObrigatorioTitulacao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
