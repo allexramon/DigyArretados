@@ -384,7 +384,7 @@
         <Property name="text" type="java.lang.String" value="Voltar"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
@@ -409,7 +409,7 @@
         <Property name="text" type="java.lang.String" value="Limpar"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
@@ -434,7 +434,7 @@
         <Property name="text" type="java.lang.String" value="Pesquisar"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
@@ -459,7 +459,7 @@
         <Property name="text" type="java.lang.String" value="Excluir"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
@@ -484,7 +484,7 @@
         <Property name="text" type="java.lang.String" value="Salvar"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
@@ -618,7 +618,45 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="300" y="160" width="20" height="30"/>
+          <AbsoluteConstraints x="300" y="160" width="10" height="30"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JButton" name="btAdd21">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/birdpoint/imagens/adicionar20.png"/>
+        </Property>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor em Forma de M&#xe3;o"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAdd21ActionPerformed"/>
+      </Events>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="300" y="170" width="40" height="20"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JButton" name="btAdd22">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/birdpoint/imagens/adicionar20.png"/>
+        </Property>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor em Forma de M&#xe3;o"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAdd22ActionPerformed"/>
+      </Events>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="300" y="200" width="40" height="20"/>
         </Constraint>
       </Constraints>
     </Component>

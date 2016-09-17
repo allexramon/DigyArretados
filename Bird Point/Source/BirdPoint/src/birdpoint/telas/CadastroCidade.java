@@ -20,7 +20,7 @@ public class CadastroCidade extends javax.swing.JDialog {
 
     Cidade cidade = new Cidade();
     CidadeDAO cidadeDAO = new CidadeDAO();
-    
+
     public CadastroCidade(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -223,25 +223,25 @@ public class CadastroCidade extends javax.swing.JDialog {
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
         Object[] options = {"Sim", "Não"};
-        if (cidade.getIdCidade()!= 0) {
+        if (cidade.getIdCidade() != 0) {
             if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir a Cidade " + cidade.getNomeCidade()
-                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
-            if (cidadeDAO.remover(cidade)) {
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
+                if (cidadeDAO.remover(cidade)) {
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Cidade " + cidade.getNomeCidade(),
+                            "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir a Cidade " + cidade.getNomeCidade(),
-                    "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
             }
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
-        }
 
         }
         btLimparActionPerformed(null);
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if(Util.chkVazio(tfCep.getText(),tfCidade.getText())){
-            cidade.setNomeCidade(tfCidade.getText());
+        if (Util.chkVazio(tfCep.getText(), tfCidade.getText())) {
+            cidade.setNomeCidade(tfCidade.getText().toUpperCase());
             cidade.setEstadoCidade(String.valueOf(jcEstado.getSelectedItem()));
             cidade.setCepCidade(tfCep.getText());
             cidadeDAO.salvar(cidade);

@@ -7,21 +7,29 @@ package birdpoint.telas;
 
 import birdpoint.usuario.Usuario;
 import birdpoint.usuario.UsuarioDAO;
+import birdpoint.util.BarraProgresso;
 import birdpoint.util.Util;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class TelaAutenticacao extends javax.swing.JDialog {
-    
+
     Usuario usuario = new Usuario();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
+    
+    
+
 
     public TelaAutenticacao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
+
     }
 
     /**
@@ -143,6 +151,8 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         if (Util.chkVazio(tfLogin.getText(), tfSenha.getText())) {
             usuario = usuarioDAO.autenticarUsuario(tfLogin.getText(), tfSenha.getText());
             if (usuario != null) {
+                BarraProgresso barraProgresso = new BarraProgresso(null, rootPaneCheckingEnabled);
+                barraProgresso.setVisible(true);
                 MenuPrincipal menu = new MenuPrincipal(null, true, usuario);
                 dispose();
                 menu.setVisible(true);
@@ -153,7 +163,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     }//GEN-LAST:event_btEntrarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-                      
+
         Icon figura = new ImageIcon(getToolkit().createImage(getClass().getResource("/birdpoint/imagens/adverte.png")));
 
         Object[] options = {"SIM",
@@ -196,7 +206,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             btEntrarActionPerformed(null);
         }
     }//GEN-LAST:event_jComboBox1KeyPressed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -238,7 +248,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             }
         });
     }
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEntrar;

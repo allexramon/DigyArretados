@@ -168,7 +168,7 @@ public class CadastroCurso extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNomeCurso.getText())) {
-            curso.setNomeCurso(tfNomeCurso.getText());
+            curso.setNomeCurso(tfNomeCurso.getText().toUpperCase());
             cursoDAO.salvar(curso);
             btLimparActionPerformed(null);
         }

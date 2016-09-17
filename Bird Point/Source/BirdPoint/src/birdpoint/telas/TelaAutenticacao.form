@@ -4,7 +4,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-      <Color id="Default Cursor"/>
+      <Color id="Cursor Default"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1000, 563]"/>
@@ -136,7 +136,7 @@
         <Property name="borderPainted" type="boolean" value="false"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
@@ -165,7 +165,7 @@
         </Property>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Hand Cursor"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
@@ -197,7 +197,7 @@
           <Image iconType="3" name="/birdpoint/imagens/login.png"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Default Cursor"/>
+          <Color id="Cursor Default"/>
         </Property>
       </Properties>
       <Constraints>

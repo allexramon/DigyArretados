@@ -265,7 +265,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if(Util.chkVazio(tfLogin.getText(),tfNomeUsuario.getText(),tfSenha.getText(),String.valueOf(tfTipoDeUsuario.getSelectedItem()))){
-            usuario.setLoginUsuario(tfLogin.getText());
+            usuario.setLoginUsuario(tfLogin.getText().toUpperCase());
             usuario.setNomeUsuario(tfNomeUsuario.getText());
             usuario.setSenhaUsuario(tfSenha.getText());
             usuario.setTipoDeAcessoUsuario(String.valueOf(tfTipoDeUsuario.getSelectedItem()));

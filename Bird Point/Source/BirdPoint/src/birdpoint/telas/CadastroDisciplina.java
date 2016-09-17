@@ -285,7 +285,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNomeDisciplina.getText(), tfNomeCurso.getText(), tfCargaHoraria.getText(), tfNomeSemestre.getText())) {
-            disciplina.setNomeDisciplina(tfNomeDisciplina.getText());
+            disciplina.setNomeDisciplina(tfNomeDisciplina.getText().toUpperCase());
             disciplina.setCargaHoraria(Integer.parseInt(tfCargaHoraria.getText()));
             disciplina.setSemestre(semestre);
             disciplinaDAO.salvar(disciplina);

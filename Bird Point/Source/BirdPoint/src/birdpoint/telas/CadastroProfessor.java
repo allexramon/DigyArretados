@@ -100,6 +100,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLObrigatorioNome = new javax.swing.JLabel();
         jLObrigatorioCpf = new javax.swing.JLabel();
         jLObrigatorioTitulacao = new javax.swing.JLabel();
+        btAdd21 = new javax.swing.JButton();
+        btAdd22 = new javax.swing.JButton();
         jlCadProfessores = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
@@ -358,7 +360,29 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLObrigatorioTitulacao.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioTitulacao.setText("*");
         getContentPane().add(jLObrigatorioTitulacao);
-        jLObrigatorioTitulacao.setBounds(300, 160, 20, 30);
+        jLObrigatorioTitulacao.setBounds(300, 160, 10, 30);
+
+        btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btAdd21.setContentAreaFilled(false);
+        btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btAdd21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdd21ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btAdd21);
+        btAdd21.setBounds(300, 170, 40, 20);
+
+        btAdd22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btAdd22.setContentAreaFilled(false);
+        btAdd22.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btAdd22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdd22ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btAdd22);
+        btAdd22.setBounds(300, 200, 40, 20);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -434,15 +458,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNome.getText(), tfCPF.getText(), String.valueOf(jcTitulacao.getSelectedItem()))) {
-            professor.setNomeProfessor(tfNome.getText());
+            professor.setNomeProfessor(tfNome.getText().toUpperCase());
             professor.setEmailProfessor(tfEmail.getText());
             professor.setRGProfessor(tfRG.getText());
             professor.setCpfProfessor(tfCPF.getText());
             professor.setTelefoneProfessor(tfTelefone.getText());
             professor.setTitulacaoProfessor(String.valueOf(jcTitulacao.getSelectedItem()));
             professor.setCidadeProfessor(String.valueOf(jcCidade.getSelectedItem()));
-            professor.setBairroProfessor(tfBairro.getText());
-            professor.setRuaProfessor(tfRua.getText());
+            professor.setBairroProfessor(tfBairro.getText().toUpperCase());
+            professor.setRuaProfessor(tfRua.getText().toUpperCase());
             try {
                 professor.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
             } catch (Exception e) {
@@ -474,6 +498,16 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         }
     }//GEN-LAST:event_tfCPFFocusLost
+
+    private void btAdd21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd21ActionPerformed
+        CadastroTitulacao cadastroTitulacao = new CadastroTitulacao(null, rootPaneCheckingEnabled);
+        cadastroTitulacao.setVisible(true);
+    }//GEN-LAST:event_btAdd21ActionPerformed
+
+    private void btAdd22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd22ActionPerformed
+       CadastroCidade cadastroCidade = new CadastroCidade(null, rootPaneCheckingEnabled);
+       cadastroCidade.setVisible(true);
+    }//GEN-LAST:event_btAdd22ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -519,6 +553,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAdd21;
+    private javax.swing.JButton btAdd22;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btPesquisar;
