@@ -230,7 +230,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        if (disciplina.getIdDisciplina()== 0) {
+        if (disciplina.getIdDisciplina() == 0) {
             if (semestre.getIdSemestre() != 0) {
                 if (JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o " + semestre.getNomeSemestre()
                         + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
@@ -245,8 +245,8 @@ public class CadastroSemestre extends javax.swing.JDialog {
 
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o " + semestre.getNomeSemestre()+ " do Curso de "+semestre.getCurso().getNomeCurso()+
-                    "\n pois ele já possui disciplinas cadastradas!", "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o " + semestre.getNomeSemestre() + " do Curso de " + semestre.getCurso().getNomeCurso()
+                    + "\n pois ele já possui disciplinas cadastradas!", "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
         }
         btLimparActionPerformed(null);
 
@@ -287,12 +287,19 @@ public class CadastroSemestre extends javax.swing.JDialog {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
-      CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
-      cadastroCurso.setVisible(true); 
+        CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
+        cadastroCurso.setVisible(true);
     }//GEN-LAST:event_btSemestreActionPerformed
 
     private void btPesqusar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesqusar1ActionPerformed
-        // TODO add your handling code here:
+        List<Curso> lista;
+        lista = (cursoDAO.listar());
+        CursoTableModel itm = new CursoTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Curso");
+        if (objetoRetorno != null) {
+            curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
+            tfNomeCurso.setText(curso.getNomeCurso());
+        }
     }//GEN-LAST:event_btPesqusar1ActionPerformed
 
     /**
