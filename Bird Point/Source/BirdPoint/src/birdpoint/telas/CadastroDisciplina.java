@@ -72,6 +72,8 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         jLObrigatorioCurso = new javax.swing.JLabel();
         jLObrigatorioSemestre = new javax.swing.JLabel();
         jLObrigatorioCargaHoraria = new javax.swing.JLabel();
+        btAdd20 = new javax.swing.JButton();
+        btAdd21 = new javax.swing.JButton();
         jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -170,7 +172,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         tfNomeCurso.setBounds(190, 180, 310, 30);
 
         btCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/sub_pesquisar.png"))); // NOI18N
+        btCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
         btCurso.setContentAreaFilled(false);
         btCurso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btCurso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -204,7 +206,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         jlNome3.setBounds(100, 220, 90, 30);
 
         btSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btSemestre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/sub_pesquisar.png"))); // NOI18N
+        btSemestre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
         btSemestre.setContentAreaFilled(false);
         btSemestre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btSemestre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -245,6 +247,28 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         jLObrigatorioCargaHoraria.setText("*");
         getContentPane().add(jLObrigatorioCargaHoraria);
         jLObrigatorioCargaHoraria.setBounds(500, 250, 20, 30);
+
+        btAdd20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btAdd20.setContentAreaFilled(false);
+        btAdd20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btAdd20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdd20ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btAdd20);
+        btAdd20.setBounds(520, 220, 40, 30);
+
+        btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btAdd21.setContentAreaFilled(false);
+        btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btAdd21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdd21ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btAdd21);
+        btAdd21.setBounds(520, 180, 40, 30);
 
         jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroDisciplina.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -373,6 +397,16 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btSemestreActionPerformed
 
+    private void btAdd21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd21ActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
+        cadastroCurso.setVisible(true);
+    }//GEN-LAST:event_btAdd21ActionPerformed
+
+    private void btAdd20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd20ActionPerformed
+       CadastroSemestre cadastroSemestre = new CadastroSemestre(null, rootPaneCheckingEnabled);
+       cadastroSemestre.setVisible(true);
+    }//GEN-LAST:event_btAdd20ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -417,6 +451,8 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAdd20;
+    private javax.swing.JButton btAdd21;
     private javax.swing.JButton btCurso;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;

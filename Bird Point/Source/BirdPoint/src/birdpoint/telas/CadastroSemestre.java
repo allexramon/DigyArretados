@@ -58,12 +58,13 @@ public class CadastroSemestre extends javax.swing.JDialog {
         btExcluir = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btPesquisar = new javax.swing.JButton();
-        btCurso = new javax.swing.JButton();
+        btSemestre = new javax.swing.JButton();
         jlNome1 = new javax.swing.JLabel();
         jlNome2 = new javax.swing.JLabel();
         tfNomeCurso = new javax.swing.JTextField();
         jLObrigatorioCurso = new javax.swing.JLabel();
         jLObrigatorioSemestre = new javax.swing.JLabel();
+        btPesqusar1 = new javax.swing.JButton();
         jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -151,19 +152,19 @@ public class CadastroSemestre extends javax.swing.JDialog {
         getContentPane().add(btPesquisar);
         btPesquisar.setBounds(280, 340, 100, 69);
 
-        btCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/sub_pesquisar.png"))); // NOI18N
-        btCurso.setContentAreaFilled(false);
-        btCurso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btCurso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btCurso.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btCurso.addActionListener(new java.awt.event.ActionListener() {
+        btSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btSemestre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btSemestre.setContentAreaFilled(false);
+        btSemestre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btSemestre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btSemestre.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btSemestre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCursoActionPerformed(evt);
+                btSemestreActionPerformed(evt);
             }
         });
-        getContentPane().add(btCurso);
-        btCurso.setBounds(500, 180, 30, 30);
+        getContentPane().add(btSemestre);
+        btSemestre.setBounds(530, 180, 20, 30);
 
         jlNome1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome1.setText("Nome do Semestre.:");
@@ -191,6 +192,20 @@ public class CadastroSemestre extends javax.swing.JDialog {
         jLObrigatorioSemestre.setText("*");
         getContentPane().add(jLObrigatorioSemestre);
         jLObrigatorioSemestre.setBounds(500, 130, 10, 30);
+
+        btPesqusar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPesqusar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
+        btPesqusar1.setContentAreaFilled(false);
+        btPesqusar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesqusar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btPesqusar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btPesqusar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesqusar1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btPesqusar1);
+        btPesqusar1.setBounds(500, 180, 30, 30);
 
         jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroSemestre.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -271,16 +286,14 @@ public class CadastroSemestre extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
-    private void btCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCursoActionPerformed
-        List<Curso> lista;
-        lista = (cursoDAO.listar());
-        CursoTableModel itm = new CursoTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Curso");
-        if (objetoRetorno != null) {
-            curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
-            tfNomeCurso.setText(curso.getNomeCurso());
-        }
-    }//GEN-LAST:event_btCursoActionPerformed
+    private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
+      CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
+      cadastroCurso.setVisible(true); 
+    }//GEN-LAST:event_btSemestreActionPerformed
+
+    private void btPesqusar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesqusar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btPesqusar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,11 +339,12 @@ public class CadastroSemestre extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btCurso;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btPesquisar;
+    private javax.swing.JButton btPesqusar1;
     private javax.swing.JButton btSalvar;
+    private javax.swing.JButton btSemestre;
     private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLObrigatorioCurso;
     private javax.swing.JLabel jLObrigatorioSemestre;

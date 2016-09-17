@@ -75,7 +75,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLogout);
-        btLogout.setBounds(790, 330, 80, 109);
+        btLogout.setBounds(800, 360, 80, 69);
 
         jlHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/home.png"))); // NOI18N
         getContentPane().add(jlHome);
@@ -87,14 +87,14 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jMenu.setMaximumSize(new java.awt.Dimension(900, 200));
         jMenu.setMinimumSize(new java.awt.Dimension(900, 200));
 
-        jmCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/btCadastro.png"))); // NOI18N
+        jmCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar80.png"))); // NOI18N
         jmCadastrar.setText("Cadastro");
         jmCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jmCadastrar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem5.setText("Curso");
         jMenuItem5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +104,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem5);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem1.setText("Cidade");
         jMenuItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +114,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem1);
 
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem7.setText("Disciplina");
         jMenuItem7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +124,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem7);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem2.setText("Titulação");
         jMenuItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -134,7 +134,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem2);
 
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem3.setText("Professor");
         jMenuItem3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -144,7 +144,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem3);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem6.setText("Semestre");
         jMenuItem6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +154,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem6);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/add.png"))); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem4.setText("Usuário");
         jMenuItem4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
