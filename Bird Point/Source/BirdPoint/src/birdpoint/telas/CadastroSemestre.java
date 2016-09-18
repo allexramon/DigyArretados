@@ -164,7 +164,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSemestre);
-        btSemestre.setBounds(530, 180, 20, 30);
+        btSemestre.setBounds(540, 180, 20, 30);
 
         jlNome1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome1.setText("Nome do Semestre.:");
@@ -185,7 +185,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
         jLObrigatorioCurso.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCurso.setText("*");
         getContentPane().add(jLObrigatorioCurso);
-        jLObrigatorioCurso.setBounds(500, 170, 10, 30);
+        jLObrigatorioCurso.setBounds(500, 170, 10, 40);
 
         jLObrigatorioSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioSemestre.setForeground(new java.awt.Color(204, 0, 0));
@@ -205,7 +205,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesqusar1);
-        btPesqusar1.setBounds(500, 180, 30, 30);
+        btPesqusar1.setBounds(510, 180, 30, 30);
 
         jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroSemestre.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -222,7 +222,7 @@ public class CadastroSemestre extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNomeSemestre.getText(), tfNomeCurso.getText())) {
-            semestre.setNomeSemestre(tfNomeSemestre.getText());
+            semestre.setNomeSemestre(tfNomeSemestre.getText().toUpperCase());
             semestre.setCurso(curso);
             semestreDAO.salvar(semestre);
             btLimparActionPerformed(null);
@@ -262,28 +262,40 @@ public class CadastroSemestre extends javax.swing.JDialog {
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        List<Semestre> lista;
-        List<Disciplina> listaDisciplina;
-        lista = (semestreDAO.listar());
-        SemestreTableModel itm = new SemestreTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
-        if (objetoRetorno != null) {
-            semestre = semestreDAO.consultarObjetoId("idSemestre", objetoRetorno);
-            tfNomeSemestre.setText(semestre.getNomeSemestre());
-            tfNomeCurso.setText(semestre.getCurso().getNomeCurso());
-            curso = semestre.getCurso();
-
-            listaDisciplina = (disciplinaDAO.listar());
-            List<Disciplina> listaFiltrada = new ArrayList<>();
-            for (Disciplina disciplina1 : listaDisciplina) {
-                if (disciplina1.getSemestre().getIdSemestre() == semestre.getIdSemestre()) {
-                    listaFiltrada.add(disciplina1);
-                    disciplina = disciplina1;
+        if (curso.getIdCurso() != 0) {
+            List<Semestre> lista;
+            List<Disciplina> listaDisciplina;
+            lista = (semestreDAO.listar());
+            List<Semestre> listaFiltradaSemestre = new ArrayList<>();
+            for (Semestre semestre1 : lista) {
+                if (semestre1.getCurso().getIdCurso() == curso.getIdCurso()) {
+                    listaFiltradaSemestre.add(semestre1);
                 }
             }
+            SemestreTableModel itm = new SemestreTableModel(listaFiltradaSemestre);
+            Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Semestre");
+            if (objetoRetorno != null) {
+                semestre = semestreDAO.consultarObjetoId("idSemestre", objetoRetorno);
+                tfNomeSemestre.setText(semestre.getNomeSemestre());
+                tfNomeCurso.setText(semestre.getCurso().getNomeCurso());
+                curso = semestre.getCurso();
 
-            btExcluir.setEnabled(true);
+                listaDisciplina = (disciplinaDAO.listar());
+                List<Disciplina> listaFiltrada = new ArrayList<>();
+                for (Disciplina disciplina1 : listaDisciplina) {
+                    if (disciplina1.getSemestre().getIdSemestre() == semestre.getIdSemestre()) {
+                        listaFiltrada.add(disciplina1);
+                        disciplina = disciplina1;
+                    }
+                }
+
+                btExcluir.setEnabled(true);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione o Curso!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
