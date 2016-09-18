@@ -11,6 +11,7 @@ import birdpoint.titulacao.TitulacaoTableModel;
 import birdpoint.util.Util;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -20,6 +21,14 @@ public class CadastroTitulacao extends javax.swing.JDialog {
 
     Titulacao titulacao = new Titulacao();
     TitulacaoDAO titulacaoDAO = new TitulacaoDAO();
+    
+    static Object objeto;
+    
+    public static Object exibeTela() {
+        CadastroTitulacao tp = new CadastroTitulacao(null, true);
+        tp.setVisible(true);
+          return objeto;
+    }
 
     public CadastroTitulacao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

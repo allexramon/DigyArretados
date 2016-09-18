@@ -20,6 +20,14 @@ public class CadastroCidade extends javax.swing.JDialog {
 
     Cidade cidade = new Cidade();
     CidadeDAO cidadeDAO = new CidadeDAO();
+    
+    static Object objeto;
+    
+    public static Object exibeTela() {
+        CadastroCidade tp = new CadastroCidade(null, true);
+        tp.setVisible(true);
+          return objeto;
+    }
 
     public CadastroCidade(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -50,6 +58,7 @@ public class CadastroCidade extends javax.swing.JDialog {
         btSalvar = new javax.swing.JButton();
         jLObrigatorioCidade = new javax.swing.JLabel();
         jLObrigatorioCep = new javax.swing.JLabel();
+        jLObrigatorioCep1 = new javax.swing.JLabel();
         jlCadCidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -186,7 +195,13 @@ public class CadastroCidade extends javax.swing.JDialog {
         jLObrigatorioCep.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCep.setText("*");
         getContentPane().add(jLObrigatorioCep);
-        jLObrigatorioCep.setBounds(410, 180, 20, 30);
+        jLObrigatorioCep.setBounds(270, 220, 20, 40);
+
+        jLObrigatorioCep1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCep1.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCep1.setText("*");
+        getContentPane().add(jLObrigatorioCep1);
+        jLObrigatorioCep1.setBounds(410, 180, 20, 30);
 
         jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadCidade.png"))); // NOI18N
         jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -240,7 +255,7 @@ public class CadastroCidade extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (Util.chkVazio(tfCep.getText(), tfCidade.getText())) {
+        if (Util.chkVazio(tfCep.getText(), tfCidade.getText(), String.valueOf(jcEstado.getSelectedItem()))) {
             cidade.setNomeCidade(tfCidade.getText().toUpperCase());
             cidade.setEstadoCidade(String.valueOf(jcEstado.getSelectedItem()));
             cidade.setCepCidade(tfCep.getText());
@@ -303,6 +318,7 @@ public class CadastroCidade extends javax.swing.JDialog {
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLObrigatorioCep;
+    private javax.swing.JLabel jLObrigatorioCep1;
     private javax.swing.JLabel jLObrigatorioCidade;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

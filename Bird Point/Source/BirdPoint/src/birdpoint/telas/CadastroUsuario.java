@@ -67,9 +67,9 @@ public class CadastroUsuario extends javax.swing.JDialog {
         getContentPane().setLayout(null);
 
         jlLogin.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jlLogin.setText("Login.:");
+        jlLogin.setText("Usuário.:");
         getContentPane().add(jlLogin);
-        jlLogin.setBounds(100, 190, 60, 19);
+        jlLogin.setBounds(90, 190, 70, 19);
 
         jlSenha.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlSenha.setText("Senha.:");
@@ -265,8 +265,8 @@ public class CadastroUsuario extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if(Util.chkVazio(tfLogin.getText(),tfNomeUsuario.getText(),tfSenha.getText(),String.valueOf(tfTipoDeUsuario.getSelectedItem()))){
-            usuario.setLoginUsuario(tfLogin.getText().toUpperCase());
-            usuario.setNomeUsuario(tfNomeUsuario.getText());
+            usuario.setLoginUsuario(tfLogin.getText());
+            usuario.setNomeUsuario(tfNomeUsuario.getText().toUpperCase());
             usuario.setSenhaUsuario(tfSenha.getText());
             usuario.setTipoDeAcessoUsuario(String.valueOf(tfTipoDeUsuario.getSelectedItem()));
             usuarioDAO.salvar(usuario);

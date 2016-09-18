@@ -43,6 +43,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }
 
     public void listarCidades() {
+        jcCidade.removeAllItems();
+        jcCidade.addItem("-----");
         cidades = cidadeDAO.listar();
         for (Cidade cidades : cidades) {
             jcCidade.addItem(cidades.getNomeCidade());
@@ -50,6 +52,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }
 
     public void listarTitulacoes() {
+        jcTitulacao.removeAllItems();
+        jcTitulacao.addItem("-----");
         titulacoes = titulacaoDAO.listar();
         for (Titulacao titulacoes : titulacoes) {
             jcTitulacao.addItem(titulacoes.getNome());
@@ -113,7 +117,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(600, 421));
         setMinimumSize(new java.awt.Dimension(600, 421));
         setUndecorated(true);
         setResizable(false);
@@ -500,13 +503,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_tfCPFFocusLost
 
     private void btAdd21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd21ActionPerformed
-        CadastroTitulacao cadastroTitulacao = new CadastroTitulacao(null, rootPaneCheckingEnabled);
-        cadastroTitulacao.setVisible(true);
+        Object objeto = CadastroTitulacao.exibeTela();
+        listarTitulacoes();
     }//GEN-LAST:event_btAdd21ActionPerformed
 
     private void btAdd22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd22ActionPerformed
-       CadastroCidade cadastroCidade = new CadastroCidade(null, rootPaneCheckingEnabled);
-       cadastroCidade.setVisible(true);
+       Object objeto = CadastroCidade.exibeTela();
+        listarCidades();
     }//GEN-LAST:event_btAdd22ActionPerformed
 
     /**

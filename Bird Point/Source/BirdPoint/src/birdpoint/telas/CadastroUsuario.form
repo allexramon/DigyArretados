@@ -38,11 +38,11 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="15" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Login.:"/>
+        <Property name="text" type="java.lang.String" value="Usu&#xe1;rio.:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="100" y="190" width="60" height="-1"/>
+          <AbsoluteConstraints x="90" y="190" width="70" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
