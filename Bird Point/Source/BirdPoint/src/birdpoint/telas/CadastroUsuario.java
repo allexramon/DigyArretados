@@ -27,6 +27,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
     public CadastroUsuario(java.awt.Frame parent, boolean modal) {
         initComponents();
         getRootPane().setDefaultButton(btSalvar);
+
         btLimparActionPerformed(null);
         setModal(true);
     }
@@ -262,10 +263,11 @@ public class CadastroUsuario extends javax.swing.JDialog {
         Util.limparCamposGenerico(this);
         btExcluir.setEnabled(false);
         usuario = new Usuario();
+        tfLogin.setEnabled(true);
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (usuarioDAO.consultarValorRepetido("loginUsuario", tfLogin.getText()) && usuario.getIdUsuario()==0) {
+        if (usuarioDAO.consultarValorRepetido("loginUsuario", tfLogin.getText()) && usuario.getIdUsuario() == 0) {
             JOptionPane.showMessageDialog(rootPane, "O usuário '" + tfLogin.getText() + "' já está sendo utilizado!",
                     "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
         } else {

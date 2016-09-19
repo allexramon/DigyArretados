@@ -13,9 +13,18 @@ import birdpoint.professor.ProfessorTableModel;
 import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.util.Util;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JDialog;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,6 +41,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
     List<Cidade> cidades = new ArrayList<>();
     CidadeDAO cidadeDAO = new CidadeDAO();
+
+    BufferedImage bi;
+    File file;
 
     public CadastroProfessor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -60,6 +72,46 @@ public class CadastroProfessor extends javax.swing.JDialog {
         }
     }
 
+    private void selecionarFoto(java.awt.event.ActionEvent evt) {
+
+        selecionarFoto.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            public boolean accept(File f) {
+                return (f.getName().endsWith(".jpg")) || f.isDirectory();
+            }
+
+            public String getDescription() {
+                return "*.jpg";
+            }
+        });
+
+        int returnVal = selecionarFoto.showOpenDialog(this);
+        if (returnVal == selecionarFoto.APPROVE_OPTION) {
+            try {
+                file = selecionarFoto.getSelectedFile();
+                bi = ImageIO.read(file);//carrega a imagem real num buffer  
+                BufferedImage aux = new BufferedImage(90, 100, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
+                Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
+                AffineTransform at = AffineTransform.getScaleInstance((double) 90 / bi.getWidth(), (double) 100 / bi.getHeight());//cria a transformacao  
+                g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
+                File verificarExisteFoto = new File("fotos/" + file.getName());
+                if (verificarExisteFoto.exists()) {
+                    JOptionPane.showMessageDialog(rootPane, "Já existe uma foto com esse nome!",
+                            "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    ImageIcon foto = new ImageIcon();
+                    foto.setImage(aux);
+                    btFoto.setIcon(foto);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível carregar essa imagem",
+                        "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,9 +122,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        selecionarFoto = new javax.swing.JFileChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
@@ -106,15 +156,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLObrigatorioTitulacao = new javax.swing.JLabel();
         btAdd21 = new javax.swing.JButton();
         btAdd22 = new javax.swing.JButton();
+        btFoto = new javax.swing.JButton();
         jlCadProfessores = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
-        jLabel1.setText("                                          Cadastro de Professores ");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
+        selecionarFoto.setMinimumSize(new java.awt.Dimension(550, 245));
+        selecionarFoto.setPreferredSize(new java.awt.Dimension(520, 320));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 421));
@@ -165,7 +212,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
         tfRua.setBounds(90, 240, 210, 23);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("Número:");
+        jLabel6.setText("Número.:");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(310, 240, 70, 20);
 
@@ -196,16 +243,16 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jcTitulacao.setBounds(90, 170, 210, 23);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Situação:");
+        jLabel9.setText("Situação.:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(320, 300, 64, 20);
+        jLabel9.setBounds(20, 300, 70, 20);
 
         buttonGroup1.add(jrAtivo);
         jrAtivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrAtivo.setSelected(true);
         jrAtivo.setText("Ativo");
         getContentPane().add(jrAtivo);
-        jrAtivo.setBounds(400, 300, 61, 25);
+        jrAtivo.setBounds(100, 300, 61, 25);
 
         buttonGroup1.add(jrInativo);
         jrInativo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -216,7 +263,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(jrInativo);
-        jrInativo.setBounds(470, 300, 75, 25);
+        jrInativo.setBounds(170, 300, 75, 25);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("CPF.:");
@@ -387,6 +434,20 @@ public class CadastroProfessor extends javax.swing.JDialog {
         getContentPane().add(btAdd22);
         btAdd22.setBounds(300, 200, 40, 20);
 
+        btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
+        btFoto.setContentAreaFilled(false);
+        btFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btFoto.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFotoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btFoto);
+        btFoto.setBounds(460, 230, 90, 100);
+
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadProfessores);
@@ -413,6 +474,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
         btExcluir.setEnabled(false);
         jrAtivo.setSelected(true);
         professor = new Professor();
+        tfCPF.setEnabled(true);
+        btFoto.setIcon(new ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg")));
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -432,6 +495,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
             tfRua.setText(professor.getRuaProfessor());
             tfBairro.setText(professor.getBairroProfessor());
             tfNumero.setText(String.valueOf(professor.getNumeroCasa()));
+
+            btFoto.setIcon(new ImageIcon(getClass().getResource(professor.getFotoProfessor())));
+
             if (professor.isSituacaoProfessor()) {
                 jrAtivo.setSelected(true);
             } else {
@@ -461,34 +527,40 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (professorDAO.consultarValorRepetido("cpfProfessor", tfCPF.getText()) && professor.getIdProfessor()==0) {
+        if (professorDAO.consultarValorRepetido("cpfProfessor", tfCPF.getText()) && professor.getIdProfessor() == 0) {
             JOptionPane.showMessageDialog(rootPane, "O CPF '" + tfCPF.getText() + "' já está cadastrado!",
                     "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
         } else {
-        
-        if (Util.chkVazio(tfNome.getText(), tfCPF.getText(), String.valueOf(jcTitulacao.getSelectedItem()))) {
-            professor.setNomeProfessor(tfNome.getText().toUpperCase());
-            professor.setEmailProfessor(tfEmail.getText());
-            professor.setRGProfessor(tfRG.getText());
-            professor.setCpfProfessor(tfCPF.getText());
-            professor.setTelefoneProfessor(tfTelefone.getText());
-            professor.setTitulacaoProfessor(String.valueOf(jcTitulacao.getSelectedItem()));
-            professor.setCidadeProfessor(String.valueOf(jcCidade.getSelectedItem()));
-            professor.setBairroProfessor(tfBairro.getText().toUpperCase());
-            professor.setRuaProfessor(tfRua.getText().toUpperCase());
-            try {
-                professor.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
-            } catch (Exception e) {
-            }
 
-            if (jrAtivo.isSelected()) {
-                professor.setSituacaoProfessor(true);
-            } else {
-                professor.setSituacaoProfessor(false);
+            if (Util.chkVazio(tfNome.getText(), tfCPF.getText(), String.valueOf(jcTitulacao.getSelectedItem()))) {
+                professor.setNomeProfessor(tfNome.getText().toUpperCase());
+                professor.setEmailProfessor(tfEmail.getText());
+                professor.setRGProfessor(tfRG.getText());
+                professor.setCpfProfessor(tfCPF.getText());
+                professor.setTelefoneProfessor(tfTelefone.getText());
+                professor.setTitulacaoProfessor(String.valueOf(jcTitulacao.getSelectedItem()));
+                professor.setCidadeProfessor(String.valueOf(jcCidade.getSelectedItem()));
+                professor.setBairroProfessor(tfBairro.getText().toUpperCase());
+                professor.setRuaProfessor(tfRua.getText().toUpperCase());
+                try {
+                    professor.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
+                } catch (Exception e) {
+                }
+
+                if (jrAtivo.isSelected()) {
+                    professor.setSituacaoProfessor(true);
+                } else {
+                    professor.setSituacaoProfessor(false);
+                }
+                try {
+                    ImageIO.write(bi, "jpg", new File("fotos/" + file.getName()));
+                    professor.setFotoProfessor("../fotos/" + file.getName());
+                } catch (Exception e) {
+                }
+
+                professorDAO.salvar(professor);
+                btLimparActionPerformed(null);
             }
-            professorDAO.salvar(professor);
-            btLimparActionPerformed(null);
-        }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
@@ -515,9 +587,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btAdd21ActionPerformed
 
     private void btAdd22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd22ActionPerformed
-       Object objeto = CadastroCidade.exibeTela();
+        Object objeto = CadastroCidade.exibeTela();
         listarCidades();
     }//GEN-LAST:event_btAdd22ActionPerformed
+
+    private void btFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFotoActionPerformed
+        selecionarFoto(evt);
+    }//GEN-LAST:event_btFotoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -566,6 +642,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JButton btAdd21;
     private javax.swing.JButton btAdd22;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btFoto;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
@@ -574,7 +651,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JLabel jLObrigatorioCpf;
     private javax.swing.JLabel jLObrigatorioNome;
     private javax.swing.JLabel jLObrigatorioTitulacao;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -586,13 +662,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox jcCidade;
     private javax.swing.JComboBox jcTitulacao;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JRadioButton jrAtivo;
     private javax.swing.JRadioButton jrInativo;
+    private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTextField tfBairro;
     private javax.swing.JFormattedTextField tfCPF;
     private javax.swing.JTextField tfEmail;
