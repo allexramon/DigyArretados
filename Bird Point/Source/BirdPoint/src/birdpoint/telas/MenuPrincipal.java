@@ -23,13 +23,22 @@ import javax.swing.plaf.basic.BasicMenuBarUI;
  */
 public class MenuPrincipal extends javax.swing.JDialog {
 
+    Usuario usuario = new Usuario();
     
     public MenuPrincipal(java.awt.Frame parent, boolean modal, Usuario usuario) {
         super(parent, modal);
         setModal(true);
         initComponents();
-       
-
+        this.usuario=usuario;
+        jlUsuario.setText(usuario.getLoginUsuario());
+        jlPermissao.setText(usuario.getTipoDeAcessoUsuario());
+        permissao();
+    }
+    
+    public void permissao(){
+        if(!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("administrador")){
+            subUsuario.setVisible(false);
+        }
     }
 
     /**
@@ -42,6 +51,10 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private void initComponents() {
 
         btLogout = new javax.swing.JButton();
+        jlPermissao = new javax.swing.JLabel();
+        jlNome2 = new javax.swing.JLabel();
+        jlNome3 = new javax.swing.JLabel();
+        jlUsuario = new javax.swing.JLabel();
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
         jmCadastrar = new javax.swing.JMenu();
@@ -51,7 +64,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        subUsuario = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
@@ -76,6 +89,26 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         getContentPane().add(btLogout);
         btLogout.setBounds(800, 360, 80, 69);
+
+        jlPermissao.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jlPermissao.setText("???");
+        getContentPane().add(jlPermissao);
+        jlPermissao.setBounds(720, 30, 160, 30);
+
+        jlNome2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNome2.setText("Permissão.:");
+        getContentPane().add(jlNome2);
+        jlNome2.setBounds(630, 30, 90, 30);
+
+        jlNome3.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNome3.setText("Usuário.:");
+        getContentPane().add(jlNome3);
+        jlNome3.setBounds(650, 10, 70, 30);
+
+        jlUsuario.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jlUsuario.setText("???");
+        getContentPane().add(jlUsuario);
+        jlUsuario.setBounds(720, 10, 160, 30);
 
         jlHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/home.png"))); // NOI18N
         getContentPane().add(jlHome);
@@ -154,15 +187,15 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem6);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        jMenuItem4.setText("Usuário");
-        jMenuItem4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        subUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subUsuario.setText("Usuário");
+        subUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                subUsuarioActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem4);
+        jmCadastrar.add(subUsuario);
 
         jMenu.add(jmCadastrar);
 
@@ -188,10 +221,10 @@ public class MenuPrincipal extends javax.swing.JDialog {
         cadastroTitulacao.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void subUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subUsuarioActionPerformed
         CadastroUsuario cadUsuario = new CadastroUsuario(null, rootPaneCheckingEnabled);
         cadUsuario.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_subUsuarioActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         CadastroProfessor cadastroProfessor = new CadastroProfessor(null, rootPaneCheckingEnabled);
@@ -261,11 +294,15 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JLabel jlHome;
+    private javax.swing.JLabel jlNome2;
+    private javax.swing.JLabel jlNome3;
+    private javax.swing.JLabel jlPermissao;
+    private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenu jmCadastrar;
+    private javax.swing.JMenuItem subUsuario;
     // End of variables declaration//GEN-END:variables
 }
