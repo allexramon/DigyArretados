@@ -62,9 +62,6 @@ public class Professor {
     @Column(length = 100)
     private String cidadeProfessor;
     
-    @Column(length = 100)
-    private String caminhoFotoProfessor;
-
    
     /**
      * @return the nomeProfessor
@@ -248,18 +245,6 @@ public class Professor {
         this.idProfessor = idProfessor;
     }
 
-    /**
-     * @return the caminhoFotoProfessor
-     */
-    public String getCaminhoFotoProfessor() {
-        return caminhoFotoProfessor;
-    }
 
-    /**
-     * @param caminhoFotoProfessor the caminhoFotoProfessor to set
-     */
-    public void setCaminhoFotoProfessor(String caminhoFotoProfessor) {
-        this.caminhoFotoProfessor = caminhoFotoProfessor;
-    }
 
 }

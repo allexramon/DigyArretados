@@ -14,6 +14,7 @@ import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.util.Util;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -72,7 +73,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
         }
     }
 
-    private void selecionarFoto(java.awt.event.ActionEvent evt) {
+    private void selecionarFoto() {
 
         selecionarFoto.setFileFilter(new javax.swing.filechooser.FileFilter() {
             public boolean accept(File f) {
@@ -95,7 +96,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
                 File verificarExisteFoto = new File("fotos/" + file.getName());
                 if (verificarExisteFoto.exists()) {
-                    JOptionPane.showMessageDialog(rootPane, "Já existe uma foto com esse nome!",
+                    JOptionPane.showMessageDialog(rootPane, "Já existe uma foto com esse nome!\n Altere o nome da foto selecionada!",
                             "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
                 } else {
                     ImageIcon foto = new ImageIcon();
@@ -108,6 +109,23 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
             }
 
+        }
+
+    }
+
+    private void carregarFoto(String caminho) {
+        try {
+            bi = ImageIO.read(new File(caminho));//carrega a imagem real num buffer  
+            BufferedImage aux = new BufferedImage(90, 100, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
+            Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
+            AffineTransform at = AffineTransform.getScaleInstance((double) 90 / bi.getWidth(), (double) 100 / bi.getHeight());//cria a transformacao  
+            g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
+            ImageIcon foto = new ImageIcon();
+            foto.setImage(aux);
+            btFoto.setIcon(foto);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível carregar a foto do professor",
+                    "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -172,12 +190,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Nome:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(30, 100, 60, 20);
+        jLabel2.setBounds(140, 100, 60, 20);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("E-mail:");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(30, 130, 47, 17);
+        jLabel11.setBounds(140, 130, 47, 17);
 
         tfEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         tfEmail.addActionListener(new java.awt.event.ActionListener() {
@@ -186,73 +204,73 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfEmail);
-        tfEmail.setBounds(90, 130, 250, 23);
+        tfEmail.setBounds(200, 130, 360, 23);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Telefone:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(350, 130, 64, 17);
+        jLabel10.setBounds(140, 160, 64, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Rua:");
+        jLabel4.setText("Rua.:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(40, 240, 40, 20);
+        jLabel4.setBounds(50, 270, 40, 20);
 
         tfRG.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfRG);
-        tfRG.setBounds(380, 200, 180, 22);
+        tfRG.setBounds(380, 230, 180, 22);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Bairro.:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(30, 270, 51, 20);
+        jLabel5.setBounds(30, 300, 60, 20);
 
         tfRua.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfRua);
-        tfRua.setBounds(90, 240, 210, 23);
+        tfRua.setBounds(100, 270, 320, 23);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Número.:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(310, 240, 70, 20);
+        jLabel6.setBounds(430, 270, 70, 20);
 
         tfBairro.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfBairro);
-        tfBairro.setBounds(90, 270, 210, 23);
+        tfBairro.setBounds(100, 300, 320, 23);
 
         jcCidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
         jcCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(jcCidade);
-        jcCidade.setBounds(90, 200, 210, 23);
+        jcCidade.setBounds(100, 230, 200, 23);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Cidade:");
+        jLabel7.setText("Cidade.:");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(30, 200, 60, 19);
+        jLabel7.setBounds(30, 230, 60, 19);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Titulação:");
+        jLabel8.setText("Titulação.:");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(20, 170, 67, 17);
+        jLabel8.setBounds(20, 200, 80, 17);
 
         jcTitulacao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcTitulacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
         jcTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(jcTitulacao);
-        jcTitulacao.setBounds(90, 170, 210, 23);
+        jcTitulacao.setBounds(100, 200, 200, 23);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Situação.:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(20, 300, 70, 20);
+        jLabel9.setBounds(340, 160, 70, 20);
 
         buttonGroup1.add(jrAtivo);
         jrAtivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrAtivo.setSelected(true);
         jrAtivo.setText("Ativo");
         getContentPane().add(jrAtivo);
-        jrAtivo.setBounds(100, 300, 61, 25);
+        jrAtivo.setBounds(420, 160, 61, 25);
 
         buttonGroup1.add(jrInativo);
         jrInativo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -263,21 +281,21 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(jrInativo);
-        jrInativo.setBounds(170, 300, 75, 25);
+        jrInativo.setBounds(490, 160, 75, 25);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("CPF.:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(340, 170, 40, 17);
+        jLabel3.setBounds(340, 200, 40, 17);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("RG.:");
         getContentPane().add(jLabel12);
-        jLabel12.setBounds(340, 200, 30, 20);
+        jLabel12.setBounds(340, 230, 30, 20);
 
         tfNumero.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfNumero);
-        tfNumero.setBounds(380, 240, 50, 23);
+        tfNumero.setBounds(500, 270, 60, 23);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -365,7 +383,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
         tfTelefone.setName(""); // NOI18N
         tfTelefone.setPreferredSize(new java.awt.Dimension(2, 19));
         getContentPane().add(tfTelefone);
-        tfTelefone.setBounds(420, 130, 140, 22);
+        tfTelefone.setBounds(210, 160, 120, 22);
 
         tfCPF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         try {
@@ -383,7 +401,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfCPF);
-        tfCPF.setBounds(380, 170, 180, 22);
+        tfCPF.setBounds(380, 200, 180, 22);
 
         tfNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         tfNome.addActionListener(new java.awt.event.ActionListener() {
@@ -392,7 +410,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfNome);
-        tfNome.setBounds(90, 100, 470, 23);
+        tfNome.setBounds(200, 100, 360, 23);
 
         jLObrigatorioNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioNome.setForeground(new java.awt.Color(204, 0, 0));
@@ -404,13 +422,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLObrigatorioCpf.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCpf.setText("*");
         getContentPane().add(jLObrigatorioCpf);
-        jLObrigatorioCpf.setBounds(560, 160, 20, 30);
+        jLObrigatorioCpf.setBounds(560, 190, 20, 30);
 
         jLObrigatorioTitulacao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioTitulacao.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioTitulacao.setText("*");
         getContentPane().add(jLObrigatorioTitulacao);
-        jLObrigatorioTitulacao.setBounds(300, 160, 10, 30);
+        jLObrigatorioTitulacao.setBounds(300, 190, 10, 30);
 
         btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
@@ -421,7 +439,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd21);
-        btAdd21.setBounds(300, 170, 40, 20);
+        btAdd21.setBounds(300, 200, 40, 20);
 
         btAdd22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd22.setContentAreaFilled(false);
@@ -432,10 +450,10 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd22);
-        btAdd22.setBounds(300, 200, 40, 20);
+        btAdd22.setBounds(300, 230, 40, 20);
 
         btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
+        btFoto.setIcon(new javax.swing.ImageIcon("C:\\Users\\Adriano Lima\\Desktop\\DigyArretados\\Bird Point\\Source\\BirdPoint\\fotos\\fotoMinha.jpg")); // NOI18N
         btFoto.setContentAreaFilled(false);
         btFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -446,7 +464,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btFoto);
-        btFoto.setBounds(460, 230, 90, 100);
+        btFoto.setBounds(40, 90, 90, 100);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -495,9 +513,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             tfRua.setText(professor.getRuaProfessor());
             tfBairro.setText(professor.getBairroProfessor());
             tfNumero.setText(String.valueOf(professor.getNumeroCasa()));
-
-            btFoto.setIcon(new ImageIcon(getClass().getResource(professor.getFotoProfessor())));
-
+            carregarFoto(professor.getFotoProfessor());
             if (professor.isSituacaoProfessor()) {
                 jrAtivo.setSelected(true);
             } else {
@@ -530,37 +546,34 @@ public class CadastroProfessor extends javax.swing.JDialog {
         if (professorDAO.consultarValorRepetido("cpfProfessor", tfCPF.getText()) && professor.getIdProfessor() == 0) {
             JOptionPane.showMessageDialog(rootPane, "O CPF '" + tfCPF.getText() + "' já está cadastrado!",
                     "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
-        } else {
-
-            if (Util.chkVazio(tfNome.getText(), tfCPF.getText(), String.valueOf(jcTitulacao.getSelectedItem()))) {
-                professor.setNomeProfessor(tfNome.getText().toUpperCase());
-                professor.setEmailProfessor(tfEmail.getText());
-                professor.setRGProfessor(tfRG.getText());
-                professor.setCpfProfessor(tfCPF.getText());
-                professor.setTelefoneProfessor(tfTelefone.getText());
-                professor.setTitulacaoProfessor(String.valueOf(jcTitulacao.getSelectedItem()));
-                professor.setCidadeProfessor(String.valueOf(jcCidade.getSelectedItem()));
-                professor.setBairroProfessor(tfBairro.getText().toUpperCase());
-                professor.setRuaProfessor(tfRua.getText().toUpperCase());
-                try {
-                    professor.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
-                } catch (Exception e) {
-                }
-
-                if (jrAtivo.isSelected()) {
-                    professor.setSituacaoProfessor(true);
-                } else {
-                    professor.setSituacaoProfessor(false);
-                }
-                try {
-                    ImageIO.write(bi, "jpg", new File("fotos/" + file.getName()));
-                    professor.setFotoProfessor("../fotos/" + file.getName());
-                } catch (Exception e) {
-                }
-
-                professorDAO.salvar(professor);
-                btLimparActionPerformed(null);
+        } else if (Util.chkVazio(tfNome.getText(), tfCPF.getText(), String.valueOf(jcTitulacao.getSelectedItem()))) {
+            professor.setNomeProfessor(tfNome.getText().toUpperCase());
+            professor.setEmailProfessor(tfEmail.getText());
+            professor.setRGProfessor(tfRG.getText());
+            professor.setCpfProfessor(tfCPF.getText());
+            professor.setTelefoneProfessor(tfTelefone.getText());
+            professor.setTitulacaoProfessor(String.valueOf(jcTitulacao.getSelectedItem()));
+            professor.setCidadeProfessor(String.valueOf(jcCidade.getSelectedItem()));
+            professor.setBairroProfessor(tfBairro.getText().toUpperCase());
+            professor.setRuaProfessor(tfRua.getText().toUpperCase());
+            try {
+                professor.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
+            } catch (Exception e) {
             }
+
+            if (jrAtivo.isSelected()) {
+                professor.setSituacaoProfessor(true);
+            } else {
+                professor.setSituacaoProfessor(false);
+            }
+            try {
+                ImageIO.write(bi, "jpg", new File("fotos/" + file.getName()));
+                professor.setFotoProfessor("fotos/" + file.getName());
+            } catch (Exception e) {
+            }
+
+            professorDAO.salvar(professor);
+            btLimparActionPerformed(null);
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
@@ -592,7 +605,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btAdd22ActionPerformed
 
     private void btFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFotoActionPerformed
-        selecionarFoto(evt);
+        selecionarFoto();
     }//GEN-LAST:event_btFotoActionPerformed
 
     /**
