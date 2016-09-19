@@ -5,9 +5,6 @@
  */
 package birdpoint.util;
 
-import com.sun.awt.AWTUtilities;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import static java.lang.Thread.sleep;
 
 /**
