@@ -113,7 +113,6 @@ public class Util {
     }
 
     /* @MD5 Método de Encriptação da Senha em um HASH Hexadecimal */
-
     public static String md5(String senha) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -128,7 +127,7 @@ public class Util {
     public static boolean chkVazio(String... campos) {
         for (String chk : campos) {
             if (chk.isEmpty() || chk.equals("-----") || chk.equals("  /  /    ") || chk.equals("   .   .   -  ")
-                    || chk.equals("(  )     -    ")|| chk.equals("     -   ")) {
+                    || chk.equals("(  )     -    ") || chk.equals("     -   ")) {
                 JOptionPane.showMessageDialog(null, "Existem campos obrigatórios que não foram preenchidos!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
@@ -276,17 +275,17 @@ public class Util {
             if (c instanceof JComboBox) {
                 JComboBox field = (JComboBox) c;
                 field.setSelectedItem("-----");
-            }else if (c instanceof JTextField) {
+            } else if (c instanceof JTextField) {
                 JTextField field = (JTextField) c;
                 field.setText("");
-            }else if (c instanceof JRadioButton) {
+            } else if (c instanceof JRadioButton) {
                 JRadioButton field = (JRadioButton) c;
                 field.setSelected(false);
-            }else if (c instanceof JCheckBox) {
+            } else if (c instanceof JCheckBox) {
                 JCheckBox field = (JCheckBox) c;
                 field.setSelected(false);
             }
-            
+
         }
     }
 

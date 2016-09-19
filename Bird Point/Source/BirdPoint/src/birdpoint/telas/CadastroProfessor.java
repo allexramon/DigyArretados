@@ -438,6 +438,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 jrInativo.setSelected(true);
             }
             btExcluir.setEnabled(true);
+            tfCPF.setEnabled(false);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
@@ -460,6 +461,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        if (professorDAO.consultarValorRepetido("cpfProfessor", tfCPF.getText()) && professor.getIdProfessor()==0) {
+            JOptionPane.showMessageDialog(rootPane, "O CPF '" + tfCPF.getText() + "' já está cadastrado!",
+                    "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
+        } else {
+        
         if (Util.chkVazio(tfNome.getText(), tfCPF.getText(), String.valueOf(jcTitulacao.getSelectedItem()))) {
             professor.setNomeProfessor(tfNome.getText().toUpperCase());
             professor.setEmailProfessor(tfEmail.getText());
@@ -482,6 +488,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
             professorDAO.salvar(professor);
             btLimparActionPerformed(null);
+        }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 

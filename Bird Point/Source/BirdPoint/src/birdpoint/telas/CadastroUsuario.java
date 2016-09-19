@@ -30,7 +30,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
         btLimparActionPerformed(null);
         setModal(true);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -234,6 +234,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
             tfNomeUsuario.setText(usuario.getNomeUsuario());
             tfTipoDeUsuario.setSelectedItem(usuario.getTipoDeAcessoUsuario());
             btExcluir.setEnabled(true);
+            tfLogin.setEnabled(false);
         }
 
     }//GEN-LAST:event_btPesquisarActionPerformed
@@ -241,36 +242,41 @@ public class CadastroUsuario extends javax.swing.JDialog {
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
         Object[] options = {"Sim", "Não"};
         if (usuario.getIdUsuario() != 0) {
-                if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir o Usuário " + usuario.getLoginUsuario()
-                        + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
-                    if (usuarioDAO.remover(usuario)) {
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Usuário " + usuario.getLoginUsuario(),
-                                "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
+            if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir o Usuário " + usuario.getLoginUsuario()
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
+                if (usuarioDAO.remover(usuario)) {
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Usuário " + usuario.getLoginUsuario(),
+                            "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
                 }
-
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
             }
+
+        }
         btLimparActionPerformed(null);
-        
+
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-       Util.limparCamposGenerico(this);
-       btExcluir.setEnabled(false);
-       usuario = new Usuario();
+        Util.limparCamposGenerico(this);
+        btExcluir.setEnabled(false);
+        usuario = new Usuario();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if(Util.chkVazio(tfLogin.getText(),tfNomeUsuario.getText(),tfSenha.getText(),String.valueOf(tfTipoDeUsuario.getSelectedItem()))){
-            usuario.setLoginUsuario(tfLogin.getText());
-            usuario.setNomeUsuario(tfNomeUsuario.getText().toUpperCase());
-            usuario.setSenhaUsuario(tfSenha.getText());
-            usuario.setTipoDeAcessoUsuario(String.valueOf(tfTipoDeUsuario.getSelectedItem()));
-            usuarioDAO.salvar(usuario);
-            btLimparActionPerformed(null);
+        if (usuarioDAO.consultarValorRepetido("loginUsuario", tfLogin.getText()) && usuario.getIdUsuario()==0) {
+            JOptionPane.showMessageDialog(rootPane, "O usuário '" + tfLogin.getText() + "' já está sendo utilizado!",
+                    "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (Util.chkVazio(tfLogin.getText(), tfNomeUsuario.getText(), tfSenha.getText(), String.valueOf(tfTipoDeUsuario.getSelectedItem()))) {
+                usuario.setLoginUsuario(tfLogin.getText());
+                usuario.setNomeUsuario(tfNomeUsuario.getText().toUpperCase());
+                usuario.setSenhaUsuario(tfSenha.getText());
+                usuario.setTipoDeAcessoUsuario(String.valueOf(tfTipoDeUsuario.getSelectedItem()));
+                usuarioDAO.salvar(usuario);
+                btLimparActionPerformed(null);
+            }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
@@ -279,7 +285,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_tfNomeUsuarioActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-       dispose();
+        dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
 
     /**

@@ -143,7 +143,7 @@ public abstract class GenericDAO<T> {
         return lista;
 
     }
-    
+
     public T consultarObjetoId(String campo, Object valor) {
         T objeto = null;
         try {
@@ -160,13 +160,13 @@ public abstract class GenericDAO<T> {
         return objeto;
 
     }
-    
-    public List<T> consultarSemestresDoCurso(Object valor) {
-        List<T> lista = null;
+
+    public boolean consultarValorRepetido(String campo, Object valor) {
+        T objeto = null;
         try {
             this.setSessao(HibernateUtil.getSessionFactory().openSession());
             setTransacao(getSessao().beginTransaction());
-            lista =  this.getSessao().createSQLQuery("SELECT * FROM Semestre Where id="+valor).list();
+            objeto = (T) this.getSessao().createCriteria(classe).add(Restrictions.eq(campo, valor)).uniqueResult();
             sessao.close();
         } catch (Throwable e) {
             if (getTransacao().isActive()) {
@@ -174,7 +174,11 @@ public abstract class GenericDAO<T> {
             }
             JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
         }
-        return lista;
+        if (objeto == null) {
+            return false;
+        } else {
+            return true;
+        }
 
     }
 
@@ -205,6 +209,5 @@ public abstract class GenericDAO<T> {
     public void setTransacao(Transaction transacao) {
         this.transacao = transacao;
     }
-    
-    
+
 }

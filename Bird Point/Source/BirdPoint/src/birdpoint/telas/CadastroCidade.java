@@ -20,13 +20,13 @@ public class CadastroCidade extends javax.swing.JDialog {
 
     Cidade cidade = new Cidade();
     CidadeDAO cidadeDAO = new CidadeDAO();
-    
+
     static Object objeto;
-    
+
     public static Object exibeTela() {
         CadastroCidade tp = new CadastroCidade(null, true);
         tp.setVisible(true);
-          return objeto;
+        return objeto;
     }
 
     public CadastroCidade(java.awt.Frame parent, boolean modal) {
@@ -233,6 +233,7 @@ public class CadastroCidade extends javax.swing.JDialog {
             tfCep.setText(cidade.getCepCidade());
             jcEstado.setSelectedItem(cidade.getEstadoCidade());
             btExcluir.setEnabled(true);
+            tfCep.setEnabled(false);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
@@ -255,12 +256,17 @@ public class CadastroCidade extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (Util.chkVazio(tfCep.getText(), tfCidade.getText(), String.valueOf(jcEstado.getSelectedItem()))) {
-            cidade.setNomeCidade(tfCidade.getText().toUpperCase());
-            cidade.setEstadoCidade(String.valueOf(jcEstado.getSelectedItem()));
-            cidade.setCepCidade(tfCep.getText());
-            cidadeDAO.salvar(cidade);
-            btLimparActionPerformed(null);
+        if (cidadeDAO.consultarValorRepetido("cepCidade", tfCep.getText()) && cidade.getIdCidade()==0) {
+            JOptionPane.showMessageDialog(rootPane, "O CEP '" + tfCep.getText() + "' já está cadastrado!",
+                    "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (Util.chkVazio(tfCep.getText(), tfCidade.getText(), String.valueOf(jcEstado.getSelectedItem()))) {
+                cidade.setNomeCidade(tfCidade.getText().toUpperCase());
+                cidade.setEstadoCidade(String.valueOf(jcEstado.getSelectedItem()));
+                cidade.setCepCidade(tfCep.getText());
+                cidadeDAO.salvar(cidade);
+                btLimparActionPerformed(null);
+            }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 

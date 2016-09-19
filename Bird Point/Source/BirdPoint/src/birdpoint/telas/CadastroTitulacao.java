@@ -21,13 +21,13 @@ public class CadastroTitulacao extends javax.swing.JDialog {
 
     Titulacao titulacao = new Titulacao();
     TitulacaoDAO titulacaoDAO = new TitulacaoDAO();
-    
+
     static Object objeto;
-    
+
     public static Object exibeTela() {
         CadastroTitulacao tp = new CadastroTitulacao(null, true);
         tp.setVisible(true);
-          return objeto;
+        return objeto;
     }
 
     public CadastroTitulacao(java.awt.Frame parent, boolean modal) {
@@ -72,6 +72,11 @@ public class CadastroTitulacao extends javax.swing.JDialog {
 
         tfValor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfValor.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tfValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfValorKeyTyped(evt);
+            }
+        });
         getContentPane().add(tfValor);
         tfValor.setBounds(130, 170, 220, 30);
 
@@ -187,7 +192,7 @@ public class CadastroTitulacao extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNome.getText(), tfValor.getText())) {
-            titulacao.setNome(tfNome.getText());
+            titulacao.setNome(tfNome.getText().toUpperCase());
             titulacao.setValorTitulacao(Double.parseDouble(tfValor.getText()));
             titulacaoDAO.salvar(titulacao);
             btLimparActionPerformed(null);
@@ -231,6 +236,16 @@ public class CadastroTitulacao extends javax.swing.JDialog {
             btExcluir.setEnabled(true);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void tfValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfValorKeyTyped
+        int ascii = evt.getKeyChar();
+        if (!(ascii >= 48 && ascii <= 57) && !(ascii == 46) && !(ascii == evt.VK_BACK_SPACE)) {
+            evt.consume();
+        }
+        if (tfValor.getText().length() >= 6) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_tfValorKeyTyped
 
     /**
      * @param args the command line arguments
