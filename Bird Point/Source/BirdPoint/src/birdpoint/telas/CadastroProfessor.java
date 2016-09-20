@@ -81,7 +81,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
 
             public String getDescription() {
-                return "*.jpg";
+                return "Arquivos em Formato (*.jpg)";
             }
         });
 
@@ -115,8 +115,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
     private void carregarFoto(String caminho) {
         try {
-            bi = ImageIO.read(new File(caminho));//carrega a imagem real num buffer  
-            BufferedImage aux = new BufferedImage(90, 100, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
+            bi = ImageIO.read(new File(caminho));//carrega a imagem real num buffer
+            BufferedImage aux;
+            try {
+                aux = new BufferedImage(90, 100, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
+            } catch (Exception e) {
+                aux = new BufferedImage(90, 100, 5);//cria um buffer auxiliar com o tamanho desejado    
+            }
             Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
             AffineTransform at = AffineTransform.getScaleInstance((double) 90 / bi.getWidth(), (double) 100 / bi.getHeight());//cria a transformacao  
             g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
