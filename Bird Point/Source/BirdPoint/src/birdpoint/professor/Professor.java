@@ -48,9 +48,6 @@ public class Professor {
     @Column(length = 100)
     private String emailProfessor;
 
-    @Column(length = 100)
-    private String fotoProfessor;
-
     @Column(nullable = false)
     private boolean situacaoProfessor;
 
@@ -185,20 +182,6 @@ public class Professor {
      */
     public void setEmailProfessor(String emailProfessor) {
         this.emailProfessor = emailProfessor;
-    }
-
-    /**
-     * @return the fotoProfessor
-     */
-    public String getFotoProfessor() {
-        return fotoProfessor;
-    }
-
-    /**
-     * @param fotoProfessor the fotoProfessor to set
-     */
-    public void setFotoProfessor(String fotoProfessor) {
-        this.fotoProfessor = fotoProfessor;
     }
 
     /**
