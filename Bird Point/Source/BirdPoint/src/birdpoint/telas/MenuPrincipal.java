@@ -58,6 +58,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
         jmCadastrar = new javax.swing.JMenu();
+        subUsuario1 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -126,6 +127,16 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jmCadastrar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        subUsuario1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subUsuario1.setText("Biometria");
+        subUsuario1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subUsuario1ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(subUsuario1);
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem5.setText("Curso");
@@ -246,6 +257,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
       cadastroDisciplina.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void subUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subUsuario1ActionPerformed
+        CadastroDigital cadastroDigital = new CadastroDigital(null, rootPaneCheckingEnabled);
+        cadastroDigital.setVisible(true);
+    }//GEN-LAST:event_subUsuario1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -304,5 +320,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenu jmCadastrar;
     private javax.swing.JMenuItem subUsuario;
+    private javax.swing.JMenuItem subUsuario1;
     // End of variables declaration//GEN-END:variables
 }

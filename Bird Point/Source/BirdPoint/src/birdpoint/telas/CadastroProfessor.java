@@ -14,16 +14,11 @@ import birdpoint.titulacao.Titulacao;
 import birdpoint.titulacao.TitulacaoDAO;
 import birdpoint.util.Util;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -42,9 +37,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
     List<Cidade> cidades = new ArrayList<>();
     CidadeDAO cidadeDAO = new CidadeDAO();
-
-    BufferedImage bi;
-    File file;
 
     public CadastroProfessor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -74,7 +66,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }
 
     private void selecionarFoto() {
-
+        BufferedImage bi;
+        File file;
         selecionarFoto.setFileFilter(new javax.swing.filechooser.FileFilter() {
             public boolean accept(File f) {
                 return (f.getName().endsWith(".jpg")) || f.isDirectory();
@@ -90,47 +83,22 @@ public class CadastroProfessor extends javax.swing.JDialog {
             try {
                 file = selecionarFoto.getSelectedFile();
                 bi = ImageIO.read(file);//carrega a imagem real num buffer  
-                BufferedImage aux = new BufferedImage(90, 100, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
+                BufferedImage aux = new BufferedImage(120, 140, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
                 Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
-                AffineTransform at = AffineTransform.getScaleInstance((double) 90 / bi.getWidth(), (double) 100 / bi.getHeight());//cria a transformacao  
+                AffineTransform at = AffineTransform.getScaleInstance((double) 120 / bi.getWidth(), (double) 140 / bi.getHeight());//cria a transformacao  
                 g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
-                File verificarExisteFoto = new File("fotos/" + file.getName());
-                if (verificarExisteFoto.exists()) {
-                    JOptionPane.showMessageDialog(rootPane, "Já existe uma foto com esse nome!\n Altere o nome da foto selecionada!",
-                            "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    ImageIcon foto = new ImageIcon();
-                    foto.setImage(aux);
-                    btFoto.setIcon(foto);
-                }
+                // Capturar foto formatada e converter bytes pra salvar
+                ImageIcon foto = new ImageIcon();
+                foto.setImage(aux);
+                btFoto.setIcon(foto);
+                professor.setFotoProf(Util.imageToByte(aux));
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível carregar essa imagem",
                         "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
+                btFoto.setIcon(new ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg")));
             }
 
-        }
-
-    }
-
-    private void carregarFoto(String caminho) {
-        try {
-            bi = ImageIO.read(new File(caminho));//carrega a imagem real num buffer
-            BufferedImage aux;
-            try {
-                aux = new BufferedImage(90, 100, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
-            } catch (Exception e) {
-                aux = new BufferedImage(90, 100, 5);//cria um buffer auxiliar com o tamanho desejado    
-            }
-            Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
-            AffineTransform at = AffineTransform.getScaleInstance((double) 90 / bi.getWidth(), (double) 100 / bi.getHeight());//cria a transformacao  
-            g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
-            ImageIcon foto = new ImageIcon();
-            foto.setImage(aux);
-            btFoto.setIcon(foto);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível carregar a foto do professor",
-                    "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -193,14 +161,14 @@ public class CadastroProfessor extends javax.swing.JDialog {
         getContentPane().setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Nome:");
+        jLabel2.setText("Nome.:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(140, 100, 60, 20);
+        jLabel2.setBounds(150, 100, 60, 20);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setText("E-mail:");
+        jLabel11.setText("E-mail.:");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(140, 130, 47, 17);
+        jLabel11.setBounds(150, 190, 60, 17);
 
         tfEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         tfEmail.addActionListener(new java.awt.event.ActionListener() {
@@ -209,45 +177,45 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfEmail);
-        tfEmail.setBounds(200, 130, 360, 23);
+        tfEmail.setBounds(210, 190, 350, 23);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Telefone:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(140, 160, 64, 17);
+        jLabel10.setBounds(390, 160, 64, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Rua.:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(50, 270, 40, 20);
+        jLabel4.setBounds(50, 260, 40, 20);
 
         tfRG.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfRG);
-        tfRG.setBounds(380, 230, 180, 22);
+        tfRG.setBounds(210, 160, 170, 22);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Bairro.:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(30, 300, 60, 20);
+        jLabel5.setBounds(30, 290, 60, 20);
 
         tfRua.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfRua);
-        tfRua.setBounds(100, 270, 320, 23);
+        tfRua.setBounds(100, 260, 320, 23);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Número.:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(430, 270, 70, 20);
+        jLabel6.setBounds(430, 260, 70, 20);
 
         tfBairro.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfBairro);
-        tfBairro.setBounds(100, 300, 320, 23);
+        tfBairro.setBounds(100, 290, 250, 23);
 
         jcCidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
         jcCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(jcCidade);
-        jcCidade.setBounds(100, 230, 200, 23);
+        jcCidade.setBounds(100, 230, 250, 23);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Cidade.:");
@@ -257,25 +225,25 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Titulação.:");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(20, 200, 80, 17);
+        jLabel8.setBounds(320, 130, 80, 17);
 
         jcTitulacao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcTitulacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
         jcTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(jcTitulacao);
-        jcTitulacao.setBounds(100, 200, 200, 23);
+        jcTitulacao.setBounds(400, 130, 150, 23);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Situação.:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(340, 160, 70, 20);
+        jLabel9.setBounds(360, 290, 70, 20);
 
         buttonGroup1.add(jrAtivo);
         jrAtivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrAtivo.setSelected(true);
         jrAtivo.setText("Ativo");
         getContentPane().add(jrAtivo);
-        jrAtivo.setBounds(420, 160, 61, 25);
+        jrAtivo.setBounds(430, 290, 61, 25);
 
         buttonGroup1.add(jrInativo);
         jrInativo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -286,21 +254,21 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(jrInativo);
-        jrInativo.setBounds(490, 160, 75, 25);
+        jrInativo.setBounds(490, 290, 75, 25);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("CPF.:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(340, 200, 40, 17);
+        jLabel3.setBounds(160, 130, 40, 17);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("RG.:");
         getContentPane().add(jLabel12);
-        jLabel12.setBounds(340, 230, 30, 20);
+        jLabel12.setBounds(170, 160, 30, 20);
 
         tfNumero.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(tfNumero);
-        tfNumero.setBounds(500, 270, 60, 23);
+        tfNumero.setBounds(500, 260, 60, 23);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -388,7 +356,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
         tfTelefone.setName(""); // NOI18N
         tfTelefone.setPreferredSize(new java.awt.Dimension(2, 19));
         getContentPane().add(tfTelefone);
-        tfTelefone.setBounds(210, 160, 120, 22);
+        tfTelefone.setBounds(460, 160, 100, 22);
 
         tfCPF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         try {
@@ -406,7 +374,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfCPF);
-        tfCPF.setBounds(380, 200, 180, 22);
+        tfCPF.setBounds(210, 130, 100, 22);
 
         tfNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         tfNome.addActionListener(new java.awt.event.ActionListener() {
@@ -415,7 +383,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfNome);
-        tfNome.setBounds(200, 100, 360, 23);
+        tfNome.setBounds(210, 100, 350, 23);
 
         jLObrigatorioNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioNome.setForeground(new java.awt.Color(204, 0, 0));
@@ -427,13 +395,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLObrigatorioCpf.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCpf.setText("*");
         getContentPane().add(jLObrigatorioCpf);
-        jLObrigatorioCpf.setBounds(560, 190, 20, 30);
+        jLObrigatorioCpf.setBounds(310, 120, 10, 30);
 
         jLObrigatorioTitulacao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioTitulacao.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioTitulacao.setText("*");
         getContentPane().add(jLObrigatorioTitulacao);
-        jLObrigatorioTitulacao.setBounds(300, 190, 10, 30);
+        jLObrigatorioTitulacao.setBounds(550, 120, 9, 30);
 
         btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
@@ -444,7 +412,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd21);
-        btAdd21.setBounds(300, 200, 40, 20);
+        btAdd21.setBounds(560, 130, 20, 20);
 
         btAdd22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd22.setContentAreaFilled(false);
@@ -455,10 +423,10 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd22);
-        btAdd22.setBounds(300, 230, 40, 20);
+        btAdd22.setBounds(350, 230, 30, 20);
 
         btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btFoto.setIcon(new javax.swing.ImageIcon("C:\\Users\\Adriano Lima\\Desktop\\DigyArretados\\Bird Point\\Source\\BirdPoint\\fotos\\fotoMinha.jpg")); // NOI18N
+        btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
         btFoto.setContentAreaFilled(false);
         btFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -469,7 +437,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btFoto);
-        btFoto.setBounds(40, 90, 90, 100);
+        btFoto.setBounds(20, 80, 120, 140);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -518,7 +486,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
             tfRua.setText(professor.getRuaProfessor());
             tfBairro.setText(professor.getBairroProfessor());
             tfNumero.setText(String.valueOf(professor.getNumeroCasa()));
-            carregarFoto(professor.getFotoProfessor());
+            try {
+                ImageIcon foto = new ImageIcon();
+                foto.setImage(Util.byteToImage(professor.getFotoProf()));
+                btFoto.setIcon(foto);
+            } catch (Exception e) {
+            }
             if (professor.isSituacaoProfessor()) {
                 jrAtivo.setSelected(true);
             } else {
@@ -571,12 +544,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
             } else {
                 professor.setSituacaoProfessor(false);
             }
-            try {
-                ImageIO.write(bi, "jpg", new File("fotos/" + file.getName()));
-                professor.setFotoProfessor("fotos/" + file.getName());
-            } catch (Exception e) {
-            }
-
             professorDAO.salvar(professor);
             btLimparActionPerformed(null);
         }
@@ -638,6 +605,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

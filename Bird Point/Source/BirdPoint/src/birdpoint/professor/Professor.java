@@ -63,9 +63,17 @@ public class Professor {
     @Column(length = 100)
     private String cidadeProfessor;
     
-    @Column(length = 100)
+    @Column
     @Lob
     private byte[] digitalDireita;
+    
+    @Column
+    @Lob
+    private byte[] digitalEsquerda;
+    
+    @Column
+    @Lob
+    private byte[] fotoProf;
 
     /**
      * @return the idProfessor
@@ -262,5 +270,34 @@ public class Professor {
     public void setDigitalDireita(byte[] digitalDireita) {
         this.digitalDireita = digitalDireita;
     }
+
+    /**
+     * @return the digitalEsquerda
+     */
+    public byte[] getDigitalEsquerda() {
+        return digitalEsquerda;
+    }
+
+    /**
+     * @param digitalEsquerda the digitalEsquerda to set
+     */
+    public void setDigitalEsquerda(byte[] digitalEsquerda) {
+        this.digitalEsquerda = digitalEsquerda;
+    }
+
+    /**
+     * @return the fotoProf
+     */
+    public byte[] getFotoProf() {
+        return fotoProf;
+    }
+
+    /**
+     * @param fotoProf the fotoProf to set
+     */
+    public void setFotoProf(byte[] fotoProf) {
+        this.fotoProf = fotoProf;
+    }
+
 
 }

@@ -35,29 +35,19 @@ public class CadastroDigital extends javax.swing.JDialog {
 
     LeitorBiometrico digital = new LeitorBiometrico();
 
-    BufferedImage bi;
-    File file;
-
+    //Variável pra armazenar os templates de digital
     DPFPTemplate templateDigital;
 
     public CadastroDigital(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         btLimparActionPerformed(null);
-        this.getRootPane().setDefaultButton(btSalvar);
     }
 
-    private void compararDigital() {
-        while (true) {
-            if (digital.verify(null, templateDigital)) {
-                JOptionPane.showMessageDialog(rootPane, "Verificado!");
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Não Verificado!");
-            }
+    private void capturarDigitalMaoDireita() {
+        if(jlMaoDireita.getText().equals("Capturada!")){
+            jlMaoDireita.setText("Não Capturada");
         }
-    }
-
-    private void capturarDigital() {
         DPFPTemplate temp = digital.getTemplate(null, 1);
         byte[] b;
         try {
@@ -68,28 +58,20 @@ public class CadastroDigital extends javax.swing.JDialog {
         }
     }
 
-    private void carregarFoto(String caminho) {
-        try {
-            bi = ImageIO.read(new File(caminho));//carrega a imagem real num buffer
-            BufferedImage aux;
-            try {
-                aux = new BufferedImage(120, 140, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
-            } catch (Exception e) {
-                aux = new BufferedImage(120, 140, 5);//cria um buffer auxiliar com o tamanho desejado    
-            }
-            Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
-            AffineTransform at = AffineTransform.getScaleInstance((double) 120 / bi.getWidth(), (double) 140 / bi.getHeight());//cria a transformacao  
-            g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
-            ImageIcon foto = new ImageIcon();
-            foto.setImage(aux);
-            btFoto.setIcon(foto);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível carregar a foto do professor",
-                    "Erro ao carregar imagem", JOptionPane.ERROR_MESSAGE);
+    private void capturarDigitalMaoEsquerda() {
+        if(jlMaoEsquerda.getText().equals("Capturada!")){
+            jlMaoEsquerda.setText("Não Capturada");
         }
-
+        DPFPTemplate temp = digital.getTemplate(null, 1);
+        byte[] b;
+        try {
+            b = temp.serialize();
+            professor.setDigitalEsquerda(b);
+            jlMaoEsquerda.setText("Capturada!");
+        } catch (Exception e) {
+        }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,15 +86,15 @@ public class CadastroDigital extends javax.swing.JDialog {
         jlMaoDireita = new javax.swing.JLabel();
         btVoltar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
-        btPesquisar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
         tfNome = new javax.swing.JTextField();
         jLObrigatorioNome = new javax.swing.JLabel();
         btFoto = new javax.swing.JButton();
         btAdd21 = new javax.swing.JButton();
-        btPesquisar1 = new javax.swing.JButton();
-        btPesquisar2 = new javax.swing.JButton();
+        btMaoDireita = new javax.swing.JButton();
+        btMaoEsquerda = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jlMaoEsquerda = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
         selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
@@ -129,7 +111,7 @@ public class CadastroDigital extends javax.swing.JDialog {
         jlMaoDireita.setForeground(new java.awt.Color(255, 51, 0));
         jlMaoDireita.setText("Não Capturada");
         getContentPane().add(jlMaoDireita);
-        jlMaoDireita.setBounds(420, 270, 120, 20);
+        jlMaoDireita.setBounds(410, 270, 120, 20);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -160,21 +142,6 @@ public class CadastroDigital extends javax.swing.JDialog {
         });
         getContentPane().add(btLimpar);
         btLimpar.setBounds(220, 340, 80, 70);
-
-        btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
-        btPesquisar.setText("Pesquisar");
-        btPesquisar.setContentAreaFilled(false);
-        btPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btPesquisar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btPesquisar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPesquisarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btPesquisar);
-        btPesquisar.setBounds(380, 340, 100, 69);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
@@ -219,7 +186,7 @@ public class CadastroDigital extends javax.swing.JDialog {
         getContentPane().add(btFoto);
         btFoto.setBounds(20, 90, 120, 140);
 
-        btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
         btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btAdd21.addActionListener(new java.awt.event.ActionListener() {
@@ -230,40 +197,46 @@ public class CadastroDigital extends javax.swing.JDialog {
         getContentPane().add(btAdd21);
         btAdd21.setBounds(550, 100, 40, 20);
 
-        btPesquisar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btPesquisar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
-        btPesquisar1.setText("Digital Mão Direita");
-        btPesquisar1.setContentAreaFilled(false);
-        btPesquisar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btPesquisar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btPesquisar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btPesquisar1.addActionListener(new java.awt.event.ActionListener() {
+        btMaoDireita.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btMaoDireita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btMaoDireita.setText("Digital Mão Direita");
+        btMaoDireita.setContentAreaFilled(false);
+        btMaoDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btMaoDireita.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btMaoDireita.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btMaoDireita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPesquisar1ActionPerformed(evt);
+                btMaoDireitaActionPerformed(evt);
             }
         });
-        getContentPane().add(btPesquisar1);
-        btPesquisar1.setBounds(370, 180, 190, 69);
+        getContentPane().add(btMaoDireita);
+        btMaoDireita.setBounds(370, 180, 190, 69);
 
-        btPesquisar2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btPesquisar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
-        btPesquisar2.setText("Digital Mão Esquerda");
-        btPesquisar2.setContentAreaFilled(false);
-        btPesquisar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btPesquisar2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btPesquisar2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btPesquisar2.addActionListener(new java.awt.event.ActionListener() {
+        btMaoEsquerda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btMaoEsquerda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btMaoEsquerda.setText("Digital Mão Esquerda");
+        btMaoEsquerda.setContentAreaFilled(false);
+        btMaoEsquerda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btMaoEsquerda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btMaoEsquerda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btMaoEsquerda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPesquisar2ActionPerformed(evt);
+                btMaoEsquerdaActionPerformed(evt);
             }
         });
-        getContentPane().add(btPesquisar2);
-        btPesquisar2.setBounds(200, 180, 190, 69);
+        getContentPane().add(btMaoEsquerda);
+        btMaoEsquerda.setBounds(200, 180, 190, 69);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Nome:");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(150, 100, 60, 20);
+
+        jlMaoEsquerda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlMaoEsquerda.setForeground(new java.awt.Color(255, 51, 0));
+        jlMaoEsquerda.setText("Não Capturada");
+        getContentPane().add(jlMaoEsquerda);
+        jlMaoEsquerda.setBounds(240, 270, 120, 20);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -282,20 +255,12 @@ public class CadastroDigital extends javax.swing.JDialog {
         Util.limparCamposGenerico(this);
         professor = new Professor();
         tfNome.setEnabled(false);
+        jlMaoDireita.setText("Não capturada!");
+        jlMaoEsquerda.setText("Não capturada!");
+        btMaoDireita.setEnabled(false);
+        btMaoEsquerda.setEnabled(false);
         btFoto.setIcon(new ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg")));
     }//GEN-LAST:event_btLimparActionPerformed
-
-    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        List<Professor> lista;
-        lista = (professorDAO.listar());
-        ProfessorTableModel itm = new ProfessorTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Professor");
-        if (objetoRetorno != null) {
-            professor = professorDAO.consultarObjetoId("idProfessor", objetoRetorno);
-            tfNome.setText(professor.getNomeProfessor());
-            carregarFoto(professor.getFotoProfessor());
-        }
-    }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNome.getText())) {
@@ -313,18 +278,35 @@ public class CadastroDigital extends javax.swing.JDialog {
     }//GEN-LAST:event_btFotoActionPerformed
 
     private void btAdd21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd21ActionPerformed
-        btPesquisarActionPerformed(evt);
+        List<Professor> lista;
+        lista = (professorDAO.listar());
+        ProfessorTableModel itm = new ProfessorTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Professor");
+        if (objetoRetorno != null) {
+            professor = professorDAO.consultarObjetoId("idProfessor", objetoRetorno);
+            tfNome.setText(professor.getNomeProfessor());
+            try {
+                ImageIcon foto = new ImageIcon();
+                foto.setImage(Util.byteToImage(professor.getFotoProf()));
+                btFoto.setIcon(foto);
+            } catch (Exception e) {
+            }
+        }
+        btMaoDireita.setEnabled(true);
+        btMaoEsquerda.setEnabled(true);
     }//GEN-LAST:event_btAdd21ActionPerformed
 
-    private void btPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisar1ActionPerformed
-        JOptionPane.showMessageDialog(rootPane, "Peça que por gentileza o professor(a) " + tfNome.getText() + "\n\n Escolha um dedo da mão direita que ele gostaria de cadastrar\n\n"
+    private void btMaoDireitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMaoDireitaActionPerformed
+        JOptionPane.showMessageDialog(rootPane, "Peça que por gentileza o professor(a) " + tfNome.getText() + "\n\n Escolha um dedo da mão DIREITA que ele gostaria de cadastrar\n\n"
                 + "Após a escolha dele clique no OK abaixo para continuar o cadastro da digital");
-        capturarDigital();
-    }//GEN-LAST:event_btPesquisar1ActionPerformed
+        capturarDigitalMaoDireita();
+    }//GEN-LAST:event_btMaoDireitaActionPerformed
 
-    private void btPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisar2ActionPerformed
-        compararDigital();
-    }//GEN-LAST:event_btPesquisar2ActionPerformed
+    private void btMaoEsquerdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMaoEsquerdaActionPerformed
+        JOptionPane.showMessageDialog(rootPane, "Peça que por gentileza o professor(a) " + tfNome.getText() + "\n\n Escolha um dedo da mão ESQUERDA que ele gostaria de cadastrar\n\n"
+                + "Após a escolha dele clique no OK abaixo para continuar o cadastro da digital");
+        capturarDigitalMaoEsquerda();
+    }//GEN-LAST:event_btMaoEsquerdaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,9 +369,8 @@ public class CadastroDigital extends javax.swing.JDialog {
     private javax.swing.JButton btAdd21;
     private javax.swing.JButton btFoto;
     private javax.swing.JButton btLimpar;
-    private javax.swing.JButton btPesquisar;
-    private javax.swing.JButton btPesquisar1;
-    private javax.swing.JButton btPesquisar2;
+    private javax.swing.JButton btMaoDireita;
+    private javax.swing.JButton btMaoEsquerda;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -397,6 +378,7 @@ public class CadastroDigital extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JLabel jlMaoDireita;
+    private javax.swing.JLabel jlMaoEsquerda;
     private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables

@@ -1,9 +1,14 @@
 package birdpoint.util;
 
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +23,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static javassist.CtMethod.ConstParameter.string;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -288,5 +294,27 @@ public class Util {
 
         }
     }
+    
+    public static byte[] imageToByte(Image image) {	
+		BufferedImage bi = new BufferedImage(image.getWidth(null),image.getHeight(null),BufferedImage.TYPE_INT_RGB);
+		Graphics bg = bi.getGraphics();
+		bg.drawImage(image, 0, 0, null);
+		bg.dispose();
+		ByteArrayOutputStream buff = new ByteArrayOutputStream();		
+	    try {  
+	    	ImageIO.write(bi, "JPG", buff);  
+	    } catch (IOException e) {  
+	    	e.printStackTrace();  
+	    }  
+	    return buff.toByteArray();		
+	}
+    
+    public static Image byteToImage(byte[] bytes) {
+		if(bytes == null) {
+			return null;
+		}else {
+			return Toolkit.getDefaultToolkit().createImage(bytes);
+		}
+	}
 
 }

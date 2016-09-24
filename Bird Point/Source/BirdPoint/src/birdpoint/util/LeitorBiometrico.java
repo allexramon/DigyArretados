@@ -78,11 +78,12 @@ public class LeitorBiometrico {
             template = enrollment.getTemplate();
             System.out.printf("The %s was enrolled.\n", fingerprintName(finger));
             JOptionPane.showMessageDialog(null, "Digital capturada com sucesso !");
+            contador = 0;
         } catch (DPFPImageQualityException e) {
             System.out.printf("Failed to enroll the finger.\n");
-
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar a digital ! \n\nrepita o processo novamente!",
                     "Digitais não conferem", JOptionPane.ERROR_MESSAGE);
+            contador = 0;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -167,7 +168,8 @@ public class LeitorBiometrico {
     }
 
     public Professor verificarSeCadastrado(String activeReader, List<Professor> professores) {
-        DPFPTemplate template = DPFPGlobal.getTemplateFactory().createTemplate();
+        DPFPTemplate templateMaoDireita = DPFPGlobal.getTemplateFactory().createTemplate();
+        DPFPTemplate templateMaoEsquerda = DPFPGlobal.getTemplateFactory().createTemplate();
         try {
             DPFPSample sample = getSample(activeReader, "Scan your finger\n");
             if (sample == null) {
@@ -180,13 +182,19 @@ public class LeitorBiometrico {
 
             for (DPFPFingerIndex finger : DPFPFingerIndex.values()) {
 
-                if (template != null) {
+                if (templateMaoDireita != null && templateMaoEsquerda != null) {
                     for (int i = 0; i < professores.size(); i++) {
-                        template.deserialize(professores.get(i).getDigitalDireita());
-                        DPFPVerificationResult result = matcher.verify(featureSet, template);
-                        if (result.isVerified()) {
+                        templateMaoDireita.deserialize(professores.get(i).getDigitalDireita());
+                        templateMaoEsquerda.deserialize(professores.get(i).getDigitalEsquerda());
+                        DPFPVerificationResult resultMaoDireita = matcher.verify(featureSet, templateMaoDireita);
+                        DPFPVerificationResult resultMaoEsquerda = matcher.verify(featureSet, templateMaoEsquerda);
+                        if (resultMaoDireita.isVerified()) {
                             System.out.printf("Matching finger: %s, FAR achieved: %g.\n",
-                                    fingerName(finger), (double) result.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
+                                    fingerName(finger), (double) resultMaoDireita.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
+                            return professores.get(i);
+                        } else if (resultMaoEsquerda.isVerified()) {
+                            System.out.printf("Matching finger: %s, FAR achieved: %g.\n",
+                                    fingerName(finger), (double) resultMaoEsquerda.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
                             return professores.get(i);
                         }
                     }

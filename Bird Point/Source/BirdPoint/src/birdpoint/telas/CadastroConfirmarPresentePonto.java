@@ -17,6 +17,7 @@ import com.digitalpersona.onetouch.verification.DPFPVerification;
 import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
 import com.mysql.jdbc.Blob;
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -41,10 +42,6 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     List<Professor> listaProfessoresTable = new ArrayList<>();
 
     LeitorBiometrico digital = new LeitorBiometrico();
-
-    BufferedImage bi;
-    File file;
-
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
 
     public CadastroConfirmarPresentePonto(java.awt.Frame parent, boolean modal) {
@@ -52,6 +49,16 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         initComponents();
         lista = (professorDAO.listar());
         atualizarTabela();
+        btPesquisar2.setVisible(false);
+        
+        //Sobrescrita para abrir o formulário antes de finalizar o construtor
+        new Thread() {//instancia nova thread já implementando o método run()
+            @Override
+            public void run() {//sobrescreve o método run()
+                btPesquisar2ActionPerformed(null);
+            }//- Fim do Run
+        }.start();//Fim Thread
+
     }
 
     private void atualizarTabela() {
@@ -63,34 +70,19 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         professor = digital.verificarSeCadastrado(null, lista);
         if (professor != null) {
             listaProfessoresTable.add(professor);
-            carregarFoto(professor.getFotoProfessor());
-            atualizarTabela();
-        } else {
-            System.out.println("Professor não encontrado!");
-        }
-    }
-
-    private void carregarFoto(String caminho) {
-        try {
-            bi = ImageIO.read(new File(caminho));//carrega a imagem real num buffer
-            BufferedImage aux;
             try {
-                aux = new BufferedImage(120, 140, bi.getType());//cria um buffer auxiliar com o tamanho desejado    
+                ImageIcon foto = new ImageIcon();
+                foto.setImage(Util.byteToImage(professor.getFotoProf()));
+                btFoto.setIcon(foto);
             } catch (Exception e) {
-                aux = new BufferedImage(120, 140, 5);//cria um buffer auxiliar com o tamanho desejado    
             }
-            Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao    
-            AffineTransform at = AffineTransform.getScaleInstance((double) 120 / bi.getWidth(), (double) 140 / bi.getHeight());//cria a transformacao  
-            g.drawRenderedImage(bi, at);//pinta e transforma a imagem real no auxiliar 
-            ImageIcon foto = new ImageIcon();
-            foto.setImage(aux);
-            btFoto.setIcon(foto);
-        } catch (Exception e) {
-
+            atualizarTabela();
+            jlProfessorNaoLocalizado.setText("");
+        } else {
+            btFoto.setIcon(new ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg")));
+            jlProfessorNaoLocalizado.setText("Professor não localizado!");
         }
-
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,6 +99,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         btPesquisar2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
+        jlProfessorNaoLocalizado = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
         selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
@@ -135,6 +128,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         btVoltar.setBounds(20, 340, 90, 70);
 
         btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
         btFoto.setContentAreaFilled(false);
         btFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -176,7 +170,11 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbProfessoresPonto);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(150, 100, 420, 220);
+        jScrollPane1.setBounds(150, 120, 420, 200);
+
+        jlProfessorNaoLocalizado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        getContentPane().add(jlProfessorNaoLocalizado);
+        jlProfessorNaoLocalizado.setBounds(160, 94, 360, 20);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -197,7 +195,12 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
 
     private void btPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisar2ActionPerformed
         compararDigital();
-        main(null);
+        new Thread() {
+            @Override
+            public void run() {
+                btPesquisar2ActionPerformed(evt);
+            }
+        }.start();
     }//GEN-LAST:event_btPesquisar2ActionPerformed
 
     /**
@@ -272,6 +275,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlCadProfessores;
+    private javax.swing.JLabel jlProfessorNaoLocalizado;
     private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTable tbProfessoresPonto;
     // End of variables declaration//GEN-END:variables
