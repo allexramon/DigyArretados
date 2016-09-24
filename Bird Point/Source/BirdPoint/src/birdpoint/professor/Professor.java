@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 /**
@@ -62,7 +63,24 @@ public class Professor {
     @Column(length = 100)
     private String cidadeProfessor;
     
-   
+    @Column(length = 100)
+    @Lob
+    private byte[] digitalDireita;
+
+    /**
+     * @return the idProfessor
+     */
+    public int getIdProfessor() {
+        return idProfessor;
+    }
+
+    /**
+     * @param idProfessor the idProfessor to set
+     */
+    public void setIdProfessor(int idProfessor) {
+        this.idProfessor = idProfessor;
+    }
+
     /**
      * @return the nomeProfessor
      */
@@ -232,19 +250,17 @@ public class Professor {
     }
 
     /**
-     * @return the idProfessor
+     * @return the digitalDireita
      */
-    public int getIdProfessor() {
-        return idProfessor;
+    public byte[] getDigitalDireita() {
+        return digitalDireita;
     }
 
     /**
-     * @param idProfessor the idProfessor to set
+     * @param digitalDireita the digitalDireita to set
      */
-    public void setIdProfessor(int idProfessor) {
-        this.idProfessor = idProfessor;
+    public void setDigitalDireita(byte[] digitalDireita) {
+        this.digitalDireita = digitalDireita;
     }
-
-
 
 }
