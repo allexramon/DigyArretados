@@ -62,9 +62,10 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        subGrade = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         subUsuario = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -168,15 +169,15 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem7);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        jMenuItem2.setText("Titulação");
-        jMenuItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        subGrade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subGrade.setText("Grade Curricular");
+        subGrade.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subGrade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                subGradeActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem2);
+        jmCadastrar.add(subGrade);
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem3.setText("Professor");
@@ -197,6 +198,16 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         jmCadastrar.add(jMenuItem6);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        jMenuItem2.setText("Titulação");
+        jMenuItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem2);
 
         subUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subUsuario.setText("Usuário");
@@ -262,6 +273,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
         cadastroDigital.setVisible(true);
     }//GEN-LAST:event_subUsuario1ActionPerformed
 
+    private void subGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGradeActionPerformed
+        CadastroGradeCurricular cadastroGradeCurricular = new CadastroGradeCurricular(null, rootPaneCheckingEnabled);
+        cadastroGradeCurricular.setVisible(true);
+    }//GEN-LAST:event_subGradeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -319,6 +335,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JLabel jlPermissao;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenu jmCadastrar;
+    private javax.swing.JMenuItem subGrade;
     private javax.swing.JMenuItem subUsuario;
     private javax.swing.JMenuItem subUsuario1;
     // End of variables declaration//GEN-END:variables
