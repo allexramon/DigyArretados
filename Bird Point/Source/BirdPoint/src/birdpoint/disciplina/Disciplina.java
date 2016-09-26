@@ -6,6 +6,7 @@
 package birdpoint.disciplina;
 
 import birdpoint.curso.Curso;
+import birdpoint.gradecurricular.GradeCurricular;
 import birdpoint.semestre.Semestre;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,17 +22,20 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Disciplina {
-    
+
     @Id
     @GeneratedValue
     private int idDisciplina;
-    
-    @Column(length = 50,nullable = false)
+
+    @Column(length = 50, nullable = false)
     private String nomeDisciplina;
-    
-    @Column(length = 50,nullable = false)
+
+    @Column(length = 50, nullable = false)
+    private String gradeCurricular;
+
+    @Column(length = 50, nullable = false)
     private int cargaHoraria;
-    
+
     @OneToOne(fetch = FetchType.EAGER)
     private Semestre semestre;
 
@@ -64,6 +68,20 @@ public class Disciplina {
     }
 
     /**
+     * @return the gradeCurricular
+     */
+    public String getGradeCurricular() {
+        return gradeCurricular;
+    }
+
+    /**
+     * @param gradeCurricular the gradeCurricular to set
+     */
+    public void setGradeCurricular(String gradeCurricular) {
+        this.gradeCurricular = gradeCurricular;
+    }
+
+    /**
      * @return the cargaHoraria
      */
     public int getCargaHoraria() {
@@ -90,5 +108,5 @@ public class Disciplina {
     public void setSemestre(Semestre semestre) {
         this.semestre = semestre;
     }
-    
+
 }

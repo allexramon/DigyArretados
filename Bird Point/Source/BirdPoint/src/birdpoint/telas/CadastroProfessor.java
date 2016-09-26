@@ -215,12 +215,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jcCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
         jcCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         getContentPane().add(jcCidade);
-        jcCidade.setBounds(100, 230, 250, 23);
+        jcCidade.setBounds(210, 220, 210, 23);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Cidade.:");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(30, 230, 60, 19);
+        jLabel7.setBounds(150, 220, 60, 19);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Titulação.:");
@@ -423,7 +423,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd22);
-        btAdd22.setBounds(350, 230, 30, 20);
+        btAdd22.setBounds(420, 220, 30, 20);
 
         btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
@@ -437,7 +437,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btFoto);
-        btFoto.setBounds(20, 80, 120, 140);
+        btFoto.setBounds(20, 90, 120, 150);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));

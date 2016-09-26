@@ -19,7 +19,7 @@
         <mapping class="birdpoint.disciplina.Disciplina"/>  
         <mapping class="birdpoint.professor.Professor"/>  
         <mapping class="birdpoint.semestre.Semestre"/>  
-        <mapping class="birdpoint.semestre.Semestre"/>
+        <mapping class="birdpoint.gradecurricular.GradeCurricular"/>
         <mapping class="birdpoint.titulacao.Titulacao"/>     
         <mapping class="birdpoint.usuario.Usuario"/>  
         

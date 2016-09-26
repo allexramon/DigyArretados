@@ -5,18 +5,18 @@
  */
 package birdpoint.telas;
 
+import birdpoint.cidade.Cidade;
 import birdpoint.curso.Curso;
 import birdpoint.curso.CursoDAO;
 import birdpoint.curso.CursoTableModel;
 import birdpoint.disciplina.Disciplina;
 import birdpoint.disciplina.DisciplinaDAO;
 import birdpoint.disciplina.DisciplinaTableModel;
+import birdpoint.gradecurricular.GradeCurricular;
+import birdpoint.gradecurricular.GradeCurricularDAO;
 import birdpoint.semestre.Semestre;
 import birdpoint.semestre.SemestreDAO;
 import birdpoint.semestre.SemestreTableModel;
-import birdpoint.titulacao.Titulacao;
-import birdpoint.titulacao.TitulacaoDAO;
-import birdpoint.titulacao.TitulacaoTableModel;
 import birdpoint.util.Util;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,9 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
     Disciplina disciplina = new Disciplina();
     DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+    
+    List<GradeCurricular> grades = new ArrayList<>();
+    GradeCurricularDAO gradeCurricularDAO = new GradeCurricularDAO();
 
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
@@ -42,6 +45,17 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         initComponents();
         getRootPane().setDefaultButton(btSalvar);
         btLimparActionPerformed(null);
+    }
+
+    public void listarGrades() {
+        jcGradeCurricular.removeAllItems();
+        jcGradeCurricular.addItem("-----");
+        grades = gradeCurricularDAO.listar();
+        for (GradeCurricular gradeCurricular : grades) {
+            if(gradeCurricular.getCurso().getIdCurso()==curso.getIdCurso()){
+            jcGradeCurricular.addItem(gradeCurricular.getNomeGradeCurricular());
+            }
+        }
     }
 
     /**
@@ -74,6 +88,10 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         jLObrigatorioCargaHoraria = new javax.swing.JLabel();
         btAdd20 = new javax.swing.JButton();
         btAdd21 = new javax.swing.JButton();
+        btAdd22 = new javax.swing.JButton();
+        jcGradeCurricular = new javax.swing.JComboBox();
+        jlNome4 = new javax.swing.JLabel();
+        jLObrigatorioCargaHoraria1 = new javax.swing.JLabel();
         jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -84,12 +102,12 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         tfNomeDisciplina.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfNomeDisciplina.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfNomeDisciplina);
-        tfNomeDisciplina.setBounds(190, 140, 310, 30);
+        tfNomeDisciplina.setBounds(190, 130, 310, 30);
 
         jlNome.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jlNome.setText("Carga Horária.:");
+        jlNome.setText("Grade Curricular.:");
         getContentPane().add(jlNome);
-        jlNome.setBounds(70, 260, 120, 30);
+        jlNome.setBounds(50, 250, 140, 30);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -169,7 +187,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         tfNomeCurso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfNomeCurso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfNomeCurso);
-        tfNomeCurso.setBounds(190, 180, 310, 30);
+        tfNomeCurso.setBounds(190, 170, 310, 30);
 
         btCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -183,27 +201,27 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btCurso);
-        btCurso.setBounds(500, 180, 30, 30);
+        btCurso.setBounds(500, 170, 30, 30);
 
         jlNome1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome1.setText("Nome da Disciplina.:");
         getContentPane().add(jlNome1);
-        jlNome1.setBounds(30, 140, 160, 30);
+        jlNome1.setBounds(30, 130, 160, 30);
 
         jlNome2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome2.setText("Curso.:");
         getContentPane().add(jlNome2);
-        jlNome2.setBounds(130, 180, 60, 30);
+        jlNome2.setBounds(130, 170, 60, 30);
 
         tfNomeSemestre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfNomeSemestre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfNomeSemestre);
-        tfNomeSemestre.setBounds(190, 220, 310, 30);
+        tfNomeSemestre.setBounds(190, 210, 310, 30);
 
         jlNome3.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome3.setText("Semestre.:");
         getContentPane().add(jlNome3);
-        jlNome3.setBounds(100, 220, 90, 30);
+        jlNome3.setBounds(100, 210, 90, 30);
 
         btSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSemestre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -217,36 +235,36 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSemestre);
-        btSemestre.setBounds(500, 220, 30, 30);
+        btSemestre.setBounds(500, 210, 30, 30);
 
         tfCargaHoraria.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfCargaHoraria.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfCargaHoraria);
-        tfCargaHoraria.setBounds(190, 260, 310, 30);
+        tfCargaHoraria.setBounds(440, 250, 60, 30);
 
         jLObrigatorioDisciplina.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioDisciplina.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioDisciplina.setText("*");
         getContentPane().add(jLObrigatorioDisciplina);
-        jLObrigatorioDisciplina.setBounds(500, 130, 20, 30);
+        jLObrigatorioDisciplina.setBounds(500, 120, 20, 30);
 
         jLObrigatorioCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioCurso.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCurso.setText("*");
         getContentPane().add(jLObrigatorioCurso);
-        jLObrigatorioCurso.setBounds(500, 170, 20, 30);
+        jLObrigatorioCurso.setBounds(500, 160, 20, 30);
 
         jLObrigatorioSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioSemestre.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioSemestre.setText("*");
         getContentPane().add(jLObrigatorioSemestre);
-        jLObrigatorioSemestre.setBounds(500, 210, 20, 30);
+        jLObrigatorioSemestre.setBounds(500, 200, 20, 30);
 
         jLObrigatorioCargaHoraria.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioCargaHoraria.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCargaHoraria.setText("*");
         getContentPane().add(jLObrigatorioCargaHoraria);
-        jLObrigatorioCargaHoraria.setBounds(500, 250, 20, 30);
+        jLObrigatorioCargaHoraria.setBounds(280, 240, 10, 30);
 
         btAdd20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd20.setContentAreaFilled(false);
@@ -257,7 +275,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd20);
-        btAdd20.setBounds(520, 220, 40, 30);
+        btAdd20.setBounds(520, 210, 40, 30);
 
         btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
@@ -268,7 +286,35 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd21);
-        btAdd21.setBounds(520, 180, 40, 30);
+        btAdd21.setBounds(520, 170, 40, 30);
+
+        btAdd22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
+        btAdd22.setContentAreaFilled(false);
+        btAdd22.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btAdd22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdd22ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btAdd22);
+        btAdd22.setBounds(290, 250, 20, 29);
+
+        jcGradeCurricular.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jcGradeCurricular.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
+        jcGradeCurricular.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
+        getContentPane().add(jcGradeCurricular);
+        jcGradeCurricular.setBounds(190, 250, 90, 30);
+
+        jlNome4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNome4.setText("Carga Horária.:");
+        getContentPane().add(jlNome4);
+        jlNome4.setBounds(320, 250, 115, 30);
+
+        jLObrigatorioCargaHoraria1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCargaHoraria1.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCargaHoraria1.setText("*");
+        getContentPane().add(jLObrigatorioCargaHoraria1);
+        jLObrigatorioCargaHoraria1.setBounds(500, 240, 20, 30);
 
         jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroDisciplina.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -284,10 +330,11 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (Util.chkVazio(tfNomeDisciplina.getText(), tfNomeCurso.getText(), tfCargaHoraria.getText(), tfNomeSemestre.getText())) {
+        if (Util.chkVazio(tfNomeDisciplina.getText(), tfNomeCurso.getText(), tfCargaHoraria.getText(), tfNomeSemestre.getText(), String.valueOf(jcGradeCurricular.getSelectedItem()))) {
             disciplina.setNomeDisciplina(tfNomeDisciplina.getText().toUpperCase());
             disciplina.setCargaHoraria(Integer.parseInt(tfCargaHoraria.getText()));
             disciplina.setSemestre(semestre);
+            disciplina.setGradeCurricular(String.valueOf(jcGradeCurricular.getSelectedItem()));
             disciplinaDAO.salvar(disciplina);
             btLimparActionPerformed(null);
         }
@@ -320,6 +367,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         curso = new Curso();
         semestre = new Semestre();
         disciplina = new Disciplina();
+        listarGrades();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -350,6 +398,8 @@ public class CadastroDisciplina extends javax.swing.JDialog {
                 tfCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
                 semestre = disciplina.getSemestre();
                 curso = disciplina.getSemestre().getCurso();
+                listarGrades();
+                jcGradeCurricular.setSelectedItem(disciplina.getGradeCurricular());
                 btExcluir.setEnabled(true);
             }
         } else {
@@ -359,7 +409,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCursoActionPerformed
-        if(semestre.getIdSemestre()!=0){
+        if (semestre.getIdSemestre() != 0) {
             semestre = new Semestre();
             tfNomeSemestre.setText("");
         }
@@ -370,6 +420,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         if (objetoRetorno != null) {
             curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
             tfNomeCurso.setText(curso.getNomeCurso());
+            listarGrades();
         }
         if (semestre.getIdSemestre() != 0) {
             tfNomeSemestre.setText("");
@@ -403,9 +454,14 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     }//GEN-LAST:event_btAdd21ActionPerformed
 
     private void btAdd20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd20ActionPerformed
-       CadastroSemestre cadastroSemestre = new CadastroSemestre(null, rootPaneCheckingEnabled);
-       cadastroSemestre.setVisible(true);
+        CadastroSemestre cadastroSemestre = new CadastroSemestre(null, rootPaneCheckingEnabled);
+        cadastroSemestre.setVisible(true);
     }//GEN-LAST:event_btAdd20ActionPerformed
+
+    private void btAdd22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd22ActionPerformed
+        Object objeto = CadastroGradeCurricular.exibeTela();
+        listarGrades();
+    }//GEN-LAST:event_btAdd22ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -453,6 +509,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdd20;
     private javax.swing.JButton btAdd21;
+    private javax.swing.JButton btAdd22;
     private javax.swing.JButton btCurso;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
@@ -461,14 +518,17 @@ public class CadastroDisciplina extends javax.swing.JDialog {
     private javax.swing.JButton btSemestre;
     private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLObrigatorioCargaHoraria;
+    private javax.swing.JLabel jLObrigatorioCargaHoraria1;
     private javax.swing.JLabel jLObrigatorioCurso;
     private javax.swing.JLabel jLObrigatorioDisciplina;
     private javax.swing.JLabel jLObrigatorioSemestre;
+    private javax.swing.JComboBox jcGradeCurricular;
     private javax.swing.JLabel jlCadTitulacao;
     private javax.swing.JLabel jlNome;
     private javax.swing.JLabel jlNome1;
     private javax.swing.JLabel jlNome2;
     private javax.swing.JLabel jlNome3;
+    private javax.swing.JLabel jlNome4;
     private javax.swing.JTextField tfCargaHoraria;
     private javax.swing.JTextField tfNomeCurso;
     private javax.swing.JTextField tfNomeDisciplina;
