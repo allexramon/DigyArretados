@@ -32,8 +32,8 @@ public abstract class GenericDAO<T> {
             this.getTransacao().commit();
 
         } catch (HibernateException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível inserir " + entity.getClass()
-                    + ". Erro: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação" + entity.getClass()
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
             getSessao().close();
@@ -50,6 +50,8 @@ public abstract class GenericDAO<T> {
             this.getTransacao().commit();
 
         } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação" + entity.getClass()
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
             getSessao().close();
@@ -65,8 +67,8 @@ public abstract class GenericDAO<T> {
             this.getSessao().delete(entity);
             this.getTransacao().commit();
         } catch (HibernateException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível remover " + entity.getClass()
-                    + ". Erro: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação" + entity.getClass()
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
             getSessao().close();
@@ -86,7 +88,8 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return lista;
     }
@@ -101,7 +104,8 @@ public abstract class GenericDAO<T> {
             Object o = sessao.load(classe, chavePrimaria);
             return (T) o;
         } catch (HibernateException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao carregar por chave primária" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } finally {
             sessao.close();
         }
@@ -119,7 +123,8 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return lista;
 
@@ -136,7 +141,8 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return lista;
 
@@ -153,7 +159,8 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return objeto;
 
@@ -170,7 +177,8 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         if (objeto == null) {
             return false;
@@ -179,7 +187,7 @@ public abstract class GenericDAO<T> {
         }
 
     }
-    
+
     public T carregarGradeCurricular(String campo, Object valor, String campo2, Object valor2) {
         T objeto = null;
         try {
@@ -191,7 +199,8 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Não foi possível listar: " + e.getMessage());
+                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+                    + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return objeto;
 
