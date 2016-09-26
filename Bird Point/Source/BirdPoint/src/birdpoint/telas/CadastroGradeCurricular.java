@@ -33,14 +33,6 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
     Disciplina disciplina = new Disciplina();
     DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
 
-    static Object objeto;
-
-    public static Object exibeTela() {
-        CadastroGradeCurricular tp = new CadastroGradeCurricular(null, true);
-        tp.setVisible(true);
-        return objeto;
-    }
-
     public CadastroGradeCurricular(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

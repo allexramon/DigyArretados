@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class DisciplinaTableModel extends AbstractTableModel {
 
     private List<Disciplina> disciplinas = new ArrayList<>();
-    private String[] colunas = {"Código", "Nome da Disciplina", "Semestre", "C.H", "Curso"};
+    private String[] colunas = {"Código", "Grade", "Nome da Disciplina", "Semestre", "C.H", "Curso"};
 
     public DisciplinaTableModel(List<Disciplina> disciplina) {
         this.disciplinas = disciplina;
@@ -40,12 +40,14 @@ public class DisciplinaTableModel extends AbstractTableModel {
             case 0:
                 return disciplina.getIdDisciplina();
             case 1:
-                return disciplina.getNomeDisciplina();
+                return disciplina.getGradeCurricular().getNomeGradeCurricular();
             case 2:
-                return disciplina.getSemestre().getNomeSemestre();
+                return disciplina.getNomeDisciplina();
             case 3:
-                return disciplina.getCargaHoraria();
+                return disciplina.getSemestre().getNomeSemestre();
             case 4:
+                return disciplina.getCargaHoraria();
+            case 5:
                 return disciplina.getSemestre().getCurso().getNomeCurso();
         }
         return null;
@@ -63,6 +65,8 @@ public class DisciplinaTableModel extends AbstractTableModel {
                 return colunas[3];
             case 4:
                 return colunas[4];
+            case 5:
+                return colunas[5];
 
         }
         return null;

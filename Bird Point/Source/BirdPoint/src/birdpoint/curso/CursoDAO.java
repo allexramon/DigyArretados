@@ -22,13 +22,12 @@ public class CursoDAO extends GenericDAO<Curso>{
     
   public void salvar(Curso curso) {
         Object[] options = {"Sim", "Não"};
-        if (curso.getIdCurso() == 0) {
-            adicionar(curso);
+        if (curso.getIdCurso() == 0 && adicionar(curso)) {
             JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso!");
         } else {
             if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
-                atualizar(curso);
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION &&
+                    atualizar(curso)) {
                 JOptionPane.showMessageDialog(null, "Curso editado com sucesso!!");
             } else {
                 JOptionPane.showMessageDialog(null, "A edição foi cancelada!");

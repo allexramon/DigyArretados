@@ -14,27 +14,23 @@ import javax.swing.JOptionPane;
  *
  * @author Nóbrega
  */
-public class SemestreDAO extends GenericDAO<Semestre>{
+public class SemestreDAO extends GenericDAO<Semestre> {
 
     public SemestreDAO() {
         super(Semestre.class);
     }
-    
-     public void salvar(Semestre semestre) {
-        Object[] options = {"Sim", "Não"};
-        if (semestre.getIdSemestre()== 0) {
-            adicionar(semestre);
-            JOptionPane.showMessageDialog(null, "Semestre cadastrado com sucesso!");
-        } else {
-            if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
-                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
-                atualizar(semestre);
-                JOptionPane.showMessageDialog(null, "Semestre editado com sucesso!!");
-            } else {
-                JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
-            }
 
+    public void salvar(Semestre semestre) {
+        Object[] options = {"Sim", "Não"};
+        if (semestre.getIdSemestre() == 0 && adicionar(semestre)) {
+            JOptionPane.showMessageDialog(null, "Semestre cadastrado com sucesso!");
+        } else if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
+                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION
+                && atualizar(semestre)) {
+            JOptionPane.showMessageDialog(null, "Semestre editado com sucesso!!");
+        } else {
+            JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
         }
     }
-    
+
 }
