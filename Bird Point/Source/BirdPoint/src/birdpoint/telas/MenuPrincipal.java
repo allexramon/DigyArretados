@@ -6,16 +6,6 @@
 package birdpoint.telas;
 
 import birdpoint.usuario.Usuario;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.MenuElement;
-import javax.swing.plaf.basic.BasicMenuBarUI;
 
 /**
  *
