@@ -173,7 +173,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar);
-        btPesquisar.setBounds(280, 340, 100, 69);
+        btPesquisar.setBounds(280, 340, 100, 71);
 
         tfNomeCurso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfNomeCurso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -266,7 +266,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd20);
-        btAdd20.setBounds(520, 210, 40, 30);
+        btAdd20.setBounds(530, 210, 30, 30);
 
         btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
@@ -277,7 +277,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd21);
-        btAdd21.setBounds(520, 170, 40, 30);
+        btAdd21.setBounds(530, 170, 30, 30);
 
         btAdd22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
         btAdd22.setContentAreaFilled(false);
@@ -288,7 +288,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btAdd22);
-        btAdd22.setBounds(530, 250, 20, 29);
+        btAdd22.setBounds(530, 250, 30, 29);
 
         jlNome4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome4.setText("Carga Horária.:");
