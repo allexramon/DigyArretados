@@ -5,10 +5,7 @@
  */
 package birdpoint.telas;
 
-import birdpoint.usuario.Usuario;
-import birdpoint.usuario.UsuarioTableModel;
 import birdpoint.util.FormataTamanhoColunasJTable;
-import birdpoint.util.GenericDAO;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;

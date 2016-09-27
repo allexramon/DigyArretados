@@ -8,7 +8,6 @@ package birdpoint.usuario;
 import birdpoint.util.GenericDAO;
 import birdpoint.util.HibernateUtil;
 import javax.swing.JOptionPane;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 
 /**

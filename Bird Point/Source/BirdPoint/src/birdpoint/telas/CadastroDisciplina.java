@@ -5,7 +5,6 @@
  */
 package birdpoint.telas;
 
-import birdpoint.cidade.Cidade;
 import birdpoint.curso.Curso;
 import birdpoint.curso.CursoDAO;
 import birdpoint.curso.CursoTableModel;

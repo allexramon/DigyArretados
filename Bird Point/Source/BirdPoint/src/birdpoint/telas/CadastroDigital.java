@@ -10,17 +10,8 @@ import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorTableModel;
 import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Util;
-import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
-import com.digitalpersona.onetouch.verification.DPFPVerification;
-import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
-import com.mysql.jdbc.Blob;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.List;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 

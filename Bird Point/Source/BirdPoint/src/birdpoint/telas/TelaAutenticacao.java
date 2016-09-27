@@ -10,12 +10,9 @@ import birdpoint.usuario.UsuarioDAO;
 import birdpoint.util.BarraProgresso;
 import birdpoint.util.Util;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 public class TelaAutenticacao extends javax.swing.JDialog {
 
@@ -104,7 +101,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         btCancelar.setBorder(null);
         btCancelar.setBorderPainted(false);
         btCancelar.setContentAreaFilled(false);
-        btCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btCancelarMouseEntered(evt);
@@ -122,7 +119,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         btEntrar.setForeground(new java.awt.Color(255, 255, 255));
         btEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/entrar.png"))); // NOI18N
         btEntrar.setContentAreaFilled(false);
-        btEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEntrarActionPerformed(evt);

@@ -5,7 +5,6 @@
  */
 package birdpoint.titulacao;
 
-import birdpoint.usuario.Usuario;
 import birdpoint.util.GenericDAO;
 import javax.swing.JOptionPane;
 
