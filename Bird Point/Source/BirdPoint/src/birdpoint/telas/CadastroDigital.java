@@ -108,8 +108,9 @@ public class CadastroDigital extends javax.swing.JDialog {
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.setActionCommand("");
         btVoltar.setContentAreaFilled(false);
-        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btVoltar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btVoltar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,8 +124,9 @@ public class CadastroDigital extends javax.swing.JDialog {
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
         btLimpar.setText("Limpar");
+        btLimpar.setActionCommand("");
         btLimpar.setContentAreaFilled(false);
-        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btLimpar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btLimpar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -138,8 +140,9 @@ public class CadastroDigital extends javax.swing.JDialog {
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
         btSalvar.setText("Salvar");
+        btSalvar.setActionCommand("");
         btSalvar.setContentAreaFilled(false);
-        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +183,7 @@ public class CadastroDigital extends javax.swing.JDialog {
 
         btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
-        btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btAdd21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAdd21ActionPerformed(evt);
@@ -192,8 +195,9 @@ public class CadastroDigital extends javax.swing.JDialog {
         btMaoDireita.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btMaoDireita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/imgBiometria.png"))); // NOI18N
         btMaoDireita.setText("Digital Mão Direita");
+        btMaoDireita.setActionCommand("");
         btMaoDireita.setContentAreaFilled(false);
-        btMaoDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btMaoDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btMaoDireita.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btMaoDireita.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btMaoDireita.addActionListener(new java.awt.event.ActionListener() {
@@ -207,8 +211,9 @@ public class CadastroDigital extends javax.swing.JDialog {
         btMaoEsquerda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btMaoEsquerda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/imgBiometria.png"))); // NOI18N
         btMaoEsquerda.setText("Digital Mão Esquerda");
+        btMaoEsquerda.setActionCommand("");
         btMaoEsquerda.setContentAreaFilled(false);
-        btMaoEsquerda.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btMaoEsquerda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btMaoEsquerda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btMaoEsquerda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btMaoEsquerda.addActionListener(new java.awt.event.ActionListener() {
@@ -217,7 +222,7 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btMaoEsquerda);
-        btMaoEsquerda.setBounds(180, 170, 180, 129);
+        btMaoEsquerda.setBounds(180, 170, 180, 131);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Nome:");
@@ -230,7 +235,7 @@ public class CadastroDigital extends javax.swing.JDialog {
         getContentPane().add(jlMaoEsquerda);
         jlMaoEsquerda.setBounds(210, 300, 120, 20);
 
-        jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadBiometria.png"))); // NOI18N
+        jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadBiometria1.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jlCadProfessores.setMaximumSize(new java.awt.Dimension(600, 412));
         jlCadProfessores.setMinimumSize(new java.awt.Dimension(600, 412));
