@@ -77,7 +77,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfNomeGrade);
-        tfNomeGrade.setBounds(190, 140, 310, 30);
+        tfNomeGrade.setBounds(160, 140, 340, 30);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
@@ -92,7 +92,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btVoltar);
-        btVoltar.setBounds(20, 340, 90, 70);
+        btVoltar.setBounds(20, 330, 90, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
@@ -107,7 +107,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(480, 340, 80, 70);
+        btSalvar.setBounds(480, 330, 80, 70);
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
@@ -122,7 +122,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btExcluir);
-        btExcluir.setBounds(390, 340, 80, 70);
+        btExcluir.setBounds(390, 330, 80, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
@@ -137,7 +137,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(180, 340, 80, 70);
+        btLimpar.setBounds(180, 330, 80, 70);
 
         btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
@@ -152,7 +152,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar);
-        btPesquisar.setBounds(280, 340, 100, 69);
+        btPesquisar.setBounds(280, 330, 100, 69);
 
         btSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSemestre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar20.png"))); // NOI18N
@@ -171,17 +171,17 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
         jlNome1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome1.setText("Nome da Grade.:");
         getContentPane().add(jlNome1);
-        jlNome1.setBounds(60, 140, 130, 30);
+        jlNome1.setBounds(30, 140, 130, 30);
 
         jlNome2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome2.setText("Curso.:");
         getContentPane().add(jlNome2);
-        jlNome2.setBounds(130, 180, 60, 30);
+        jlNome2.setBounds(100, 180, 60, 30);
 
         tfNomeCurso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfNomeCurso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfNomeCurso);
-        tfNomeCurso.setBounds(190, 180, 310, 30);
+        tfNomeCurso.setBounds(160, 180, 340, 30);
 
         jLObrigatorioCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioCurso.setForeground(new java.awt.Color(204, 0, 0));
@@ -209,7 +209,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
         getContentPane().add(btPesqusar1);
         btPesqusar1.setBounds(510, 180, 30, 30);
 
-        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroSemestre.png"))); // NOI18N
+        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadGradeCurricular.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadTitulacao);
         jlCadTitulacao.setBounds(0, 0, 600, 420);
