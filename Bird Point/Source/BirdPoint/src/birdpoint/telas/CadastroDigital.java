@@ -93,7 +93,8 @@ public class CadastroDigital extends javax.swing.JDialog {
         selecionarFoto.setPreferredSize(new java.awt.Dimension(520, 320));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(600, 421));
+        setMaximumSize(new java.awt.Dimension(602, 412));
+        setMinimumSize(new java.awt.Dimension(602, 412));
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(null);
@@ -102,13 +103,13 @@ public class CadastroDigital extends javax.swing.JDialog {
         jlMaoDireita.setForeground(new java.awt.Color(255, 51, 0));
         jlMaoDireita.setText("Não Capturada");
         getContentPane().add(jlMaoDireita);
-        jlMaoDireita.setBounds(410, 270, 120, 20);
+        jlMaoDireita.setBounds(400, 300, 120, 20);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/voltar.png"))); // NOI18N
         btVoltar.setText("Voltar");
         btVoltar.setContentAreaFilled(false);
-        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btVoltar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btVoltar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -117,13 +118,13 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btVoltar);
-        btVoltar.setBounds(20, 340, 90, 70);
+        btVoltar.setBounds(20, 330, 90, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
         btLimpar.setText("Limpar");
         btLimpar.setContentAreaFilled(false);
-        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btLimpar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btLimpar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -132,13 +133,13 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(220, 340, 80, 70);
+        btLimpar.setBounds(260, 330, 80, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
         btSalvar.setText("Salvar");
         btSalvar.setContentAreaFilled(false);
-        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +148,7 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(480, 340, 80, 70);
+        btSalvar.setBounds(480, 330, 80, 70);
 
         tfNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         tfNome.addActionListener(new java.awt.event.ActionListener() {
@@ -156,13 +157,13 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfNome);
-        tfNome.setBounds(200, 100, 350, 23);
+        tfNome.setBounds(90, 120, 440, 23);
 
         jLObrigatorioNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioNome.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioNome.setText("*");
         getContentPane().add(jLObrigatorioNome);
-        jLObrigatorioNome.setBounds(550, 90, 9, 30);
+        jLObrigatorioNome.setBounds(530, 110, 10, 30);
 
         btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btFoto.setContentAreaFilled(false);
@@ -175,24 +176,24 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btFoto);
-        btFoto.setBounds(20, 90, 120, 140);
+        btFoto.setBounds(30, 160, 120, 140);
 
         btAdd21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
         btAdd21.setContentAreaFilled(false);
-        btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btAdd21.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btAdd21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAdd21ActionPerformed(evt);
             }
         });
         getContentPane().add(btAdd21);
-        btAdd21.setBounds(550, 100, 40, 20);
+        btAdd21.setBounds(530, 120, 40, 20);
 
         btMaoDireita.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btMaoDireita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btMaoDireita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/imgBiometria.png"))); // NOI18N
         btMaoDireita.setText("Digital Mão Direita");
         btMaoDireita.setContentAreaFilled(false);
-        btMaoDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btMaoDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btMaoDireita.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btMaoDireita.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btMaoDireita.addActionListener(new java.awt.event.ActionListener() {
@@ -201,13 +202,13 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btMaoDireita);
-        btMaoDireita.setBounds(370, 180, 190, 69);
+        btMaoDireita.setBounds(370, 170, 160, 130);
 
         btMaoEsquerda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btMaoEsquerda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btMaoEsquerda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/imgBiometria.png"))); // NOI18N
         btMaoEsquerda.setText("Digital Mão Esquerda");
         btMaoEsquerda.setContentAreaFilled(false);
-        btMaoEsquerda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btMaoEsquerda.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btMaoEsquerda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btMaoEsquerda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btMaoEsquerda.addActionListener(new java.awt.event.ActionListener() {
@@ -216,23 +217,26 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btMaoEsquerda);
-        btMaoEsquerda.setBounds(200, 180, 190, 69);
+        btMaoEsquerda.setBounds(180, 170, 180, 129);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Nome:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(150, 100, 60, 20);
+        jLabel3.setBounds(30, 120, 60, 20);
 
         jlMaoEsquerda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlMaoEsquerda.setForeground(new java.awt.Color(255, 51, 0));
         jlMaoEsquerda.setText("Não Capturada");
         getContentPane().add(jlMaoEsquerda);
-        jlMaoEsquerda.setBounds(240, 270, 120, 20);
+        jlMaoEsquerda.setBounds(210, 300, 120, 20);
 
-        jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
+        jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadBiometria.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jlCadProfessores.setMaximumSize(new java.awt.Dimension(600, 412));
+        jlCadProfessores.setMinimumSize(new java.awt.Dimension(600, 412));
+        jlCadProfessores.setPreferredSize(new java.awt.Dimension(600, 412));
         getContentPane().add(jlCadProfessores);
-        jlCadProfessores.setBounds(0, 0, 600, 420);
+        jlCadProfessores.setBounds(0, 0, 600, 412);
 
         pack();
         setLocationRelativeTo(null);
