@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  *
  * @author AlexRamon
  */
-public class QuadroHorario extends javax.swing.JDialog {
+public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     Semestre semestre = new Semestre();
     SemestreDAO semestreDAO = new SemestreDAO();
@@ -55,7 +55,7 @@ public class QuadroHorario extends javax.swing.JDialog {
     List<Professor> listaProfessores;
     List<Disciplina> listaDisciplinas;
 
-    public QuadroHorario(java.awt.Frame parent, boolean modal) {
+    public CadastroQuadroHorarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         carregarListas();
@@ -3273,20 +3273,21 @@ public class QuadroHorario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuadroHorario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuadroHorario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuadroHorario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuadroHorario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                QuadroHorario dialog = new QuadroHorario(new javax.swing.JFrame(), true);
+                CadastroQuadroHorarios dialog = new CadastroQuadroHorarios(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
