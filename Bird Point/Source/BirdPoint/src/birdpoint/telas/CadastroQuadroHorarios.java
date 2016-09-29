@@ -29,10 +29,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-/**
- *
- * @author AlexRamon
- */
+
 public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     Semestre semestre = new Semestre();
@@ -52,6 +49,30 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
+
+    // arrays para armazenar os horários 
+    int qtdAulas = 6;
+
+    Horario[] horariosSegunda = new Horario[qtdAulas];
+    Horario[] horariosTerca = new Horario[qtdAulas];
+    Horario[] horariosQuarta = new Horario[qtdAulas];
+    Horario[] horariosQuinta = new Horario[qtdAulas];
+    Horario[] horariosSexta = new Horario[qtdAulas];
+    Horario[] horariosSabado = new Horario[qtdAulas];
+
+    Professor[] professoresSegunda = new Professor[qtdAulas];
+    Professor[] professoresTerca = new Professor[qtdAulas];
+    Professor[] professoresQuarta = new Professor[qtdAulas];
+    Professor[] professoresQuinta = new Professor[qtdAulas];
+    Professor[] professoresSexta = new Professor[qtdAulas];
+    Professor[] professoresSabado = new Professor[qtdAulas];
+
+    Disciplina[] disciplinasSegunda = new Disciplina[qtdAulas];
+    Disciplina[] disciplinasTerca = new Disciplina[qtdAulas];
+    Disciplina[] disciplinasQuarta = new Disciplina[qtdAulas];
+    Disciplina[] disciplinasQuinta = new Disciplina[qtdAulas];
+    Disciplina[] disciplinasSexta = new Disciplina[qtdAulas];
+    Disciplina[] disciplinasSabado = new Disciplina[qtdAulas];
 
     List<Horario> listaHorarios;
     List<Professor> listaProfessores;
@@ -88,6 +109,15 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         return null;
     }
 
+    public Horario carregarHorarioLista(int o) {
+        for (Horario listaHorario : listaHorarios) {
+            if (listaHorario.getIdHorario() == o) {
+                return listaHorario;
+            }
+        }
+        return null;
+    }
+
     public void pesquisarProfessorCodigo(JTextField campo1, JTextField campo2) {
         if (jcAnoExercicio.getSelectedIndex() != 0 && jcTurno.getSelectedIndex() != 0 && !tfGradeCurricular.equals("") && !tfNomeCurso.equals("") && !tfNomeSemestre.equals("")) {
             try {
@@ -99,9 +129,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 campo2.setText(String.valueOf(professor.getNomeProfessor()));
                 campo2.setCaretPosition(0);
             } else {
+                campo1.setText("");
                 campo2.setText("");
+                professor = null;
             }
         } else {
+            campo1.setText("");
             JOptionPane.showMessageDialog(null, "Selecione o Curso, Semestre, Grade, Turno e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -123,6 +156,8 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 disciplina = carregarDisciplinaLista((int) objetoRetorno);
                 campo.setText(disciplina.getNomeDisciplina());
                 campo.setCaretPosition(0);
+            }else{
+                disciplina = null;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Selecione o Curso, Semestre, Grade, Turno e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -138,6 +173,8 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 campo1.setText(String.valueOf(professor.getIdProfessor()));
                 campo2.setText(professor.getNomeProfessor());
                 campo2.setCaretPosition(0);
+            }else{
+                professor = null;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Selecione o Curso, Semestre, Grade, Turno e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -155,8 +192,10 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             HorarioTableModel itm = new HorarioTableModel(listaFiltrada);
             Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Horários");
             if (objetoRetorno != null) {
-                horario = horarioDAO.consultarObjetoId("idHorario", objetoRetorno);
+                horario = carregarHorarioLista((int) objetoRetorno);
                 campo.setText(horario.getHoraInicio());
+            }else{
+                horario = null;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Selecione o Curso, Semestre, Grade, Turno e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -228,224 +267,224 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         segundaCodigoProfessorA = new javax.swing.JTextField();
         jlquadro = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        segundaDisciplinaC1 = new javax.swing.JTextField();
-        segundaHorarioC1 = new javax.swing.JTextField();
+        tercaDisciplinaC = new javax.swing.JTextField();
+        tercaHorarioC = new javax.swing.JTextField();
         btCurso19 = new javax.swing.JButton();
-        segundaDisciplinaA1 = new javax.swing.JTextField();
+        tercaDisciplinaA = new javax.swing.JTextField();
         btCurso20 = new javax.swing.JButton();
         btCurso21 = new javax.swing.JButton();
-        segundaDisciplinaD1 = new javax.swing.JTextField();
+        tercaDisciplinaD = new javax.swing.JTextField();
         btCurso22 = new javax.swing.JButton();
-        segundaCodigoProfessorA1 = new javax.swing.JTextField();
+        tercaCodigoProfessorA = new javax.swing.JTextField();
         btCurso23 = new javax.swing.JButton();
-        segundaProfessorD1 = new javax.swing.JTextField();
-        segundaHorarioB1 = new javax.swing.JTextField();
+        tercaProfessorD = new javax.swing.JTextField();
+        tercaHorarioB = new javax.swing.JTextField();
         btCurso24 = new javax.swing.JButton();
-        segundaCodigoProfessorE1 = new javax.swing.JTextField();
+        tercaCodigoProfessorE = new javax.swing.JTextField();
         btCurso25 = new javax.swing.JButton();
         btCurso26 = new javax.swing.JButton();
-        segundaCodigoProfessorB1 = new javax.swing.JTextField();
+        tercaCodigoProfessorB = new javax.swing.JTextField();
         btCurso27 = new javax.swing.JButton();
         btCurso28 = new javax.swing.JButton();
         btCurso29 = new javax.swing.JButton();
-        segundaProfessorA1 = new javax.swing.JTextField();
-        segundaHorarioA1 = new javax.swing.JTextField();
-        segundaHorarioD1 = new javax.swing.JTextField();
-        segundaCodigoProfessorF1 = new javax.swing.JTextField();
-        segundaProfessorF1 = new javax.swing.JTextField();
-        segundaCodigoProfessorC1 = new javax.swing.JTextField();
+        tercaProfessorA = new javax.swing.JTextField();
+        tercaHorarioA = new javax.swing.JTextField();
+        tercaHorarioD = new javax.swing.JTextField();
+        tercaCodigoProfessorF = new javax.swing.JTextField();
+        tercaProfessorF = new javax.swing.JTextField();
+        tercaCodigoProfessorC = new javax.swing.JTextField();
         btCurso30 = new javax.swing.JButton();
         btCurso31 = new javax.swing.JButton();
         btCurso32 = new javax.swing.JButton();
-        segundaProfessorB1 = new javax.swing.JTextField();
-        segundaHorarioE1 = new javax.swing.JTextField();
+        tercaProfessorB = new javax.swing.JTextField();
+        tercaHorarioE = new javax.swing.JTextField();
         btCurso33 = new javax.swing.JButton();
-        segundaProfessorC1 = new javax.swing.JTextField();
-        segundaHorarioF1 = new javax.swing.JTextField();
-        segundaDisciplinaB1 = new javax.swing.JTextField();
-        segundaDisciplinaF1 = new javax.swing.JTextField();
+        tercaProfessorC = new javax.swing.JTextField();
+        tercaHorarioF = new javax.swing.JTextField();
+        tercaDisciplinaB = new javax.swing.JTextField();
+        tercaDisciplinaF = new javax.swing.JTextField();
         btCurso34 = new javax.swing.JButton();
         btCurso35 = new javax.swing.JButton();
         btCurso36 = new javax.swing.JButton();
-        segundaDisciplinaE1 = new javax.swing.JTextField();
-        segundaCodigoProfessorD1 = new javax.swing.JTextField();
-        segundaProfessorE1 = new javax.swing.JTextField();
+        tercaDisciplinaE = new javax.swing.JTextField();
+        tercaCodigoProfessorD = new javax.swing.JTextField();
+        tercaProfessorE = new javax.swing.JTextField();
         jlquadro1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        segundaDisciplinaC2 = new javax.swing.JTextField();
-        segundaHorarioC2 = new javax.swing.JTextField();
+        quartaDisciplinaC = new javax.swing.JTextField();
+        quartaHorarioC = new javax.swing.JTextField();
         btCurso37 = new javax.swing.JButton();
-        segundaDisciplinaA2 = new javax.swing.JTextField();
+        quartaDisciplinaA = new javax.swing.JTextField();
         btCurso38 = new javax.swing.JButton();
         btCurso39 = new javax.swing.JButton();
-        segundaDisciplinaD2 = new javax.swing.JTextField();
+        quartaDisciplinaD = new javax.swing.JTextField();
         btCurso40 = new javax.swing.JButton();
-        segundaCodigoProfessorA2 = new javax.swing.JTextField();
+        quartaCodigoProfessorA = new javax.swing.JTextField();
         btCurso41 = new javax.swing.JButton();
-        segundaProfessorD2 = new javax.swing.JTextField();
-        segundaHorarioB2 = new javax.swing.JTextField();
+        quartaProfessorD = new javax.swing.JTextField();
+        quartaHorarioB = new javax.swing.JTextField();
         btCurso42 = new javax.swing.JButton();
-        segundaCodigoProfessorE2 = new javax.swing.JTextField();
+        quartaCodigoProfessorE = new javax.swing.JTextField();
         btCurso43 = new javax.swing.JButton();
         btCurso44 = new javax.swing.JButton();
-        segundaCodigoProfessorB2 = new javax.swing.JTextField();
+        quartaCodigoProfessorB = new javax.swing.JTextField();
         btCurso45 = new javax.swing.JButton();
         btCurso46 = new javax.swing.JButton();
         btCurso47 = new javax.swing.JButton();
-        segundaProfessorA2 = new javax.swing.JTextField();
-        segundaHorarioA2 = new javax.swing.JTextField();
-        segundaHorarioD2 = new javax.swing.JTextField();
-        segundaCodigoProfessorF2 = new javax.swing.JTextField();
-        segundaProfessorF2 = new javax.swing.JTextField();
-        segundaCodigoProfessorC2 = new javax.swing.JTextField();
+        quartaProfessorA = new javax.swing.JTextField();
+        quartaHorarioA = new javax.swing.JTextField();
+        quartaHorarioD = new javax.swing.JTextField();
+        quartaCodigoProfessorF = new javax.swing.JTextField();
+        quartaProfessorF = new javax.swing.JTextField();
+        quartaCodigoProfessorC = new javax.swing.JTextField();
         btCurso48 = new javax.swing.JButton();
         btCurso49 = new javax.swing.JButton();
         btCurso50 = new javax.swing.JButton();
-        segundaProfessorB2 = new javax.swing.JTextField();
-        segundaHorarioE2 = new javax.swing.JTextField();
+        quartaProfessorB = new javax.swing.JTextField();
+        quartaHorarioE = new javax.swing.JTextField();
         btCurso51 = new javax.swing.JButton();
-        segundaProfessorC2 = new javax.swing.JTextField();
-        segundaHorarioF2 = new javax.swing.JTextField();
-        segundaDisciplinaB2 = new javax.swing.JTextField();
-        segundaDisciplinaF2 = new javax.swing.JTextField();
+        quartaProfessorC = new javax.swing.JTextField();
+        quartaHorarioF = new javax.swing.JTextField();
+        quartaDisciplinaB = new javax.swing.JTextField();
+        quartaDisciplinaF = new javax.swing.JTextField();
         btCurso52 = new javax.swing.JButton();
         btCurso53 = new javax.swing.JButton();
         btCurso54 = new javax.swing.JButton();
-        segundaDisciplinaE2 = new javax.swing.JTextField();
-        segundaCodigoProfessorD2 = new javax.swing.JTextField();
-        segundaProfessorE2 = new javax.swing.JTextField();
+        quartaDisciplinaE = new javax.swing.JTextField();
+        quartaCodigoProfessorD = new javax.swing.JTextField();
+        quartaProfessorE = new javax.swing.JTextField();
         jlquadro2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        segundaDisciplinaC3 = new javax.swing.JTextField();
-        segundaHorarioC3 = new javax.swing.JTextField();
+        quintaDisciplinaC = new javax.swing.JTextField();
+        quintaHorarioC = new javax.swing.JTextField();
         btCurso55 = new javax.swing.JButton();
-        segundaDisciplinaA3 = new javax.swing.JTextField();
+        quintaDisciplinaA = new javax.swing.JTextField();
         btCurso56 = new javax.swing.JButton();
         btCurso57 = new javax.swing.JButton();
-        segundaDisciplinaD3 = new javax.swing.JTextField();
+        quintaDisciplinaD = new javax.swing.JTextField();
         btCurso58 = new javax.swing.JButton();
-        segundaCodigoProfessorA3 = new javax.swing.JTextField();
+        quintaCodigoProfessorA = new javax.swing.JTextField();
         btCurso59 = new javax.swing.JButton();
-        segundaProfessorD3 = new javax.swing.JTextField();
-        segundaHorarioB3 = new javax.swing.JTextField();
+        quintaProfessorD = new javax.swing.JTextField();
+        quintaHorarioB = new javax.swing.JTextField();
         btCurso60 = new javax.swing.JButton();
-        segundaCodigoProfessorE3 = new javax.swing.JTextField();
+        quintaCodigoProfessorE = new javax.swing.JTextField();
         btCurso61 = new javax.swing.JButton();
         btCurso62 = new javax.swing.JButton();
-        segundaCodigoProfessorB3 = new javax.swing.JTextField();
+        quintaCodigoProfessorB = new javax.swing.JTextField();
         btCurso63 = new javax.swing.JButton();
         btCurso64 = new javax.swing.JButton();
         btCurso65 = new javax.swing.JButton();
-        segundaProfessorA3 = new javax.swing.JTextField();
-        segundaHorarioA3 = new javax.swing.JTextField();
-        segundaHorarioD3 = new javax.swing.JTextField();
-        segundaCodigoProfessorF3 = new javax.swing.JTextField();
-        segundaProfessorF3 = new javax.swing.JTextField();
-        segundaCodigoProfessorC3 = new javax.swing.JTextField();
+        quintaProfessorA = new javax.swing.JTextField();
+        quintaHorarioA = new javax.swing.JTextField();
+        quintaHorarioD = new javax.swing.JTextField();
+        quintaCodigoProfessorF = new javax.swing.JTextField();
+        quintaProfessorF = new javax.swing.JTextField();
+        quintaCodigoProfessorC = new javax.swing.JTextField();
         btCurso66 = new javax.swing.JButton();
         btCurso67 = new javax.swing.JButton();
         btCurso68 = new javax.swing.JButton();
-        segundaProfessorB3 = new javax.swing.JTextField();
-        segundaHorarioE3 = new javax.swing.JTextField();
+        quintaProfessorB = new javax.swing.JTextField();
+        quintaHorarioE = new javax.swing.JTextField();
         btCurso69 = new javax.swing.JButton();
-        segundaProfessorC3 = new javax.swing.JTextField();
-        segundaHorarioF3 = new javax.swing.JTextField();
-        segundaDisciplinaB3 = new javax.swing.JTextField();
-        segundaDisciplinaF3 = new javax.swing.JTextField();
+        quintaProfessorC = new javax.swing.JTextField();
+        quintaHorarioF = new javax.swing.JTextField();
+        quintaDisciplinaB = new javax.swing.JTextField();
+        quintaDisciplinaF = new javax.swing.JTextField();
         btCurso70 = new javax.swing.JButton();
         btCurso71 = new javax.swing.JButton();
         btCurso72 = new javax.swing.JButton();
-        segundaDisciplinaE3 = new javax.swing.JTextField();
-        segundaCodigoProfessorD3 = new javax.swing.JTextField();
-        segundaProfessorE3 = new javax.swing.JTextField();
+        quintaDisciplinaE = new javax.swing.JTextField();
+        quintaCodigoProfessorD = new javax.swing.JTextField();
+        quintaProfessorE = new javax.swing.JTextField();
         jlquadro3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        segundaDisciplinaC4 = new javax.swing.JTextField();
-        segundaHorarioC4 = new javax.swing.JTextField();
+        sextaDisciplinaC = new javax.swing.JTextField();
+        sextaHorarioC = new javax.swing.JTextField();
         btCurso73 = new javax.swing.JButton();
-        segundaDisciplinaA4 = new javax.swing.JTextField();
+        sextaDisciplinaA = new javax.swing.JTextField();
         btCurso74 = new javax.swing.JButton();
         btCurso75 = new javax.swing.JButton();
-        segundaDisciplinaD4 = new javax.swing.JTextField();
+        sextaDisciplinaD = new javax.swing.JTextField();
         btCurso76 = new javax.swing.JButton();
-        segundaCodigoProfessorA4 = new javax.swing.JTextField();
+        sextaCodigoProfessorA = new javax.swing.JTextField();
         btCurso77 = new javax.swing.JButton();
-        segundaProfessorD4 = new javax.swing.JTextField();
-        segundaHorarioB4 = new javax.swing.JTextField();
+        sextaProfessorD = new javax.swing.JTextField();
+        sextaHorarioB = new javax.swing.JTextField();
         btCurso78 = new javax.swing.JButton();
-        segundaCodigoProfessorE4 = new javax.swing.JTextField();
+        sextaCodigoProfessorE = new javax.swing.JTextField();
         btCurso79 = new javax.swing.JButton();
         btCurso80 = new javax.swing.JButton();
-        segundaCodigoProfessorB4 = new javax.swing.JTextField();
+        sextaCodigoProfessorB = new javax.swing.JTextField();
         btCurso81 = new javax.swing.JButton();
         btCurso82 = new javax.swing.JButton();
         btCurso83 = new javax.swing.JButton();
-        segundaProfessorA4 = new javax.swing.JTextField();
-        segundaHorarioA4 = new javax.swing.JTextField();
-        segundaHorarioD4 = new javax.swing.JTextField();
-        segundaCodigoProfessorF4 = new javax.swing.JTextField();
-        segundaProfessorF4 = new javax.swing.JTextField();
-        segundaCodigoProfessorC4 = new javax.swing.JTextField();
+        sextaProfessorA = new javax.swing.JTextField();
+        sextaHorarioA = new javax.swing.JTextField();
+        sextaHorarioD = new javax.swing.JTextField();
+        sextaCodigoProfessorF = new javax.swing.JTextField();
+        sextaProfessorF = new javax.swing.JTextField();
+        sextaCodigoProfessorC = new javax.swing.JTextField();
         btCurso84 = new javax.swing.JButton();
         btCurso85 = new javax.swing.JButton();
         btCurso86 = new javax.swing.JButton();
-        segundaProfessorB4 = new javax.swing.JTextField();
-        segundaHorarioE4 = new javax.swing.JTextField();
+        sextaProfessorB = new javax.swing.JTextField();
+        sextaHorarioE = new javax.swing.JTextField();
         btCurso87 = new javax.swing.JButton();
-        segundaProfessorC4 = new javax.swing.JTextField();
-        segundaHorarioF4 = new javax.swing.JTextField();
-        segundaDisciplinaB4 = new javax.swing.JTextField();
-        segundaDisciplinaF4 = new javax.swing.JTextField();
+        sextaProfessorC = new javax.swing.JTextField();
+        sextaHorarioF = new javax.swing.JTextField();
+        sextaDisciplinaB = new javax.swing.JTextField();
+        sextaDisciplinaF = new javax.swing.JTextField();
         btCurso88 = new javax.swing.JButton();
         btCurso89 = new javax.swing.JButton();
         btCurso90 = new javax.swing.JButton();
-        segundaDisciplinaE4 = new javax.swing.JTextField();
-        segundaCodigoProfessorD4 = new javax.swing.JTextField();
-        segundaProfessorE4 = new javax.swing.JTextField();
+        sextaDisciplinaE = new javax.swing.JTextField();
+        sextaCodigoProfessorD = new javax.swing.JTextField();
+        sextaProfessorE = new javax.swing.JTextField();
         jlquadro4 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        segundaDisciplinaC5 = new javax.swing.JTextField();
-        segundaHorarioC5 = new javax.swing.JTextField();
+        sabadoDisciplinaC = new javax.swing.JTextField();
+        sabadoHorarioC = new javax.swing.JTextField();
         btCurso91 = new javax.swing.JButton();
-        segundaDisciplinaA5 = new javax.swing.JTextField();
+        sabadoDisciplinaA = new javax.swing.JTextField();
         btCurso92 = new javax.swing.JButton();
         btCurso93 = new javax.swing.JButton();
-        segundaDisciplinaD5 = new javax.swing.JTextField();
+        sabadoDisciplinaD = new javax.swing.JTextField();
         btCurso94 = new javax.swing.JButton();
-        segundaCodigoProfessorA5 = new javax.swing.JTextField();
+        sabadoCodigoProfessorA = new javax.swing.JTextField();
         btCurso95 = new javax.swing.JButton();
-        segundaProfessorD5 = new javax.swing.JTextField();
-        segundaHorarioB5 = new javax.swing.JTextField();
+        sabadoProfessorD = new javax.swing.JTextField();
+        sabadoHorarioB = new javax.swing.JTextField();
         btCurso96 = new javax.swing.JButton();
-        segundaCodigoProfessorE5 = new javax.swing.JTextField();
+        sabadoCodigoProfessorE = new javax.swing.JTextField();
         btCurso97 = new javax.swing.JButton();
         btCurso98 = new javax.swing.JButton();
-        segundaCodigoProfessorB5 = new javax.swing.JTextField();
+        sabadoCodigoProfessorB = new javax.swing.JTextField();
         btCurso99 = new javax.swing.JButton();
         btCurso100 = new javax.swing.JButton();
         btCurso101 = new javax.swing.JButton();
-        segundaProfessorA5 = new javax.swing.JTextField();
-        segundaHorarioA5 = new javax.swing.JTextField();
-        segundaHorarioD5 = new javax.swing.JTextField();
-        segundaCodigoProfessorF5 = new javax.swing.JTextField();
-        segundaProfessorF5 = new javax.swing.JTextField();
-        segundaCodigoProfessorC5 = new javax.swing.JTextField();
+        sabadoProfessorA = new javax.swing.JTextField();
+        sabadoHorarioA = new javax.swing.JTextField();
+        sabadoHorarioD = new javax.swing.JTextField();
+        sabadoCodigoProfessorF = new javax.swing.JTextField();
+        sabadoProfessorF = new javax.swing.JTextField();
+        sabadoCodigoProfessorC = new javax.swing.JTextField();
         btCurso102 = new javax.swing.JButton();
         btCurso103 = new javax.swing.JButton();
         btCurso104 = new javax.swing.JButton();
-        segundaProfessorB5 = new javax.swing.JTextField();
-        segundaHorarioE5 = new javax.swing.JTextField();
+        sabadoProfessorB = new javax.swing.JTextField();
+        sabadoHorarioE = new javax.swing.JTextField();
         btCurso105 = new javax.swing.JButton();
-        segundaProfessorC5 = new javax.swing.JTextField();
-        segundaHorarioF5 = new javax.swing.JTextField();
-        segundaDisciplinaB5 = new javax.swing.JTextField();
-        segundaDisciplinaF5 = new javax.swing.JTextField();
+        sabadoProfessorC = new javax.swing.JTextField();
+        sabadoHorarioF = new javax.swing.JTextField();
+        sabadoDisciplinaB = new javax.swing.JTextField();
+        sabadoDisciplinaF = new javax.swing.JTextField();
         btCurso106 = new javax.swing.JButton();
         btCurso107 = new javax.swing.JButton();
         btCurso108 = new javax.swing.JButton();
-        segundaDisciplinaE5 = new javax.swing.JTextField();
-        segundaCodigoProfessorD5 = new javax.swing.JTextField();
-        segundaProfessorE5 = new javax.swing.JTextField();
+        sabadoDisciplinaE = new javax.swing.JTextField();
+        sabadoCodigoProfessorD = new javax.swing.JTextField();
+        sabadoProfessorE = new javax.swing.JTextField();
         jlquadro5 = new javax.swing.JLabel();
         jlNome6 = new javax.swing.JLabel();
         jlNome5 = new javax.swing.JLabel();
@@ -453,7 +492,6 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jlQuadroHorario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 492));
         setMinimumSize(new java.awt.Dimension(800, 492));
         setModal(true);
         setUndecorated(true);
@@ -785,7 +823,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         segundaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorB.setEnabled(false);
         jPanel1.add(segundaProfessorB);
-        segundaProfessorB.setBounds(430, 70, 290, 20);
+        segundaProfessorB.setBounds(430, 70, 240, 20);
 
         btCurso8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -799,7 +837,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btCurso8);
-        btCurso8.setBounds(720, 70, 30, 20);
+        btCurso8.setBounds(670, 70, 30, 20);
 
         segundaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -910,7 +948,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         segundaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorC.setEnabled(false);
         jPanel1.add(segundaProfessorC);
-        segundaProfessorC.setBounds(430, 100, 290, 20);
+        segundaProfessorC.setBounds(430, 100, 240, 20);
 
         btCurso14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -924,13 +962,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btCurso14);
-        btCurso14.setBounds(720, 100, 30, 20);
+        btCurso14.setBounds(670, 100, 30, 20);
 
         segundaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorD.setEnabled(false);
         jPanel1.add(segundaProfessorD);
-        segundaProfessorD.setBounds(430, 130, 290, 20);
+        segundaProfessorD.setBounds(430, 130, 240, 20);
 
         btCurso15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -944,13 +982,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btCurso15);
-        btCurso15.setBounds(720, 130, 30, 20);
+        btCurso15.setBounds(670, 130, 30, 20);
 
         segundaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorE.setEnabled(false);
         jPanel1.add(segundaProfessorE);
-        segundaProfessorE.setBounds(430, 160, 290, 20);
+        segundaProfessorE.setBounds(430, 160, 240, 20);
 
         btCurso16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -964,13 +1002,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btCurso16);
-        btCurso16.setBounds(720, 160, 30, 20);
+        btCurso16.setBounds(670, 160, 30, 20);
 
         segundaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorF.setEnabled(false);
         jPanel1.add(segundaProfessorF);
-        segundaProfessorF.setBounds(430, 190, 290, 20);
+        segundaProfessorF.setBounds(430, 190, 240, 20);
 
         btCurso17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -984,13 +1022,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btCurso17);
-        btCurso17.setBounds(720, 190, 30, 20);
+        btCurso17.setBounds(670, 190, 30, 20);
 
         segundaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorA.setEnabled(false);
         jPanel1.add(segundaProfessorA);
-        segundaProfessorA.setBounds(430, 40, 290, 20);
+        segundaProfessorA.setBounds(430, 40, 240, 20);
 
         btCurso18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1004,7 +1042,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btCurso18);
-        btCurso18.setBounds(720, 40, 30, 20);
+        btCurso18.setBounds(670, 40, 30, 20);
 
         segundaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -1120,17 +1158,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel2.setLayout(null);
 
-        segundaDisciplinaC1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaC1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaC1.setEnabled(false);
-        jPanel2.add(segundaDisciplinaC1);
-        segundaDisciplinaC1.setBounds(110, 100, 240, 20);
+        tercaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaDisciplinaC.setEnabled(false);
+        jPanel2.add(tercaDisciplinaC);
+        tercaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        segundaHorarioC1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioC1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioC1.setEnabled(false);
-        jPanel2.add(segundaHorarioC1);
-        segundaHorarioC1.setBounds(40, 100, 40, 20);
+        tercaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaHorarioC.setEnabled(false);
+        jPanel2.add(tercaHorarioC);
+        tercaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1144,18 +1182,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btCurso19);
-        btCurso19.setBounds(720, 130, 30, 20);
+        btCurso19.setBounds(670, 130, 30, 20);
 
-        segundaDisciplinaA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaA1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaA1.setEnabled(false);
-        segundaDisciplinaA1.addActionListener(new java.awt.event.ActionListener() {
+        tercaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaDisciplinaA.setEnabled(false);
+        tercaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaDisciplinaA1ActionPerformed(evt);
+                tercaDisciplinaAActionPerformed(evt);
             }
         });
-        jPanel2.add(segundaDisciplinaA1);
-        segundaDisciplinaA1.setBounds(110, 40, 240, 20);
+        jPanel2.add(tercaDisciplinaA);
+        tercaDisciplinaA.setBounds(110, 40, 240, 20);
 
         btCurso20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1183,13 +1221,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btCurso21);
-        btCurso21.setBounds(720, 70, 30, 20);
+        btCurso21.setBounds(670, 70, 30, 20);
 
-        segundaDisciplinaD1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaD1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaD1.setEnabled(false);
-        jPanel2.add(segundaDisciplinaD1);
-        segundaDisciplinaD1.setBounds(110, 130, 240, 20);
+        tercaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaDisciplinaD.setEnabled(false);
+        jPanel2.add(tercaDisciplinaD);
+        tercaDisciplinaD.setBounds(110, 130, 240, 20);
 
         btCurso22.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1205,20 +1243,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso22);
         btCurso22.setBounds(350, 160, 30, 20);
 
-        segundaCodigoProfessorA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorA1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorA1.addActionListener(new java.awt.event.ActionListener() {
+        tercaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tercaCodigoProfessorAFocusLost(evt);
+            }
+        });
+        tercaCodigoProfessorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorA1ActionPerformed(evt);
+                tercaCodigoProfessorAActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorA1.addKeyListener(new java.awt.event.KeyAdapter() {
+        tercaCodigoProfessorA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorA1KeyTyped(evt);
+                tercaCodigoProfessorAKeyTyped(evt);
             }
         });
-        jPanel2.add(segundaCodigoProfessorA1);
-        segundaCodigoProfessorA1.setBounds(390, 40, 30, 20);
+        jPanel2.add(tercaCodigoProfessorA);
+        tercaCodigoProfessorA.setBounds(390, 40, 30, 20);
 
         btCurso23.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1234,17 +1277,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso23);
         btCurso23.setBounds(350, 100, 30, 20);
 
-        segundaProfessorD1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorD1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorD1.setEnabled(false);
-        jPanel2.add(segundaProfessorD1);
-        segundaProfessorD1.setBounds(430, 130, 290, 20);
+        tercaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaProfessorD.setEnabled(false);
+        jPanel2.add(tercaProfessorD);
+        tercaProfessorD.setBounds(430, 130, 240, 20);
 
-        segundaHorarioB1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioB1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioB1.setEnabled(false);
-        jPanel2.add(segundaHorarioB1);
-        segundaHorarioB1.setBounds(40, 70, 40, 19);
+        tercaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaHorarioB.setEnabled(false);
+        jPanel2.add(tercaHorarioB);
+        tercaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso24.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1260,20 +1303,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso24);
         btCurso24.setBounds(80, 160, 30, 20);
 
-        segundaCodigoProfessorE1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorE1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorE1.addActionListener(new java.awt.event.ActionListener() {
+        tercaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tercaCodigoProfessorEFocusLost(evt);
+            }
+        });
+        tercaCodigoProfessorE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorE1ActionPerformed(evt);
+                tercaCodigoProfessorEActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorE1.addKeyListener(new java.awt.event.KeyAdapter() {
+        tercaCodigoProfessorE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorE1KeyTyped(evt);
+                tercaCodigoProfessorEKeyTyped(evt);
             }
         });
-        jPanel2.add(segundaCodigoProfessorE1);
-        segundaCodigoProfessorE1.setBounds(390, 160, 30, 20);
+        jPanel2.add(tercaCodigoProfessorE);
+        tercaCodigoProfessorE.setBounds(390, 160, 30, 20);
 
         btCurso25.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1303,20 +1351,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso26);
         btCurso26.setBounds(350, 70, 30, 20);
 
-        segundaCodigoProfessorB1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorB1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorB1.addActionListener(new java.awt.event.ActionListener() {
+        tercaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tercaCodigoProfessorBFocusLost(evt);
+            }
+        });
+        tercaCodigoProfessorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorB1ActionPerformed(evt);
+                tercaCodigoProfessorBActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorB1.addKeyListener(new java.awt.event.KeyAdapter() {
+        tercaCodigoProfessorB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorB1KeyTyped(evt);
+                tercaCodigoProfessorBKeyTyped(evt);
             }
         });
-        jPanel2.add(segundaCodigoProfessorB1);
-        segundaCodigoProfessorB1.setBounds(390, 70, 30, 20);
+        jPanel2.add(tercaCodigoProfessorB);
+        tercaCodigoProfessorB.setBounds(390, 70, 30, 20);
 
         btCurso27.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1344,7 +1397,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btCurso28);
-        btCurso28.setBounds(720, 190, 30, 20);
+        btCurso28.setBounds(670, 190, 30, 20);
 
         btCurso29.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1360,59 +1413,69 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso29);
         btCurso29.setBounds(80, 40, 30, 20);
 
-        segundaProfessorA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorA1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorA1.setEnabled(false);
-        jPanel2.add(segundaProfessorA1);
-        segundaProfessorA1.setBounds(430, 40, 290, 20);
+        tercaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaProfessorA.setEnabled(false);
+        jPanel2.add(tercaProfessorA);
+        tercaProfessorA.setBounds(430, 40, 240, 20);
 
-        segundaHorarioA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioA1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioA1.setEnabled(false);
-        jPanel2.add(segundaHorarioA1);
-        segundaHorarioA1.setBounds(40, 40, 40, 20);
+        tercaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaHorarioA.setEnabled(false);
+        jPanel2.add(tercaHorarioA);
+        tercaHorarioA.setBounds(40, 40, 40, 20);
 
-        segundaHorarioD1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioD1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioD1.setEnabled(false);
-        jPanel2.add(segundaHorarioD1);
-        segundaHorarioD1.setBounds(40, 130, 40, 20);
+        tercaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaHorarioD.setEnabled(false);
+        jPanel2.add(tercaHorarioD);
+        tercaHorarioD.setBounds(40, 130, 40, 20);
 
-        segundaCodigoProfessorF1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorF1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorF1.addActionListener(new java.awt.event.ActionListener() {
+        tercaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tercaCodigoProfessorFFocusLost(evt);
+            }
+        });
+        tercaCodigoProfessorF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorF1ActionPerformed(evt);
+                tercaCodigoProfessorFActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorF1.addKeyListener(new java.awt.event.KeyAdapter() {
+        tercaCodigoProfessorF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorF1KeyTyped(evt);
+                tercaCodigoProfessorFKeyTyped(evt);
             }
         });
-        jPanel2.add(segundaCodigoProfessorF1);
-        segundaCodigoProfessorF1.setBounds(390, 190, 30, 20);
+        jPanel2.add(tercaCodigoProfessorF);
+        tercaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        segundaProfessorF1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorF1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorF1.setEnabled(false);
-        jPanel2.add(segundaProfessorF1);
-        segundaProfessorF1.setBounds(430, 190, 290, 20);
+        tercaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaProfessorF.setEnabled(false);
+        jPanel2.add(tercaProfessorF);
+        tercaProfessorF.setBounds(430, 190, 240, 20);
 
-        segundaCodigoProfessorC1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorC1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorC1.addActionListener(new java.awt.event.ActionListener() {
+        tercaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tercaCodigoProfessorCFocusLost(evt);
+            }
+        });
+        tercaCodigoProfessorC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorC1ActionPerformed(evt);
+                tercaCodigoProfessorCActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorC1.addKeyListener(new java.awt.event.KeyAdapter() {
+        tercaCodigoProfessorC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorC1KeyTyped(evt);
+                tercaCodigoProfessorCKeyTyped(evt);
             }
         });
-        jPanel2.add(segundaCodigoProfessorC1);
-        segundaCodigoProfessorC1.setBounds(390, 100, 30, 20);
+        jPanel2.add(tercaCodigoProfessorC);
+        tercaCodigoProfessorC.setBounds(390, 100, 30, 20);
 
         btCurso30.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1426,7 +1489,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btCurso30);
-        btCurso30.setBounds(720, 40, 30, 20);
+        btCurso30.setBounds(670, 40, 30, 20);
 
         btCurso31.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1454,19 +1517,19 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btCurso32);
-        btCurso32.setBounds(720, 160, 30, 20);
+        btCurso32.setBounds(670, 160, 30, 20);
 
-        segundaProfessorB1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorB1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorB1.setEnabled(false);
-        jPanel2.add(segundaProfessorB1);
-        segundaProfessorB1.setBounds(430, 70, 290, 20);
+        tercaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaProfessorB.setEnabled(false);
+        jPanel2.add(tercaProfessorB);
+        tercaProfessorB.setBounds(430, 70, 240, 20);
 
-        segundaHorarioE1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioE1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioE1.setEnabled(false);
-        jPanel2.add(segundaHorarioE1);
-        segundaHorarioE1.setBounds(40, 160, 40, 20);
+        tercaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaHorarioE.setEnabled(false);
+        jPanel2.add(tercaHorarioE);
+        tercaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso33.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1482,29 +1545,29 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso33);
         btCurso33.setBounds(80, 190, 30, 20);
 
-        segundaProfessorC1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorC1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorC1.setEnabled(false);
-        jPanel2.add(segundaProfessorC1);
-        segundaProfessorC1.setBounds(430, 100, 290, 20);
+        tercaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaProfessorC.setEnabled(false);
+        jPanel2.add(tercaProfessorC);
+        tercaProfessorC.setBounds(430, 100, 240, 20);
 
-        segundaHorarioF1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioF1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioF1.setEnabled(false);
-        jPanel2.add(segundaHorarioF1);
-        segundaHorarioF1.setBounds(40, 190, 40, 20);
+        tercaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaHorarioF.setEnabled(false);
+        jPanel2.add(tercaHorarioF);
+        tercaHorarioF.setBounds(40, 190, 40, 20);
 
-        segundaDisciplinaB1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaB1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaB1.setEnabled(false);
-        jPanel2.add(segundaDisciplinaB1);
-        segundaDisciplinaB1.setBounds(110, 70, 240, 20);
+        tercaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaDisciplinaB.setEnabled(false);
+        jPanel2.add(tercaDisciplinaB);
+        tercaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        segundaDisciplinaF1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaF1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaF1.setEnabled(false);
-        jPanel2.add(segundaDisciplinaF1);
-        segundaDisciplinaF1.setBounds(110, 190, 240, 20);
+        tercaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaDisciplinaF.setEnabled(false);
+        jPanel2.add(tercaDisciplinaF);
+        tercaDisciplinaF.setBounds(110, 190, 240, 20);
 
         btCurso34.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1546,34 +1609,39 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btCurso36);
-        btCurso36.setBounds(720, 100, 30, 20);
+        btCurso36.setBounds(670, 100, 30, 20);
 
-        segundaDisciplinaE1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaE1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaE1.setEnabled(false);
-        jPanel2.add(segundaDisciplinaE1);
-        segundaDisciplinaE1.setBounds(110, 160, 240, 20);
+        tercaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaDisciplinaE.setEnabled(false);
+        jPanel2.add(tercaDisciplinaE);
+        tercaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        segundaCodigoProfessorD1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorD1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorD1.addActionListener(new java.awt.event.ActionListener() {
+        tercaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tercaCodigoProfessorDFocusLost(evt);
+            }
+        });
+        tercaCodigoProfessorD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorD1ActionPerformed(evt);
+                tercaCodigoProfessorDActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorD1.addKeyListener(new java.awt.event.KeyAdapter() {
+        tercaCodigoProfessorD.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorD1KeyTyped(evt);
+                tercaCodigoProfessorDKeyTyped(evt);
             }
         });
-        jPanel2.add(segundaCodigoProfessorD1);
-        segundaCodigoProfessorD1.setBounds(390, 130, 30, 20);
+        jPanel2.add(tercaCodigoProfessorD);
+        tercaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        segundaProfessorE1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorE1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorE1.setEnabled(false);
-        jPanel2.add(segundaProfessorE1);
-        segundaProfessorE1.setBounds(430, 160, 290, 20);
+        tercaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tercaProfessorE.setEnabled(false);
+        jPanel2.add(tercaProfessorE);
+        tercaProfessorE.setBounds(430, 160, 240, 20);
 
         jlquadro1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel2.add(jlquadro1);
@@ -1583,17 +1651,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel3.setLayout(null);
 
-        segundaDisciplinaC2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaC2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaC2.setEnabled(false);
-        jPanel3.add(segundaDisciplinaC2);
-        segundaDisciplinaC2.setBounds(110, 100, 240, 20);
+        quartaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaDisciplinaC.setEnabled(false);
+        jPanel3.add(quartaDisciplinaC);
+        quartaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        segundaHorarioC2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioC2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioC2.setEnabled(false);
-        jPanel3.add(segundaHorarioC2);
-        segundaHorarioC2.setBounds(40, 100, 40, 20);
+        quartaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaHorarioC.setEnabled(false);
+        jPanel3.add(quartaHorarioC);
+        quartaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso37.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1607,18 +1675,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btCurso37);
-        btCurso37.setBounds(720, 130, 30, 20);
+        btCurso37.setBounds(670, 130, 30, 20);
 
-        segundaDisciplinaA2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaA2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaA2.setEnabled(false);
-        segundaDisciplinaA2.addActionListener(new java.awt.event.ActionListener() {
+        quartaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaDisciplinaA.setEnabled(false);
+        quartaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaDisciplinaA2ActionPerformed(evt);
+                quartaDisciplinaAActionPerformed(evt);
             }
         });
-        jPanel3.add(segundaDisciplinaA2);
-        segundaDisciplinaA2.setBounds(110, 40, 240, 20);
+        jPanel3.add(quartaDisciplinaA);
+        quartaDisciplinaA.setBounds(110, 40, 240, 20);
 
         btCurso38.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1646,13 +1714,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btCurso39);
-        btCurso39.setBounds(720, 70, 30, 20);
+        btCurso39.setBounds(670, 70, 30, 20);
 
-        segundaDisciplinaD2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaD2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaD2.setEnabled(false);
-        jPanel3.add(segundaDisciplinaD2);
-        segundaDisciplinaD2.setBounds(110, 130, 240, 20);
+        quartaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaDisciplinaD.setEnabled(false);
+        jPanel3.add(quartaDisciplinaD);
+        quartaDisciplinaD.setBounds(110, 130, 240, 20);
 
         btCurso40.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1668,20 +1736,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso40);
         btCurso40.setBounds(350, 160, 30, 20);
 
-        segundaCodigoProfessorA2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorA2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorA2.addActionListener(new java.awt.event.ActionListener() {
+        quartaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quartaCodigoProfessorAFocusLost(evt);
+            }
+        });
+        quartaCodigoProfessorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorA2ActionPerformed(evt);
+                quartaCodigoProfessorAActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorA2.addKeyListener(new java.awt.event.KeyAdapter() {
+        quartaCodigoProfessorA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorA2KeyTyped(evt);
+                quartaCodigoProfessorAKeyTyped(evt);
             }
         });
-        jPanel3.add(segundaCodigoProfessorA2);
-        segundaCodigoProfessorA2.setBounds(390, 40, 30, 20);
+        jPanel3.add(quartaCodigoProfessorA);
+        quartaCodigoProfessorA.setBounds(390, 40, 30, 20);
 
         btCurso41.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1697,17 +1770,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso41);
         btCurso41.setBounds(350, 100, 30, 20);
 
-        segundaProfessorD2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorD2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorD2.setEnabled(false);
-        jPanel3.add(segundaProfessorD2);
-        segundaProfessorD2.setBounds(430, 130, 290, 20);
+        quartaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaProfessorD.setEnabled(false);
+        jPanel3.add(quartaProfessorD);
+        quartaProfessorD.setBounds(430, 130, 240, 20);
 
-        segundaHorarioB2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioB2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioB2.setEnabled(false);
-        jPanel3.add(segundaHorarioB2);
-        segundaHorarioB2.setBounds(40, 70, 40, 19);
+        quartaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaHorarioB.setEnabled(false);
+        jPanel3.add(quartaHorarioB);
+        quartaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso42.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1723,20 +1796,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso42);
         btCurso42.setBounds(80, 160, 30, 20);
 
-        segundaCodigoProfessorE2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorE2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorE2.addActionListener(new java.awt.event.ActionListener() {
+        quartaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quartaCodigoProfessorEFocusLost(evt);
+            }
+        });
+        quartaCodigoProfessorE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorE2ActionPerformed(evt);
+                quartaCodigoProfessorEActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorE2.addKeyListener(new java.awt.event.KeyAdapter() {
+        quartaCodigoProfessorE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorE2KeyTyped(evt);
+                quartaCodigoProfessorEKeyTyped(evt);
             }
         });
-        jPanel3.add(segundaCodigoProfessorE2);
-        segundaCodigoProfessorE2.setBounds(390, 160, 30, 20);
+        jPanel3.add(quartaCodigoProfessorE);
+        quartaCodigoProfessorE.setBounds(390, 160, 30, 20);
 
         btCurso43.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1766,20 +1844,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso44);
         btCurso44.setBounds(350, 70, 30, 20);
 
-        segundaCodigoProfessorB2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorB2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorB2.addActionListener(new java.awt.event.ActionListener() {
+        quartaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quartaCodigoProfessorBFocusLost(evt);
+            }
+        });
+        quartaCodigoProfessorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorB2ActionPerformed(evt);
+                quartaCodigoProfessorBActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorB2.addKeyListener(new java.awt.event.KeyAdapter() {
+        quartaCodigoProfessorB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorB2KeyTyped(evt);
+                quartaCodigoProfessorBKeyTyped(evt);
             }
         });
-        jPanel3.add(segundaCodigoProfessorB2);
-        segundaCodigoProfessorB2.setBounds(390, 70, 30, 20);
+        jPanel3.add(quartaCodigoProfessorB);
+        quartaCodigoProfessorB.setBounds(390, 70, 30, 20);
 
         btCurso45.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1807,7 +1890,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btCurso46);
-        btCurso46.setBounds(720, 190, 30, 20);
+        btCurso46.setBounds(670, 190, 30, 20);
 
         btCurso47.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1823,59 +1906,69 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso47);
         btCurso47.setBounds(80, 40, 30, 20);
 
-        segundaProfessorA2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorA2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorA2.setEnabled(false);
-        jPanel3.add(segundaProfessorA2);
-        segundaProfessorA2.setBounds(430, 40, 290, 20);
+        quartaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaProfessorA.setEnabled(false);
+        jPanel3.add(quartaProfessorA);
+        quartaProfessorA.setBounds(430, 40, 240, 20);
 
-        segundaHorarioA2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioA2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioA2.setEnabled(false);
-        jPanel3.add(segundaHorarioA2);
-        segundaHorarioA2.setBounds(40, 40, 40, 20);
+        quartaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaHorarioA.setEnabled(false);
+        jPanel3.add(quartaHorarioA);
+        quartaHorarioA.setBounds(40, 40, 40, 20);
 
-        segundaHorarioD2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioD2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioD2.setEnabled(false);
-        jPanel3.add(segundaHorarioD2);
-        segundaHorarioD2.setBounds(40, 130, 40, 20);
+        quartaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaHorarioD.setEnabled(false);
+        jPanel3.add(quartaHorarioD);
+        quartaHorarioD.setBounds(40, 130, 40, 20);
 
-        segundaCodigoProfessorF2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorF2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorF2.addActionListener(new java.awt.event.ActionListener() {
+        quartaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quartaCodigoProfessorFFocusLost(evt);
+            }
+        });
+        quartaCodigoProfessorF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorF2ActionPerformed(evt);
+                quartaCodigoProfessorFActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorF2.addKeyListener(new java.awt.event.KeyAdapter() {
+        quartaCodigoProfessorF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorF2KeyTyped(evt);
+                quartaCodigoProfessorFKeyTyped(evt);
             }
         });
-        jPanel3.add(segundaCodigoProfessorF2);
-        segundaCodigoProfessorF2.setBounds(390, 190, 30, 20);
+        jPanel3.add(quartaCodigoProfessorF);
+        quartaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        segundaProfessorF2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorF2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorF2.setEnabled(false);
-        jPanel3.add(segundaProfessorF2);
-        segundaProfessorF2.setBounds(430, 190, 290, 20);
+        quartaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaProfessorF.setEnabled(false);
+        jPanel3.add(quartaProfessorF);
+        quartaProfessorF.setBounds(430, 190, 240, 20);
 
-        segundaCodigoProfessorC2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorC2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorC2.addActionListener(new java.awt.event.ActionListener() {
+        quartaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quartaCodigoProfessorCFocusLost(evt);
+            }
+        });
+        quartaCodigoProfessorC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorC2ActionPerformed(evt);
+                quartaCodigoProfessorCActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorC2.addKeyListener(new java.awt.event.KeyAdapter() {
+        quartaCodigoProfessorC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorC2KeyTyped(evt);
+                quartaCodigoProfessorCKeyTyped(evt);
             }
         });
-        jPanel3.add(segundaCodigoProfessorC2);
-        segundaCodigoProfessorC2.setBounds(390, 100, 30, 20);
+        jPanel3.add(quartaCodigoProfessorC);
+        quartaCodigoProfessorC.setBounds(390, 100, 30, 20);
 
         btCurso48.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1889,7 +1982,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btCurso48);
-        btCurso48.setBounds(720, 40, 30, 20);
+        btCurso48.setBounds(670, 40, 30, 20);
 
         btCurso49.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1917,19 +2010,19 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btCurso50);
-        btCurso50.setBounds(720, 160, 30, 20);
+        btCurso50.setBounds(670, 160, 30, 20);
 
-        segundaProfessorB2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorB2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorB2.setEnabled(false);
-        jPanel3.add(segundaProfessorB2);
-        segundaProfessorB2.setBounds(430, 70, 290, 20);
+        quartaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaProfessorB.setEnabled(false);
+        jPanel3.add(quartaProfessorB);
+        quartaProfessorB.setBounds(430, 70, 240, 20);
 
-        segundaHorarioE2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioE2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioE2.setEnabled(false);
-        jPanel3.add(segundaHorarioE2);
-        segundaHorarioE2.setBounds(40, 160, 40, 20);
+        quartaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaHorarioE.setEnabled(false);
+        jPanel3.add(quartaHorarioE);
+        quartaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso51.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1945,29 +2038,29 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso51);
         btCurso51.setBounds(80, 190, 30, 20);
 
-        segundaProfessorC2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorC2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorC2.setEnabled(false);
-        jPanel3.add(segundaProfessorC2);
-        segundaProfessorC2.setBounds(430, 100, 290, 20);
+        quartaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaProfessorC.setEnabled(false);
+        jPanel3.add(quartaProfessorC);
+        quartaProfessorC.setBounds(430, 100, 240, 20);
 
-        segundaHorarioF2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioF2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioF2.setEnabled(false);
-        jPanel3.add(segundaHorarioF2);
-        segundaHorarioF2.setBounds(40, 190, 40, 20);
+        quartaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaHorarioF.setEnabled(false);
+        jPanel3.add(quartaHorarioF);
+        quartaHorarioF.setBounds(40, 190, 40, 20);
 
-        segundaDisciplinaB2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaB2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaB2.setEnabled(false);
-        jPanel3.add(segundaDisciplinaB2);
-        segundaDisciplinaB2.setBounds(110, 70, 240, 20);
+        quartaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaDisciplinaB.setEnabled(false);
+        jPanel3.add(quartaDisciplinaB);
+        quartaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        segundaDisciplinaF2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaF2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaF2.setEnabled(false);
-        jPanel3.add(segundaDisciplinaF2);
-        segundaDisciplinaF2.setBounds(110, 190, 240, 20);
+        quartaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaDisciplinaF.setEnabled(false);
+        jPanel3.add(quartaDisciplinaF);
+        quartaDisciplinaF.setBounds(110, 190, 240, 20);
 
         btCurso52.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso52.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2009,34 +2102,39 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btCurso54);
-        btCurso54.setBounds(720, 100, 30, 20);
+        btCurso54.setBounds(670, 100, 30, 20);
 
-        segundaDisciplinaE2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaE2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaE2.setEnabled(false);
-        jPanel3.add(segundaDisciplinaE2);
-        segundaDisciplinaE2.setBounds(110, 160, 240, 20);
+        quartaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaDisciplinaE.setEnabled(false);
+        jPanel3.add(quartaDisciplinaE);
+        quartaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        segundaCodigoProfessorD2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorD2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorD2.addActionListener(new java.awt.event.ActionListener() {
+        quartaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quartaCodigoProfessorDFocusLost(evt);
+            }
+        });
+        quartaCodigoProfessorD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorD2ActionPerformed(evt);
+                quartaCodigoProfessorDActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorD2.addKeyListener(new java.awt.event.KeyAdapter() {
+        quartaCodigoProfessorD.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorD2KeyTyped(evt);
+                quartaCodigoProfessorDKeyTyped(evt);
             }
         });
-        jPanel3.add(segundaCodigoProfessorD2);
-        segundaCodigoProfessorD2.setBounds(390, 130, 30, 20);
+        jPanel3.add(quartaCodigoProfessorD);
+        quartaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        segundaProfessorE2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorE2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorE2.setEnabled(false);
-        jPanel3.add(segundaProfessorE2);
-        segundaProfessorE2.setBounds(430, 160, 290, 20);
+        quartaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quartaProfessorE.setEnabled(false);
+        jPanel3.add(quartaProfessorE);
+        quartaProfessorE.setBounds(430, 160, 240, 20);
 
         jlquadro2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel3.add(jlquadro2);
@@ -2046,17 +2144,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel4.setLayout(null);
 
-        segundaDisciplinaC3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaC3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaC3.setEnabled(false);
-        jPanel4.add(segundaDisciplinaC3);
-        segundaDisciplinaC3.setBounds(110, 100, 240, 20);
+        quintaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaDisciplinaC.setEnabled(false);
+        jPanel4.add(quintaDisciplinaC);
+        quintaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        segundaHorarioC3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioC3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioC3.setEnabled(false);
-        jPanel4.add(segundaHorarioC3);
-        segundaHorarioC3.setBounds(40, 100, 40, 20);
+        quintaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaHorarioC.setEnabled(false);
+        jPanel4.add(quintaHorarioC);
+        quintaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso55.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2070,18 +2168,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel4.add(btCurso55);
-        btCurso55.setBounds(720, 130, 30, 20);
+        btCurso55.setBounds(670, 130, 30, 20);
 
-        segundaDisciplinaA3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaA3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaA3.setEnabled(false);
-        segundaDisciplinaA3.addActionListener(new java.awt.event.ActionListener() {
+        quintaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaDisciplinaA.setEnabled(false);
+        quintaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaDisciplinaA3ActionPerformed(evt);
+                quintaDisciplinaAActionPerformed(evt);
             }
         });
-        jPanel4.add(segundaDisciplinaA3);
-        segundaDisciplinaA3.setBounds(110, 40, 240, 20);
+        jPanel4.add(quintaDisciplinaA);
+        quintaDisciplinaA.setBounds(110, 40, 240, 20);
 
         btCurso56.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso56.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2109,13 +2207,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel4.add(btCurso57);
-        btCurso57.setBounds(720, 70, 30, 20);
+        btCurso57.setBounds(670, 70, 30, 20);
 
-        segundaDisciplinaD3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaD3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaD3.setEnabled(false);
-        jPanel4.add(segundaDisciplinaD3);
-        segundaDisciplinaD3.setBounds(110, 130, 240, 20);
+        quintaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaDisciplinaD.setEnabled(false);
+        jPanel4.add(quintaDisciplinaD);
+        quintaDisciplinaD.setBounds(110, 130, 240, 20);
 
         btCurso58.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso58.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2131,20 +2229,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso58);
         btCurso58.setBounds(350, 160, 30, 20);
 
-        segundaCodigoProfessorA3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorA3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorA3.addActionListener(new java.awt.event.ActionListener() {
+        quintaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quintaCodigoProfessorAFocusLost(evt);
+            }
+        });
+        quintaCodigoProfessorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorA3ActionPerformed(evt);
+                quintaCodigoProfessorAActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorA3.addKeyListener(new java.awt.event.KeyAdapter() {
+        quintaCodigoProfessorA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorA3KeyTyped(evt);
+                quintaCodigoProfessorAKeyTyped(evt);
             }
         });
-        jPanel4.add(segundaCodigoProfessorA3);
-        segundaCodigoProfessorA3.setBounds(390, 40, 30, 20);
+        jPanel4.add(quintaCodigoProfessorA);
+        quintaCodigoProfessorA.setBounds(390, 40, 30, 20);
 
         btCurso59.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso59.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2160,17 +2263,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso59);
         btCurso59.setBounds(350, 100, 30, 20);
 
-        segundaProfessorD3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorD3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorD3.setEnabled(false);
-        jPanel4.add(segundaProfessorD3);
-        segundaProfessorD3.setBounds(430, 130, 290, 20);
+        quintaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaProfessorD.setEnabled(false);
+        jPanel4.add(quintaProfessorD);
+        quintaProfessorD.setBounds(430, 130, 240, 20);
 
-        segundaHorarioB3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioB3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioB3.setEnabled(false);
-        jPanel4.add(segundaHorarioB3);
-        segundaHorarioB3.setBounds(40, 70, 40, 19);
+        quintaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaHorarioB.setEnabled(false);
+        jPanel4.add(quintaHorarioB);
+        quintaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso60.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso60.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2186,20 +2289,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso60);
         btCurso60.setBounds(80, 160, 30, 20);
 
-        segundaCodigoProfessorE3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorE3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorE3.addActionListener(new java.awt.event.ActionListener() {
+        quintaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quintaCodigoProfessorEFocusLost(evt);
+            }
+        });
+        quintaCodigoProfessorE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorE3ActionPerformed(evt);
+                quintaCodigoProfessorEActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorE3.addKeyListener(new java.awt.event.KeyAdapter() {
+        quintaCodigoProfessorE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorE3KeyTyped(evt);
+                quintaCodigoProfessorEKeyTyped(evt);
             }
         });
-        jPanel4.add(segundaCodigoProfessorE3);
-        segundaCodigoProfessorE3.setBounds(390, 160, 30, 20);
+        jPanel4.add(quintaCodigoProfessorE);
+        quintaCodigoProfessorE.setBounds(390, 160, 30, 20);
 
         btCurso61.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso61.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2229,20 +2337,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso62);
         btCurso62.setBounds(350, 70, 30, 20);
 
-        segundaCodigoProfessorB3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorB3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorB3.addActionListener(new java.awt.event.ActionListener() {
+        quintaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quintaCodigoProfessorBFocusLost(evt);
+            }
+        });
+        quintaCodigoProfessorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorB3ActionPerformed(evt);
+                quintaCodigoProfessorBActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorB3.addKeyListener(new java.awt.event.KeyAdapter() {
+        quintaCodigoProfessorB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorB3KeyTyped(evt);
+                quintaCodigoProfessorBKeyTyped(evt);
             }
         });
-        jPanel4.add(segundaCodigoProfessorB3);
-        segundaCodigoProfessorB3.setBounds(390, 70, 30, 20);
+        jPanel4.add(quintaCodigoProfessorB);
+        quintaCodigoProfessorB.setBounds(390, 70, 30, 20);
 
         btCurso63.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso63.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2270,7 +2383,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel4.add(btCurso64);
-        btCurso64.setBounds(720, 190, 30, 20);
+        btCurso64.setBounds(670, 190, 30, 20);
 
         btCurso65.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso65.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2286,59 +2399,69 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso65);
         btCurso65.setBounds(80, 40, 30, 20);
 
-        segundaProfessorA3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorA3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorA3.setEnabled(false);
-        jPanel4.add(segundaProfessorA3);
-        segundaProfessorA3.setBounds(430, 40, 290, 20);
+        quintaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaProfessorA.setEnabled(false);
+        jPanel4.add(quintaProfessorA);
+        quintaProfessorA.setBounds(430, 40, 240, 20);
 
-        segundaHorarioA3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioA3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioA3.setEnabled(false);
-        jPanel4.add(segundaHorarioA3);
-        segundaHorarioA3.setBounds(40, 40, 40, 20);
+        quintaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaHorarioA.setEnabled(false);
+        jPanel4.add(quintaHorarioA);
+        quintaHorarioA.setBounds(40, 40, 40, 20);
 
-        segundaHorarioD3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioD3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioD3.setEnabled(false);
-        jPanel4.add(segundaHorarioD3);
-        segundaHorarioD3.setBounds(40, 130, 40, 20);
+        quintaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaHorarioD.setEnabled(false);
+        jPanel4.add(quintaHorarioD);
+        quintaHorarioD.setBounds(40, 130, 40, 20);
 
-        segundaCodigoProfessorF3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorF3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorF3.addActionListener(new java.awt.event.ActionListener() {
+        quintaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quintaCodigoProfessorFFocusLost(evt);
+            }
+        });
+        quintaCodigoProfessorF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorF3ActionPerformed(evt);
+                quintaCodigoProfessorFActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorF3.addKeyListener(new java.awt.event.KeyAdapter() {
+        quintaCodigoProfessorF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorF3KeyTyped(evt);
+                quintaCodigoProfessorFKeyTyped(evt);
             }
         });
-        jPanel4.add(segundaCodigoProfessorF3);
-        segundaCodigoProfessorF3.setBounds(390, 190, 30, 20);
+        jPanel4.add(quintaCodigoProfessorF);
+        quintaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        segundaProfessorF3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorF3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorF3.setEnabled(false);
-        jPanel4.add(segundaProfessorF3);
-        segundaProfessorF3.setBounds(430, 190, 290, 20);
+        quintaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaProfessorF.setEnabled(false);
+        jPanel4.add(quintaProfessorF);
+        quintaProfessorF.setBounds(430, 190, 240, 20);
 
-        segundaCodigoProfessorC3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorC3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorC3.addActionListener(new java.awt.event.ActionListener() {
+        quintaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quintaCodigoProfessorCFocusLost(evt);
+            }
+        });
+        quintaCodigoProfessorC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorC3ActionPerformed(evt);
+                quintaCodigoProfessorCActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorC3.addKeyListener(new java.awt.event.KeyAdapter() {
+        quintaCodigoProfessorC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorC3KeyTyped(evt);
+                quintaCodigoProfessorCKeyTyped(evt);
             }
         });
-        jPanel4.add(segundaCodigoProfessorC3);
-        segundaCodigoProfessorC3.setBounds(390, 100, 30, 20);
+        jPanel4.add(quintaCodigoProfessorC);
+        quintaCodigoProfessorC.setBounds(390, 100, 30, 20);
 
         btCurso66.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso66.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2352,7 +2475,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel4.add(btCurso66);
-        btCurso66.setBounds(720, 40, 30, 20);
+        btCurso66.setBounds(670, 40, 30, 20);
 
         btCurso67.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso67.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2380,19 +2503,19 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel4.add(btCurso68);
-        btCurso68.setBounds(720, 160, 30, 20);
+        btCurso68.setBounds(670, 160, 30, 20);
 
-        segundaProfessorB3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorB3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorB3.setEnabled(false);
-        jPanel4.add(segundaProfessorB3);
-        segundaProfessorB3.setBounds(430, 70, 290, 20);
+        quintaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaProfessorB.setEnabled(false);
+        jPanel4.add(quintaProfessorB);
+        quintaProfessorB.setBounds(430, 70, 240, 20);
 
-        segundaHorarioE3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioE3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioE3.setEnabled(false);
-        jPanel4.add(segundaHorarioE3);
-        segundaHorarioE3.setBounds(40, 160, 40, 20);
+        quintaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaHorarioE.setEnabled(false);
+        jPanel4.add(quintaHorarioE);
+        quintaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso69.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2408,29 +2531,29 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso69);
         btCurso69.setBounds(80, 190, 30, 20);
 
-        segundaProfessorC3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorC3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorC3.setEnabled(false);
-        jPanel4.add(segundaProfessorC3);
-        segundaProfessorC3.setBounds(430, 100, 290, 20);
+        quintaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaProfessorC.setEnabled(false);
+        jPanel4.add(quintaProfessorC);
+        quintaProfessorC.setBounds(430, 100, 240, 20);
 
-        segundaHorarioF3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioF3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioF3.setEnabled(false);
-        jPanel4.add(segundaHorarioF3);
-        segundaHorarioF3.setBounds(40, 190, 40, 20);
+        quintaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaHorarioF.setEnabled(false);
+        jPanel4.add(quintaHorarioF);
+        quintaHorarioF.setBounds(40, 190, 40, 20);
 
-        segundaDisciplinaB3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaB3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaB3.setEnabled(false);
-        jPanel4.add(segundaDisciplinaB3);
-        segundaDisciplinaB3.setBounds(110, 70, 240, 20);
+        quintaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaDisciplinaB.setEnabled(false);
+        jPanel4.add(quintaDisciplinaB);
+        quintaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        segundaDisciplinaF3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaF3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaF3.setEnabled(false);
-        jPanel4.add(segundaDisciplinaF3);
-        segundaDisciplinaF3.setBounds(110, 190, 240, 20);
+        quintaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaDisciplinaF.setEnabled(false);
+        jPanel4.add(quintaDisciplinaF);
+        quintaDisciplinaF.setBounds(110, 190, 240, 20);
 
         btCurso70.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso70.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2472,34 +2595,39 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel4.add(btCurso72);
-        btCurso72.setBounds(720, 100, 30, 20);
+        btCurso72.setBounds(670, 100, 30, 20);
 
-        segundaDisciplinaE3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaE3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaE3.setEnabled(false);
-        jPanel4.add(segundaDisciplinaE3);
-        segundaDisciplinaE3.setBounds(110, 160, 240, 20);
+        quintaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaDisciplinaE.setEnabled(false);
+        jPanel4.add(quintaDisciplinaE);
+        quintaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        segundaCodigoProfessorD3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorD3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorD3.addActionListener(new java.awt.event.ActionListener() {
+        quintaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quintaCodigoProfessorDFocusLost(evt);
+            }
+        });
+        quintaCodigoProfessorD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorD3ActionPerformed(evt);
+                quintaCodigoProfessorDActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorD3.addKeyListener(new java.awt.event.KeyAdapter() {
+        quintaCodigoProfessorD.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorD3KeyTyped(evt);
+                quintaCodigoProfessorDKeyTyped(evt);
             }
         });
-        jPanel4.add(segundaCodigoProfessorD3);
-        segundaCodigoProfessorD3.setBounds(390, 130, 30, 20);
+        jPanel4.add(quintaCodigoProfessorD);
+        quintaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        segundaProfessorE3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorE3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorE3.setEnabled(false);
-        jPanel4.add(segundaProfessorE3);
-        segundaProfessorE3.setBounds(430, 160, 290, 20);
+        quintaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        quintaProfessorE.setEnabled(false);
+        jPanel4.add(quintaProfessorE);
+        quintaProfessorE.setBounds(430, 160, 240, 20);
 
         jlquadro3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel4.add(jlquadro3);
@@ -2509,17 +2637,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel5.setLayout(null);
 
-        segundaDisciplinaC4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaC4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaC4.setEnabled(false);
-        jPanel5.add(segundaDisciplinaC4);
-        segundaDisciplinaC4.setBounds(110, 100, 240, 20);
+        sextaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaDisciplinaC.setEnabled(false);
+        jPanel5.add(sextaDisciplinaC);
+        sextaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        segundaHorarioC4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioC4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioC4.setEnabled(false);
-        jPanel5.add(segundaHorarioC4);
-        segundaHorarioC4.setBounds(40, 100, 40, 20);
+        sextaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaHorarioC.setEnabled(false);
+        jPanel5.add(sextaHorarioC);
+        sextaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso73.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso73.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2533,18 +2661,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btCurso73);
-        btCurso73.setBounds(720, 130, 30, 20);
+        btCurso73.setBounds(670, 130, 30, 20);
 
-        segundaDisciplinaA4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaA4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaA4.setEnabled(false);
-        segundaDisciplinaA4.addActionListener(new java.awt.event.ActionListener() {
+        sextaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaDisciplinaA.setEnabled(false);
+        sextaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaDisciplinaA4ActionPerformed(evt);
+                sextaDisciplinaAActionPerformed(evt);
             }
         });
-        jPanel5.add(segundaDisciplinaA4);
-        segundaDisciplinaA4.setBounds(110, 40, 240, 20);
+        jPanel5.add(sextaDisciplinaA);
+        sextaDisciplinaA.setBounds(110, 40, 240, 20);
 
         btCurso74.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso74.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2572,13 +2700,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btCurso75);
-        btCurso75.setBounds(720, 70, 30, 20);
+        btCurso75.setBounds(670, 70, 30, 20);
 
-        segundaDisciplinaD4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaD4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaD4.setEnabled(false);
-        jPanel5.add(segundaDisciplinaD4);
-        segundaDisciplinaD4.setBounds(110, 130, 240, 20);
+        sextaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaDisciplinaD.setEnabled(false);
+        jPanel5.add(sextaDisciplinaD);
+        sextaDisciplinaD.setBounds(110, 130, 240, 20);
 
         btCurso76.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso76.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2594,20 +2722,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso76);
         btCurso76.setBounds(350, 160, 30, 20);
 
-        segundaCodigoProfessorA4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorA4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorA4.addActionListener(new java.awt.event.ActionListener() {
+        sextaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sextaCodigoProfessorAFocusLost(evt);
+            }
+        });
+        sextaCodigoProfessorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorA4ActionPerformed(evt);
+                sextaCodigoProfessorAActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorA4.addKeyListener(new java.awt.event.KeyAdapter() {
+        sextaCodigoProfessorA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorA4KeyTyped(evt);
+                sextaCodigoProfessorAKeyTyped(evt);
             }
         });
-        jPanel5.add(segundaCodigoProfessorA4);
-        segundaCodigoProfessorA4.setBounds(390, 40, 30, 20);
+        jPanel5.add(sextaCodigoProfessorA);
+        sextaCodigoProfessorA.setBounds(390, 40, 30, 20);
 
         btCurso77.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso77.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2623,17 +2756,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso77);
         btCurso77.setBounds(350, 100, 30, 20);
 
-        segundaProfessorD4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorD4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorD4.setEnabled(false);
-        jPanel5.add(segundaProfessorD4);
-        segundaProfessorD4.setBounds(430, 130, 290, 20);
+        sextaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaProfessorD.setEnabled(false);
+        jPanel5.add(sextaProfessorD);
+        sextaProfessorD.setBounds(430, 130, 240, 20);
 
-        segundaHorarioB4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioB4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioB4.setEnabled(false);
-        jPanel5.add(segundaHorarioB4);
-        segundaHorarioB4.setBounds(40, 70, 40, 19);
+        sextaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaHorarioB.setEnabled(false);
+        jPanel5.add(sextaHorarioB);
+        sextaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso78.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso78.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2649,20 +2782,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso78);
         btCurso78.setBounds(80, 160, 30, 20);
 
-        segundaCodigoProfessorE4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorE4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorE4.addActionListener(new java.awt.event.ActionListener() {
+        sextaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sextaCodigoProfessorEFocusLost(evt);
+            }
+        });
+        sextaCodigoProfessorE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorE4ActionPerformed(evt);
+                sextaCodigoProfessorEActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorE4.addKeyListener(new java.awt.event.KeyAdapter() {
+        sextaCodigoProfessorE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorE4KeyTyped(evt);
+                sextaCodigoProfessorEKeyTyped(evt);
             }
         });
-        jPanel5.add(segundaCodigoProfessorE4);
-        segundaCodigoProfessorE4.setBounds(390, 160, 30, 20);
+        jPanel5.add(sextaCodigoProfessorE);
+        sextaCodigoProfessorE.setBounds(390, 160, 30, 20);
 
         btCurso79.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso79.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2692,20 +2830,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso80);
         btCurso80.setBounds(350, 70, 30, 20);
 
-        segundaCodigoProfessorB4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorB4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorB4.addActionListener(new java.awt.event.ActionListener() {
+        sextaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sextaCodigoProfessorBFocusLost(evt);
+            }
+        });
+        sextaCodigoProfessorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorB4ActionPerformed(evt);
+                sextaCodigoProfessorBActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorB4.addKeyListener(new java.awt.event.KeyAdapter() {
+        sextaCodigoProfessorB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorB4KeyTyped(evt);
+                sextaCodigoProfessorBKeyTyped(evt);
             }
         });
-        jPanel5.add(segundaCodigoProfessorB4);
-        segundaCodigoProfessorB4.setBounds(390, 70, 30, 20);
+        jPanel5.add(sextaCodigoProfessorB);
+        sextaCodigoProfessorB.setBounds(390, 70, 30, 20);
 
         btCurso81.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso81.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2733,7 +2876,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btCurso82);
-        btCurso82.setBounds(720, 190, 30, 20);
+        btCurso82.setBounds(670, 190, 30, 20);
 
         btCurso83.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso83.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2749,59 +2892,74 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso83);
         btCurso83.setBounds(80, 40, 30, 20);
 
-        segundaProfessorA4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorA4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorA4.setEnabled(false);
-        jPanel5.add(segundaProfessorA4);
-        segundaProfessorA4.setBounds(430, 40, 290, 20);
-
-        segundaHorarioA4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioA4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioA4.setEnabled(false);
-        jPanel5.add(segundaHorarioA4);
-        segundaHorarioA4.setBounds(40, 40, 40, 20);
-
-        segundaHorarioD4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioD4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioD4.setEnabled(false);
-        jPanel5.add(segundaHorarioD4);
-        segundaHorarioD4.setBounds(40, 130, 40, 20);
-
-        segundaCodigoProfessorF4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorF4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorF4.addActionListener(new java.awt.event.ActionListener() {
+        sextaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaProfessorA.setEnabled(false);
+        sextaProfessorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorF4ActionPerformed(evt);
+                sextaProfessorAActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorF4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorF4KeyTyped(evt);
+        jPanel5.add(sextaProfessorA);
+        sextaProfessorA.setBounds(430, 40, 240, 20);
+
+        sextaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaHorarioA.setEnabled(false);
+        jPanel5.add(sextaHorarioA);
+        sextaHorarioA.setBounds(40, 40, 40, 20);
+
+        sextaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaHorarioD.setEnabled(false);
+        jPanel5.add(sextaHorarioD);
+        sextaHorarioD.setBounds(40, 130, 40, 20);
+
+        sextaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sextaCodigoProfessorFFocusLost(evt);
             }
         });
-        jPanel5.add(segundaCodigoProfessorF4);
-        segundaCodigoProfessorF4.setBounds(390, 190, 30, 20);
-
-        segundaProfessorF4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorF4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorF4.setEnabled(false);
-        jPanel5.add(segundaProfessorF4);
-        segundaProfessorF4.setBounds(430, 190, 290, 20);
-
-        segundaCodigoProfessorC4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorC4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorC4.addActionListener(new java.awt.event.ActionListener() {
+        sextaCodigoProfessorF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorC4ActionPerformed(evt);
+                sextaCodigoProfessorFActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorC4.addKeyListener(new java.awt.event.KeyAdapter() {
+        sextaCodigoProfessorF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorC4KeyTyped(evt);
+                sextaCodigoProfessorFKeyTyped(evt);
             }
         });
-        jPanel5.add(segundaCodigoProfessorC4);
-        segundaCodigoProfessorC4.setBounds(390, 100, 30, 20);
+        jPanel5.add(sextaCodigoProfessorF);
+        sextaCodigoProfessorF.setBounds(390, 190, 30, 20);
+
+        sextaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaProfessorF.setEnabled(false);
+        jPanel5.add(sextaProfessorF);
+        sextaProfessorF.setBounds(430, 190, 240, 20);
+
+        sextaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sextaCodigoProfessorCFocusLost(evt);
+            }
+        });
+        sextaCodigoProfessorC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sextaCodigoProfessorCActionPerformed(evt);
+            }
+        });
+        sextaCodigoProfessorC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                sextaCodigoProfessorCKeyTyped(evt);
+            }
+        });
+        jPanel5.add(sextaCodigoProfessorC);
+        sextaCodigoProfessorC.setBounds(390, 100, 30, 20);
 
         btCurso84.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso84.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2815,7 +2973,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btCurso84);
-        btCurso84.setBounds(720, 40, 30, 20);
+        btCurso84.setBounds(670, 40, 30, 20);
 
         btCurso85.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso85.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2843,19 +3001,19 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btCurso86);
-        btCurso86.setBounds(720, 160, 30, 20);
+        btCurso86.setBounds(670, 160, 30, 20);
 
-        segundaProfessorB4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorB4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorB4.setEnabled(false);
-        jPanel5.add(segundaProfessorB4);
-        segundaProfessorB4.setBounds(430, 70, 290, 20);
+        sextaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaProfessorB.setEnabled(false);
+        jPanel5.add(sextaProfessorB);
+        sextaProfessorB.setBounds(430, 70, 240, 20);
 
-        segundaHorarioE4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioE4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioE4.setEnabled(false);
-        jPanel5.add(segundaHorarioE4);
-        segundaHorarioE4.setBounds(40, 160, 40, 20);
+        sextaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaHorarioE.setEnabled(false);
+        jPanel5.add(sextaHorarioE);
+        sextaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso87.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso87.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2871,29 +3029,29 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso87);
         btCurso87.setBounds(80, 190, 30, 20);
 
-        segundaProfessorC4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorC4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorC4.setEnabled(false);
-        jPanel5.add(segundaProfessorC4);
-        segundaProfessorC4.setBounds(430, 100, 290, 20);
+        sextaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaProfessorC.setEnabled(false);
+        jPanel5.add(sextaProfessorC);
+        sextaProfessorC.setBounds(430, 100, 240, 20);
 
-        segundaHorarioF4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioF4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioF4.setEnabled(false);
-        jPanel5.add(segundaHorarioF4);
-        segundaHorarioF4.setBounds(40, 190, 40, 20);
+        sextaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaHorarioF.setEnabled(false);
+        jPanel5.add(sextaHorarioF);
+        sextaHorarioF.setBounds(40, 190, 40, 20);
 
-        segundaDisciplinaB4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaB4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaB4.setEnabled(false);
-        jPanel5.add(segundaDisciplinaB4);
-        segundaDisciplinaB4.setBounds(110, 70, 240, 20);
+        sextaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaDisciplinaB.setEnabled(false);
+        jPanel5.add(sextaDisciplinaB);
+        sextaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        segundaDisciplinaF4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaF4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaF4.setEnabled(false);
-        jPanel5.add(segundaDisciplinaF4);
-        segundaDisciplinaF4.setBounds(110, 190, 240, 20);
+        sextaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaDisciplinaF.setEnabled(false);
+        jPanel5.add(sextaDisciplinaF);
+        sextaDisciplinaF.setBounds(110, 190, 240, 20);
 
         btCurso88.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso88.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2935,34 +3093,39 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btCurso90);
-        btCurso90.setBounds(720, 100, 30, 20);
+        btCurso90.setBounds(670, 100, 30, 20);
 
-        segundaDisciplinaE4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaE4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaE4.setEnabled(false);
-        jPanel5.add(segundaDisciplinaE4);
-        segundaDisciplinaE4.setBounds(110, 160, 240, 20);
+        sextaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaDisciplinaE.setEnabled(false);
+        jPanel5.add(sextaDisciplinaE);
+        sextaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        segundaCodigoProfessorD4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorD4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorD4.addActionListener(new java.awt.event.ActionListener() {
+        sextaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sextaCodigoProfessorDFocusLost(evt);
+            }
+        });
+        sextaCodigoProfessorD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorD4ActionPerformed(evt);
+                sextaCodigoProfessorDActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorD4.addKeyListener(new java.awt.event.KeyAdapter() {
+        sextaCodigoProfessorD.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorD4KeyTyped(evt);
+                sextaCodigoProfessorDKeyTyped(evt);
             }
         });
-        jPanel5.add(segundaCodigoProfessorD4);
-        segundaCodigoProfessorD4.setBounds(390, 130, 30, 20);
+        jPanel5.add(sextaCodigoProfessorD);
+        sextaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        segundaProfessorE4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorE4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorE4.setEnabled(false);
-        jPanel5.add(segundaProfessorE4);
-        segundaProfessorE4.setBounds(430, 160, 290, 20);
+        sextaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sextaProfessorE.setEnabled(false);
+        jPanel5.add(sextaProfessorE);
+        sextaProfessorE.setBounds(430, 160, 240, 20);
 
         jlquadro4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel5.add(jlquadro4);
@@ -2972,17 +3135,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel6.setLayout(null);
 
-        segundaDisciplinaC5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaC5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaC5.setEnabled(false);
-        jPanel6.add(segundaDisciplinaC5);
-        segundaDisciplinaC5.setBounds(110, 100, 240, 20);
+        sabadoDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoDisciplinaC.setEnabled(false);
+        jPanel6.add(sabadoDisciplinaC);
+        sabadoDisciplinaC.setBounds(110, 100, 240, 20);
 
-        segundaHorarioC5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioC5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioC5.setEnabled(false);
-        jPanel6.add(segundaHorarioC5);
-        segundaHorarioC5.setBounds(40, 100, 40, 20);
+        sabadoHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoHorarioC.setEnabled(false);
+        jPanel6.add(sabadoHorarioC);
+        sabadoHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso91.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso91.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2996,18 +3159,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel6.add(btCurso91);
-        btCurso91.setBounds(720, 130, 30, 20);
+        btCurso91.setBounds(670, 130, 30, 20);
 
-        segundaDisciplinaA5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaA5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaA5.setEnabled(false);
-        segundaDisciplinaA5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoDisciplinaA.setEnabled(false);
+        sabadoDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaDisciplinaA5ActionPerformed(evt);
+                sabadoDisciplinaAActionPerformed(evt);
             }
         });
-        jPanel6.add(segundaDisciplinaA5);
-        segundaDisciplinaA5.setBounds(110, 40, 240, 20);
+        jPanel6.add(sabadoDisciplinaA);
+        sabadoDisciplinaA.setBounds(110, 40, 240, 20);
 
         btCurso92.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso92.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3035,13 +3198,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel6.add(btCurso93);
-        btCurso93.setBounds(720, 70, 30, 20);
+        btCurso93.setBounds(670, 70, 30, 20);
 
-        segundaDisciplinaD5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaD5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaD5.setEnabled(false);
-        jPanel6.add(segundaDisciplinaD5);
-        segundaDisciplinaD5.setBounds(110, 130, 240, 20);
+        sabadoDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoDisciplinaD.setEnabled(false);
+        jPanel6.add(sabadoDisciplinaD);
+        sabadoDisciplinaD.setBounds(110, 130, 240, 20);
 
         btCurso94.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso94.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3057,20 +3220,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso94);
         btCurso94.setBounds(350, 160, 30, 20);
 
-        segundaCodigoProfessorA5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorA5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorA5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sabadoCodigoProfessorAFocusLost(evt);
+            }
+        });
+        sabadoCodigoProfessorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorA5ActionPerformed(evt);
+                sabadoCodigoProfessorAActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorA5.addKeyListener(new java.awt.event.KeyAdapter() {
+        sabadoCodigoProfessorA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorA5KeyTyped(evt);
+                sabadoCodigoProfessorAKeyTyped(evt);
             }
         });
-        jPanel6.add(segundaCodigoProfessorA5);
-        segundaCodigoProfessorA5.setBounds(390, 40, 30, 20);
+        jPanel6.add(sabadoCodigoProfessorA);
+        sabadoCodigoProfessorA.setBounds(390, 40, 30, 20);
 
         btCurso95.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso95.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3086,17 +3254,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso95);
         btCurso95.setBounds(350, 100, 30, 20);
 
-        segundaProfessorD5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorD5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorD5.setEnabled(false);
-        jPanel6.add(segundaProfessorD5);
-        segundaProfessorD5.setBounds(430, 130, 290, 20);
+        sabadoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoProfessorD.setEnabled(false);
+        jPanel6.add(sabadoProfessorD);
+        sabadoProfessorD.setBounds(430, 130, 240, 20);
 
-        segundaHorarioB5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioB5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioB5.setEnabled(false);
-        jPanel6.add(segundaHorarioB5);
-        segundaHorarioB5.setBounds(40, 70, 40, 19);
+        sabadoHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoHorarioB.setEnabled(false);
+        jPanel6.add(sabadoHorarioB);
+        sabadoHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso96.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3112,20 +3280,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso96);
         btCurso96.setBounds(80, 160, 30, 20);
 
-        segundaCodigoProfessorE5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorE5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorE5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sabadoCodigoProfessorEFocusLost(evt);
+            }
+        });
+        sabadoCodigoProfessorE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorE5ActionPerformed(evt);
+                sabadoCodigoProfessorEActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorE5.addKeyListener(new java.awt.event.KeyAdapter() {
+        sabadoCodigoProfessorE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorE5KeyTyped(evt);
+                sabadoCodigoProfessorEKeyTyped(evt);
             }
         });
-        jPanel6.add(segundaCodigoProfessorE5);
-        segundaCodigoProfessorE5.setBounds(390, 160, 30, 20);
+        jPanel6.add(sabadoCodigoProfessorE);
+        sabadoCodigoProfessorE.setBounds(390, 160, 30, 20);
 
         btCurso97.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso97.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3155,20 +3328,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso98);
         btCurso98.setBounds(350, 70, 30, 20);
 
-        segundaCodigoProfessorB5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorB5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorB5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sabadoCodigoProfessorBFocusLost(evt);
+            }
+        });
+        sabadoCodigoProfessorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorB5ActionPerformed(evt);
+                sabadoCodigoProfessorBActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorB5.addKeyListener(new java.awt.event.KeyAdapter() {
+        sabadoCodigoProfessorB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorB5KeyTyped(evt);
+                sabadoCodigoProfessorBKeyTyped(evt);
             }
         });
-        jPanel6.add(segundaCodigoProfessorB5);
-        segundaCodigoProfessorB5.setBounds(390, 70, 30, 20);
+        jPanel6.add(sabadoCodigoProfessorB);
+        sabadoCodigoProfessorB.setBounds(390, 70, 30, 20);
 
         btCurso99.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso99.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3196,7 +3374,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel6.add(btCurso100);
-        btCurso100.setBounds(720, 190, 30, 20);
+        btCurso100.setBounds(670, 190, 30, 20);
 
         btCurso101.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso101.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3212,59 +3390,69 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso101);
         btCurso101.setBounds(80, 40, 30, 20);
 
-        segundaProfessorA5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorA5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorA5.setEnabled(false);
-        jPanel6.add(segundaProfessorA5);
-        segundaProfessorA5.setBounds(430, 40, 290, 20);
+        sabadoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoProfessorA.setEnabled(false);
+        jPanel6.add(sabadoProfessorA);
+        sabadoProfessorA.setBounds(430, 40, 240, 20);
 
-        segundaHorarioA5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioA5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioA5.setEnabled(false);
-        jPanel6.add(segundaHorarioA5);
-        segundaHorarioA5.setBounds(40, 40, 40, 20);
+        sabadoHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoHorarioA.setEnabled(false);
+        jPanel6.add(sabadoHorarioA);
+        sabadoHorarioA.setBounds(40, 40, 40, 20);
 
-        segundaHorarioD5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioD5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioD5.setEnabled(false);
-        jPanel6.add(segundaHorarioD5);
-        segundaHorarioD5.setBounds(40, 130, 40, 20);
+        sabadoHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoHorarioD.setEnabled(false);
+        jPanel6.add(sabadoHorarioD);
+        sabadoHorarioD.setBounds(40, 130, 40, 20);
 
-        segundaCodigoProfessorF5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorF5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorF5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sabadoCodigoProfessorFFocusLost(evt);
+            }
+        });
+        sabadoCodigoProfessorF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorF5ActionPerformed(evt);
+                sabadoCodigoProfessorFActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorF5.addKeyListener(new java.awt.event.KeyAdapter() {
+        sabadoCodigoProfessorF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorF5KeyTyped(evt);
+                sabadoCodigoProfessorFKeyTyped(evt);
             }
         });
-        jPanel6.add(segundaCodigoProfessorF5);
-        segundaCodigoProfessorF5.setBounds(390, 190, 30, 20);
+        jPanel6.add(sabadoCodigoProfessorF);
+        sabadoCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        segundaProfessorF5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorF5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorF5.setEnabled(false);
-        jPanel6.add(segundaProfessorF5);
-        segundaProfessorF5.setBounds(430, 190, 290, 20);
+        sabadoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoProfessorF.setEnabled(false);
+        jPanel6.add(sabadoProfessorF);
+        sabadoProfessorF.setBounds(430, 190, 240, 20);
 
-        segundaCodigoProfessorC5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorC5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorC5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sabadoCodigoProfessorCFocusLost(evt);
+            }
+        });
+        sabadoCodigoProfessorC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorC5ActionPerformed(evt);
+                sabadoCodigoProfessorCActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorC5.addKeyListener(new java.awt.event.KeyAdapter() {
+        sabadoCodigoProfessorC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorC5KeyTyped(evt);
+                sabadoCodigoProfessorCKeyTyped(evt);
             }
         });
-        jPanel6.add(segundaCodigoProfessorC5);
-        segundaCodigoProfessorC5.setBounds(390, 100, 30, 20);
+        jPanel6.add(sabadoCodigoProfessorC);
+        sabadoCodigoProfessorC.setBounds(390, 100, 30, 20);
 
         btCurso102.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso102.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3278,7 +3466,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel6.add(btCurso102);
-        btCurso102.setBounds(720, 40, 30, 20);
+        btCurso102.setBounds(670, 40, 30, 20);
 
         btCurso103.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso103.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3306,19 +3494,19 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel6.add(btCurso104);
-        btCurso104.setBounds(720, 160, 30, 20);
+        btCurso104.setBounds(670, 160, 30, 20);
 
-        segundaProfessorB5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorB5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorB5.setEnabled(false);
-        jPanel6.add(segundaProfessorB5);
-        segundaProfessorB5.setBounds(430, 70, 290, 20);
+        sabadoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoProfessorB.setEnabled(false);
+        jPanel6.add(sabadoProfessorB);
+        sabadoProfessorB.setBounds(430, 70, 240, 20);
 
-        segundaHorarioE5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioE5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioE5.setEnabled(false);
-        jPanel6.add(segundaHorarioE5);
-        segundaHorarioE5.setBounds(40, 160, 40, 20);
+        sabadoHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoHorarioE.setEnabled(false);
+        jPanel6.add(sabadoHorarioE);
+        sabadoHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso105.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso105.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3334,29 +3522,29 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso105);
         btCurso105.setBounds(80, 190, 30, 20);
 
-        segundaProfessorC5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorC5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorC5.setEnabled(false);
-        jPanel6.add(segundaProfessorC5);
-        segundaProfessorC5.setBounds(430, 100, 290, 20);
+        sabadoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoProfessorC.setEnabled(false);
+        jPanel6.add(sabadoProfessorC);
+        sabadoProfessorC.setBounds(430, 100, 240, 20);
 
-        segundaHorarioF5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaHorarioF5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaHorarioF5.setEnabled(false);
-        jPanel6.add(segundaHorarioF5);
-        segundaHorarioF5.setBounds(40, 190, 40, 20);
+        sabadoHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoHorarioF.setEnabled(false);
+        jPanel6.add(sabadoHorarioF);
+        sabadoHorarioF.setBounds(40, 190, 40, 20);
 
-        segundaDisciplinaB5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaB5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaB5.setEnabled(false);
-        jPanel6.add(segundaDisciplinaB5);
-        segundaDisciplinaB5.setBounds(110, 70, 240, 20);
+        sabadoDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoDisciplinaB.setEnabled(false);
+        jPanel6.add(sabadoDisciplinaB);
+        sabadoDisciplinaB.setBounds(110, 70, 240, 20);
 
-        segundaDisciplinaF5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaF5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaF5.setEnabled(false);
-        jPanel6.add(segundaDisciplinaF5);
-        segundaDisciplinaF5.setBounds(110, 190, 240, 20);
+        sabadoDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoDisciplinaF.setEnabled(false);
+        jPanel6.add(sabadoDisciplinaF);
+        sabadoDisciplinaF.setBounds(110, 190, 240, 20);
 
         btCurso106.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso106.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3398,34 +3586,39 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             }
         });
         jPanel6.add(btCurso108);
-        btCurso108.setBounds(720, 100, 30, 20);
+        btCurso108.setBounds(670, 100, 30, 20);
 
-        segundaDisciplinaE5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaDisciplinaE5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaDisciplinaE5.setEnabled(false);
-        jPanel6.add(segundaDisciplinaE5);
-        segundaDisciplinaE5.setBounds(110, 160, 240, 20);
+        sabadoDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoDisciplinaE.setEnabled(false);
+        jPanel6.add(sabadoDisciplinaE);
+        sabadoDisciplinaE.setBounds(110, 160, 240, 20);
 
-        segundaCodigoProfessorD5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaCodigoProfessorD5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaCodigoProfessorD5.addActionListener(new java.awt.event.ActionListener() {
+        sabadoCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sabadoCodigoProfessorDFocusLost(evt);
+            }
+        });
+        sabadoCodigoProfessorD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                segundaCodigoProfessorD5ActionPerformed(evt);
+                sabadoCodigoProfessorDActionPerformed(evt);
             }
         });
-        segundaCodigoProfessorD5.addKeyListener(new java.awt.event.KeyAdapter() {
+        sabadoCodigoProfessorD.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                segundaCodigoProfessorD5KeyTyped(evt);
+                sabadoCodigoProfessorDKeyTyped(evt);
             }
         });
-        jPanel6.add(segundaCodigoProfessorD5);
-        segundaCodigoProfessorD5.setBounds(390, 130, 30, 20);
+        jPanel6.add(sabadoCodigoProfessorD);
+        sabadoCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        segundaProfessorE5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        segundaProfessorE5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
-        segundaProfessorE5.setEnabled(false);
-        jPanel6.add(segundaProfessorE5);
-        segundaProfessorE5.setBounds(430, 160, 290, 20);
+        sabadoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        sabadoProfessorE.setEnabled(false);
+        jPanel6.add(sabadoProfessorE);
+        sabadoProfessorE.setBounds(430, 160, 240, 20);
 
         jlquadro5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel6.add(jlquadro5);
@@ -3556,26 +3749,32 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso2ActionPerformed
         selecionarHorario(segundaHorarioB);
+        horariosSegunda[1] = horario;
     }//GEN-LAST:event_btCurso2ActionPerformed
 
     private void btCurso3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso3ActionPerformed
         selecionarHorario(segundaHorarioC);
+        horariosSegunda[2] = horario;
     }//GEN-LAST:event_btCurso3ActionPerformed
 
     private void btCurso4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso4ActionPerformed
         selecionarHorario(segundaHorarioF);
+        horariosSegunda[5] = horario;
     }//GEN-LAST:event_btCurso4ActionPerformed
 
     private void btCurso5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso5ActionPerformed
         selecionarHorario(segundaHorarioD);
+        horariosSegunda[3] = horario;
     }//GEN-LAST:event_btCurso5ActionPerformed
 
     private void btCurso6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso6ActionPerformed
         selecionarHorario(segundaHorarioE);
+        horariosSegunda[4] = horario;
     }//GEN-LAST:event_btCurso6ActionPerformed
 
     private void btCurso7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso7ActionPerformed
         selecionarHorario(segundaHorarioA);
+        horariosSegunda[0] = horario;
     }//GEN-LAST:event_btCurso7ActionPerformed
 
     private void btCurso8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso8ActionPerformed
@@ -3679,624 +3878,627 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     }//GEN-LAST:event_segundaCodigoProfessorAKeyTyped
 
     private void btCurso19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso19ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(tercaCodigoProfessorD, tercaProfessorD);
     }//GEN-LAST:event_btCurso19ActionPerformed
 
-    private void segundaDisciplinaA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaDisciplinaA1ActionPerformed
+    private void tercaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaDisciplinaAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaDisciplinaA1ActionPerformed
+    }//GEN-LAST:event_tercaDisciplinaAActionPerformed
 
     private void btCurso20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso20ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(tercaHorarioD);
     }//GEN-LAST:event_btCurso20ActionPerformed
 
     private void btCurso21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso21ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(tercaCodigoProfessorB, tercaProfessorB);
     }//GEN-LAST:event_btCurso21ActionPerformed
 
     private void btCurso22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso22ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(tercaDisciplinaE);
     }//GEN-LAST:event_btCurso22ActionPerformed
 
-    private void segundaCodigoProfessorA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA1ActionPerformed
+    private void tercaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA1ActionPerformed
+    }//GEN-LAST:event_tercaCodigoProfessorAActionPerformed
 
-    private void segundaCodigoProfessorA1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA1KeyTyped
+    private void tercaCodigoProfessorAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorAKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA1KeyTyped
+    }//GEN-LAST:event_tercaCodigoProfessorAKeyTyped
 
     private void btCurso23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso23ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(tercaDisciplinaC);
     }//GEN-LAST:event_btCurso23ActionPerformed
 
     private void btCurso24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso24ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(tercaHorarioE);
     }//GEN-LAST:event_btCurso24ActionPerformed
 
-    private void segundaCodigoProfessorE1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE1ActionPerformed
+    private void tercaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE1ActionPerformed
+    }//GEN-LAST:event_tercaCodigoProfessorEActionPerformed
 
-    private void segundaCodigoProfessorE1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE1KeyTyped
+    private void tercaCodigoProfessorEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorEKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE1KeyTyped
+    }//GEN-LAST:event_tercaCodigoProfessorEKeyTyped
 
     private void btCurso25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso25ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(tercaDisciplinaA);
     }//GEN-LAST:event_btCurso25ActionPerformed
 
     private void btCurso26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso26ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(tercaDisciplinaB);
     }//GEN-LAST:event_btCurso26ActionPerformed
 
-    private void segundaCodigoProfessorB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB1ActionPerformed
+    private void tercaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB1ActionPerformed
+    }//GEN-LAST:event_tercaCodigoProfessorBActionPerformed
 
-    private void segundaCodigoProfessorB1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB1KeyTyped
+    private void tercaCodigoProfessorBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorBKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB1KeyTyped
+    }//GEN-LAST:event_tercaCodigoProfessorBKeyTyped
 
     private void btCurso27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso27ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(tercaHorarioB);
     }//GEN-LAST:event_btCurso27ActionPerformed
 
     private void btCurso28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso28ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(tercaCodigoProfessorF, tercaProfessorF);
     }//GEN-LAST:event_btCurso28ActionPerformed
 
     private void btCurso29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso29ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(tercaHorarioA);
     }//GEN-LAST:event_btCurso29ActionPerformed
 
-    private void segundaCodigoProfessorF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF1ActionPerformed
+    private void tercaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF1ActionPerformed
+    }//GEN-LAST:event_tercaCodigoProfessorFActionPerformed
 
-    private void segundaCodigoProfessorF1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF1KeyTyped
+    private void tercaCodigoProfessorFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorFKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF1KeyTyped
+    }//GEN-LAST:event_tercaCodigoProfessorFKeyTyped
 
-    private void segundaCodigoProfessorC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC1ActionPerformed
+    private void tercaCodigoProfessorCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC1ActionPerformed
+    }//GEN-LAST:event_tercaCodigoProfessorCActionPerformed
 
-    private void segundaCodigoProfessorC1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC1KeyTyped
+    private void tercaCodigoProfessorCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorCKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC1KeyTyped
+    }//GEN-LAST:event_tercaCodigoProfessorCKeyTyped
 
     private void btCurso30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso30ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(tercaCodigoProfessorA, tercaProfessorA);
     }//GEN-LAST:event_btCurso30ActionPerformed
 
     private void btCurso31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso31ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(tercaHorarioC);
     }//GEN-LAST:event_btCurso31ActionPerformed
 
     private void btCurso32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso32ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(tercaCodigoProfessorE, tercaProfessorE);
     }//GEN-LAST:event_btCurso32ActionPerformed
 
     private void btCurso33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso33ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(tercaHorarioF);
     }//GEN-LAST:event_btCurso33ActionPerformed
 
     private void btCurso34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso34ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(tercaDisciplinaD);
     }//GEN-LAST:event_btCurso34ActionPerformed
 
     private void btCurso35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso35ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(tercaDisciplinaF);
     }//GEN-LAST:event_btCurso35ActionPerformed
 
     private void btCurso36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso36ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(tercaCodigoProfessorC, tercaProfessorC);
     }//GEN-LAST:event_btCurso36ActionPerformed
 
-    private void segundaCodigoProfessorD1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD1ActionPerformed
+    private void tercaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD1ActionPerformed
+    }//GEN-LAST:event_tercaCodigoProfessorDActionPerformed
 
-    private void segundaCodigoProfessorD1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD1KeyTyped
+    private void tercaCodigoProfessorDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorDKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD1KeyTyped
+    }//GEN-LAST:event_tercaCodigoProfessorDKeyTyped
 
     private void btCurso37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso37ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quartaCodigoProfessorD, quartaProfessorD);
     }//GEN-LAST:event_btCurso37ActionPerformed
 
-    private void segundaDisciplinaA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaDisciplinaA2ActionPerformed
+    private void quartaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaDisciplinaAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaDisciplinaA2ActionPerformed
+    }//GEN-LAST:event_quartaDisciplinaAActionPerformed
 
     private void btCurso38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso38ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quartaHorarioD);
     }//GEN-LAST:event_btCurso38ActionPerformed
 
     private void btCurso39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso39ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quartaCodigoProfessorB, quartaProfessorB);
     }//GEN-LAST:event_btCurso39ActionPerformed
 
     private void btCurso40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso40ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quartaDisciplinaE);
     }//GEN-LAST:event_btCurso40ActionPerformed
 
-    private void segundaCodigoProfessorA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA2ActionPerformed
+    private void quartaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA2ActionPerformed
+    }//GEN-LAST:event_quartaCodigoProfessorAActionPerformed
 
-    private void segundaCodigoProfessorA2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA2KeyTyped
+    private void quartaCodigoProfessorAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorAKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA2KeyTyped
+    }//GEN-LAST:event_quartaCodigoProfessorAKeyTyped
 
     private void btCurso41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso41ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quartaDisciplinaC);
     }//GEN-LAST:event_btCurso41ActionPerformed
 
     private void btCurso42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso42ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quartaHorarioE);
     }//GEN-LAST:event_btCurso42ActionPerformed
 
-    private void segundaCodigoProfessorE2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE2ActionPerformed
+    private void quartaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE2ActionPerformed
+    }//GEN-LAST:event_quartaCodigoProfessorEActionPerformed
 
-    private void segundaCodigoProfessorE2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE2KeyTyped
+    private void quartaCodigoProfessorEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorEKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE2KeyTyped
+    }//GEN-LAST:event_quartaCodigoProfessorEKeyTyped
 
     private void btCurso43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso43ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quartaDisciplinaA);
     }//GEN-LAST:event_btCurso43ActionPerformed
 
     private void btCurso44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso44ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quartaDisciplinaB);
     }//GEN-LAST:event_btCurso44ActionPerformed
 
-    private void segundaCodigoProfessorB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB2ActionPerformed
+    private void quartaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB2ActionPerformed
+    }//GEN-LAST:event_quartaCodigoProfessorBActionPerformed
 
-    private void segundaCodigoProfessorB2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB2KeyTyped
+    private void quartaCodigoProfessorBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorBKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB2KeyTyped
+    }//GEN-LAST:event_quartaCodigoProfessorBKeyTyped
 
     private void btCurso45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso45ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quartaHorarioB);
     }//GEN-LAST:event_btCurso45ActionPerformed
 
     private void btCurso46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso46ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quartaCodigoProfessorF, quartaProfessorF);
     }//GEN-LAST:event_btCurso46ActionPerformed
 
     private void btCurso47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso47ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quartaHorarioA);
     }//GEN-LAST:event_btCurso47ActionPerformed
 
-    private void segundaCodigoProfessorF2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF2ActionPerformed
+    private void quartaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF2ActionPerformed
+    }//GEN-LAST:event_quartaCodigoProfessorFActionPerformed
 
-    private void segundaCodigoProfessorF2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF2KeyTyped
+    private void quartaCodigoProfessorFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorFKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF2KeyTyped
+    }//GEN-LAST:event_quartaCodigoProfessorFKeyTyped
 
-    private void segundaCodigoProfessorC2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC2ActionPerformed
+    private void quartaCodigoProfessorCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC2ActionPerformed
+    }//GEN-LAST:event_quartaCodigoProfessorCActionPerformed
 
-    private void segundaCodigoProfessorC2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC2KeyTyped
+    private void quartaCodigoProfessorCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorCKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC2KeyTyped
+    }//GEN-LAST:event_quartaCodigoProfessorCKeyTyped
 
     private void btCurso48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso48ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quartaCodigoProfessorA, quartaProfessorA);
     }//GEN-LAST:event_btCurso48ActionPerformed
 
     private void btCurso49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso49ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quartaHorarioC);
     }//GEN-LAST:event_btCurso49ActionPerformed
 
     private void btCurso50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso50ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quartaCodigoProfessorE, quartaProfessorE);
     }//GEN-LAST:event_btCurso50ActionPerformed
 
     private void btCurso51ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso51ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quartaHorarioF);
     }//GEN-LAST:event_btCurso51ActionPerformed
 
     private void btCurso52ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso52ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quartaDisciplinaD);
     }//GEN-LAST:event_btCurso52ActionPerformed
 
     private void btCurso53ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso53ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quartaDisciplinaF);
     }//GEN-LAST:event_btCurso53ActionPerformed
 
     private void btCurso54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso54ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quartaCodigoProfessorC, quartaProfessorC);
     }//GEN-LAST:event_btCurso54ActionPerformed
 
-    private void segundaCodigoProfessorD2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD2ActionPerformed
+    private void quartaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD2ActionPerformed
+    }//GEN-LAST:event_quartaCodigoProfessorDActionPerformed
 
-    private void segundaCodigoProfessorD2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD2KeyTyped
+    private void quartaCodigoProfessorDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorDKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD2KeyTyped
+    }//GEN-LAST:event_quartaCodigoProfessorDKeyTyped
 
     private void btCurso55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso55ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quintaCodigoProfessorD, quintaProfessorD);
     }//GEN-LAST:event_btCurso55ActionPerformed
 
-    private void segundaDisciplinaA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaDisciplinaA3ActionPerformed
+    private void quintaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaDisciplinaAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaDisciplinaA3ActionPerformed
+    }//GEN-LAST:event_quintaDisciplinaAActionPerformed
 
     private void btCurso56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso56ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quintaHorarioD);
     }//GEN-LAST:event_btCurso56ActionPerformed
 
     private void btCurso57ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso57ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quintaCodigoProfessorB, quintaProfessorB);
     }//GEN-LAST:event_btCurso57ActionPerformed
 
     private void btCurso58ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso58ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quintaDisciplinaE);
     }//GEN-LAST:event_btCurso58ActionPerformed
 
-    private void segundaCodigoProfessorA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA3ActionPerformed
+    private void quintaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA3ActionPerformed
+    }//GEN-LAST:event_quintaCodigoProfessorAActionPerformed
 
-    private void segundaCodigoProfessorA3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA3KeyTyped
+    private void quintaCodigoProfessorAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorAKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA3KeyTyped
+    }//GEN-LAST:event_quintaCodigoProfessorAKeyTyped
 
     private void btCurso59ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso59ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quintaDisciplinaC);
     }//GEN-LAST:event_btCurso59ActionPerformed
 
     private void btCurso60ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso60ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quintaHorarioE);
     }//GEN-LAST:event_btCurso60ActionPerformed
 
-    private void segundaCodigoProfessorE3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE3ActionPerformed
+    private void quintaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE3ActionPerformed
+    }//GEN-LAST:event_quintaCodigoProfessorEActionPerformed
 
-    private void segundaCodigoProfessorE3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE3KeyTyped
+    private void quintaCodigoProfessorEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorEKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE3KeyTyped
+    }//GEN-LAST:event_quintaCodigoProfessorEKeyTyped
 
     private void btCurso61ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso61ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quintaDisciplinaA);
     }//GEN-LAST:event_btCurso61ActionPerformed
 
     private void btCurso62ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso62ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quintaDisciplinaB);
     }//GEN-LAST:event_btCurso62ActionPerformed
 
-    private void segundaCodigoProfessorB3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB3ActionPerformed
+    private void quintaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB3ActionPerformed
+    }//GEN-LAST:event_quintaCodigoProfessorBActionPerformed
 
-    private void segundaCodigoProfessorB3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB3KeyTyped
+    private void quintaCodigoProfessorBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorBKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB3KeyTyped
+    }//GEN-LAST:event_quintaCodigoProfessorBKeyTyped
 
     private void btCurso63ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso63ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quintaHorarioB);
     }//GEN-LAST:event_btCurso63ActionPerformed
 
     private void btCurso64ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso64ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quintaCodigoProfessorF, quintaProfessorF);
     }//GEN-LAST:event_btCurso64ActionPerformed
 
     private void btCurso65ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso65ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quintaHorarioA);
     }//GEN-LAST:event_btCurso65ActionPerformed
 
-    private void segundaCodigoProfessorF3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF3ActionPerformed
+    private void quintaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF3ActionPerformed
+    }//GEN-LAST:event_quintaCodigoProfessorFActionPerformed
 
-    private void segundaCodigoProfessorF3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF3KeyTyped
+    private void quintaCodigoProfessorFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorFKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF3KeyTyped
+    }//GEN-LAST:event_quintaCodigoProfessorFKeyTyped
 
-    private void segundaCodigoProfessorC3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC3ActionPerformed
+    private void quintaCodigoProfessorCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC3ActionPerformed
+    }//GEN-LAST:event_quintaCodigoProfessorCActionPerformed
 
-    private void segundaCodigoProfessorC3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC3KeyTyped
+    private void quintaCodigoProfessorCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorCKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC3KeyTyped
+    }//GEN-LAST:event_quintaCodigoProfessorCKeyTyped
 
     private void btCurso66ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso66ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quintaCodigoProfessorA, quintaProfessorA);
     }//GEN-LAST:event_btCurso66ActionPerformed
 
     private void btCurso67ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso67ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quintaHorarioC);
     }//GEN-LAST:event_btCurso67ActionPerformed
 
     private void btCurso68ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso68ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quintaCodigoProfessorE, quintaProfessorE);
     }//GEN-LAST:event_btCurso68ActionPerformed
 
     private void btCurso69ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso69ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(quintaHorarioF);
     }//GEN-LAST:event_btCurso69ActionPerformed
 
     private void btCurso70ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso70ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quintaDisciplinaD);
     }//GEN-LAST:event_btCurso70ActionPerformed
 
     private void btCurso71ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso71ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(quintaDisciplinaF);
     }//GEN-LAST:event_btCurso71ActionPerformed
 
     private void btCurso72ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso72ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(quintaCodigoProfessorC, quintaProfessorC);
     }//GEN-LAST:event_btCurso72ActionPerformed
 
-    private void segundaCodigoProfessorD3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD3ActionPerformed
+    private void quintaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD3ActionPerformed
+    }//GEN-LAST:event_quintaCodigoProfessorDActionPerformed
 
-    private void segundaCodigoProfessorD3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD3KeyTyped
+    private void quintaCodigoProfessorDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorDKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD3KeyTyped
+    }//GEN-LAST:event_quintaCodigoProfessorDKeyTyped
 
     private void btCurso73ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso73ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sextaCodigoProfessorD, sextaProfessorD);
     }//GEN-LAST:event_btCurso73ActionPerformed
 
-    private void segundaDisciplinaA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaDisciplinaA4ActionPerformed
+    private void sextaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaDisciplinaAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaDisciplinaA4ActionPerformed
+    }//GEN-LAST:event_sextaDisciplinaAActionPerformed
 
     private void btCurso74ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso74ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sextaHorarioD);
     }//GEN-LAST:event_btCurso74ActionPerformed
 
     private void btCurso75ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso75ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sextaCodigoProfessorB, sextaProfessorB);
     }//GEN-LAST:event_btCurso75ActionPerformed
 
     private void btCurso76ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso76ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(sextaDisciplinaE);
     }//GEN-LAST:event_btCurso76ActionPerformed
 
-    private void segundaCodigoProfessorA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA4ActionPerformed
+    private void sextaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA4ActionPerformed
+    }//GEN-LAST:event_sextaCodigoProfessorAActionPerformed
 
-    private void segundaCodigoProfessorA4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA4KeyTyped
+    private void sextaCodigoProfessorAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorAKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA4KeyTyped
+    }//GEN-LAST:event_sextaCodigoProfessorAKeyTyped
 
     private void btCurso77ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso77ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(sextaDisciplinaC);
     }//GEN-LAST:event_btCurso77ActionPerformed
 
     private void btCurso78ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso78ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sextaHorarioE);
     }//GEN-LAST:event_btCurso78ActionPerformed
 
-    private void segundaCodigoProfessorE4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE4ActionPerformed
+    private void sextaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE4ActionPerformed
+    }//GEN-LAST:event_sextaCodigoProfessorEActionPerformed
 
-    private void segundaCodigoProfessorE4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE4KeyTyped
+    private void sextaCodigoProfessorEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorEKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE4KeyTyped
+    }//GEN-LAST:event_sextaCodigoProfessorEKeyTyped
 
     private void btCurso79ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso79ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(sextaDisciplinaA);
     }//GEN-LAST:event_btCurso79ActionPerformed
 
     private void btCurso80ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso80ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(sextaDisciplinaB);
     }//GEN-LAST:event_btCurso80ActionPerformed
 
-    private void segundaCodigoProfessorB4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB4ActionPerformed
+    private void sextaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB4ActionPerformed
+    }//GEN-LAST:event_sextaCodigoProfessorBActionPerformed
 
-    private void segundaCodigoProfessorB4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB4KeyTyped
+    private void sextaCodigoProfessorBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorBKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB4KeyTyped
+    }//GEN-LAST:event_sextaCodigoProfessorBKeyTyped
 
     private void btCurso81ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso81ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sextaHorarioB);
     }//GEN-LAST:event_btCurso81ActionPerformed
 
     private void btCurso82ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso82ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sextaCodigoProfessorF, sextaProfessorF);
     }//GEN-LAST:event_btCurso82ActionPerformed
 
     private void btCurso83ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso83ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sextaHorarioA);
     }//GEN-LAST:event_btCurso83ActionPerformed
 
-    private void segundaCodigoProfessorF4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF4ActionPerformed
+    private void sextaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF4ActionPerformed
+    }//GEN-LAST:event_sextaCodigoProfessorFActionPerformed
 
-    private void segundaCodigoProfessorF4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF4KeyTyped
+    private void sextaCodigoProfessorFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorFKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF4KeyTyped
+    }//GEN-LAST:event_sextaCodigoProfessorFKeyTyped
 
-    private void segundaCodigoProfessorC4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC4ActionPerformed
+    private void sextaCodigoProfessorCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC4ActionPerformed
+    }//GEN-LAST:event_sextaCodigoProfessorCActionPerformed
 
-    private void segundaCodigoProfessorC4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC4KeyTyped
+    private void sextaCodigoProfessorCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorCKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC4KeyTyped
+    }//GEN-LAST:event_sextaCodigoProfessorCKeyTyped
 
     private void btCurso84ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso84ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sextaCodigoProfessorA, sextaProfessorA);
     }//GEN-LAST:event_btCurso84ActionPerformed
 
     private void btCurso85ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso85ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sextaHorarioC);
     }//GEN-LAST:event_btCurso85ActionPerformed
 
     private void btCurso86ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso86ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sextaCodigoProfessorE, sextaProfessorE);
     }//GEN-LAST:event_btCurso86ActionPerformed
 
     private void btCurso87ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso87ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sextaHorarioF);
     }//GEN-LAST:event_btCurso87ActionPerformed
 
     private void btCurso88ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso88ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(sextaDisciplinaD);
     }//GEN-LAST:event_btCurso88ActionPerformed
 
     private void btCurso89ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso89ActionPerformed
-        // TODO add your handling code here:
+        selecionarDisciplina(sextaDisciplinaF);
     }//GEN-LAST:event_btCurso89ActionPerformed
 
     private void btCurso90ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso90ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sextaCodigoProfessorC, sextaProfessorC);
     }//GEN-LAST:event_btCurso90ActionPerformed
 
-    private void segundaCodigoProfessorD4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD4ActionPerformed
+    private void sextaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD4ActionPerformed
+    }//GEN-LAST:event_sextaCodigoProfessorDActionPerformed
 
-    private void segundaCodigoProfessorD4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD4KeyTyped
+    private void sextaCodigoProfessorDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorDKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD4KeyTyped
+    }//GEN-LAST:event_sextaCodigoProfessorDKeyTyped
 
     private void btCurso91ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso91ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sabadoCodigoProfessorD, sabadoProfessorD);
     }//GEN-LAST:event_btCurso91ActionPerformed
 
-    private void segundaDisciplinaA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaDisciplinaA5ActionPerformed
+    private void sabadoDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoDisciplinaAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaDisciplinaA5ActionPerformed
+    }//GEN-LAST:event_sabadoDisciplinaAActionPerformed
 
     private void btCurso92ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso92ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sabadoHorarioD);
     }//GEN-LAST:event_btCurso92ActionPerformed
 
     private void btCurso93ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso93ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sabadoCodigoProfessorB, sabadoProfessorB);
     }//GEN-LAST:event_btCurso93ActionPerformed
 
     private void btCurso94ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso94ActionPerformed
-
+        selecionarDisciplina(sabadoDisciplinaE);
     }//GEN-LAST:event_btCurso94ActionPerformed
 
-    private void segundaCodigoProfessorA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA5ActionPerformed
+    private void sabadoCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA5ActionPerformed
+    }//GEN-LAST:event_sabadoCodigoProfessorAActionPerformed
 
-    private void segundaCodigoProfessorA5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorA5KeyTyped
+    private void sabadoCodigoProfessorAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorAKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorA5KeyTyped
+    }//GEN-LAST:event_sabadoCodigoProfessorAKeyTyped
 
     private void btCurso95ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso95ActionPerformed
-
+        selecionarDisciplina(sabadoDisciplinaC);
     }//GEN-LAST:event_btCurso95ActionPerformed
 
     private void btCurso96ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso96ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sabadoHorarioE);
     }//GEN-LAST:event_btCurso96ActionPerformed
 
-    private void segundaCodigoProfessorE5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE5ActionPerformed
+    private void sabadoCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE5ActionPerformed
+    }//GEN-LAST:event_sabadoCodigoProfessorEActionPerformed
 
-    private void segundaCodigoProfessorE5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorE5KeyTyped
+    private void sabadoCodigoProfessorEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorEKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorE5KeyTyped
+    }//GEN-LAST:event_sabadoCodigoProfessorEKeyTyped
 
     private void btCurso97ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso97ActionPerformed
-
+        selecionarDisciplina(sabadoDisciplinaA);
     }//GEN-LAST:event_btCurso97ActionPerformed
 
     private void btCurso98ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso98ActionPerformed
-
+        selecionarDisciplina(sabadoDisciplinaB);
     }//GEN-LAST:event_btCurso98ActionPerformed
 
-    private void segundaCodigoProfessorB5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB5ActionPerformed
+    private void sabadoCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB5ActionPerformed
+    }//GEN-LAST:event_sabadoCodigoProfessorBActionPerformed
 
-    private void segundaCodigoProfessorB5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorB5KeyTyped
+    private void sabadoCodigoProfessorBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorBKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorB5KeyTyped
+    }//GEN-LAST:event_sabadoCodigoProfessorBKeyTyped
 
     private void btCurso99ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso99ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sabadoHorarioB);
+        
     }//GEN-LAST:event_btCurso99ActionPerformed
 
     private void btCurso100ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso100ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sabadoCodigoProfessorF, sabadoProfessorF);
     }//GEN-LAST:event_btCurso100ActionPerformed
 
     private void btCurso101ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso101ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sabadoHorarioA);
+       
     }//GEN-LAST:event_btCurso101ActionPerformed
 
-    private void segundaCodigoProfessorF5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF5ActionPerformed
+    private void sabadoCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF5ActionPerformed
+    }//GEN-LAST:event_sabadoCodigoProfessorFActionPerformed
 
-    private void segundaCodigoProfessorF5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorF5KeyTyped
+    private void sabadoCodigoProfessorFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorFKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorF5KeyTyped
+    }//GEN-LAST:event_sabadoCodigoProfessorFKeyTyped
 
-    private void segundaCodigoProfessorC5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC5ActionPerformed
+    private void sabadoCodigoProfessorCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC5ActionPerformed
+    }//GEN-LAST:event_sabadoCodigoProfessorCActionPerformed
 
-    private void segundaCodigoProfessorC5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorC5KeyTyped
+    private void sabadoCodigoProfessorCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorCKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorC5KeyTyped
+    }//GEN-LAST:event_sabadoCodigoProfessorCKeyTyped
 
     private void btCurso102ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso102ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sabadoCodigoProfessorA, sabadoProfessorA);
     }//GEN-LAST:event_btCurso102ActionPerformed
 
     private void btCurso103ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso103ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sabadoHorarioC);
     }//GEN-LAST:event_btCurso103ActionPerformed
 
     private void btCurso104ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso104ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sabadoCodigoProfessorE, sabadoProfessorE);
     }//GEN-LAST:event_btCurso104ActionPerformed
 
     private void btCurso105ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso105ActionPerformed
-        // TODO add your handling code here:
+        selecionarHorario(sabadoHorarioF);
+        
     }//GEN-LAST:event_btCurso105ActionPerformed
 
     private void btCurso106ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso106ActionPerformed
-
+        selecionarDisciplina(sabadoDisciplinaD);
     }//GEN-LAST:event_btCurso106ActionPerformed
 
     private void btCurso107ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso107ActionPerformed
-
+        selecionarDisciplina(sabadoDisciplinaF);
     }//GEN-LAST:event_btCurso107ActionPerformed
 
     private void btCurso108ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso108ActionPerformed
-        // TODO add your handling code here:
+        selecionarProfessor(sabadoCodigoProfessorC, sabadoProfessorC);
     }//GEN-LAST:event_btCurso108ActionPerformed
 
-    private void segundaCodigoProfessorD5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD5ActionPerformed
+    private void sabadoCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD5ActionPerformed
+    }//GEN-LAST:event_sabadoCodigoProfessorDActionPerformed
 
-    private void segundaCodigoProfessorD5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorD5KeyTyped
+    private void sabadoCodigoProfessorDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorDKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_segundaCodigoProfessorD5KeyTyped
+    }//GEN-LAST:event_sabadoCodigoProfessorDKeyTyped
 
     private void segundaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorA, segundaProfessorA);
@@ -4325,6 +4527,130 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private void jcAnoExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAnoExercicioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcAnoExercicioActionPerformed
+
+    private void tercaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorAFocusLost
+        pesquisarProfessorCodigo(tercaCodigoProfessorA, tercaProfessorA);
+    }//GEN-LAST:event_tercaCodigoProfessorAFocusLost
+
+    private void tercaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorBFocusLost
+        pesquisarProfessorCodigo(tercaCodigoProfessorB, tercaProfessorB);
+    }//GEN-LAST:event_tercaCodigoProfessorBFocusLost
+
+    private void tercaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorCFocusLost
+        pesquisarProfessorCodigo(tercaCodigoProfessorC, tercaProfessorC);
+    }//GEN-LAST:event_tercaCodigoProfessorCFocusLost
+
+    private void tercaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorDFocusLost
+        pesquisarProfessorCodigo(tercaCodigoProfessorD, tercaProfessorD);
+    }//GEN-LAST:event_tercaCodigoProfessorDFocusLost
+
+    private void tercaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorEFocusLost
+        pesquisarProfessorCodigo(tercaCodigoProfessorE, tercaProfessorE);
+    }//GEN-LAST:event_tercaCodigoProfessorEFocusLost
+
+    private void tercaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorFFocusLost
+        pesquisarProfessorCodigo(tercaCodigoProfessorF, tercaProfessorF);
+    }//GEN-LAST:event_tercaCodigoProfessorFFocusLost
+
+    private void quartaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorAFocusLost
+        pesquisarProfessorCodigo(quartaCodigoProfessorA, quartaProfessorA);
+    }//GEN-LAST:event_quartaCodigoProfessorAFocusLost
+
+    private void quartaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorBFocusLost
+        pesquisarProfessorCodigo(quartaCodigoProfessorB, quartaProfessorB);
+    }//GEN-LAST:event_quartaCodigoProfessorBFocusLost
+
+    private void quartaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorCFocusLost
+        pesquisarProfessorCodigo(quartaCodigoProfessorC, quartaProfessorC);
+    }//GEN-LAST:event_quartaCodigoProfessorCFocusLost
+
+    private void quartaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorDFocusLost
+        pesquisarProfessorCodigo(quartaCodigoProfessorD, quartaProfessorD);
+    }//GEN-LAST:event_quartaCodigoProfessorDFocusLost
+
+    private void quartaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorEFocusLost
+        pesquisarProfessorCodigo(quartaCodigoProfessorE, quartaProfessorE);
+    }//GEN-LAST:event_quartaCodigoProfessorEFocusLost
+
+    private void quartaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorFFocusLost
+        pesquisarProfessorCodigo(quartaCodigoProfessorF, quartaProfessorF);
+    }//GEN-LAST:event_quartaCodigoProfessorFFocusLost
+
+    private void quintaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorAFocusLost
+        pesquisarProfessorCodigo(quintaCodigoProfessorA, quintaProfessorA);
+    }//GEN-LAST:event_quintaCodigoProfessorAFocusLost
+
+    private void quintaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorBFocusLost
+        pesquisarProfessorCodigo(quintaCodigoProfessorB, quintaProfessorB);
+    }//GEN-LAST:event_quintaCodigoProfessorBFocusLost
+
+    private void quintaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorCFocusLost
+        pesquisarProfessorCodigo(quintaCodigoProfessorC, quintaProfessorC);
+    }//GEN-LAST:event_quintaCodigoProfessorCFocusLost
+
+    private void quintaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorDFocusLost
+        pesquisarProfessorCodigo(quintaCodigoProfessorD, quintaProfessorD);
+    }//GEN-LAST:event_quintaCodigoProfessorDFocusLost
+
+    private void quintaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorEFocusLost
+        pesquisarProfessorCodigo(quintaCodigoProfessorE, quintaProfessorE);
+    }//GEN-LAST:event_quintaCodigoProfessorEFocusLost
+
+    private void quintaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorFFocusLost
+        pesquisarProfessorCodigo(quintaCodigoProfessorF, quintaProfessorF);
+    }//GEN-LAST:event_quintaCodigoProfessorFFocusLost
+
+    private void sextaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorAFocusLost
+        pesquisarProfessorCodigo(sextaCodigoProfessorA, sextaProfessorA);
+    }//GEN-LAST:event_sextaCodigoProfessorAFocusLost
+
+    private void sextaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorBFocusLost
+        pesquisarProfessorCodigo(sextaCodigoProfessorB, sextaProfessorB);
+    }//GEN-LAST:event_sextaCodigoProfessorBFocusLost
+
+    private void sextaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorCFocusLost
+        pesquisarProfessorCodigo(sextaCodigoProfessorC, sextaProfessorC);
+    }//GEN-LAST:event_sextaCodigoProfessorCFocusLost
+
+    private void sextaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorDFocusLost
+        pesquisarProfessorCodigo(sextaCodigoProfessorD, sextaProfessorD);
+    }//GEN-LAST:event_sextaCodigoProfessorDFocusLost
+
+    private void sextaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorEFocusLost
+        pesquisarProfessorCodigo(sextaCodigoProfessorE, sextaProfessorE);
+    }//GEN-LAST:event_sextaCodigoProfessorEFocusLost
+
+    private void sextaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorFFocusLost
+        pesquisarProfessorCodigo(sextaCodigoProfessorF, sextaProfessorF);
+    }//GEN-LAST:event_sextaCodigoProfessorFFocusLost
+
+    private void sabadoCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorAFocusLost
+        pesquisarProfessorCodigo(sabadoCodigoProfessorA, sabadoProfessorA);
+    }//GEN-LAST:event_sabadoCodigoProfessorAFocusLost
+
+    private void sabadoCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorBFocusLost
+        pesquisarProfessorCodigo(sabadoCodigoProfessorB, sabadoProfessorB);
+    }//GEN-LAST:event_sabadoCodigoProfessorBFocusLost
+
+    private void sabadoCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorCFocusLost
+        pesquisarProfessorCodigo(sabadoCodigoProfessorC, sabadoProfessorC);
+    }//GEN-LAST:event_sabadoCodigoProfessorCFocusLost
+
+    private void sabadoCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorDFocusLost
+        pesquisarProfessorCodigo(sabadoCodigoProfessorD, sabadoProfessorD);
+    }//GEN-LAST:event_sabadoCodigoProfessorDFocusLost
+
+    private void sabadoCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorEFocusLost
+        pesquisarProfessorCodigo(sabadoCodigoProfessorE, sabadoProfessorE);
+    }//GEN-LAST:event_sabadoCodigoProfessorEFocusLost
+
+    private void sabadoCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorFFocusLost
+        pesquisarProfessorCodigo(sabadoCodigoProfessorF, sabadoProfessorF);
+    }//GEN-LAST:event_sabadoCodigoProfessorFFocusLost
+
+    private void sextaProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaProfessorAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sextaProfessorAActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4507,150 +4833,150 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private javax.swing.JLabel jlquadro3;
     private javax.swing.JLabel jlquadro4;
     private javax.swing.JLabel jlquadro5;
+    private javax.swing.JTextField quartaCodigoProfessorA;
+    private javax.swing.JTextField quartaCodigoProfessorB;
+    private javax.swing.JTextField quartaCodigoProfessorC;
+    private javax.swing.JTextField quartaCodigoProfessorD;
+    private javax.swing.JTextField quartaCodigoProfessorE;
+    private javax.swing.JTextField quartaCodigoProfessorF;
+    private javax.swing.JTextField quartaDisciplinaA;
+    private javax.swing.JTextField quartaDisciplinaB;
+    private javax.swing.JTextField quartaDisciplinaC;
+    private javax.swing.JTextField quartaDisciplinaD;
+    private javax.swing.JTextField quartaDisciplinaE;
+    private javax.swing.JTextField quartaDisciplinaF;
+    private javax.swing.JTextField quartaHorarioA;
+    private javax.swing.JTextField quartaHorarioB;
+    private javax.swing.JTextField quartaHorarioC;
+    private javax.swing.JTextField quartaHorarioD;
+    private javax.swing.JTextField quartaHorarioE;
+    private javax.swing.JTextField quartaHorarioF;
+    private javax.swing.JTextField quartaProfessorA;
+    private javax.swing.JTextField quartaProfessorB;
+    private javax.swing.JTextField quartaProfessorC;
+    private javax.swing.JTextField quartaProfessorD;
+    private javax.swing.JTextField quartaProfessorE;
+    private javax.swing.JTextField quartaProfessorF;
+    private javax.swing.JTextField quintaCodigoProfessorA;
+    private javax.swing.JTextField quintaCodigoProfessorB;
+    private javax.swing.JTextField quintaCodigoProfessorC;
+    private javax.swing.JTextField quintaCodigoProfessorD;
+    private javax.swing.JTextField quintaCodigoProfessorE;
+    private javax.swing.JTextField quintaCodigoProfessorF;
+    private javax.swing.JTextField quintaDisciplinaA;
+    private javax.swing.JTextField quintaDisciplinaB;
+    private javax.swing.JTextField quintaDisciplinaC;
+    private javax.swing.JTextField quintaDisciplinaD;
+    private javax.swing.JTextField quintaDisciplinaE;
+    private javax.swing.JTextField quintaDisciplinaF;
+    private javax.swing.JTextField quintaHorarioA;
+    private javax.swing.JTextField quintaHorarioB;
+    private javax.swing.JTextField quintaHorarioC;
+    private javax.swing.JTextField quintaHorarioD;
+    private javax.swing.JTextField quintaHorarioE;
+    private javax.swing.JTextField quintaHorarioF;
+    private javax.swing.JTextField quintaProfessorA;
+    private javax.swing.JTextField quintaProfessorB;
+    private javax.swing.JTextField quintaProfessorC;
+    private javax.swing.JTextField quintaProfessorD;
+    private javax.swing.JTextField quintaProfessorE;
+    private javax.swing.JTextField quintaProfessorF;
+    private javax.swing.JTextField sabadoCodigoProfessorA;
+    private javax.swing.JTextField sabadoCodigoProfessorB;
+    private javax.swing.JTextField sabadoCodigoProfessorC;
+    private javax.swing.JTextField sabadoCodigoProfessorD;
+    private javax.swing.JTextField sabadoCodigoProfessorE;
+    private javax.swing.JTextField sabadoCodigoProfessorF;
+    private javax.swing.JTextField sabadoDisciplinaA;
+    private javax.swing.JTextField sabadoDisciplinaB;
+    private javax.swing.JTextField sabadoDisciplinaC;
+    private javax.swing.JTextField sabadoDisciplinaD;
+    private javax.swing.JTextField sabadoDisciplinaE;
+    private javax.swing.JTextField sabadoDisciplinaF;
+    private javax.swing.JTextField sabadoHorarioA;
+    private javax.swing.JTextField sabadoHorarioB;
+    private javax.swing.JTextField sabadoHorarioC;
+    private javax.swing.JTextField sabadoHorarioD;
+    private javax.swing.JTextField sabadoHorarioE;
+    private javax.swing.JTextField sabadoHorarioF;
+    private javax.swing.JTextField sabadoProfessorA;
+    private javax.swing.JTextField sabadoProfessorB;
+    private javax.swing.JTextField sabadoProfessorC;
+    private javax.swing.JTextField sabadoProfessorD;
+    private javax.swing.JTextField sabadoProfessorE;
+    private javax.swing.JTextField sabadoProfessorF;
     private javax.swing.JTextField segundaCodigoProfessorA;
-    private javax.swing.JTextField segundaCodigoProfessorA1;
-    private javax.swing.JTextField segundaCodigoProfessorA2;
-    private javax.swing.JTextField segundaCodigoProfessorA3;
-    private javax.swing.JTextField segundaCodigoProfessorA4;
-    private javax.swing.JTextField segundaCodigoProfessorA5;
     private javax.swing.JTextField segundaCodigoProfessorB;
-    private javax.swing.JTextField segundaCodigoProfessorB1;
-    private javax.swing.JTextField segundaCodigoProfessorB2;
-    private javax.swing.JTextField segundaCodigoProfessorB3;
-    private javax.swing.JTextField segundaCodigoProfessorB4;
-    private javax.swing.JTextField segundaCodigoProfessorB5;
     private javax.swing.JTextField segundaCodigoProfessorC;
-    private javax.swing.JTextField segundaCodigoProfessorC1;
-    private javax.swing.JTextField segundaCodigoProfessorC2;
-    private javax.swing.JTextField segundaCodigoProfessorC3;
-    private javax.swing.JTextField segundaCodigoProfessorC4;
-    private javax.swing.JTextField segundaCodigoProfessorC5;
     private javax.swing.JTextField segundaCodigoProfessorD;
-    private javax.swing.JTextField segundaCodigoProfessorD1;
-    private javax.swing.JTextField segundaCodigoProfessorD2;
-    private javax.swing.JTextField segundaCodigoProfessorD3;
-    private javax.swing.JTextField segundaCodigoProfessorD4;
-    private javax.swing.JTextField segundaCodigoProfessorD5;
     private javax.swing.JTextField segundaCodigoProfessorE;
-    private javax.swing.JTextField segundaCodigoProfessorE1;
-    private javax.swing.JTextField segundaCodigoProfessorE2;
-    private javax.swing.JTextField segundaCodigoProfessorE3;
-    private javax.swing.JTextField segundaCodigoProfessorE4;
-    private javax.swing.JTextField segundaCodigoProfessorE5;
     private javax.swing.JTextField segundaCodigoProfessorF;
-    private javax.swing.JTextField segundaCodigoProfessorF1;
-    private javax.swing.JTextField segundaCodigoProfessorF2;
-    private javax.swing.JTextField segundaCodigoProfessorF3;
-    private javax.swing.JTextField segundaCodigoProfessorF4;
-    private javax.swing.JTextField segundaCodigoProfessorF5;
     private javax.swing.JTextField segundaDisciplinaA;
-    private javax.swing.JTextField segundaDisciplinaA1;
-    private javax.swing.JTextField segundaDisciplinaA2;
-    private javax.swing.JTextField segundaDisciplinaA3;
-    private javax.swing.JTextField segundaDisciplinaA4;
-    private javax.swing.JTextField segundaDisciplinaA5;
     private javax.swing.JTextField segundaDisciplinaB;
-    private javax.swing.JTextField segundaDisciplinaB1;
-    private javax.swing.JTextField segundaDisciplinaB2;
-    private javax.swing.JTextField segundaDisciplinaB3;
-    private javax.swing.JTextField segundaDisciplinaB4;
-    private javax.swing.JTextField segundaDisciplinaB5;
     private javax.swing.JTextField segundaDisciplinaC;
-    private javax.swing.JTextField segundaDisciplinaC1;
-    private javax.swing.JTextField segundaDisciplinaC2;
-    private javax.swing.JTextField segundaDisciplinaC3;
-    private javax.swing.JTextField segundaDisciplinaC4;
-    private javax.swing.JTextField segundaDisciplinaC5;
     private javax.swing.JTextField segundaDisciplinaD;
-    private javax.swing.JTextField segundaDisciplinaD1;
-    private javax.swing.JTextField segundaDisciplinaD2;
-    private javax.swing.JTextField segundaDisciplinaD3;
-    private javax.swing.JTextField segundaDisciplinaD4;
-    private javax.swing.JTextField segundaDisciplinaD5;
     private javax.swing.JTextField segundaDisciplinaE;
-    private javax.swing.JTextField segundaDisciplinaE1;
-    private javax.swing.JTextField segundaDisciplinaE2;
-    private javax.swing.JTextField segundaDisciplinaE3;
-    private javax.swing.JTextField segundaDisciplinaE4;
-    private javax.swing.JTextField segundaDisciplinaE5;
     private javax.swing.JTextField segundaDisciplinaF;
-    private javax.swing.JTextField segundaDisciplinaF1;
-    private javax.swing.JTextField segundaDisciplinaF2;
-    private javax.swing.JTextField segundaDisciplinaF3;
-    private javax.swing.JTextField segundaDisciplinaF4;
-    private javax.swing.JTextField segundaDisciplinaF5;
     private javax.swing.JTextField segundaHorarioA;
-    private javax.swing.JTextField segundaHorarioA1;
-    private javax.swing.JTextField segundaHorarioA2;
-    private javax.swing.JTextField segundaHorarioA3;
-    private javax.swing.JTextField segundaHorarioA4;
-    private javax.swing.JTextField segundaHorarioA5;
     private javax.swing.JTextField segundaHorarioB;
-    private javax.swing.JTextField segundaHorarioB1;
-    private javax.swing.JTextField segundaHorarioB2;
-    private javax.swing.JTextField segundaHorarioB3;
-    private javax.swing.JTextField segundaHorarioB4;
-    private javax.swing.JTextField segundaHorarioB5;
     private javax.swing.JTextField segundaHorarioC;
-    private javax.swing.JTextField segundaHorarioC1;
-    private javax.swing.JTextField segundaHorarioC2;
-    private javax.swing.JTextField segundaHorarioC3;
-    private javax.swing.JTextField segundaHorarioC4;
-    private javax.swing.JTextField segundaHorarioC5;
     private javax.swing.JTextField segundaHorarioD;
-    private javax.swing.JTextField segundaHorarioD1;
-    private javax.swing.JTextField segundaHorarioD2;
-    private javax.swing.JTextField segundaHorarioD3;
-    private javax.swing.JTextField segundaHorarioD4;
-    private javax.swing.JTextField segundaHorarioD5;
     private javax.swing.JTextField segundaHorarioE;
-    private javax.swing.JTextField segundaHorarioE1;
-    private javax.swing.JTextField segundaHorarioE2;
-    private javax.swing.JTextField segundaHorarioE3;
-    private javax.swing.JTextField segundaHorarioE4;
-    private javax.swing.JTextField segundaHorarioE5;
     private javax.swing.JTextField segundaHorarioF;
-    private javax.swing.JTextField segundaHorarioF1;
-    private javax.swing.JTextField segundaHorarioF2;
-    private javax.swing.JTextField segundaHorarioF3;
-    private javax.swing.JTextField segundaHorarioF4;
-    private javax.swing.JTextField segundaHorarioF5;
     private javax.swing.JTextField segundaProfessorA;
-    private javax.swing.JTextField segundaProfessorA1;
-    private javax.swing.JTextField segundaProfessorA2;
-    private javax.swing.JTextField segundaProfessorA3;
-    private javax.swing.JTextField segundaProfessorA4;
-    private javax.swing.JTextField segundaProfessorA5;
     private javax.swing.JTextField segundaProfessorB;
-    private javax.swing.JTextField segundaProfessorB1;
-    private javax.swing.JTextField segundaProfessorB2;
-    private javax.swing.JTextField segundaProfessorB3;
-    private javax.swing.JTextField segundaProfessorB4;
-    private javax.swing.JTextField segundaProfessorB5;
     private javax.swing.JTextField segundaProfessorC;
-    private javax.swing.JTextField segundaProfessorC1;
-    private javax.swing.JTextField segundaProfessorC2;
-    private javax.swing.JTextField segundaProfessorC3;
-    private javax.swing.JTextField segundaProfessorC4;
-    private javax.swing.JTextField segundaProfessorC5;
     private javax.swing.JTextField segundaProfessorD;
-    private javax.swing.JTextField segundaProfessorD1;
-    private javax.swing.JTextField segundaProfessorD2;
-    private javax.swing.JTextField segundaProfessorD3;
-    private javax.swing.JTextField segundaProfessorD4;
-    private javax.swing.JTextField segundaProfessorD5;
     private javax.swing.JTextField segundaProfessorE;
-    private javax.swing.JTextField segundaProfessorE1;
-    private javax.swing.JTextField segundaProfessorE2;
-    private javax.swing.JTextField segundaProfessorE3;
-    private javax.swing.JTextField segundaProfessorE4;
-    private javax.swing.JTextField segundaProfessorE5;
     private javax.swing.JTextField segundaProfessorF;
-    private javax.swing.JTextField segundaProfessorF1;
-    private javax.swing.JTextField segundaProfessorF2;
-    private javax.swing.JTextField segundaProfessorF3;
-    private javax.swing.JTextField segundaProfessorF4;
-    private javax.swing.JTextField segundaProfessorF5;
+    private javax.swing.JTextField sextaCodigoProfessorA;
+    private javax.swing.JTextField sextaCodigoProfessorB;
+    private javax.swing.JTextField sextaCodigoProfessorC;
+    private javax.swing.JTextField sextaCodigoProfessorD;
+    private javax.swing.JTextField sextaCodigoProfessorE;
+    private javax.swing.JTextField sextaCodigoProfessorF;
+    private javax.swing.JTextField sextaDisciplinaA;
+    private javax.swing.JTextField sextaDisciplinaB;
+    private javax.swing.JTextField sextaDisciplinaC;
+    private javax.swing.JTextField sextaDisciplinaD;
+    private javax.swing.JTextField sextaDisciplinaE;
+    private javax.swing.JTextField sextaDisciplinaF;
+    private javax.swing.JTextField sextaHorarioA;
+    private javax.swing.JTextField sextaHorarioB;
+    private javax.swing.JTextField sextaHorarioC;
+    private javax.swing.JTextField sextaHorarioD;
+    private javax.swing.JTextField sextaHorarioE;
+    private javax.swing.JTextField sextaHorarioF;
+    private javax.swing.JTextField sextaProfessorA;
+    private javax.swing.JTextField sextaProfessorB;
+    private javax.swing.JTextField sextaProfessorC;
+    private javax.swing.JTextField sextaProfessorD;
+    private javax.swing.JTextField sextaProfessorE;
+    private javax.swing.JTextField sextaProfessorF;
+    private javax.swing.JTextField tercaCodigoProfessorA;
+    private javax.swing.JTextField tercaCodigoProfessorB;
+    private javax.swing.JTextField tercaCodigoProfessorC;
+    private javax.swing.JTextField tercaCodigoProfessorD;
+    private javax.swing.JTextField tercaCodigoProfessorE;
+    private javax.swing.JTextField tercaCodigoProfessorF;
+    private javax.swing.JTextField tercaDisciplinaA;
+    private javax.swing.JTextField tercaDisciplinaB;
+    private javax.swing.JTextField tercaDisciplinaC;
+    private javax.swing.JTextField tercaDisciplinaD;
+    private javax.swing.JTextField tercaDisciplinaE;
+    private javax.swing.JTextField tercaDisciplinaF;
+    private javax.swing.JTextField tercaHorarioA;
+    private javax.swing.JTextField tercaHorarioB;
+    private javax.swing.JTextField tercaHorarioC;
+    private javax.swing.JTextField tercaHorarioD;
+    private javax.swing.JTextField tercaHorarioE;
+    private javax.swing.JTextField tercaHorarioF;
+    private javax.swing.JTextField tercaProfessorA;
+    private javax.swing.JTextField tercaProfessorB;
+    private javax.swing.JTextField tercaProfessorC;
+    private javax.swing.JTextField tercaProfessorD;
+    private javax.swing.JTextField tercaProfessorE;
+    private javax.swing.JTextField tercaProfessorF;
     private javax.swing.JTextField tfGradeCurricular;
     private javax.swing.JTextField tfNomeCurso;
     private javax.swing.JTextField tfNomeSemestre;
