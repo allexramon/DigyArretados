@@ -32,8 +32,10 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -293,8 +295,34 @@ public class Util {
             }
 
         }
+
     }
-    
+
+    public static void limparCamposJTabblePane(JTabbedPane painel) {
+        for (int i = 0; i < painel.getComponentCount(); i++) {
+            Component componentes = painel.getComponent(i);
+            if (componentes instanceof JPanel) {
+                for (int j = 0; j < ((JPanel) componentes).getComponentCount(); j++) {
+                    Component componentesPainel = ((JPanel) componentes).getComponent(j);
+                    if (componentesPainel instanceof JComboBox) {
+                        JComboBox paneis = (JComboBox) componentesPainel;
+                        paneis.setSelectedItem("-----");
+                    } else if (componentesPainel instanceof JTextField) {
+                        JTextField paneis = (JTextField) componentesPainel;
+                        paneis.setText("");
+                    } else if (componentesPainel instanceof JRadioButton) {
+                        JRadioButton paneis = (JRadioButton) componentesPainel;
+                        paneis.setSelected(false);
+                    } else if (componentesPainel instanceof JCheckBox) {
+                        JCheckBox paneis = (JCheckBox) componentesPainel;
+                        paneis.setSelected(false);
+                    }
+                }
+            }
+
+        }
+    }
+
     public static void inabilitarCampos(JDialog Frame) {
         //limpa os campos     
         for (int i = 0; i < Frame.getContentPane().getComponentCount(); i++) {
@@ -307,28 +335,37 @@ public class Util {
 
         }
     }
-    
-    
-    public static byte[] imageToByte(Image image) {	
-		BufferedImage bi = new BufferedImage(image.getWidth(null),image.getHeight(null),BufferedImage.TYPE_INT_RGB);
-		Graphics bg = bi.getGraphics();
-		bg.drawImage(image, 0, 0, null);
-		bg.dispose();
-		ByteArrayOutputStream buff = new ByteArrayOutputStream();		
-	    try {  
-	    	ImageIO.write(bi, "JPG", buff);  
-	    } catch (IOException e) {  
-	    	e.printStackTrace();  
-	    }  
-	    return buff.toByteArray();		
-	}
-    
+
+    public static byte[] imageToByte(Image image) {
+        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        Graphics bg = bi.getGraphics();
+        bg.drawImage(image, 0, 0, null);
+        bg.dispose();
+        ByteArrayOutputStream buff = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bi, "JPG", buff);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buff.toByteArray();
+    }
+
     public static Image byteToImage(byte[] bytes) {
-		if(bytes == null) {
-			return null;
-		}else {
-			return Toolkit.getDefaultToolkit().createImage(bytes);
-		}
-	}
+        if (bytes == null) {
+            return null;
+        } else {
+            return Toolkit.getDefaultToolkit().createImage(bytes);
+        }
+    }
+
+    public static void limite3Caracteres(java.awt.event.KeyEvent evt, JTextField campo) {
+        int ascii = evt.getKeyChar();
+        if (!(ascii >= 48 && ascii <= 57) && !(ascii == evt.VK_BACK_SPACE)) {
+            evt.consume();
+        }
+        if (campo.getText().length() >= 3) {
+            evt.consume();
+        }
+    }
 
 }
