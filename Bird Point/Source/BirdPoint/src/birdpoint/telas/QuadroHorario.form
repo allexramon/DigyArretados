@@ -1131,12 +1131,12 @@
             <Component class="javax.swing.JLabel" name="jlquadro">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/birdpoint/imagens/quadro.png"/>
+                  <Image iconType="3" name="/birdpoint/imagens/quadro1.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="0" y="0" width="540" height="230"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -1932,12 +1932,12 @@
             <Component class="javax.swing.JLabel" name="jlquadro6">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/birdpoint/imagens/quadro.png"/>
+                  <Image iconType="3" name="/birdpoint/imagens/quadro1.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="0" y="0" width="540" height="230"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -2733,12 +2733,12 @@
             <Component class="javax.swing.JLabel" name="jlquadro7">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/birdpoint/imagens/quadro.png"/>
+                  <Image iconType="3" name="/birdpoint/imagens/quadro1.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="0" y="0" width="540" height="230"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -3534,12 +3534,12 @@
             <Component class="javax.swing.JLabel" name="jlquadro8">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/birdpoint/imagens/quadro.png"/>
+                  <Image iconType="3" name="/birdpoint/imagens/quadro1.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="0" y="0" width="540" height="230"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -4335,12 +4335,12 @@
             <Component class="javax.swing.JLabel" name="jlquadro9">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/birdpoint/imagens/quadro.png"/>
+                  <Image iconType="3" name="/birdpoint/imagens/quadro1.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="0" y="0" width="-1" height="230"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -5136,7 +5136,7 @@
             <Component class="javax.swing.JLabel" name="jlquadro10">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/birdpoint/imagens/quadro.png"/>
+                  <Image iconType="3" name="/birdpoint/imagens/quadro1.png"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -5165,7 +5165,7 @@
     <Component class="javax.swing.JLabel" name="jlQuadroHorario">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/birdpoint/imagens/quadrohorario.png"/>
+          <Image iconType="3" name="/birdpoint/imagens/quadrohorario1.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">

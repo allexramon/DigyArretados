@@ -771,9 +771,9 @@ public class QuadroHorario extends javax.swing.JDialog {
         jPanel1.add(btCurso18);
         btCurso18.setBounds(510, 40, 30, 20);
 
-        jlquadro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
+        jlquadro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro1.png"))); // NOI18N
         jPanel1.add(jlquadro);
-        jlquadro.setBounds(0, 0, 540, 227);
+        jlquadro.setBounds(0, 0, 540, 230);
 
         jTabbedPane1.addTab("Segunda-Feira", jPanel1);
 
@@ -1121,9 +1121,9 @@ public class QuadroHorario extends javax.swing.JDialog {
         jPanel2.add(btCurso36);
         btCurso36.setBounds(510, 190, 30, 20);
 
-        jlquadro6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
+        jlquadro6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro1.png"))); // NOI18N
         jPanel2.add(jlquadro6);
-        jlquadro6.setBounds(0, 0, 540, 227);
+        jlquadro6.setBounds(0, 0, 540, 230);
 
         jTabbedPane1.addTab("Terça-Feira", jPanel2);
 
@@ -1471,9 +1471,9 @@ public class QuadroHorario extends javax.swing.JDialog {
         jPanel3.add(btCurso54);
         btCurso54.setBounds(510, 190, 30, 20);
 
-        jlquadro7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
+        jlquadro7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro1.png"))); // NOI18N
         jPanel3.add(jlquadro7);
-        jlquadro7.setBounds(0, 0, 540, 227);
+        jlquadro7.setBounds(0, 0, 540, 230);
 
         jTabbedPane1.addTab("Quarta-Feira", jPanel3);
 
@@ -1821,9 +1821,9 @@ public class QuadroHorario extends javax.swing.JDialog {
         jPanel4.add(btCurso72);
         btCurso72.setBounds(510, 190, 30, 20);
 
-        jlquadro8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
+        jlquadro8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro1.png"))); // NOI18N
         jPanel4.add(jlquadro8);
-        jlquadro8.setBounds(0, 0, 540, 227);
+        jlquadro8.setBounds(0, 0, 540, 230);
 
         jTabbedPane1.addTab("Quinta-Feira", jPanel4);
 
@@ -2171,9 +2171,9 @@ public class QuadroHorario extends javax.swing.JDialog {
         jPanel5.add(btCurso90);
         btCurso90.setBounds(510, 190, 30, 20);
 
-        jlquadro9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
+        jlquadro9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro1.png"))); // NOI18N
         jPanel5.add(jlquadro9);
-        jlquadro9.setBounds(0, 0, 540, 227);
+        jlquadro9.setBounds(0, 0, 540, 230);
 
         jTabbedPane1.addTab("Sexta-Feira", jPanel5);
 
@@ -2521,7 +2521,7 @@ public class QuadroHorario extends javax.swing.JDialog {
         jPanel6.add(btCurso108);
         btCurso108.setBounds(510, 190, 30, 20);
 
-        jlquadro10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
+        jlquadro10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro1.png"))); // NOI18N
         jPanel6.add(jlquadro10);
         jlquadro10.setBounds(0, 0, 540, 227);
 
@@ -2535,7 +2535,7 @@ public class QuadroHorario extends javax.swing.JDialog {
         getContentPane().add(jlNome5);
         jlNome5.setBounds(50, 100, 60, 20);
 
-        jlQuadroHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadrohorario.png"))); // NOI18N
+        jlQuadroHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadrohorario1.png"))); // NOI18N
         jlQuadroHorario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jlQuadroHorario.setMaximumSize(new java.awt.Dimension(600, 520));
         jlQuadroHorario.setMinimumSize(new java.awt.Dimension(600, 520));

@@ -209,7 +209,7 @@ public class CadastroGradeCurricular extends javax.swing.JDialog {
         getContentPane().add(btPesqusar1);
         btPesqusar1.setBounds(510, 180, 30, 30);
 
-        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadGradeCurricular.png"))); // NOI18N
+        jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadGradeCurricular1.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadTitulacao);
         jlCadTitulacao.setBounds(0, 0, 600, 420);

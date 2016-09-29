@@ -93,7 +93,6 @@ public class CadastroDigital extends javax.swing.JDialog {
         selecionarFoto.setPreferredSize(new java.awt.Dimension(520, 320));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(602, 412));
         setMinimumSize(new java.awt.Dimension(602, 412));
         setUndecorated(true);
         setResizable(false);
