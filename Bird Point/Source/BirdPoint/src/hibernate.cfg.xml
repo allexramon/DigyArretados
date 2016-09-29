@@ -22,6 +22,7 @@
         <mapping class="birdpoint.gradecurricular.GradeCurricular"/>
         <mapping class="birdpoint.titulacao.Titulacao"/>     
         <mapping class="birdpoint.usuario.Usuario"/>  
+        <mapping class="birdpoint.horario.Horario"/>  
         
     </session-factory>
 </hibernate-configuration>

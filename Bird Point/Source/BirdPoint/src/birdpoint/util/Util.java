@@ -133,7 +133,7 @@ public class Util {
     public static boolean chkVazio(String... campos) {
         for (String chk : campos) {
             if (chk.isEmpty() || chk.equals("-----") || chk.equals("  /  /    ") || chk.equals("   .   .   -  ")
-                    || chk.equals("(  )     -    ") || chk.equals("     -   ")) {
+                    || chk.equals("(  )     -    ") || chk.equals("     -   ") || chk.equals("  :  ")) {
                 JOptionPane.showMessageDialog(null, "Existem campos obrigatórios que não foram preenchidos!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
@@ -294,6 +294,20 @@ public class Util {
 
         }
     }
+    
+    public static void inabilitarCampos(JDialog Frame) {
+        //limpa os campos     
+        for (int i = 0; i < Frame.getContentPane().getComponentCount(); i++) {
+            //varre todos os componentes     
+            Component c = Frame.getContentPane().getComponent(i);
+            if (c instanceof JTextField) {
+                JTextField field = (JTextField) c;
+                field.setEnabled(false);
+            }
+
+        }
+    }
+    
     
     public static byte[] imageToByte(Image image) {	
 		BufferedImage bi = new BufferedImage(image.getWidth(null),image.getHeight(null),BufferedImage.TYPE_INT_RGB);
