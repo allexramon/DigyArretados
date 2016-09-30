@@ -20,17 +20,22 @@ import birdpoint.horario.HorarioTableModel;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorTableModel;
+import birdpoint.quadrohorarios.QuadroHorarios;
+import birdpoint.quadrohorarios.QuadroHorariosDAO;
 import birdpoint.semestre.Semestre;
 import birdpoint.semestre.SemestreDAO;
 import birdpoint.semestre.SemestreTableModel;
 import birdpoint.util.Util;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-
 public class CadastroQuadroHorarios extends javax.swing.JDialog {
+
+    QuadroHorarios quadroHorarios = new QuadroHorarios();
+    QuadroHorariosDAO quadroHorariosDAO = new QuadroHorariosDAO();
 
     Semestre semestre = new Semestre();
     SemestreDAO semestreDAO = new SemestreDAO();
@@ -50,7 +55,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
 
-    // arrays para armazenar os horários 
+//////////arrays para armazenar os horários////////////////////////////////
     int qtdAulas = 6;
 
     Horario[] horariosSegunda = new Horario[qtdAulas];
@@ -74,9 +79,15 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     Disciplina[] disciplinasSexta = new Disciplina[qtdAulas];
     Disciplina[] disciplinasSabado = new Disciplina[qtdAulas];
 
+    // Lista para pesquisas logicais
     List<Horario> listaHorarios;
     List<Professor> listaProfessores;
     List<Disciplina> listaDisciplinas;
+
+    // Lista para adicionar no banco
+    List<Horario> listaHorariosSemanais = new ArrayList<>();
+    List<Professor> listaProfessoresSemanais = new ArrayList<>();
+    List<Disciplina> listaDisciplinasSemanais = new ArrayList<>();
 
     public CadastroQuadroHorarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -131,7 +142,6 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             } else {
                 campo1.setText("");
                 campo2.setText("");
-                professor = null;
             }
         } else {
             campo1.setText("");
@@ -156,7 +166,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 disciplina = carregarDisciplinaLista((int) objetoRetorno);
                 campo.setText(disciplina.getNomeDisciplina());
                 campo.setCaretPosition(0);
-            }else{
+            } else {
                 disciplina = null;
             }
         } else {
@@ -173,7 +183,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 campo1.setText(String.valueOf(professor.getIdProfessor()));
                 campo2.setText(professor.getNomeProfessor());
                 campo2.setCaretPosition(0);
-            }else{
+            } else {
                 professor = null;
             }
         } else {
@@ -194,12 +204,54 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
             if (objetoRetorno != null) {
                 horario = carregarHorarioLista((int) objetoRetorno);
                 campo.setText(horario.getHoraInicio());
-            }else{
+            } else {
                 horario = null;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Selecione o Curso, Semestre, Grade, Turno e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void converterArraysEmListas() {
+        for (int i = 0; i < qtdAulas; i++) {
+            listaHorariosSemanais.add(horariosSegunda[i]);
+            listaDisciplinasSemanais.add(disciplinasSegunda[i]);
+            listaProfessoresSemanais.add(professoresSegunda[i]);
+        }
+        for (int i = 0; i < qtdAulas; i++) {
+            listaHorariosSemanais.add(horariosTerca[i]);
+            listaDisciplinasSemanais.add(disciplinasTerca[i]);
+            listaProfessoresSemanais.add(professoresTerca[i]);
+        }
+
+        for (int i = 0; i < qtdAulas; i++) {
+            listaHorariosSemanais.add(horariosQuarta[i]);
+            listaDisciplinasSemanais.add(disciplinasQuarta[i]);
+            listaProfessoresSemanais.add(professoresQuarta[i]);
+        }
+
+        for (int i = 0; i < qtdAulas; i++) {
+            listaHorariosSemanais.add(horariosQuinta[i]);
+            listaDisciplinasSemanais.add(disciplinasQuinta[i]);
+            listaProfessoresSemanais.add(professoresQuinta[i]);
+        }
+
+        for (int i = 0; i < qtdAulas; i++) {
+            listaHorariosSemanais.add(horariosSexta[i]);
+            listaDisciplinasSemanais.add(disciplinasSexta[i]);
+            listaProfessoresSemanais.add(professoresSexta[i]);
+        }
+
+        for (int i = 0; i < qtdAulas; i++) {
+            listaHorariosSemanais.add(horariosSabado[i]);
+            listaDisciplinasSemanais.add(disciplinasSabado[i]);
+            listaProfessoresSemanais.add(professoresSabado[i]);
+        }
+
+    }
+
+    public void preencherArrays(QuadroHorarios quadroHorarios) {
+
     }
 
     @SuppressWarnings("unchecked")
@@ -3708,6 +3760,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         Util.limparCamposGenerico(this);
         Util.limparCamposJTabblePane(jTabbedPane1);
+        quadroHorarios = new QuadroHorarios();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -3719,7 +3772,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-
+         if(Util.chkVazio(tfGradeCurricular.getText(), tfNomeCurso.getText(), tfNomeSemestre.getText(), String.valueOf(jcAnoExercicio.getSelectedItem()), String.valueOf(jcTurno.getSelectedItem()))){
+             quadroHorarios.setAnoExercicio(String.valueOf(jcAnoExercicio.getSelectedItem()));
+             quadroHorarios.setCurso(curso);
+             quadroHorarios.setSemestre(semestre);
+             quadroHorarios.setGrade(gradeCurricular);
+             converterArraysEmListas();
+             quadroHorarios.setHorarios(listaHorariosSemanais);
+             quadroHorarios.setProfessores(listaProfessoresSemanais);
+             quadroHorarios.setDisciplinas(listaDisciplinasSemanais);
+             quadroHorariosDAO.salvar(quadroHorarios);
+             btLimparActionPerformed(null);
+         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGradeActionPerformed
@@ -3745,6 +3809,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso1ActionPerformed
         selecionarDisciplina(segundaDisciplinaC);
+        disciplinasSegunda[2] = disciplina;
     }//GEN-LAST:event_btCurso1ActionPerformed
 
     private void btCurso2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso2ActionPerformed
@@ -3779,46 +3844,57 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso8ActionPerformed
         selecionarProfessor(segundaCodigoProfessorB, segundaProfessorB);
+        professoresSegunda[1] = professor;
     }//GEN-LAST:event_btCurso8ActionPerformed
 
     private void btCurso9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso9ActionPerformed
         selecionarDisciplina(segundaDisciplinaD);
+        disciplinasSegunda[3] = disciplina;
     }//GEN-LAST:event_btCurso9ActionPerformed
 
     private void btCurso10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso10ActionPerformed
         selecionarDisciplina(segundaDisciplinaE);
+        disciplinasSegunda[4] = disciplina;
     }//GEN-LAST:event_btCurso10ActionPerformed
 
     private void btCurso11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso11ActionPerformed
         selecionarDisciplina(segundaDisciplinaF);
+        disciplinasSegunda[5] = disciplina;
     }//GEN-LAST:event_btCurso11ActionPerformed
 
     private void btCurso12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso12ActionPerformed
         selecionarDisciplina(segundaDisciplinaB);
+        disciplinasSegunda[1] = disciplina;
     }//GEN-LAST:event_btCurso12ActionPerformed
 
     private void btCurso13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso13ActionPerformed
         selecionarDisciplina(segundaDisciplinaA);
+        disciplinasSegunda[0] = disciplina;
     }//GEN-LAST:event_btCurso13ActionPerformed
 
     private void btCurso14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso14ActionPerformed
         selecionarProfessor(segundaCodigoProfessorC, segundaProfessorC);
+        professoresSegunda[2] = professor;
     }//GEN-LAST:event_btCurso14ActionPerformed
 
     private void btCurso15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso15ActionPerformed
         selecionarProfessor(segundaCodigoProfessorD, segundaProfessorD);
+        professoresSegunda[3] = professor;
     }//GEN-LAST:event_btCurso15ActionPerformed
 
     private void btCurso16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso16ActionPerformed
         selecionarProfessor(segundaCodigoProfessorE, segundaProfessorE);
+        professoresSegunda[4] = professor;
     }//GEN-LAST:event_btCurso16ActionPerformed
 
     private void btCurso17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso17ActionPerformed
         selecionarProfessor(segundaCodigoProfessorF, segundaProfessorF);
+        professoresSegunda[5] = professor;
     }//GEN-LAST:event_btCurso17ActionPerformed
 
     private void btCurso18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso18ActionPerformed
         selecionarProfessor(segundaCodigoProfessorA, segundaProfessorA);
+        professoresSegunda[0] = professor;
     }//GEN-LAST:event_btCurso18ActionPerformed
 
     private void jcTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcTurnoActionPerformed
@@ -3879,6 +3955,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso19ActionPerformed
         selecionarProfessor(tercaCodigoProfessorD, tercaProfessorD);
+        professoresTerca[3] = professor;
     }//GEN-LAST:event_btCurso19ActionPerformed
 
     private void tercaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaDisciplinaAActionPerformed
@@ -3887,14 +3964,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso20ActionPerformed
         selecionarHorario(tercaHorarioD);
+        horariosTerca[3] = horario;
     }//GEN-LAST:event_btCurso20ActionPerformed
 
     private void btCurso21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso21ActionPerformed
         selecionarProfessor(tercaCodigoProfessorB, tercaProfessorB);
+        professoresTerca[1] = professor;
     }//GEN-LAST:event_btCurso21ActionPerformed
 
     private void btCurso22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso22ActionPerformed
         selecionarDisciplina(tercaDisciplinaE);
+        disciplinasTerca[4] = disciplina;
     }//GEN-LAST:event_btCurso22ActionPerformed
 
     private void tercaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorAActionPerformed
@@ -3907,10 +3987,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso23ActionPerformed
         selecionarDisciplina(tercaDisciplinaC);
+        disciplinasTerca[2] = disciplina;
     }//GEN-LAST:event_btCurso23ActionPerformed
 
     private void btCurso24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso24ActionPerformed
         selecionarHorario(tercaHorarioE);
+        horariosTerca[4] = horario;
     }//GEN-LAST:event_btCurso24ActionPerformed
 
     private void tercaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorEActionPerformed
@@ -3923,10 +4005,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso25ActionPerformed
         selecionarDisciplina(tercaDisciplinaA);
+        disciplinasTerca[0] = disciplina;
     }//GEN-LAST:event_btCurso25ActionPerformed
 
     private void btCurso26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso26ActionPerformed
         selecionarDisciplina(tercaDisciplinaB);
+        disciplinasTerca[1] = disciplina;
     }//GEN-LAST:event_btCurso26ActionPerformed
 
     private void tercaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorBActionPerformed
@@ -3939,14 +4023,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso27ActionPerformed
         selecionarHorario(tercaHorarioB);
+        horariosTerca[1] = horario;
     }//GEN-LAST:event_btCurso27ActionPerformed
 
     private void btCurso28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso28ActionPerformed
         selecionarProfessor(tercaCodigoProfessorF, tercaProfessorF);
+        professoresTerca[5] = professor;
     }//GEN-LAST:event_btCurso28ActionPerformed
 
     private void btCurso29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso29ActionPerformed
         selecionarHorario(tercaHorarioA);
+        horariosTerca[0] = horario;
     }//GEN-LAST:event_btCurso29ActionPerformed
 
     private void tercaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorFActionPerformed
@@ -3967,30 +4054,37 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso30ActionPerformed
         selecionarProfessor(tercaCodigoProfessorA, tercaProfessorA);
+        professoresTerca[0] = professor;
     }//GEN-LAST:event_btCurso30ActionPerformed
 
     private void btCurso31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso31ActionPerformed
         selecionarHorario(tercaHorarioC);
+        horariosTerca[2] = horario;
     }//GEN-LAST:event_btCurso31ActionPerformed
 
     private void btCurso32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso32ActionPerformed
         selecionarProfessor(tercaCodigoProfessorE, tercaProfessorE);
+        professoresTerca[4] = professor;
     }//GEN-LAST:event_btCurso32ActionPerformed
 
     private void btCurso33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso33ActionPerformed
         selecionarHorario(tercaHorarioF);
+        horariosTerca[5] = horario;
     }//GEN-LAST:event_btCurso33ActionPerformed
 
     private void btCurso34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso34ActionPerformed
         selecionarDisciplina(tercaDisciplinaD);
+        disciplinasTerca[3] = disciplina;
     }//GEN-LAST:event_btCurso34ActionPerformed
 
     private void btCurso35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso35ActionPerformed
         selecionarDisciplina(tercaDisciplinaF);
+        disciplinasTerca[5] = disciplina;
     }//GEN-LAST:event_btCurso35ActionPerformed
 
     private void btCurso36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso36ActionPerformed
         selecionarProfessor(tercaCodigoProfessorC, tercaProfessorC);
+        professoresTerca[2] = professor;
     }//GEN-LAST:event_btCurso36ActionPerformed
 
     private void tercaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorDActionPerformed
@@ -4003,6 +4097,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso37ActionPerformed
         selecionarProfessor(quartaCodigoProfessorD, quartaProfessorD);
+        professoresQuarta[3] = professor;
     }//GEN-LAST:event_btCurso37ActionPerformed
 
     private void quartaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaDisciplinaAActionPerformed
@@ -4011,14 +4106,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso38ActionPerformed
         selecionarHorario(quartaHorarioD);
+        horariosQuarta[3] = horario;
     }//GEN-LAST:event_btCurso38ActionPerformed
 
     private void btCurso39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso39ActionPerformed
         selecionarProfessor(quartaCodigoProfessorB, quartaProfessorB);
+        professoresQuarta[1] = professor;
     }//GEN-LAST:event_btCurso39ActionPerformed
 
     private void btCurso40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso40ActionPerformed
         selecionarDisciplina(quartaDisciplinaE);
+        disciplinasQuarta[4] = disciplina;
     }//GEN-LAST:event_btCurso40ActionPerformed
 
     private void quartaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorAActionPerformed
@@ -4031,10 +4129,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso41ActionPerformed
         selecionarDisciplina(quartaDisciplinaC);
+        disciplinasQuarta[2] = disciplina;
     }//GEN-LAST:event_btCurso41ActionPerformed
 
     private void btCurso42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso42ActionPerformed
         selecionarHorario(quartaHorarioE);
+        horariosQuarta[4] = horario;
     }//GEN-LAST:event_btCurso42ActionPerformed
 
     private void quartaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorEActionPerformed
@@ -4047,10 +4147,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso43ActionPerformed
         selecionarDisciplina(quartaDisciplinaA);
+        disciplinasQuarta[0] = disciplina;
     }//GEN-LAST:event_btCurso43ActionPerformed
 
     private void btCurso44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso44ActionPerformed
         selecionarDisciplina(quartaDisciplinaB);
+        disciplinasQuarta[1] = disciplina;
     }//GEN-LAST:event_btCurso44ActionPerformed
 
     private void quartaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorBActionPerformed
@@ -4063,14 +4165,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso45ActionPerformed
         selecionarHorario(quartaHorarioB);
+        horariosQuarta[1] = horario;
     }//GEN-LAST:event_btCurso45ActionPerformed
 
     private void btCurso46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso46ActionPerformed
         selecionarProfessor(quartaCodigoProfessorF, quartaProfessorF);
+        professoresQuarta[5] = professor;
     }//GEN-LAST:event_btCurso46ActionPerformed
 
     private void btCurso47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso47ActionPerformed
         selecionarHorario(quartaHorarioA);
+        horariosQuarta[0] = horario;
     }//GEN-LAST:event_btCurso47ActionPerformed
 
     private void quartaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorFActionPerformed
@@ -4091,30 +4196,37 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso48ActionPerformed
         selecionarProfessor(quartaCodigoProfessorA, quartaProfessorA);
+        professoresQuarta[0] = professor;
     }//GEN-LAST:event_btCurso48ActionPerformed
 
     private void btCurso49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso49ActionPerformed
         selecionarHorario(quartaHorarioC);
+        horariosQuarta[2] = horario;
     }//GEN-LAST:event_btCurso49ActionPerformed
 
     private void btCurso50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso50ActionPerformed
         selecionarProfessor(quartaCodigoProfessorE, quartaProfessorE);
+        professoresQuarta[4] = professor;
     }//GEN-LAST:event_btCurso50ActionPerformed
 
     private void btCurso51ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso51ActionPerformed
         selecionarHorario(quartaHorarioF);
+        horariosQuarta[5] = horario;
     }//GEN-LAST:event_btCurso51ActionPerformed
 
     private void btCurso52ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso52ActionPerformed
         selecionarDisciplina(quartaDisciplinaD);
+        disciplinasQuarta[3] = disciplina;
     }//GEN-LAST:event_btCurso52ActionPerformed
 
     private void btCurso53ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso53ActionPerformed
         selecionarDisciplina(quartaDisciplinaF);
+        disciplinasQuarta[5] = disciplina;
     }//GEN-LAST:event_btCurso53ActionPerformed
 
     private void btCurso54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso54ActionPerformed
         selecionarProfessor(quartaCodigoProfessorC, quartaProfessorC);
+        professoresQuarta[2] = professor;
     }//GEN-LAST:event_btCurso54ActionPerformed
 
     private void quartaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorDActionPerformed
@@ -4127,6 +4239,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso55ActionPerformed
         selecionarProfessor(quintaCodigoProfessorD, quintaProfessorD);
+        professoresQuinta[3] = professor;
     }//GEN-LAST:event_btCurso55ActionPerformed
 
     private void quintaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaDisciplinaAActionPerformed
@@ -4135,14 +4248,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso56ActionPerformed
         selecionarHorario(quintaHorarioD);
+        horariosQuinta[3] = horario;
     }//GEN-LAST:event_btCurso56ActionPerformed
 
     private void btCurso57ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso57ActionPerformed
         selecionarProfessor(quintaCodigoProfessorB, quintaProfessorB);
+        professoresQuinta[1] = professor;
     }//GEN-LAST:event_btCurso57ActionPerformed
 
     private void btCurso58ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso58ActionPerformed
         selecionarDisciplina(quintaDisciplinaE);
+        disciplinasQuinta[4] = disciplina;
     }//GEN-LAST:event_btCurso58ActionPerformed
 
     private void quintaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorAActionPerformed
@@ -4155,10 +4271,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso59ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso59ActionPerformed
         selecionarDisciplina(quintaDisciplinaC);
+        disciplinasQuinta[2] = disciplina;
     }//GEN-LAST:event_btCurso59ActionPerformed
 
     private void btCurso60ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso60ActionPerformed
         selecionarHorario(quintaHorarioE);
+        horariosQuinta[4] = horario;
     }//GEN-LAST:event_btCurso60ActionPerformed
 
     private void quintaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorEActionPerformed
@@ -4171,10 +4289,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso61ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso61ActionPerformed
         selecionarDisciplina(quintaDisciplinaA);
+        disciplinasQuinta[0] = disciplina;
     }//GEN-LAST:event_btCurso61ActionPerformed
 
     private void btCurso62ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso62ActionPerformed
         selecionarDisciplina(quintaDisciplinaB);
+        disciplinasQuinta[1] = disciplina;
     }//GEN-LAST:event_btCurso62ActionPerformed
 
     private void quintaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorBActionPerformed
@@ -4187,14 +4307,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso63ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso63ActionPerformed
         selecionarHorario(quintaHorarioB);
+        horariosQuinta[1] = horario;
     }//GEN-LAST:event_btCurso63ActionPerformed
 
     private void btCurso64ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso64ActionPerformed
         selecionarProfessor(quintaCodigoProfessorF, quintaProfessorF);
+        professoresQuinta[5] = professor;
     }//GEN-LAST:event_btCurso64ActionPerformed
 
     private void btCurso65ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso65ActionPerformed
         selecionarHorario(quintaHorarioA);
+        horariosQuinta[0] = horario;
     }//GEN-LAST:event_btCurso65ActionPerformed
 
     private void quintaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorFActionPerformed
@@ -4215,30 +4338,37 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso66ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso66ActionPerformed
         selecionarProfessor(quintaCodigoProfessorA, quintaProfessorA);
+        professoresQuinta[0] = professor;
     }//GEN-LAST:event_btCurso66ActionPerformed
 
     private void btCurso67ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso67ActionPerformed
         selecionarHorario(quintaHorarioC);
+        horariosQuinta[2] = horario;
     }//GEN-LAST:event_btCurso67ActionPerformed
 
     private void btCurso68ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso68ActionPerformed
         selecionarProfessor(quintaCodigoProfessorE, quintaProfessorE);
+        professoresQuinta[4] = professor;
     }//GEN-LAST:event_btCurso68ActionPerformed
 
     private void btCurso69ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso69ActionPerformed
         selecionarHorario(quintaHorarioF);
+        horariosQuinta[5] = horario;
     }//GEN-LAST:event_btCurso69ActionPerformed
 
     private void btCurso70ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso70ActionPerformed
         selecionarDisciplina(quintaDisciplinaD);
+        disciplinasQuinta[3] = disciplina;
     }//GEN-LAST:event_btCurso70ActionPerformed
 
     private void btCurso71ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso71ActionPerformed
         selecionarDisciplina(quintaDisciplinaF);
+        disciplinasQuinta[5] = disciplina;
     }//GEN-LAST:event_btCurso71ActionPerformed
 
     private void btCurso72ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso72ActionPerformed
         selecionarProfessor(quintaCodigoProfessorC, quintaProfessorC);
+        professoresQuinta[2] = professor;
     }//GEN-LAST:event_btCurso72ActionPerformed
 
     private void quintaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorDActionPerformed
@@ -4251,6 +4381,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso73ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso73ActionPerformed
         selecionarProfessor(sextaCodigoProfessorD, sextaProfessorD);
+        professoresSexta[3] = professor;
     }//GEN-LAST:event_btCurso73ActionPerformed
 
     private void sextaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaDisciplinaAActionPerformed
@@ -4259,14 +4390,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso74ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso74ActionPerformed
         selecionarHorario(sextaHorarioD);
+        horariosSexta[3] = horario;
     }//GEN-LAST:event_btCurso74ActionPerformed
 
     private void btCurso75ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso75ActionPerformed
         selecionarProfessor(sextaCodigoProfessorB, sextaProfessorB);
+        professoresSexta[1] = professor;
     }//GEN-LAST:event_btCurso75ActionPerformed
 
     private void btCurso76ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso76ActionPerformed
         selecionarDisciplina(sextaDisciplinaE);
+        disciplinasSexta[4] = disciplina;
     }//GEN-LAST:event_btCurso76ActionPerformed
 
     private void sextaCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorAActionPerformed
@@ -4279,10 +4413,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso77ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso77ActionPerformed
         selecionarDisciplina(sextaDisciplinaC);
+        disciplinasSexta[2] = disciplina;
     }//GEN-LAST:event_btCurso77ActionPerformed
 
     private void btCurso78ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso78ActionPerformed
         selecionarHorario(sextaHorarioE);
+        horariosSexta[4] = horario;
     }//GEN-LAST:event_btCurso78ActionPerformed
 
     private void sextaCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorEActionPerformed
@@ -4295,10 +4431,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso79ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso79ActionPerformed
         selecionarDisciplina(sextaDisciplinaA);
+        disciplinasSexta[0] = disciplina;
     }//GEN-LAST:event_btCurso79ActionPerformed
 
     private void btCurso80ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso80ActionPerformed
         selecionarDisciplina(sextaDisciplinaB);
+        disciplinasSexta[1] = disciplina;
     }//GEN-LAST:event_btCurso80ActionPerformed
 
     private void sextaCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorBActionPerformed
@@ -4311,14 +4449,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso81ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso81ActionPerformed
         selecionarHorario(sextaHorarioB);
+        horariosSexta[1] = horario;
     }//GEN-LAST:event_btCurso81ActionPerformed
 
     private void btCurso82ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso82ActionPerformed
         selecionarProfessor(sextaCodigoProfessorF, sextaProfessorF);
+        professoresSexta[5] = professor;
     }//GEN-LAST:event_btCurso82ActionPerformed
 
     private void btCurso83ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso83ActionPerformed
         selecionarHorario(sextaHorarioA);
+        horariosSexta[0] = horario;
     }//GEN-LAST:event_btCurso83ActionPerformed
 
     private void sextaCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorFActionPerformed
@@ -4339,30 +4480,37 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso84ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso84ActionPerformed
         selecionarProfessor(sextaCodigoProfessorA, sextaProfessorA);
+        professoresSexta[0] = professor;
     }//GEN-LAST:event_btCurso84ActionPerformed
 
     private void btCurso85ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso85ActionPerformed
         selecionarHorario(sextaHorarioC);
+        horariosSexta[2] = horario;
     }//GEN-LAST:event_btCurso85ActionPerformed
 
     private void btCurso86ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso86ActionPerformed
         selecionarProfessor(sextaCodigoProfessorE, sextaProfessorE);
+        professoresSexta[4] = professor;
     }//GEN-LAST:event_btCurso86ActionPerformed
 
     private void btCurso87ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso87ActionPerformed
         selecionarHorario(sextaHorarioF);
+        horariosSexta[5] = horario;
     }//GEN-LAST:event_btCurso87ActionPerformed
 
     private void btCurso88ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso88ActionPerformed
         selecionarDisciplina(sextaDisciplinaD);
+        disciplinasSexta[3] = disciplina;
     }//GEN-LAST:event_btCurso88ActionPerformed
 
     private void btCurso89ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso89ActionPerformed
         selecionarDisciplina(sextaDisciplinaF);
+        disciplinasSexta[5] = disciplina;
     }//GEN-LAST:event_btCurso89ActionPerformed
 
     private void btCurso90ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso90ActionPerformed
         selecionarProfessor(sextaCodigoProfessorC, sextaProfessorC);
+        professoresSexta[2] = professor;
     }//GEN-LAST:event_btCurso90ActionPerformed
 
     private void sextaCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorDActionPerformed
@@ -4375,6 +4523,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso91ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso91ActionPerformed
         selecionarProfessor(sabadoCodigoProfessorD, sabadoProfessorD);
+        professoresSabado[3] = professor;
     }//GEN-LAST:event_btCurso91ActionPerformed
 
     private void sabadoDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoDisciplinaAActionPerformed
@@ -4383,14 +4532,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso92ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso92ActionPerformed
         selecionarHorario(sabadoHorarioD);
+        horariosSabado[3] = horario;
     }//GEN-LAST:event_btCurso92ActionPerformed
 
     private void btCurso93ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso93ActionPerformed
         selecionarProfessor(sabadoCodigoProfessorB, sabadoProfessorB);
+        professoresSabado[1] = professor;
     }//GEN-LAST:event_btCurso93ActionPerformed
 
     private void btCurso94ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso94ActionPerformed
         selecionarDisciplina(sabadoDisciplinaE);
+        disciplinasSabado[4] = disciplina;
     }//GEN-LAST:event_btCurso94ActionPerformed
 
     private void sabadoCodigoProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorAActionPerformed
@@ -4403,10 +4555,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso95ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso95ActionPerformed
         selecionarDisciplina(sabadoDisciplinaC);
+        disciplinasSabado[2] = disciplina;
     }//GEN-LAST:event_btCurso95ActionPerformed
 
     private void btCurso96ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso96ActionPerformed
         selecionarHorario(sabadoHorarioE);
+        horariosSabado[4] = horario;
     }//GEN-LAST:event_btCurso96ActionPerformed
 
     private void sabadoCodigoProfessorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorEActionPerformed
@@ -4419,10 +4573,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso97ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso97ActionPerformed
         selecionarDisciplina(sabadoDisciplinaA);
+        disciplinasSabado[0] = disciplina;
     }//GEN-LAST:event_btCurso97ActionPerformed
 
     private void btCurso98ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso98ActionPerformed
         selecionarDisciplina(sabadoDisciplinaB);
+        disciplinasSabado[1] = disciplina;
     }//GEN-LAST:event_btCurso98ActionPerformed
 
     private void sabadoCodigoProfessorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorBActionPerformed
@@ -4435,16 +4591,18 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso99ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso99ActionPerformed
         selecionarHorario(sabadoHorarioB);
-        
+        horariosSabado[1] = horario;
+
     }//GEN-LAST:event_btCurso99ActionPerformed
 
     private void btCurso100ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso100ActionPerformed
         selecionarProfessor(sabadoCodigoProfessorF, sabadoProfessorF);
+        professoresSabado[5] = professor;
     }//GEN-LAST:event_btCurso100ActionPerformed
 
     private void btCurso101ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso101ActionPerformed
         selecionarHorario(sabadoHorarioA);
-       
+        horariosSabado[0] = horario;
     }//GEN-LAST:event_btCurso101ActionPerformed
 
     private void sabadoCodigoProfessorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorFActionPerformed
@@ -4465,31 +4623,37 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btCurso102ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso102ActionPerformed
         selecionarProfessor(sabadoCodigoProfessorA, sabadoProfessorA);
+        professoresSabado[0] = professor;
     }//GEN-LAST:event_btCurso102ActionPerformed
 
     private void btCurso103ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso103ActionPerformed
         selecionarHorario(sabadoHorarioC);
+        horariosSabado[2] = horario;
     }//GEN-LAST:event_btCurso103ActionPerformed
 
     private void btCurso104ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso104ActionPerformed
         selecionarProfessor(sabadoCodigoProfessorE, sabadoProfessorE);
+        professoresSabado[4] = professor;
     }//GEN-LAST:event_btCurso104ActionPerformed
 
     private void btCurso105ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso105ActionPerformed
         selecionarHorario(sabadoHorarioF);
-        
+        horariosSabado[5] = horario;
     }//GEN-LAST:event_btCurso105ActionPerformed
 
     private void btCurso106ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso106ActionPerformed
         selecionarDisciplina(sabadoDisciplinaD);
+        disciplinasSabado[3] = disciplina;
     }//GEN-LAST:event_btCurso106ActionPerformed
 
     private void btCurso107ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso107ActionPerformed
         selecionarDisciplina(sabadoDisciplinaF);
+        disciplinasSabado[5] = disciplina;
     }//GEN-LAST:event_btCurso107ActionPerformed
 
     private void btCurso108ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso108ActionPerformed
         selecionarProfessor(sabadoCodigoProfessorC, sabadoProfessorC);
+        professoresSabado[2] = professor;
     }//GEN-LAST:event_btCurso108ActionPerformed
 
     private void sabadoCodigoProfessorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorDActionPerformed
@@ -4502,26 +4666,33 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void segundaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorA, segundaProfessorA);
+        professoresSegunda[0] = professor;
+
     }//GEN-LAST:event_segundaCodigoProfessorAFocusLost
 
     private void segundaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorBFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorB, segundaProfessorB);
+        professoresSegunda[1] = professor;
     }//GEN-LAST:event_segundaCodigoProfessorBFocusLost
 
     private void segundaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorCFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorC, segundaProfessorC);
+        professoresSegunda[2] = professor;
     }//GEN-LAST:event_segundaCodigoProfessorCFocusLost
 
     private void segundaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorDFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorD, segundaProfessorD);
+        professoresSegunda[3] = professor;
     }//GEN-LAST:event_segundaCodigoProfessorDFocusLost
 
     private void segundaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorEFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorE, segundaProfessorE);
+        professoresSegunda[4] = professor;
     }//GEN-LAST:event_segundaCodigoProfessorEFocusLost
 
     private void segundaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segundaCodigoProfessorFFocusLost
         pesquisarProfessorCodigo(segundaCodigoProfessorF, segundaProfessorF);
+        professoresSegunda[5] = professor;
     }//GEN-LAST:event_segundaCodigoProfessorFFocusLost
 
     private void jcAnoExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAnoExercicioActionPerformed
@@ -4530,122 +4701,152 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void tercaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(tercaCodigoProfessorA, tercaProfessorA);
+        professoresTerca[0] = professor;
     }//GEN-LAST:event_tercaCodigoProfessorAFocusLost
 
     private void tercaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorBFocusLost
         pesquisarProfessorCodigo(tercaCodigoProfessorB, tercaProfessorB);
+        professoresTerca[1] = professor;
     }//GEN-LAST:event_tercaCodigoProfessorBFocusLost
 
     private void tercaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorCFocusLost
         pesquisarProfessorCodigo(tercaCodigoProfessorC, tercaProfessorC);
+        professoresTerca[2] = professor;
     }//GEN-LAST:event_tercaCodigoProfessorCFocusLost
 
     private void tercaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorDFocusLost
         pesquisarProfessorCodigo(tercaCodigoProfessorD, tercaProfessorD);
+        professoresTerca[3] = professor;
     }//GEN-LAST:event_tercaCodigoProfessorDFocusLost
 
     private void tercaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorEFocusLost
         pesquisarProfessorCodigo(tercaCodigoProfessorE, tercaProfessorE);
+        professoresTerca[4] = professor;
     }//GEN-LAST:event_tercaCodigoProfessorEFocusLost
 
     private void tercaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorFFocusLost
         pesquisarProfessorCodigo(tercaCodigoProfessorF, tercaProfessorF);
+        professoresTerca[5] = professor;
     }//GEN-LAST:event_tercaCodigoProfessorFFocusLost
 
     private void quartaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(quartaCodigoProfessorA, quartaProfessorA);
+        professoresQuarta[0] = professor;
     }//GEN-LAST:event_quartaCodigoProfessorAFocusLost
 
     private void quartaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorBFocusLost
         pesquisarProfessorCodigo(quartaCodigoProfessorB, quartaProfessorB);
+        professoresQuarta[1] = professor;
     }//GEN-LAST:event_quartaCodigoProfessorBFocusLost
 
     private void quartaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorCFocusLost
         pesquisarProfessorCodigo(quartaCodigoProfessorC, quartaProfessorC);
+        professoresQuarta[2] = professor;
     }//GEN-LAST:event_quartaCodigoProfessorCFocusLost
 
     private void quartaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorDFocusLost
         pesquisarProfessorCodigo(quartaCodigoProfessorD, quartaProfessorD);
+        professoresQuarta[3] = professor;
     }//GEN-LAST:event_quartaCodigoProfessorDFocusLost
 
     private void quartaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorEFocusLost
         pesquisarProfessorCodigo(quartaCodigoProfessorE, quartaProfessorE);
+        professoresQuarta[4] = professor;
     }//GEN-LAST:event_quartaCodigoProfessorEFocusLost
 
     private void quartaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quartaCodigoProfessorFFocusLost
         pesquisarProfessorCodigo(quartaCodigoProfessorF, quartaProfessorF);
+        professoresQuarta[5] = professor;
     }//GEN-LAST:event_quartaCodigoProfessorFFocusLost
 
     private void quintaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(quintaCodigoProfessorA, quintaProfessorA);
+        professoresQuinta[0] = professor;
     }//GEN-LAST:event_quintaCodigoProfessorAFocusLost
 
     private void quintaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorBFocusLost
         pesquisarProfessorCodigo(quintaCodigoProfessorB, quintaProfessorB);
+        professoresQuinta[1] = professor;
     }//GEN-LAST:event_quintaCodigoProfessorBFocusLost
 
     private void quintaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorCFocusLost
         pesquisarProfessorCodigo(quintaCodigoProfessorC, quintaProfessorC);
+        professoresQuinta[2] = professor;
     }//GEN-LAST:event_quintaCodigoProfessorCFocusLost
 
     private void quintaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorDFocusLost
         pesquisarProfessorCodigo(quintaCodigoProfessorD, quintaProfessorD);
+        professoresQuinta[3] = professor;
     }//GEN-LAST:event_quintaCodigoProfessorDFocusLost
 
     private void quintaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorEFocusLost
         pesquisarProfessorCodigo(quintaCodigoProfessorE, quintaProfessorE);
+        professoresQuinta[4] = professor;
     }//GEN-LAST:event_quintaCodigoProfessorEFocusLost
 
     private void quintaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quintaCodigoProfessorFFocusLost
         pesquisarProfessorCodigo(quintaCodigoProfessorF, quintaProfessorF);
+        professoresQuinta[5] = professor;
     }//GEN-LAST:event_quintaCodigoProfessorFFocusLost
 
     private void sextaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(sextaCodigoProfessorA, sextaProfessorA);
+        professoresSexta[0] = professor;
     }//GEN-LAST:event_sextaCodigoProfessorAFocusLost
 
     private void sextaCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorBFocusLost
         pesquisarProfessorCodigo(sextaCodigoProfessorB, sextaProfessorB);
+        professoresSexta[1] = professor;
     }//GEN-LAST:event_sextaCodigoProfessorBFocusLost
 
     private void sextaCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorCFocusLost
         pesquisarProfessorCodigo(sextaCodigoProfessorC, sextaProfessorC);
+        professoresSexta[2] = professor;
     }//GEN-LAST:event_sextaCodigoProfessorCFocusLost
 
     private void sextaCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorDFocusLost
         pesquisarProfessorCodigo(sextaCodigoProfessorD, sextaProfessorD);
+        professoresSexta[3] = professor;
     }//GEN-LAST:event_sextaCodigoProfessorDFocusLost
 
     private void sextaCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorEFocusLost
         pesquisarProfessorCodigo(sextaCodigoProfessorE, sextaProfessorE);
+        professoresSexta[4] = professor;
     }//GEN-LAST:event_sextaCodigoProfessorEFocusLost
 
     private void sextaCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sextaCodigoProfessorFFocusLost
         pesquisarProfessorCodigo(sextaCodigoProfessorF, sextaProfessorF);
+        professoresSexta[5] = professor;
     }//GEN-LAST:event_sextaCodigoProfessorFFocusLost
 
     private void sabadoCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorAFocusLost
         pesquisarProfessorCodigo(sabadoCodigoProfessorA, sabadoProfessorA);
+        professoresSabado[0] = professor;
     }//GEN-LAST:event_sabadoCodigoProfessorAFocusLost
 
     private void sabadoCodigoProfessorBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorBFocusLost
         pesquisarProfessorCodigo(sabadoCodigoProfessorB, sabadoProfessorB);
+        professoresSabado[1] = professor;
     }//GEN-LAST:event_sabadoCodigoProfessorBFocusLost
 
     private void sabadoCodigoProfessorCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorCFocusLost
         pesquisarProfessorCodigo(sabadoCodigoProfessorC, sabadoProfessorC);
+        professoresSabado[2] = professor;
     }//GEN-LAST:event_sabadoCodigoProfessorCFocusLost
 
     private void sabadoCodigoProfessorDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorDFocusLost
         pesquisarProfessorCodigo(sabadoCodigoProfessorD, sabadoProfessorD);
+        professoresSabado[3] = professor;
     }//GEN-LAST:event_sabadoCodigoProfessorDFocusLost
 
     private void sabadoCodigoProfessorEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorEFocusLost
         pesquisarProfessorCodigo(sabadoCodigoProfessorE, sabadoProfessorE);
+        professoresSabado[4] = professor;
     }//GEN-LAST:event_sabadoCodigoProfessorEFocusLost
 
     private void sabadoCodigoProfessorFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sabadoCodigoProfessorFFocusLost
         pesquisarProfessorCodigo(sabadoCodigoProfessorF, sabadoProfessorF);
+        professoresSabado[5] = professor;
     }//GEN-LAST:event_sabadoCodigoProfessorFFocusLost
 
     private void sextaProfessorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextaProfessorAActionPerformed

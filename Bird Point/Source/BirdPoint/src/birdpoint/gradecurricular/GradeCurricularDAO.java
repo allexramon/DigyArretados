@@ -23,12 +23,15 @@ public class GradeCurricularDAO extends GenericDAO<GradeCurricular> {
 
     public void salvar(GradeCurricular gradeCurricular) {
         Object[] options = {"Sim", "Não"};
-        if (gradeCurricular.getIdGradeCurricular() == 0 && adicionar(gradeCurricular)) {
-            JOptionPane.showMessageDialog(null, "Grade Curricular cadastrada com sucesso!");
+        if (gradeCurricular.getIdGradeCurricular() == 0) {
+            if (adicionar(gradeCurricular)) {
+                JOptionPane.showMessageDialog(null, "Grade Curricular cadastrada com sucesso!");
+            }
         } else if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
-                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION
-                && atualizar(gradeCurricular)) {
-            JOptionPane.showMessageDialog(null, "Grade Curricular editada com sucesso!!");
+                + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
+            if (atualizar(gradeCurricular)) {
+                JOptionPane.showMessageDialog(null, "Grade Curricular editada com sucesso!!");
+            }
         } else {
             JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
         }

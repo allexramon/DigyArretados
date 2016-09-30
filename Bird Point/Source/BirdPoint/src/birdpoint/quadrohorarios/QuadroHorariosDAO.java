@@ -3,36 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package birdpoint.disciplina;
+package birdpoint.quadrohorarios;
 
-import birdpoint.curso.Curso;
+import birdpoint.titulacao.*;
 import birdpoint.util.GenericDAO;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Nóbrega
- */
-public class DisciplinaDAO extends GenericDAO<Disciplina> {
+public class QuadroHorariosDAO extends GenericDAO<QuadroHorarios> {
 
-    public DisciplinaDAO() {
-        super(Disciplina.class);
+    public QuadroHorariosDAO() {
+        super(QuadroHorarios.class);
     }
 
-    public void salvar(Disciplina disciplina) {
+    public void salvar(QuadroHorarios quadroHorarios) {
         Object[] options = {"Sim", "Não"};
-        if (disciplina.getIdDisciplina() == 0) {
-            if (adicionar(disciplina)) {
-                JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!");
+        if (quadroHorarios.getIdQuadroHorarios() == 0) {
+            if (adicionar(quadroHorarios)) {
+                JOptionPane.showMessageDialog(null, "Quadro de Horários cadastrado com sucesso!");
             }
         } else if (JOptionPane.showOptionDialog(null, "Deseja mesmo realizar essa edição"
                 + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
-            if (atualizar(disciplina)) {
-                JOptionPane.showMessageDialog(null, "Disciplina editada com sucesso!!");
+            if (atualizar(quadroHorarios)) {
+                JOptionPane.showMessageDialog(null, "Quadro de Horários editado com sucesso!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "A edição foi cancelada!");
         }
     }
-
 }

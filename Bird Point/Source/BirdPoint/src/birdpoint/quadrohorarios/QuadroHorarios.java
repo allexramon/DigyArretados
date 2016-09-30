@@ -17,6 +17,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.Fetch;
@@ -28,33 +31,48 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 public class QuadroHorarios {
-    
+
     @Id
     @GeneratedValue
     private int idQuadroHorarios;
-    
+
     @Column(length = 10)
     private String anoExercicio;
-    
+
     @OneToOne(fetch = FetchType.EAGER)
-    private List<Curso> curso;
-    
+    private Curso curso;
+
     @OneToOne(fetch = FetchType.EAGER)
-    private List<Semestre> semestre;
-    
+    private Semestre semestre;
+
     @OneToOne(fetch = FetchType.EAGER)
-    private List<GradeCurricular> grade;
-    
-    @OneToMany(fetch = FetchType.EAGER)
+    private GradeCurricular grade;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(
+            joinColumns
+            = @JoinColumn(name = "idQuadroHorarios"),
+            inverseJoinColumns
+            = @JoinColumn(name = "idHorario"))
     private List<Horario> horarios;
-    
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(
+            joinColumns
+            = @JoinColumn(name = "idQuadroHorarios"),
+            inverseJoinColumns
+            = @JoinColumn(name = "idProfessor"))
     private List<Professor> professores;
-    
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(
+            joinColumns
+            = @JoinColumn(name = "idQuadroHorarios"),
+            inverseJoinColumns
+            = @JoinColumn(name = "idDisciplina"))
     private List<Disciplina> disciplinas;
 
     /**
@@ -88,42 +106,42 @@ public class QuadroHorarios {
     /**
      * @return the curso
      */
-    public List<Curso> getCurso() {
+    public Curso getCurso() {
         return curso;
     }
 
     /**
      * @param curso the curso to set
      */
-    public void setCurso(List<Curso> curso) {
+    public void setCurso(Curso curso) {
         this.curso = curso;
     }
 
     /**
      * @return the semestre
      */
-    public List<Semestre> getSemestre() {
+    public Semestre getSemestre() {
         return semestre;
     }
 
     /**
      * @param semestre the semestre to set
      */
-    public void setSemestre(List<Semestre> semestre) {
+    public void setSemestre(Semestre semestre) {
         this.semestre = semestre;
     }
 
     /**
      * @return the grade
      */
-    public List<GradeCurricular> getGrade() {
+    public GradeCurricular getGrade() {
         return grade;
     }
 
     /**
      * @param grade the grade to set
      */
-    public void setGrade(List<GradeCurricular> grade) {
+    public void setGrade(GradeCurricular grade) {
         this.grade = grade;
     }
 
@@ -168,6 +186,5 @@ public class QuadroHorarios {
     public void setDisciplinas(List<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
     }
-   
 
 }
