@@ -205,6 +205,7 @@ public abstract class GenericDAO<T> {
         return objeto;
 
     }
+    
 
     /**
      * @return the sessao

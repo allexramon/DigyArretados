@@ -22,10 +22,12 @@ import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorTableModel;
 import birdpoint.quadrohorarios.QuadroHorarios;
 import birdpoint.quadrohorarios.QuadroHorariosDAO;
+import birdpoint.quadrohorarios.QuadroHorariosTableModel;
 import birdpoint.semestre.Semestre;
 import birdpoint.semestre.SemestreDAO;
 import birdpoint.semestre.SemestreTableModel;
 import birdpoint.util.Util;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,73 +36,80 @@ import javax.swing.JTextField;
 
 public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
-    QuadroHorarios quadroHorarios = new QuadroHorarios();
+    QuadroHorarios quadroHorarios;
     QuadroHorariosDAO quadroHorariosDAO = new QuadroHorariosDAO();
 
-    Semestre semestre = new Semestre();
+    Semestre semestre;
     SemestreDAO semestreDAO = new SemestreDAO();
 
-    Disciplina disciplina = new Disciplina();
+    Disciplina disciplina;
     DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
 
-    GradeCurricular gradeCurricular = new GradeCurricular();
+    GradeCurricular gradeCurricular;
     GradeCurricularDAO gradeCurricularDAO = new GradeCurricularDAO();
 
-    Horario horario = new Horario();
+    Horario horario;
     HorarioDAO horarioDAO = new HorarioDAO();
 
-    Professor professor = new Professor();
+    Professor professor;
     ProfessorDAO professorDAO = new ProfessorDAO();
 
-    Curso curso = new Curso();
+    Curso curso;
     CursoDAO cursoDAO = new CursoDAO();
 
 //////////arrays para armazenar os horários////////////////////////////////
     int qtdAulas = 6;
 
-    Horario[] horariosSegunda = new Horario[qtdAulas];
-    Horario[] horariosTerca = new Horario[qtdAulas];
-    Horario[] horariosQuarta = new Horario[qtdAulas];
-    Horario[] horariosQuinta = new Horario[qtdAulas];
-    Horario[] horariosSexta = new Horario[qtdAulas];
-    Horario[] horariosSabado = new Horario[qtdAulas];
+    Horario[] horariosSegunda;
+    Horario[] horariosTerca;
+    Horario[] horariosQuarta;
+    Horario[] horariosQuinta;
+    Horario[] horariosSexta;
+    Horario[] horariosSabado;
 
-    Professor[] professoresSegunda = new Professor[qtdAulas];
-    Professor[] professoresTerca = new Professor[qtdAulas];
-    Professor[] professoresQuarta = new Professor[qtdAulas];
-    Professor[] professoresQuinta = new Professor[qtdAulas];
-    Professor[] professoresSexta = new Professor[qtdAulas];
-    Professor[] professoresSabado = new Professor[qtdAulas];
+    Professor[] professoresSegunda;
+    Professor[] professoresTerca;
+    Professor[] professoresQuarta;
+    Professor[] professoresQuinta;
+    Professor[] professoresSexta;
+    Professor[] professoresSabado;
 
-    Disciplina[] disciplinasSegunda = new Disciplina[qtdAulas];
-    Disciplina[] disciplinasTerca = new Disciplina[qtdAulas];
-    Disciplina[] disciplinasQuarta = new Disciplina[qtdAulas];
-    Disciplina[] disciplinasQuinta = new Disciplina[qtdAulas];
-    Disciplina[] disciplinasSexta = new Disciplina[qtdAulas];
-    Disciplina[] disciplinasSabado = new Disciplina[qtdAulas];
+    Disciplina[] disciplinasSegunda;
+    Disciplina[] disciplinasTerca;
+    Disciplina[] disciplinasQuarta;
+    Disciplina[] disciplinasQuinta;
+    Disciplina[] disciplinasSexta;
+    Disciplina[] disciplinasSabado;
+
+    // Arrays para armazenar de forma ordenada a sequencia colocada pelo usuário 
+    //dos horarios, disciplinas e professores
+    int qtdHorDisPr = 36;
+
+    int[] ordenacaoHorarios;
+    int[] ordenacaoDisciplinas;
+    int[] ordenacaoProfessores;
 
     // Lista para pesquisas logicais
     List<Horario> listaHorarios;
     List<Professor> listaProfessores;
     List<Disciplina> listaDisciplinas;
 
-    // Lista para adicionar no banco
-    List<Horario> listaHorariosSemanais = new ArrayList<>();
-    List<Professor> listaProfessoresSemanais = new ArrayList<>();
-    List<Disciplina> listaDisciplinasSemanais = new ArrayList<>();
-
+    // Método construtor da classe
     public CadastroQuadroHorarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         carregarListas();
+        btLimparActionPerformed(null);
     }
 
+    //Método para carregar as listas para pesquisas locais
     public void carregarListas() {
         listaHorarios = (horarioDAO.listar());
         listaProfessores = (professorDAO.listar());
         listaDisciplinas = (disciplinaDAO.listar());
     }
 
+    //Método para carregar o professor com código
     public Professor carregarProfessorLista(int o) {
         for (Professor listaProf : listaProfessores) {
             if (listaProf.getIdProfessor() == o) {
@@ -212,45 +221,182 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
     }
 
-    public void converterArraysEmListas() {
-        for (int i = 0; i < qtdAulas; i++) {
-            listaHorariosSemanais.add(horariosSegunda[i]);
-            listaDisciplinasSemanais.add(disciplinasSegunda[i]);
-            listaProfessoresSemanais.add(professoresSegunda[i]);
-        }
-        for (int i = 0; i < qtdAulas; i++) {
-            listaHorariosSemanais.add(horariosTerca[i]);
-            listaDisciplinasSemanais.add(disciplinasTerca[i]);
-            listaProfessoresSemanais.add(professoresTerca[i]);
-        }
+    // Método para capturar a sequencia de horários, disicplinas e professoroes escolhidos pelo usuario
+    public void capturarOrdenacao() {
+        for (int i = 0; i < qtdHorDisPr;) {
+            for (int j = 0; j < qtdAulas; j++) {
+                try {
+                    if (i < 6) {
+                        ordenacaoHorarios[i] = horariosSegunda[j].getIdHorario();
+                        ordenacaoProfessores[i] = professoresSegunda[j].getIdProfessor();
+                        ordenacaoDisciplinas[i] = disciplinasSegunda[j].getIdDisciplina();
+                    } else if (i < 12) {
+                        ordenacaoHorarios[i] = horariosTerca[j].getIdHorario();
+                        ordenacaoProfessores[i] = professoresTerca[j].getIdProfessor();
+                        ordenacaoDisciplinas[i] = disciplinasTerca[j].getIdDisciplina();
+                    } else if (i < 18) {
+                        ordenacaoHorarios[i] = horariosQuarta[j].getIdHorario();
+                        ordenacaoProfessores[i] = professoresQuarta[j].getIdProfessor();
+                        ordenacaoDisciplinas[i] = disciplinasQuarta[j].getIdDisciplina();
+                    } else if (i < 24) {
+                        ordenacaoHorarios[i] = horariosQuinta[j].getIdHorario();
+                        ordenacaoProfessores[i] = professoresQuinta[j].getIdProfessor();
+                        ordenacaoDisciplinas[i] = disciplinasQuinta[j].getIdDisciplina();
+                    } else if (i < 30) {
+                        ordenacaoHorarios[i] = horariosSexta[j].getIdHorario();
+                        ordenacaoProfessores[i] = professoresSexta[j].getIdProfessor();
+                        ordenacaoDisciplinas[i] = disciplinasSexta[j].getIdDisciplina();
+                    } else if (i < 36) {
+                        ordenacaoHorarios[i] = horariosSabado[j].getIdHorario();
+                        ordenacaoProfessores[i] = professoresSabado[j].getIdProfessor();
+                        ordenacaoDisciplinas[i] = disciplinasSabado[j].getIdDisciplina();
+                    }
 
-        for (int i = 0; i < qtdAulas; i++) {
-            listaHorariosSemanais.add(horariosQuarta[i]);
-            listaDisciplinasSemanais.add(disciplinasQuarta[i]);
-            listaProfessoresSemanais.add(professoresQuarta[i]);
-        }
+                } catch (Exception e) {
+                    ordenacaoHorarios[i] = 0;
+                    ordenacaoProfessores[i] = 0;
+                    ordenacaoDisciplinas[i] = 0;
+                }
 
-        for (int i = 0; i < qtdAulas; i++) {
-            listaHorariosSemanais.add(horariosQuinta[i]);
-            listaDisciplinasSemanais.add(disciplinasQuinta[i]);
-            listaProfessoresSemanais.add(professoresQuinta[i]);
-        }
+                i++;
+            }
 
-        for (int i = 0; i < qtdAulas; i++) {
-            listaHorariosSemanais.add(horariosSexta[i]);
-            listaDisciplinasSemanais.add(disciplinasSexta[i]);
-            listaProfessoresSemanais.add(professoresSexta[i]);
         }
+    }
+    
+    // Este método irá ordenar as listas de horários, disciplinas e professores após serem pesquisados
+    // Pois a ordenação deve ser a mesma que ele escolheu na hora de inserir o horário
+    public void ordenarHorariosPesquisados() {
+        Horario Horariotemp = new Horario();
+        Disciplina Disciplinatemp = new Disciplina();
+        Professor Professortemp = new Professor();
 
-        for (int i = 0; i < qtdAulas; i++) {
-            listaHorariosSemanais.add(horariosSabado[i]);
-            listaDisciplinasSemanais.add(disciplinasSabado[i]);
-            listaProfessoresSemanais.add(professoresSabado[i]);
+        for (int i = 0; i < qtdHorDisPr;) {
+            for (int j = 0; j < qtdAulas; j++) {
+                try {
+       
+                } catch (Exception e) {
+
+                }
+
+                i++;
+            }
+
         }
-
     }
 
-    public void preencherArrays(QuadroHorarios quadroHorarios) {
+    // Métodos de conversão de array em listas
+    public void converterArraysEmListas() {
+        quadroHorarios.setDisciplinasSegunda(Arrays.asList(disciplinasSegunda));
+        quadroHorarios.setDisciplinasTerca(Arrays.asList(disciplinasTerca));
+        quadroHorarios.setDisciplinasQuarta(Arrays.asList(disciplinasQuarta));
+        quadroHorarios.setDisciplinasQuinta(Arrays.asList(disciplinasQuinta));
+        quadroHorarios.setDisciplinasSexta(Arrays.asList(disciplinasSexta));
+        quadroHorarios.setDisciplinasSabado(Arrays.asList(disciplinasSabado));
+
+        quadroHorarios.setHorariosSegunda(Arrays.asList(horariosSegunda));
+        quadroHorarios.setHorariosTerca(Arrays.asList(horariosTerca));
+        quadroHorarios.setHorariosQuarta(Arrays.asList(horariosQuarta));
+        quadroHorarios.setHorariosQuinta(Arrays.asList(horariosQuinta));
+        quadroHorarios.setHorariosSexta(Arrays.asList(horariosSexta));
+        quadroHorarios.setHorariosSabado(Arrays.asList(horariosSabado));
+
+        quadroHorarios.setProfessoresSegunda(Arrays.asList(professoresSegunda));
+        quadroHorarios.setProfessoresTerca(Arrays.asList(professoresTerca));
+        quadroHorarios.setProfessoresQuarta(Arrays.asList(professoresQuarta));
+        quadroHorarios.setProfessoresQuinta(Arrays.asList(professoresQuinta));
+        quadroHorarios.setProfessoresSexta(Arrays.asList(professoresSexta));
+        quadroHorarios.setProfessoresSabado(Arrays.asList(professoresSabado));
+    }
+
+    // Método para percorrer as listas do Quadro de Horários Pesquisado para preencher os arrays locais
+    public void converterListasEmArrays() {
+        for (int i = 0; i < qtdAulas; i++) {
+            if (i < quadroHorarios.getDisciplinasSegunda().size()) {
+                disciplinasSegunda[i] = quadroHorarios.getDisciplinasSegunda().get(i);
+            }
+            if (i < quadroHorarios.getHorariosSegunda().size()) {
+                horariosSegunda[i] = quadroHorarios.getHorariosSegunda().get(i);
+            }
+            if (i < quadroHorarios.getProfessoresSegunda().size()) {
+                professoresSegunda[i] = quadroHorarios.getProfessoresSegunda().get(i);
+            }
+            if (i < quadroHorarios.getDisciplinasTerca().size()) {
+                disciplinasTerca[i] = quadroHorarios.getDisciplinasTerca().get(i);
+            }
+            if (i < quadroHorarios.getHorariosTerca().size()) {
+                horariosTerca[i] = quadroHorarios.getHorariosTerca().get(i);
+            }
+            if (i < quadroHorarios.getProfessoresTerca().size()) {
+                professoresTerca[i] = quadroHorarios.getProfessoresTerca().get(i);
+            }
+            if (i < quadroHorarios.getDisciplinasQuarta().size()) {
+                disciplinasQuarta[i] = quadroHorarios.getDisciplinasQuarta().get(i);
+            }
+            if (i < quadroHorarios.getHorariosQuarta().size()) {
+                horariosQuarta[i] = quadroHorarios.getHorariosQuarta().get(i);
+            }
+            if (i < quadroHorarios.getProfessoresQuarta().size()) {
+                professoresQuarta[i] = quadroHorarios.getProfessoresQuarta().get(i);
+            }
+            if (i < quadroHorarios.getDisciplinasQuinta().size()) {
+                disciplinasQuinta[i] = quadroHorarios.getDisciplinasQuinta().get(i);
+            }
+            if (i < quadroHorarios.getHorariosQuinta().size()) {
+                horariosQuinta[i] = quadroHorarios.getHorariosQuinta().get(i);
+            }
+            if (i < quadroHorarios.getProfessoresQuinta().size()) {
+                professoresQuinta[i] = quadroHorarios.getProfessoresQuinta().get(i);
+            }
+            if (i < quadroHorarios.getDisciplinasSexta().size()) {
+                disciplinasSexta[i] = quadroHorarios.getDisciplinasSexta().get(i);
+            }
+            if (i < quadroHorarios.getHorariosSexta().size()) {
+                horariosSexta[i] = quadroHorarios.getHorariosSexta().get(i);
+            }
+            if (i < quadroHorarios.getProfessoresSexta().size()) {
+                professoresSexta[i] = quadroHorarios.getProfessoresSexta().get(i);
+            }
+            if (i < quadroHorarios.getDisciplinasSabado().size()) {
+                disciplinasSabado[i] = quadroHorarios.getDisciplinasSabado().get(i);
+            }
+            if (i < quadroHorarios.getHorariosSabado().size()) {
+                horariosSabado[i] = quadroHorarios.getHorariosSabado().get(i);
+            }
+            if (i < quadroHorarios.getProfessoresSabado().size()) {
+                professoresSabado[i] = quadroHorarios.getProfessoresSabado().get(i);
+            }
+        }
+    }
+
+    public void preencherCamposComArraysQuadroHorarios() {
+        try {
+            segundaHorarioA.setText(horariosSegunda[0].getHoraInicio());
+            segundaHorarioB.setText(horariosSegunda[1].getHoraInicio());
+            segundaHorarioC.setText(horariosSegunda[2].getHoraInicio());
+            segundaHorarioD.setText(horariosSegunda[3].getHoraInicio());
+            segundaHorarioE.setText(horariosSegunda[4].getHoraInicio());
+            segundaHorarioF.setText(horariosSegunda[5].getHoraInicio());
+        } catch (Exception e) {
+        }
+        try {
+            segundaProfessorA.setText(professoresSegunda[0].getNomeProfessor());
+            segundaProfessorB.setText(professoresSegunda[1].getNomeProfessor());
+            segundaProfessorC.setText(professoresSegunda[2].getNomeProfessor());
+            segundaProfessorD.setText(professoresSegunda[3].getNomeProfessor());
+            segundaProfessorE.setText(professoresSegunda[4].getNomeProfessor());
+            segundaProfessorF.setText(professoresSegunda[5].getNomeProfessor());
+        } catch (Exception e) {
+        }
+        try {
+            segundaDisciplinaA.setText(disciplinasSegunda[0].getNomeDisciplina());
+            segundaDisciplinaB.setText(disciplinasSegunda[1].getNomeDisciplina());
+            segundaDisciplinaC.setText(disciplinasSegunda[2].getNomeDisciplina());
+            segundaDisciplinaD.setText(disciplinasSegunda[3].getNomeDisciplina());
+            segundaDisciplinaE.setText(disciplinasSegunda[4].getNomeDisciplina());
+            segundaDisciplinaF.setText(disciplinasSegunda[5].getNomeDisciplina());
+        } catch (Exception e) {
+        }
 
     }
 
@@ -549,7 +695,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         setUndecorated(true);
         getContentPane().setLayout(null);
 
-        tfNomeCurso.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        tfNomeCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tfNomeCurso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tfNomeCurso.setEnabled(false);
         getContentPane().add(tfNomeCurso);
@@ -560,7 +706,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         getContentPane().add(jlNome2);
         jlNome2.setBounds(350, 110, 70, 30);
 
-        tfGradeCurricular.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        tfGradeCurricular.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tfGradeCurricular.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tfGradeCurricular.setEnabled(false);
         getContentPane().add(tfGradeCurricular);
@@ -571,7 +717,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         getContentPane().add(jlNome3);
         jlNome3.setBounds(20, 110, 100, 30);
 
-        tfNomeSemestre.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        tfNomeSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tfNomeSemestre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tfNomeSemestre.setEnabled(false);
         getContentPane().add(tfNomeSemestre);
@@ -694,7 +840,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         getContentPane().add(btGrade);
         btGrade.setBounds(750, 70, 30, 30);
 
-        jcTurno.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jcTurno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcTurno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "Manhã", "Tarde", "Noite" }));
         jcTurno.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         jcTurno.addActionListener(new java.awt.event.ActionListener() {
@@ -717,7 +863,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel1.setLayout(null);
 
-        segundaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaDisciplinaC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaDisciplinaC.setEnabled(false);
         jPanel1.add(segundaDisciplinaC);
@@ -737,11 +883,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso1);
         btCurso1.setBounds(350, 100, 30, 20);
 
-        segundaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioB.setEnabled(false);
         jPanel1.add(segundaHorarioB);
-        segundaHorarioB.setBounds(40, 70, 40, 19);
+        segundaHorarioB.setBounds(10, 70, 70, 19);
 
         btCurso2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -757,11 +903,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso2);
         btCurso2.setBounds(80, 70, 30, 20);
 
-        segundaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioC.setEnabled(false);
         jPanel1.add(segundaHorarioC);
-        segundaHorarioC.setBounds(40, 100, 40, 20);
+        segundaHorarioC.setBounds(10, 100, 70, 20);
 
         btCurso3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -791,17 +937,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso4);
         btCurso4.setBounds(80, 190, 30, 20);
 
-        segundaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioF.setEnabled(false);
         jPanel1.add(segundaHorarioF);
-        segundaHorarioF.setBounds(40, 190, 40, 20);
+        segundaHorarioF.setBounds(10, 190, 70, 20);
 
-        segundaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioD.setEnabled(false);
         jPanel1.add(segundaHorarioD);
-        segundaHorarioD.setBounds(40, 130, 40, 20);
+        segundaHorarioD.setBounds(10, 130, 70, 20);
 
         btCurso5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -817,11 +963,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso5);
         btCurso5.setBounds(80, 130, 30, 20);
 
-        segundaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioE.setEnabled(false);
         jPanel1.add(segundaHorarioE);
-        segundaHorarioE.setBounds(40, 160, 40, 20);
+        segundaHorarioE.setBounds(10, 160, 70, 20);
 
         btCurso6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -837,7 +983,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso6);
         btCurso6.setBounds(80, 160, 30, 20);
 
-        segundaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -871,7 +1017,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso7);
         btCurso7.setBounds(80, 40, 30, 20);
 
-        segundaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorB.setEnabled(false);
         jPanel1.add(segundaProfessorB);
@@ -891,7 +1037,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso8);
         btCurso8.setBounds(670, 70, 30, 20);
 
-        segundaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaDisciplinaD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaDisciplinaD.setEnabled(false);
         jPanel1.add(segundaDisciplinaD);
@@ -911,7 +1057,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso9);
         btCurso9.setBounds(350, 130, 30, 20);
 
-        segundaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaDisciplinaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaDisciplinaE.setEnabled(false);
         jPanel1.add(segundaDisciplinaE);
@@ -931,7 +1077,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso10);
         btCurso10.setBounds(350, 160, 30, 20);
 
-        segundaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaDisciplinaF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaDisciplinaF.setEnabled(false);
         jPanel1.add(segundaDisciplinaF);
@@ -951,7 +1097,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso11);
         btCurso11.setBounds(350, 190, 30, 20);
 
-        segundaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaDisciplinaB.setEnabled(false);
         jPanel1.add(segundaDisciplinaB);
@@ -971,7 +1117,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso12);
         btCurso12.setBounds(350, 70, 30, 20);
 
-        segundaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaDisciplinaA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaDisciplinaA.setEnabled(false);
         segundaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
@@ -996,7 +1142,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso13);
         btCurso13.setBounds(350, 40, 30, 20);
 
-        segundaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorC.setEnabled(false);
         jPanel1.add(segundaProfessorC);
@@ -1016,7 +1162,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso14);
         btCurso14.setBounds(670, 100, 30, 20);
 
-        segundaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorD.setEnabled(false);
         jPanel1.add(segundaProfessorD);
@@ -1036,7 +1182,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso15);
         btCurso15.setBounds(670, 130, 30, 20);
 
-        segundaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorE.setEnabled(false);
         jPanel1.add(segundaProfessorE);
@@ -1056,7 +1202,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso16);
         btCurso16.setBounds(670, 160, 30, 20);
 
-        segundaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorF.setEnabled(false);
         jPanel1.add(segundaProfessorF);
@@ -1076,7 +1222,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso17);
         btCurso17.setBounds(670, 190, 30, 20);
 
-        segundaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaProfessorA.setEnabled(false);
         jPanel1.add(segundaProfessorA);
@@ -1096,13 +1242,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso18);
         btCurso18.setBounds(670, 40, 30, 20);
 
-        segundaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioA.setEnabled(false);
         jPanel1.add(segundaHorarioA);
-        segundaHorarioA.setBounds(40, 40, 40, 20);
+        segundaHorarioA.setBounds(10, 40, 70, 20);
 
-        segundaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1122,7 +1268,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(segundaCodigoProfessorC);
         segundaCodigoProfessorC.setBounds(390, 100, 30, 20);
 
-        segundaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1142,7 +1288,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(segundaCodigoProfessorD);
         segundaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        segundaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1162,7 +1308,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(segundaCodigoProfessorE);
         segundaCodigoProfessorE.setBounds(390, 160, 30, 20);
 
-        segundaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1182,7 +1328,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(segundaCodigoProfessorF);
         segundaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        segundaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        segundaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1210,17 +1356,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel2.setLayout(null);
 
-        tercaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaDisciplinaC.setEnabled(false);
         jPanel2.add(tercaDisciplinaC);
         tercaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        tercaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioC.setEnabled(false);
         jPanel2.add(tercaHorarioC);
-        tercaHorarioC.setBounds(40, 100, 40, 20);
+        tercaHorarioC.setBounds(10, 100, 70, 20);
 
         btCurso19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1236,7 +1382,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso19);
         btCurso19.setBounds(670, 130, 30, 20);
 
-        tercaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaDisciplinaA.setEnabled(false);
         tercaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
@@ -1275,7 +1421,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso21);
         btCurso21.setBounds(670, 70, 30, 20);
 
-        tercaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaDisciplinaD.setEnabled(false);
         jPanel2.add(tercaDisciplinaD);
@@ -1295,7 +1441,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso22);
         btCurso22.setBounds(350, 160, 30, 20);
 
-        tercaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1329,17 +1475,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso23);
         btCurso23.setBounds(350, 100, 30, 20);
 
-        tercaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaProfessorD.setEnabled(false);
         jPanel2.add(tercaProfessorD);
         tercaProfessorD.setBounds(430, 130, 240, 20);
 
-        tercaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioB.setEnabled(false);
         jPanel2.add(tercaHorarioB);
-        tercaHorarioB.setBounds(40, 70, 40, 19);
+        tercaHorarioB.setBounds(10, 70, 70, 19);
 
         btCurso24.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1355,7 +1501,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso24);
         btCurso24.setBounds(80, 160, 30, 20);
 
-        tercaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1403,7 +1549,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso26);
         btCurso26.setBounds(350, 70, 30, 20);
 
-        tercaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1465,25 +1611,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso29);
         btCurso29.setBounds(80, 40, 30, 20);
 
-        tercaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaProfessorA.setEnabled(false);
         jPanel2.add(tercaProfessorA);
         tercaProfessorA.setBounds(430, 40, 240, 20);
 
-        tercaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioA.setEnabled(false);
         jPanel2.add(tercaHorarioA);
-        tercaHorarioA.setBounds(40, 40, 40, 20);
+        tercaHorarioA.setBounds(10, 40, 70, 20);
 
-        tercaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioD.setEnabled(false);
         jPanel2.add(tercaHorarioD);
-        tercaHorarioD.setBounds(40, 130, 40, 20);
+        tercaHorarioD.setBounds(10, 130, 70, 20);
 
-        tercaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1503,13 +1649,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaCodigoProfessorF);
         tercaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        tercaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaProfessorF.setEnabled(false);
         jPanel2.add(tercaProfessorF);
         tercaProfessorF.setBounds(430, 190, 240, 20);
 
-        tercaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1571,17 +1717,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso32);
         btCurso32.setBounds(670, 160, 30, 20);
 
-        tercaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaProfessorB.setEnabled(false);
         jPanel2.add(tercaProfessorB);
         tercaProfessorB.setBounds(430, 70, 240, 20);
 
-        tercaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioE.setEnabled(false);
         jPanel2.add(tercaHorarioE);
-        tercaHorarioE.setBounds(40, 160, 40, 20);
+        tercaHorarioE.setBounds(10, 160, 70, 20);
 
         btCurso33.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1597,25 +1743,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso33);
         btCurso33.setBounds(80, 190, 30, 20);
 
-        tercaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaProfessorC.setEnabled(false);
         jPanel2.add(tercaProfessorC);
         tercaProfessorC.setBounds(430, 100, 240, 20);
 
-        tercaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioF.setEnabled(false);
         jPanel2.add(tercaHorarioF);
-        tercaHorarioF.setBounds(40, 190, 40, 20);
+        tercaHorarioF.setBounds(10, 190, 70, 20);
 
-        tercaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaDisciplinaB.setEnabled(false);
         jPanel2.add(tercaDisciplinaB);
         tercaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        tercaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaDisciplinaF.setEnabled(false);
         jPanel2.add(tercaDisciplinaF);
@@ -1663,13 +1809,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(btCurso36);
         btCurso36.setBounds(670, 100, 30, 20);
 
-        tercaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaDisciplinaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaDisciplinaE.setEnabled(false);
         jPanel2.add(tercaDisciplinaE);
         tercaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        tercaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1689,7 +1835,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaCodigoProfessorD);
         tercaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        tercaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tercaProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaProfessorE.setEnabled(false);
         jPanel2.add(tercaProfessorE);
@@ -1703,17 +1849,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel3.setLayout(null);
 
-        quartaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaDisciplinaC.setEnabled(false);
         jPanel3.add(quartaDisciplinaC);
         quartaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        quartaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioC.setEnabled(false);
         jPanel3.add(quartaHorarioC);
-        quartaHorarioC.setBounds(40, 100, 40, 20);
+        quartaHorarioC.setBounds(10, 100, 70, 20);
 
         btCurso37.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1729,7 +1875,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso37);
         btCurso37.setBounds(670, 130, 30, 20);
 
-        quartaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaDisciplinaA.setEnabled(false);
         quartaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
@@ -1768,7 +1914,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso39);
         btCurso39.setBounds(670, 70, 30, 20);
 
-        quartaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaDisciplinaD.setEnabled(false);
         jPanel3.add(quartaDisciplinaD);
@@ -1788,7 +1934,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso40);
         btCurso40.setBounds(350, 160, 30, 20);
 
-        quartaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1822,17 +1968,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso41);
         btCurso41.setBounds(350, 100, 30, 20);
 
-        quartaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaProfessorD.setEnabled(false);
         jPanel3.add(quartaProfessorD);
         quartaProfessorD.setBounds(430, 130, 240, 20);
 
-        quartaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioB.setEnabled(false);
         jPanel3.add(quartaHorarioB);
-        quartaHorarioB.setBounds(40, 70, 40, 19);
+        quartaHorarioB.setBounds(10, 70, 70, 19);
 
         btCurso42.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1848,7 +1994,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso42);
         btCurso42.setBounds(80, 160, 30, 20);
 
-        quartaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1896,7 +2042,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso44);
         btCurso44.setBounds(350, 70, 30, 20);
 
-        quartaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1958,25 +2104,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso47);
         btCurso47.setBounds(80, 40, 30, 20);
 
-        quartaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaProfessorA.setEnabled(false);
         jPanel3.add(quartaProfessorA);
         quartaProfessorA.setBounds(430, 40, 240, 20);
 
-        quartaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioA.setEnabled(false);
         jPanel3.add(quartaHorarioA);
-        quartaHorarioA.setBounds(40, 40, 40, 20);
+        quartaHorarioA.setBounds(10, 40, 70, 20);
 
-        quartaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioD.setEnabled(false);
         jPanel3.add(quartaHorarioD);
-        quartaHorarioD.setBounds(40, 130, 40, 20);
+        quartaHorarioD.setBounds(10, 130, 70, 20);
 
-        quartaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1996,13 +2142,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaCodigoProfessorF);
         quartaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        quartaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaProfessorF.setEnabled(false);
         jPanel3.add(quartaProfessorF);
         quartaProfessorF.setBounds(430, 190, 240, 20);
 
-        quartaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2064,17 +2210,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso50);
         btCurso50.setBounds(670, 160, 30, 20);
 
-        quartaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaProfessorB.setEnabled(false);
         jPanel3.add(quartaProfessorB);
         quartaProfessorB.setBounds(430, 70, 240, 20);
 
-        quartaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioE.setEnabled(false);
         jPanel3.add(quartaHorarioE);
-        quartaHorarioE.setBounds(40, 160, 40, 20);
+        quartaHorarioE.setBounds(10, 160, 70, 20);
 
         btCurso51.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2090,25 +2236,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso51);
         btCurso51.setBounds(80, 190, 30, 20);
 
-        quartaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaProfessorC.setEnabled(false);
         jPanel3.add(quartaProfessorC);
         quartaProfessorC.setBounds(430, 100, 240, 20);
 
-        quartaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioF.setEnabled(false);
         jPanel3.add(quartaHorarioF);
-        quartaHorarioF.setBounds(40, 190, 40, 20);
+        quartaHorarioF.setBounds(10, 190, 70, 20);
 
-        quartaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaDisciplinaB.setEnabled(false);
         jPanel3.add(quartaDisciplinaB);
         quartaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        quartaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaDisciplinaF.setEnabled(false);
         jPanel3.add(quartaDisciplinaF);
@@ -2156,13 +2302,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(btCurso54);
         btCurso54.setBounds(670, 100, 30, 20);
 
-        quartaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaDisciplinaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaDisciplinaE.setEnabled(false);
         jPanel3.add(quartaDisciplinaE);
         quartaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        quartaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2182,7 +2328,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaCodigoProfessorD);
         quartaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        quartaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quartaProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaProfessorE.setEnabled(false);
         jPanel3.add(quartaProfessorE);
@@ -2196,17 +2342,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel4.setLayout(null);
 
-        quintaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaDisciplinaC.setEnabled(false);
         jPanel4.add(quintaDisciplinaC);
         quintaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        quintaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioC.setEnabled(false);
         jPanel4.add(quintaHorarioC);
-        quintaHorarioC.setBounds(40, 100, 40, 20);
+        quintaHorarioC.setBounds(10, 100, 70, 20);
 
         btCurso55.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2222,7 +2368,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso55);
         btCurso55.setBounds(670, 130, 30, 20);
 
-        quintaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaDisciplinaA.setEnabled(false);
         quintaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
@@ -2261,7 +2407,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso57);
         btCurso57.setBounds(670, 70, 30, 20);
 
-        quintaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaDisciplinaD.setEnabled(false);
         jPanel4.add(quintaDisciplinaD);
@@ -2281,7 +2427,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso58);
         btCurso58.setBounds(350, 160, 30, 20);
 
-        quintaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2315,17 +2461,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso59);
         btCurso59.setBounds(350, 100, 30, 20);
 
-        quintaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaProfessorD.setEnabled(false);
         jPanel4.add(quintaProfessorD);
         quintaProfessorD.setBounds(430, 130, 240, 20);
 
-        quintaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioB.setEnabled(false);
         jPanel4.add(quintaHorarioB);
-        quintaHorarioB.setBounds(40, 70, 40, 19);
+        quintaHorarioB.setBounds(10, 70, 70, 19);
 
         btCurso60.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso60.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2341,7 +2487,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso60);
         btCurso60.setBounds(80, 160, 30, 20);
 
-        quintaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2389,7 +2535,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso62);
         btCurso62.setBounds(350, 70, 30, 20);
 
-        quintaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2451,25 +2597,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso65);
         btCurso65.setBounds(80, 40, 30, 20);
 
-        quintaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaProfessorA.setEnabled(false);
         jPanel4.add(quintaProfessorA);
         quintaProfessorA.setBounds(430, 40, 240, 20);
 
-        quintaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioA.setEnabled(false);
         jPanel4.add(quintaHorarioA);
-        quintaHorarioA.setBounds(40, 40, 40, 20);
+        quintaHorarioA.setBounds(10, 40, 70, 20);
 
-        quintaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioD.setEnabled(false);
         jPanel4.add(quintaHorarioD);
-        quintaHorarioD.setBounds(40, 130, 40, 20);
+        quintaHorarioD.setBounds(10, 130, 70, 20);
 
-        quintaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2489,13 +2635,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaCodigoProfessorF);
         quintaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        quintaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaProfessorF.setEnabled(false);
         jPanel4.add(quintaProfessorF);
         quintaProfessorF.setBounds(430, 190, 240, 20);
 
-        quintaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2557,17 +2703,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso68);
         btCurso68.setBounds(670, 160, 30, 20);
 
-        quintaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaProfessorB.setEnabled(false);
         jPanel4.add(quintaProfessorB);
         quintaProfessorB.setBounds(430, 70, 240, 20);
 
-        quintaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioE.setEnabled(false);
         jPanel4.add(quintaHorarioE);
-        quintaHorarioE.setBounds(40, 160, 40, 20);
+        quintaHorarioE.setBounds(10, 160, 70, 20);
 
         btCurso69.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2583,25 +2729,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso69);
         btCurso69.setBounds(80, 190, 30, 20);
 
-        quintaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaProfessorC.setEnabled(false);
         jPanel4.add(quintaProfessorC);
         quintaProfessorC.setBounds(430, 100, 240, 20);
 
-        quintaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioF.setEnabled(false);
         jPanel4.add(quintaHorarioF);
-        quintaHorarioF.setBounds(40, 190, 40, 20);
+        quintaHorarioF.setBounds(10, 190, 70, 20);
 
-        quintaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaDisciplinaB.setEnabled(false);
         jPanel4.add(quintaDisciplinaB);
         quintaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        quintaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaDisciplinaF.setEnabled(false);
         jPanel4.add(quintaDisciplinaF);
@@ -2649,13 +2795,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(btCurso72);
         btCurso72.setBounds(670, 100, 30, 20);
 
-        quintaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaDisciplinaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaDisciplinaE.setEnabled(false);
         jPanel4.add(quintaDisciplinaE);
         quintaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        quintaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2675,7 +2821,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaCodigoProfessorD);
         quintaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        quintaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quintaProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaProfessorE.setEnabled(false);
         jPanel4.add(quintaProfessorE);
@@ -2689,17 +2835,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel5.setLayout(null);
 
-        sextaDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaDisciplinaC.setEnabled(false);
         jPanel5.add(sextaDisciplinaC);
         sextaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        sextaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioC.setEnabled(false);
         jPanel5.add(sextaHorarioC);
-        sextaHorarioC.setBounds(40, 100, 40, 20);
+        sextaHorarioC.setBounds(10, 100, 70, 20);
 
         btCurso73.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso73.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2715,7 +2861,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso73);
         btCurso73.setBounds(670, 130, 30, 20);
 
-        sextaDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaDisciplinaA.setEnabled(false);
         sextaDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
@@ -2754,7 +2900,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso75);
         btCurso75.setBounds(670, 70, 30, 20);
 
-        sextaDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaDisciplinaD.setEnabled(false);
         jPanel5.add(sextaDisciplinaD);
@@ -2774,7 +2920,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso76);
         btCurso76.setBounds(350, 160, 30, 20);
 
-        sextaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2808,17 +2954,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso77);
         btCurso77.setBounds(350, 100, 30, 20);
 
-        sextaProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaProfessorD.setEnabled(false);
         jPanel5.add(sextaProfessorD);
         sextaProfessorD.setBounds(430, 130, 240, 20);
 
-        sextaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioB.setEnabled(false);
         jPanel5.add(sextaHorarioB);
-        sextaHorarioB.setBounds(40, 70, 40, 19);
+        sextaHorarioB.setBounds(10, 70, 70, 19);
 
         btCurso78.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso78.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2834,7 +2980,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso78);
         btCurso78.setBounds(80, 160, 30, 20);
 
-        sextaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2882,7 +3028,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso80);
         btCurso80.setBounds(350, 70, 30, 20);
 
-        sextaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2944,7 +3090,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso83);
         btCurso83.setBounds(80, 40, 30, 20);
 
-        sextaProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaProfessorA.setEnabled(false);
         sextaProfessorA.addActionListener(new java.awt.event.ActionListener() {
@@ -2955,19 +3101,19 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaProfessorA);
         sextaProfessorA.setBounds(430, 40, 240, 20);
 
-        sextaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioA.setEnabled(false);
         jPanel5.add(sextaHorarioA);
-        sextaHorarioA.setBounds(40, 40, 40, 20);
+        sextaHorarioA.setBounds(10, 40, 70, 20);
 
-        sextaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioD.setEnabled(false);
         jPanel5.add(sextaHorarioD);
-        sextaHorarioD.setBounds(40, 130, 40, 20);
+        sextaHorarioD.setBounds(10, 130, 70, 20);
 
-        sextaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -2987,13 +3133,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaCodigoProfessorF);
         sextaCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        sextaProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaProfessorF.setEnabled(false);
         jPanel5.add(sextaProfessorF);
         sextaProfessorF.setBounds(430, 190, 240, 20);
 
-        sextaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3055,17 +3201,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso86);
         btCurso86.setBounds(670, 160, 30, 20);
 
-        sextaProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaProfessorB.setEnabled(false);
         jPanel5.add(sextaProfessorB);
         sextaProfessorB.setBounds(430, 70, 240, 20);
 
-        sextaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioE.setEnabled(false);
         jPanel5.add(sextaHorarioE);
-        sextaHorarioE.setBounds(40, 160, 40, 20);
+        sextaHorarioE.setBounds(10, 160, 70, 20);
 
         btCurso87.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso87.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3081,25 +3227,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso87);
         btCurso87.setBounds(80, 190, 30, 20);
 
-        sextaProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaProfessorC.setEnabled(false);
         jPanel5.add(sextaProfessorC);
         sextaProfessorC.setBounds(430, 100, 240, 20);
 
-        sextaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioF.setEnabled(false);
         jPanel5.add(sextaHorarioF);
-        sextaHorarioF.setBounds(40, 190, 40, 20);
+        sextaHorarioF.setBounds(10, 190, 70, 20);
 
-        sextaDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaDisciplinaB.setEnabled(false);
         jPanel5.add(sextaDisciplinaB);
         sextaDisciplinaB.setBounds(110, 70, 240, 20);
 
-        sextaDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaDisciplinaF.setEnabled(false);
         jPanel5.add(sextaDisciplinaF);
@@ -3147,13 +3293,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(btCurso90);
         btCurso90.setBounds(670, 100, 30, 20);
 
-        sextaDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaDisciplinaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaDisciplinaE.setEnabled(false);
         jPanel5.add(sextaDisciplinaE);
         sextaDisciplinaE.setBounds(110, 160, 240, 20);
 
-        sextaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3173,7 +3319,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaCodigoProfessorD);
         sextaCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        sextaProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sextaProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaProfessorE.setEnabled(false);
         jPanel5.add(sextaProfessorE);
@@ -3187,17 +3333,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         jPanel6.setLayout(null);
 
-        sabadoDisciplinaC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoDisciplinaC.setEnabled(false);
         jPanel6.add(sabadoDisciplinaC);
         sabadoDisciplinaC.setBounds(110, 100, 240, 20);
 
-        sabadoHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioC.setEnabled(false);
         jPanel6.add(sabadoHorarioC);
-        sabadoHorarioC.setBounds(40, 100, 40, 20);
+        sabadoHorarioC.setBounds(10, 100, 70, 20);
 
         btCurso91.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso91.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3213,7 +3359,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso91);
         btCurso91.setBounds(670, 130, 30, 20);
 
-        sabadoDisciplinaA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoDisciplinaA.setEnabled(false);
         sabadoDisciplinaA.addActionListener(new java.awt.event.ActionListener() {
@@ -3252,7 +3398,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso93);
         btCurso93.setBounds(670, 70, 30, 20);
 
-        sabadoDisciplinaD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoDisciplinaD.setEnabled(false);
         jPanel6.add(sabadoDisciplinaD);
@@ -3272,7 +3418,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso94);
         btCurso94.setBounds(350, 160, 30, 20);
 
-        sabadoCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoCodigoProfessorA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3306,17 +3452,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso95);
         btCurso95.setBounds(350, 100, 30, 20);
 
-        sabadoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoProfessorD.setEnabled(false);
         jPanel6.add(sabadoProfessorD);
         sabadoProfessorD.setBounds(430, 130, 240, 20);
 
-        sabadoHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioB.setEnabled(false);
         jPanel6.add(sabadoHorarioB);
-        sabadoHorarioB.setBounds(40, 70, 40, 19);
+        sabadoHorarioB.setBounds(10, 70, 70, 19);
 
         btCurso96.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3332,7 +3478,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso96);
         btCurso96.setBounds(80, 160, 30, 20);
 
-        sabadoCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoCodigoProfessorE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3380,7 +3526,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso98);
         btCurso98.setBounds(350, 70, 30, 20);
 
-        sabadoCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoCodigoProfessorB.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3442,25 +3588,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso101);
         btCurso101.setBounds(80, 40, 30, 20);
 
-        sabadoProfessorA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoProfessorA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoProfessorA.setEnabled(false);
         jPanel6.add(sabadoProfessorA);
         sabadoProfessorA.setBounds(430, 40, 240, 20);
 
-        sabadoHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioA.setEnabled(false);
         jPanel6.add(sabadoHorarioA);
-        sabadoHorarioA.setBounds(40, 40, 40, 20);
+        sabadoHorarioA.setBounds(10, 40, 70, 20);
 
-        sabadoHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioD.setEnabled(false);
         jPanel6.add(sabadoHorarioD);
-        sabadoHorarioD.setBounds(40, 130, 40, 20);
+        sabadoHorarioD.setBounds(10, 130, 70, 20);
 
-        sabadoCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoCodigoProfessorF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3480,13 +3626,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoCodigoProfessorF);
         sabadoCodigoProfessorF.setBounds(390, 190, 30, 20);
 
-        sabadoProfessorF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoProfessorF.setEnabled(false);
         jPanel6.add(sabadoProfessorF);
         sabadoProfessorF.setBounds(430, 190, 240, 20);
 
-        sabadoCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoCodigoProfessorC.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3548,17 +3694,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso104);
         btCurso104.setBounds(670, 160, 30, 20);
 
-        sabadoProfessorB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoProfessorB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoProfessorB.setEnabled(false);
         jPanel6.add(sabadoProfessorB);
         sabadoProfessorB.setBounds(430, 70, 240, 20);
 
-        sabadoHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioE.setEnabled(false);
         jPanel6.add(sabadoHorarioE);
-        sabadoHorarioE.setBounds(40, 160, 40, 20);
+        sabadoHorarioE.setBounds(10, 160, 70, 20);
 
         btCurso105.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso105.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3574,25 +3720,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso105);
         btCurso105.setBounds(80, 190, 30, 20);
 
-        sabadoProfessorC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoProfessorC.setEnabled(false);
         jPanel6.add(sabadoProfessorC);
         sabadoProfessorC.setBounds(430, 100, 240, 20);
 
-        sabadoHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioF.setEnabled(false);
         jPanel6.add(sabadoHorarioF);
-        sabadoHorarioF.setBounds(40, 190, 40, 20);
+        sabadoHorarioF.setBounds(10, 190, 70, 20);
 
-        sabadoDisciplinaB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoDisciplinaB.setEnabled(false);
         jPanel6.add(sabadoDisciplinaB);
         sabadoDisciplinaB.setBounds(110, 70, 240, 20);
 
-        sabadoDisciplinaF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoDisciplinaF.setEnabled(false);
         jPanel6.add(sabadoDisciplinaF);
@@ -3640,13 +3786,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(btCurso108);
         btCurso108.setBounds(670, 100, 30, 20);
 
-        sabadoDisciplinaE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoDisciplinaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoDisciplinaE.setEnabled(false);
         jPanel6.add(sabadoDisciplinaE);
         sabadoDisciplinaE.setBounds(110, 160, 240, 20);
 
-        sabadoCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoCodigoProfessorD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoCodigoProfessorD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -3666,7 +3812,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoCodigoProfessorD);
         sabadoCodigoProfessorD.setBounds(390, 130, 30, 20);
 
-        sabadoProfessorE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sabadoProfessorE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoProfessorE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoProfessorE.setEnabled(false);
         jPanel6.add(sabadoProfessorE);
@@ -3691,7 +3837,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         getContentPane().add(jlNome5);
         jlNome5.setBounds(520, 110, 140, 30);
 
-        jcAnoExercicio.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jcAnoExercicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcAnoExercicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "2016.2", "2017.1", "2017.2" }));
         jcAnoExercicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         jcAnoExercicio.addActionListener(new java.awt.event.ActionListener() {
@@ -3760,30 +3906,86 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         Util.limparCamposGenerico(this);
         Util.limparCamposJTabblePane(jTabbedPane1);
+
+        //Inicialização de objetos
         quadroHorarios = new QuadroHorarios();
+        semestre = new Semestre();
+        disciplina = new Disciplina();
+        gradeCurricular = new GradeCurricular();
+        horario = new Horario();
+        professor = new Professor();
+        curso = new Curso();
+        horariosSegunda = new Horario[qtdAulas];
+        horariosTerca = new Horario[qtdAulas];
+        horariosQuarta = new Horario[qtdAulas];
+        horariosQuinta = new Horario[qtdAulas];
+        horariosSexta = new Horario[qtdAulas];
+        horariosSabado = new Horario[qtdAulas];
+        professoresSegunda = new Professor[qtdAulas];
+        professoresTerca = new Professor[qtdAulas];
+        professoresQuarta = new Professor[qtdAulas];
+        professoresQuinta = new Professor[qtdAulas];
+        professoresSexta = new Professor[qtdAulas];
+        professoresSabado = new Professor[qtdAulas];
+        disciplinasSegunda = new Disciplina[qtdAulas];
+        disciplinasTerca = new Disciplina[qtdAulas];
+        disciplinasQuarta = new Disciplina[qtdAulas];
+        disciplinasQuinta = new Disciplina[qtdAulas];
+        disciplinasSexta = new Disciplina[qtdAulas];
+        disciplinasSabado = new Disciplina[qtdAulas];
+        ordenacaoHorarios = new int[qtdHorDisPr];
+        ordenacaoDisciplinas = new int[qtdHorDisPr];
+        ordenacaoProfessores = new int[qtdHorDisPr];
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-
+        List<QuadroHorarios> lista;
+        lista = (quadroHorariosDAO.listar());
+        QuadroHorariosTableModel itm = new QuadroHorariosTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Quadro Horários");
+        if (objetoRetorno != null) {
+            quadroHorarios = quadroHorariosDAO.consultarObjetoId("idQuadroHorarios", objetoRetorno);
+            converterListasEmArrays();
+            preencherCamposComArraysQuadroHorarios();
+            btExcluir.setEnabled(true);
+        }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        Object[] options = {"Sim", "Não"};
+        if (quadroHorarios.getIdQuadroHorarios() != 0) {
+            if (JOptionPane.showOptionDialog(rootPane, "Deseja excluir o Quadro de Horários do " + quadroHorarios.getSemestre().getNomeSemestre()
+                    + "\n do Curso de " + quadroHorarios.getCurso().getNomeCurso()
+                    + "?", "BirdPoint", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION) {
+                if (quadroHorariosDAO.remover(quadroHorarios)) {
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o Quadro Horários do " + quadroHorarios.getSemestre().getNomeSemestre()
+                            + "\n do Curso de " + quadroHorarios.getCurso().getNomeCurso(),
+                            "Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "A exclusão foi cancelada!");
+            }
 
+        }
+        btLimparActionPerformed(null);
     }//GEN-LAST:event_btExcluirActionPerformed
 
+
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-         if(Util.chkVazio(tfGradeCurricular.getText(), tfNomeCurso.getText(), tfNomeSemestre.getText(), String.valueOf(jcAnoExercicio.getSelectedItem()), String.valueOf(jcTurno.getSelectedItem()))){
-             quadroHorarios.setAnoExercicio(String.valueOf(jcAnoExercicio.getSelectedItem()));
-             quadroHorarios.setCurso(curso);
-             quadroHorarios.setSemestre(semestre);
-             quadroHorarios.setGrade(gradeCurricular);
-             converterArraysEmListas();
-             quadroHorarios.setHorarios(listaHorariosSemanais);
-             quadroHorarios.setProfessores(listaProfessoresSemanais);
-             quadroHorarios.setDisciplinas(listaDisciplinasSemanais);
-             quadroHorariosDAO.salvar(quadroHorarios);
-             btLimparActionPerformed(null);
-         }
+        if (Util.chkVazio(tfGradeCurricular.getText(), tfNomeCurso.getText(), tfNomeSemestre.getText(), String.valueOf(jcAnoExercicio.getSelectedItem()), String.valueOf(jcTurno.getSelectedItem()))) {
+            quadroHorarios.setAnoExercicio(String.valueOf(jcAnoExercicio.getSelectedItem()));
+            quadroHorarios.setCurso(curso);
+            quadroHorarios.setSemestre(semestre);
+            quadroHorarios.setGrade(gradeCurricular);
+            converterArraysEmListas();
+            capturarOrdenacao();
+            quadroHorarios.setOrdenacaoHorarios(ordenacaoHorarios);
+            quadroHorarios.setOrdenacaoDisciplinas(ordenacaoDisciplinas);
+            quadroHorarios.setOrdenacaoProfessores(ordenacaoProfessores);
+            quadroHorariosDAO.salvar(quadroHorarios);
+            btLimparActionPerformed(null);
+        }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGradeActionPerformed

@@ -16,16 +16,16 @@ import javax.swing.table.AbstractTableModel;
  */
 public class QuadroHorariosTableModel extends AbstractTableModel {
 
-    private List<Titulacao> titulacaos = new ArrayList<>();
-    private String[] colunas = {"Código", "Titulação", "Valor da H/A"};
+    private List<QuadroHorarios> quadroHorarios = new ArrayList<>();
+    private String[] colunas = {"Código", "Ano Exercício", "Semestre", "Curso", "Grade"};
 
-    public QuadroHorariosTableModel(List<Titulacao> titulacao) {
-        this.titulacaos = titulacao;
+    public QuadroHorariosTableModel(List<QuadroHorarios> quadroHorario) {
+        this.quadroHorarios = quadroHorario;
     }
 
     @Override
     public int getRowCount() {
-        return titulacaos.size();
+        return quadroHorarios.size();
     }
 
     @Override
@@ -35,14 +35,18 @@ public class QuadroHorariosTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Titulacao titulacao = titulacaos.get(rowIndex);
+        QuadroHorarios quadroHorario = quadroHorarios.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return titulacao.getIdTitulacao();
+                return quadroHorario.getIdQuadroHorarios();
             case 1:
-                return titulacao.getNome();
+                return quadroHorario.getAnoExercicio();
             case 2:
-                return titulacao.getValorTitulacao();
+                return quadroHorario.getSemestre().getNomeSemestre();
+            case 3:
+                return quadroHorario.getCurso().getNomeCurso();
+            case 4:
+                return quadroHorario.getGrade().getNomeGradeCurricular();
 
         }
         return null;
@@ -56,6 +60,10 @@ public class QuadroHorariosTableModel extends AbstractTableModel {
                 return colunas[1];
             case 2:
                 return colunas[2];
+            case 3:
+                return colunas[3];
+            case 4:
+                return colunas[4];
 
         }
         return null;
