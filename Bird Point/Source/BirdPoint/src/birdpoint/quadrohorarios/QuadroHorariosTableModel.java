@@ -46,7 +46,7 @@ public class QuadroHorariosTableModel extends AbstractTableModel {
             case 3:
                 return quadroHorario.getCurso().getNomeCurso();
             case 4:
-                return quadroHorario.getGrade().getNomeGradeCurricular();
+                return quadroHorario.getGradeCurricular().getNomeGradeCurricular();
 
         }
         return null;

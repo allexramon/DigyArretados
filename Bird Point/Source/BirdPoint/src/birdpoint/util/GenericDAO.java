@@ -1,5 +1,8 @@
 package birdpoint.util;
 
+import birdpoint.disciplina.Disciplina;
+import birdpoint.horario.Horario;
+import birdpoint.professor.Professor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
@@ -123,7 +126,7 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
                     + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return lista;
@@ -141,7 +144,7 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
                     + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return lista;
@@ -159,7 +162,7 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
                     + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return objeto;
@@ -177,7 +180,7 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
                     + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         if (objeto == null) {
@@ -199,13 +202,13 @@ public abstract class GenericDAO<T> {
             if (getTransacao().isActive()) {
                 getTransacao().rollback();
             }
-                       JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
+            JOptionPane.showMessageDialog(null, "Não foi possível executar essa operação"
                     + ". Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return objeto;
 
     }
-    
+
 
     /**
      * @return the sessao

@@ -263,20 +263,80 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
         }
     }
-    
+    // Este método serve para percorrer e procurar algum horário na lista de horários
+
+    public Horario procurarHorario(int codigo) {
+        Horario horario = null;
+        for (Horario horarioProcura : listaHorarios) {
+            if (horarioProcura.getIdHorario() == codigo) {
+                horario = horarioProcura;
+                return horario;
+            }
+        }
+        return null;
+    }
+
+    // Este método serve para percorrer e procurar algum professor na lista de professores
+    public Professor procurarProfessor(int codigo) {
+        Professor professor = null;
+        for (Professor professorProcura : listaProfessores) {
+            if (professorProcura.getIdProfessor() == codigo) {
+                professor = professorProcura;
+                return professor;
+            }
+        }
+        return null;
+    }
+
+    // Este método serve para percorrer e procurar alguma disciplina na lista de disciplinas
+    public Disciplina procurarDisciplina(int codigo) {
+        Disciplina disciplina = null;
+        for (Disciplina disciplinaProcura : listaDisciplinas) {
+            if (disciplinaProcura.getIdDisciplina() == codigo) {
+                disciplina = disciplinaProcura;
+                return disciplina;
+            }
+        }
+        return null;
+    }
+
     // Este método irá ordenar as listas de horários, disciplinas e professores após serem pesquisados
     // Pois a ordenação deve ser a mesma que ele escolheu na hora de inserir o horário
     public void ordenarHorariosPesquisados() {
-        Horario Horariotemp = new Horario();
-        Disciplina Disciplinatemp = new Disciplina();
-        Professor Professortemp = new Professor();
+        ordenacaoHorarios = quadroHorarios.getOrdenacaoHorarios();
+        ordenacaoDisciplinas = quadroHorarios.getOrdenacaoDisciplinas();
+        ordenacaoProfessores = quadroHorarios.getOrdenacaoProfessores();
 
         for (int i = 0; i < qtdHorDisPr;) {
             for (int j = 0; j < qtdAulas; j++) {
                 try {
-       
-                } catch (Exception e) {
+                    if (i < 6) {
+                        horariosSegunda[j] = procurarHorario(ordenacaoHorarios[i]);
+                        professoresSegunda[j] = procurarProfessor(ordenacaoProfessores[i]);
+                        disciplinasSegunda[j] = procurarDisciplina(ordenacaoDisciplinas[i]);
+                    } else if (i < 12) {
+                        horariosTerca[j] = procurarHorario(ordenacaoHorarios[i]);
+                        professoresTerca[j] = procurarProfessor(ordenacaoProfessores[i]);
+                        disciplinasTerca[j] = procurarDisciplina(ordenacaoDisciplinas[i]);
+                    } else if (i < 18) {
+                        horariosQuarta[j] = procurarHorario(ordenacaoHorarios[i]);
+                        professoresQuarta[j] = procurarProfessor(ordenacaoProfessores[i]);
+                        disciplinasQuarta[j] = procurarDisciplina(ordenacaoDisciplinas[i]);
+                    } else if (i < 24) {
+                        horariosQuinta[j] = procurarHorario(ordenacaoHorarios[i]);
+                        professoresQuinta[j] = procurarProfessor(ordenacaoProfessores[i]);
+                        disciplinasQuinta[j] = procurarDisciplina(ordenacaoDisciplinas[i]);
+                    } else if (i < 30) {
+                        horariosSexta[j] = procurarHorario(ordenacaoHorarios[i]);
+                        professoresSexta[j] = procurarProfessor(ordenacaoProfessores[i]);
+                        disciplinasSexta[j] = procurarDisciplina(ordenacaoDisciplinas[i]);
+                    } else if (i < 36) {
+                        horariosSabado[j] = procurarHorario(ordenacaoHorarios[i]);
+                        professoresSabado[j] = procurarProfessor(ordenacaoProfessores[i]);
+                        disciplinasSabado[j] = procurarDisciplina(ordenacaoDisciplinas[i]);
+                    }
 
+                } catch (Exception e) {
                 }
 
                 i++;
@@ -285,117 +345,433 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
     }
 
-    // Métodos de conversão de array em listas
-    public void converterArraysEmListas() {
-        quadroHorarios.setDisciplinasSegunda(Arrays.asList(disciplinasSegunda));
-        quadroHorarios.setDisciplinasTerca(Arrays.asList(disciplinasTerca));
-        quadroHorarios.setDisciplinasQuarta(Arrays.asList(disciplinasQuarta));
-        quadroHorarios.setDisciplinasQuinta(Arrays.asList(disciplinasQuinta));
-        quadroHorarios.setDisciplinasSexta(Arrays.asList(disciplinasSexta));
-        quadroHorarios.setDisciplinasSabado(Arrays.asList(disciplinasSabado));
-
-        quadroHorarios.setHorariosSegunda(Arrays.asList(horariosSegunda));
-        quadroHorarios.setHorariosTerca(Arrays.asList(horariosTerca));
-        quadroHorarios.setHorariosQuarta(Arrays.asList(horariosQuarta));
-        quadroHorarios.setHorariosQuinta(Arrays.asList(horariosQuinta));
-        quadroHorarios.setHorariosSexta(Arrays.asList(horariosSexta));
-        quadroHorarios.setHorariosSabado(Arrays.asList(horariosSabado));
-
-        quadroHorarios.setProfessoresSegunda(Arrays.asList(professoresSegunda));
-        quadroHorarios.setProfessoresTerca(Arrays.asList(professoresTerca));
-        quadroHorarios.setProfessoresQuarta(Arrays.asList(professoresQuarta));
-        quadroHorarios.setProfessoresQuinta(Arrays.asList(professoresQuinta));
-        quadroHorarios.setProfessoresSexta(Arrays.asList(professoresSexta));
-        quadroHorarios.setProfessoresSabado(Arrays.asList(professoresSabado));
-    }
-
-    // Método para percorrer as listas do Quadro de Horários Pesquisado para preencher os arrays locais
-    public void converterListasEmArrays() {
-        for (int i = 0; i < qtdAulas; i++) {
-            if (i < quadroHorarios.getDisciplinasSegunda().size()) {
-                disciplinasSegunda[i] = quadroHorarios.getDisciplinasSegunda().get(i);
-            }
-            if (i < quadroHorarios.getHorariosSegunda().size()) {
-                horariosSegunda[i] = quadroHorarios.getHorariosSegunda().get(i);
-            }
-            if (i < quadroHorarios.getProfessoresSegunda().size()) {
-                professoresSegunda[i] = quadroHorarios.getProfessoresSegunda().get(i);
-            }
-            if (i < quadroHorarios.getDisciplinasTerca().size()) {
-                disciplinasTerca[i] = quadroHorarios.getDisciplinasTerca().get(i);
-            }
-            if (i < quadroHorarios.getHorariosTerca().size()) {
-                horariosTerca[i] = quadroHorarios.getHorariosTerca().get(i);
-            }
-            if (i < quadroHorarios.getProfessoresTerca().size()) {
-                professoresTerca[i] = quadroHorarios.getProfessoresTerca().get(i);
-            }
-            if (i < quadroHorarios.getDisciplinasQuarta().size()) {
-                disciplinasQuarta[i] = quadroHorarios.getDisciplinasQuarta().get(i);
-            }
-            if (i < quadroHorarios.getHorariosQuarta().size()) {
-                horariosQuarta[i] = quadroHorarios.getHorariosQuarta().get(i);
-            }
-            if (i < quadroHorarios.getProfessoresQuarta().size()) {
-                professoresQuarta[i] = quadroHorarios.getProfessoresQuarta().get(i);
-            }
-            if (i < quadroHorarios.getDisciplinasQuinta().size()) {
-                disciplinasQuinta[i] = quadroHorarios.getDisciplinasQuinta().get(i);
-            }
-            if (i < quadroHorarios.getHorariosQuinta().size()) {
-                horariosQuinta[i] = quadroHorarios.getHorariosQuinta().get(i);
-            }
-            if (i < quadroHorarios.getProfessoresQuinta().size()) {
-                professoresQuinta[i] = quadroHorarios.getProfessoresQuinta().get(i);
-            }
-            if (i < quadroHorarios.getDisciplinasSexta().size()) {
-                disciplinasSexta[i] = quadroHorarios.getDisciplinasSexta().get(i);
-            }
-            if (i < quadroHorarios.getHorariosSexta().size()) {
-                horariosSexta[i] = quadroHorarios.getHorariosSexta().get(i);
-            }
-            if (i < quadroHorarios.getProfessoresSexta().size()) {
-                professoresSexta[i] = quadroHorarios.getProfessoresSexta().get(i);
-            }
-            if (i < quadroHorarios.getDisciplinasSabado().size()) {
-                disciplinasSabado[i] = quadroHorarios.getDisciplinasSabado().get(i);
-            }
-            if (i < quadroHorarios.getHorariosSabado().size()) {
-                horariosSabado[i] = quadroHorarios.getHorariosSabado().get(i);
-            }
-            if (i < quadroHorarios.getProfessoresSabado().size()) {
-                professoresSabado[i] = quadroHorarios.getProfessoresSabado().get(i);
-            }
-        }
-    }
-
+    // Método para preencher os campos do quadro de horários
     public void preencherCamposComArraysQuadroHorarios() {
         try {
             segundaHorarioA.setText(horariosSegunda[0].getHoraInicio());
-            segundaHorarioB.setText(horariosSegunda[1].getHoraInicio());
-            segundaHorarioC.setText(horariosSegunda[2].getHoraInicio());
-            segundaHorarioD.setText(horariosSegunda[3].getHoraInicio());
-            segundaHorarioE.setText(horariosSegunda[4].getHoraInicio());
-            segundaHorarioF.setText(horariosSegunda[5].getHoraInicio());
-        } catch (Exception e) {
-        }
-        try {
             segundaProfessorA.setText(professoresSegunda[0].getNomeProfessor());
-            segundaProfessorB.setText(professoresSegunda[1].getNomeProfessor());
-            segundaProfessorC.setText(professoresSegunda[2].getNomeProfessor());
-            segundaProfessorD.setText(professoresSegunda[3].getNomeProfessor());
-            segundaProfessorE.setText(professoresSegunda[4].getNomeProfessor());
-            segundaProfessorF.setText(professoresSegunda[5].getNomeProfessor());
+            segundaDisciplinaA.setText(disciplinasSegunda[0].getNomeDisciplina());
+            segundaCodigoProfessorA.setText(Integer.toString(professoresSegunda[0].getIdProfessor()));
         } catch (Exception e) {
+            segundaHorarioA.setText("");
+            segundaProfessorA.setText("");
+            segundaDisciplinaA.setText("");
+            segundaCodigoProfessorA.setText("");
+        }
+
+        try {
+            segundaHorarioB.setText(horariosSegunda[1].getHoraInicio());
+            segundaProfessorB.setText(professoresSegunda[1].getNomeProfessor());
+            segundaDisciplinaB.setText(disciplinasSegunda[1].getNomeDisciplina());
+            segundaCodigoProfessorB.setText(Integer.toString(professoresSegunda[1].getIdProfessor()));
+        } catch (Exception e) {
+            segundaHorarioB.setText("");
+            segundaProfessorB.setText("");
+            segundaDisciplinaB.setText("");
+            segundaCodigoProfessorB.setText("");
+        }
+
+        try {
+            segundaHorarioC.setText(horariosSegunda[2].getHoraInicio());
+            segundaProfessorC.setText(professoresSegunda[2].getNomeProfessor());
+            segundaDisciplinaC.setText(disciplinasSegunda[2].getNomeDisciplina());
+            segundaCodigoProfessorC.setText(Integer.toString(professoresSegunda[2].getIdProfessor()));
+        } catch (Exception e) {
+            segundaHorarioC.setText("");
+            segundaProfessorC.setText("");
+            segundaDisciplinaC.setText("");
+            segundaCodigoProfessorC.setText("");
+        }
+
+        try {
+            segundaHorarioD.setText(horariosSegunda[3].getHoraInicio());
+            segundaProfessorD.setText(professoresSegunda[3].getNomeProfessor());
+            segundaDisciplinaD.setText(disciplinasSegunda[3].getNomeDisciplina());
+            segundaCodigoProfessorD.setText(Integer.toString(professoresSegunda[3].getIdProfessor()));
+        } catch (Exception e) {
+            segundaHorarioD.setText("");
+            segundaProfessorD.setText("");
+            segundaDisciplinaD.setText("");
+            segundaCodigoProfessorD.setText("");
+        }
+
+        try {
+            segundaHorarioE.setText(horariosSegunda[4].getHoraInicio());
+            segundaProfessorE.setText(professoresSegunda[4].getNomeProfessor());
+            segundaDisciplinaE.setText(disciplinasSegunda[4].getNomeDisciplina());
+            segundaCodigoProfessorE.setText(Integer.toString(professoresSegunda[4].getIdProfessor()));
+        } catch (Exception e) {
+            segundaHorarioE.setText("");
+            segundaProfessorE.setText("");
+            segundaDisciplinaE.setText("");
+            segundaCodigoProfessorE.setText("");
+        }
+
+        try {
+            segundaHorarioF.setText(horariosSegunda[5].getHoraInicio());
+            segundaProfessorF.setText(professoresSegunda[5].getNomeProfessor());
+            segundaDisciplinaF.setText(disciplinasSegunda[5].getNomeDisciplina());
+            segundaCodigoProfessorF.setText(Integer.toString(professoresSegunda[5].getIdProfessor()));
+        } catch (Exception e) {
+            segundaHorarioF.setText("");
+            segundaProfessorF.setText("");
+            segundaDisciplinaF.setText("");
+            segundaCodigoProfessorF.setText("");
         }
         try {
-            segundaDisciplinaA.setText(disciplinasSegunda[0].getNomeDisciplina());
-            segundaDisciplinaB.setText(disciplinasSegunda[1].getNomeDisciplina());
-            segundaDisciplinaC.setText(disciplinasSegunda[2].getNomeDisciplina());
-            segundaDisciplinaD.setText(disciplinasSegunda[3].getNomeDisciplina());
-            segundaDisciplinaE.setText(disciplinasSegunda[4].getNomeDisciplina());
-            segundaDisciplinaF.setText(disciplinasSegunda[5].getNomeDisciplina());
+            tercaHorarioA.setText(horariosTerca[0].getHoraInicio());
+            tercaProfessorA.setText(professoresTerca[0].getNomeProfessor());
+            tercaDisciplinaA.setText(disciplinasTerca[0].getNomeDisciplina());
+            tercaCodigoProfessorA.setText(Integer.toString(professoresTerca[0].getIdProfessor()));
         } catch (Exception e) {
+            tercaHorarioA.setText("");
+            tercaProfessorA.setText("");
+            tercaDisciplinaA.setText("");
+            tercaCodigoProfessorA.setText("");
+        }
+
+        try {
+            tercaHorarioB.setText(horariosTerca[1].getHoraInicio());
+            tercaProfessorB.setText(professoresTerca[1].getNomeProfessor());
+            tercaDisciplinaB.setText(disciplinasTerca[1].getNomeDisciplina());
+            tercaCodigoProfessorB.setText(Integer.toString(professoresTerca[1].getIdProfessor()));
+        } catch (Exception e) {
+            tercaHorarioB.setText("");
+            tercaProfessorB.setText("");
+            tercaDisciplinaB.setText("");
+            tercaCodigoProfessorB.setText("");
+        }
+
+        try {
+            tercaHorarioC.setText(horariosTerca[2].getHoraInicio());
+            tercaProfessorC.setText(professoresTerca[2].getNomeProfessor());
+            tercaDisciplinaC.setText(disciplinasTerca[2].getNomeDisciplina());
+            tercaCodigoProfessorC.setText(Integer.toString(professoresTerca[2].getIdProfessor()));
+        } catch (Exception e) {
+            tercaHorarioC.setText("");
+            tercaProfessorC.setText("");
+            tercaDisciplinaC.setText("");
+            tercaCodigoProfessorC.setText("");
+        }
+
+        try {
+            tercaHorarioD.setText(horariosTerca[3].getHoraInicio());
+            tercaProfessorD.setText(professoresTerca[3].getNomeProfessor());
+            tercaDisciplinaD.setText(disciplinasTerca[3].getNomeDisciplina());
+            tercaCodigoProfessorD.setText(Integer.toString(professoresTerca[3].getIdProfessor()));
+        } catch (Exception e) {
+            tercaHorarioD.setText("");
+            tercaProfessorD.setText("");
+            tercaDisciplinaD.setText("");
+            tercaCodigoProfessorD.setText("");
+        }
+
+        try {
+            tercaHorarioE.setText(horariosTerca[4].getHoraInicio());
+            tercaProfessorE.setText(professoresTerca[4].getNomeProfessor());
+            tercaDisciplinaE.setText(disciplinasTerca[4].getNomeDisciplina());
+            tercaCodigoProfessorE.setText(Integer.toString(professoresTerca[4].getIdProfessor()));
+        } catch (Exception e) {
+            tercaHorarioE.setText("");
+            tercaProfessorE.setText("");
+            tercaDisciplinaE.setText("");
+            tercaCodigoProfessorE.setText("");
+        }
+
+        try {
+            tercaHorarioF.setText(horariosTerca[5].getHoraInicio());
+            tercaProfessorF.setText(professoresTerca[5].getNomeProfessor());
+            tercaDisciplinaF.setText(disciplinasTerca[5].getNomeDisciplina());
+            tercaCodigoProfessorF.setText(Integer.toString(professoresTerca[5].getIdProfessor()));
+        } catch (Exception e) {
+            tercaHorarioF.setText("");
+            tercaProfessorF.setText("");
+            tercaDisciplinaF.setText("");
+            tercaCodigoProfessorF.setText("");
+        }
+        try {
+            quartaHorarioA.setText(horariosQuarta[0].getHoraInicio());
+            quartaProfessorA.setText(professoresQuarta[0].getNomeProfessor());
+            quartaDisciplinaA.setText(disciplinasQuarta[0].getNomeDisciplina());
+            quartaCodigoProfessorA.setText(Integer.toString(professoresQuarta[0].getIdProfessor()));
+        } catch (Exception e) {
+            quartaHorarioA.setText("");
+            quartaProfessorA.setText("");
+            quartaDisciplinaA.setText("");
+            quartaCodigoProfessorA.setText("");
+        }
+
+        try {
+            quartaHorarioB.setText(horariosQuarta[1].getHoraInicio());
+            quartaProfessorB.setText(professoresQuarta[1].getNomeProfessor());
+            quartaDisciplinaB.setText(disciplinasQuarta[1].getNomeDisciplina());
+            quartaCodigoProfessorB.setText(Integer.toString(professoresQuarta[1].getIdProfessor()));
+        } catch (Exception e) {
+            quartaHorarioB.setText("");
+            quartaProfessorB.setText("");
+            quartaDisciplinaB.setText("");
+            quartaCodigoProfessorB.setText("");
+        }
+
+        try {
+            quartaHorarioC.setText(horariosQuarta[2].getHoraInicio());
+            quartaProfessorC.setText(professoresQuarta[2].getNomeProfessor());
+            quartaDisciplinaC.setText(disciplinasQuarta[2].getNomeDisciplina());
+            quartaCodigoProfessorC.setText(Integer.toString(professoresQuarta[2].getIdProfessor()));
+        } catch (Exception e) {
+            quartaHorarioC.setText("");
+            quartaProfessorC.setText("");
+            quartaDisciplinaC.setText("");
+            quartaCodigoProfessorC.setText("");
+        }
+
+        try {
+            quartaHorarioD.setText(horariosQuarta[3].getHoraInicio());
+            quartaProfessorD.setText(professoresQuarta[3].getNomeProfessor());
+            quartaDisciplinaD.setText(disciplinasQuarta[3].getNomeDisciplina());
+            quartaCodigoProfessorD.setText(Integer.toString(professoresQuarta[3].getIdProfessor()));
+        } catch (Exception e) {
+            quartaHorarioD.setText("");
+            quartaProfessorD.setText("");
+            quartaDisciplinaD.setText("");
+            quartaCodigoProfessorD.setText("");
+        }
+
+        try {
+            quartaHorarioE.setText(horariosQuarta[4].getHoraInicio());
+            quartaProfessorE.setText(professoresQuarta[4].getNomeProfessor());
+            quartaDisciplinaE.setText(disciplinasQuarta[4].getNomeDisciplina());
+            quartaCodigoProfessorE.setText(Integer.toString(professoresQuarta[4].getIdProfessor()));
+        } catch (Exception e) {
+            quartaHorarioE.setText("");
+            quartaProfessorE.setText("");
+            quartaDisciplinaE.setText("");
+            quartaCodigoProfessorE.setText("");
+        }
+
+        try {
+            quartaHorarioF.setText(horariosQuarta[5].getHoraInicio());
+            quartaProfessorF.setText(professoresQuarta[5].getNomeProfessor());
+            quartaDisciplinaF.setText(disciplinasQuarta[5].getNomeDisciplina());
+            quartaCodigoProfessorF.setText(Integer.toString(professoresQuarta[5].getIdProfessor()));
+        } catch (Exception e) {
+            quartaHorarioF.setText("");
+            quartaProfessorF.setText("");
+            quartaDisciplinaF.setText("");
+            quartaCodigoProfessorF.setText("");
+        }
+        try {
+            quintaHorarioA.setText(horariosQuinta[0].getHoraInicio());
+            quintaProfessorA.setText(professoresQuinta[0].getNomeProfessor());
+            quintaDisciplinaA.setText(disciplinasQuinta[0].getNomeDisciplina());
+            quintaCodigoProfessorA.setText(Integer.toString(professoresQuinta[0].getIdProfessor()));
+        } catch (Exception e) {
+            quintaHorarioA.setText("");
+            quintaProfessorA.setText("");
+            quintaDisciplinaA.setText("");
+            quintaCodigoProfessorA.setText("");
+        }
+
+        try {
+            quintaHorarioB.setText(horariosQuinta[1].getHoraInicio());
+            quintaProfessorB.setText(professoresQuinta[1].getNomeProfessor());
+            quintaDisciplinaB.setText(disciplinasQuinta[1].getNomeDisciplina());
+            quintaCodigoProfessorB.setText(Integer.toString(professoresQuinta[1].getIdProfessor()));
+        } catch (Exception e) {
+            quintaHorarioB.setText("");
+            quintaProfessorB.setText("");
+            quintaDisciplinaB.setText("");
+            quintaCodigoProfessorB.setText("");
+        }
+
+        try {
+            quintaHorarioC.setText(horariosQuinta[2].getHoraInicio());
+            quintaProfessorC.setText(professoresQuinta[2].getNomeProfessor());
+            quintaDisciplinaC.setText(disciplinasQuinta[2].getNomeDisciplina());
+            quintaCodigoProfessorC.setText(Integer.toString(professoresQuinta[2].getIdProfessor()));
+        } catch (Exception e) {
+            quintaHorarioC.setText("");
+            quintaProfessorC.setText("");
+            quintaDisciplinaC.setText("");
+            quintaCodigoProfessorC.setText("");
+        }
+
+        try {
+            quintaHorarioD.setText(horariosQuinta[3].getHoraInicio());
+            quintaProfessorD.setText(professoresQuinta[3].getNomeProfessor());
+            quintaDisciplinaD.setText(disciplinasQuinta[3].getNomeDisciplina());
+            quintaCodigoProfessorD.setText(Integer.toString(professoresQuinta[3].getIdProfessor()));
+        } catch (Exception e) {
+            quintaHorarioD.setText("");
+            quintaProfessorD.setText("");
+            quintaDisciplinaD.setText("");
+            quintaCodigoProfessorD.setText("");
+        }
+
+        try {
+            quintaHorarioE.setText(horariosQuinta[4].getHoraInicio());
+            quintaProfessorE.setText(professoresQuinta[4].getNomeProfessor());
+            quintaDisciplinaE.setText(disciplinasQuinta[4].getNomeDisciplina());
+            quintaCodigoProfessorE.setText(Integer.toString(professoresQuinta[4].getIdProfessor()));
+        } catch (Exception e) {
+            quintaHorarioE.setText("");
+            quintaProfessorE.setText("");
+            quintaDisciplinaE.setText("");
+            quintaCodigoProfessorE.setText("");
+        }
+
+        try {
+            quintaHorarioF.setText(horariosQuinta[5].getHoraInicio());
+            quintaProfessorF.setText(professoresQuinta[5].getNomeProfessor());
+            quintaDisciplinaF.setText(disciplinasQuinta[5].getNomeDisciplina());
+            quintaCodigoProfessorF.setText(Integer.toString(professoresQuinta[5].getIdProfessor()));
+        } catch (Exception e) {
+            quintaHorarioF.setText("");
+            quintaProfessorF.setText("");
+            quintaDisciplinaF.setText("");
+            quintaCodigoProfessorF.setText("");
+        }
+        try {
+            sextaHorarioA.setText(horariosSexta[0].getHoraInicio());
+            sextaProfessorA.setText(professoresSexta[0].getNomeProfessor());
+            sextaDisciplinaA.setText(disciplinasSexta[0].getNomeDisciplina());
+            sextaCodigoProfessorA.setText(Integer.toString(professoresSexta[0].getIdProfessor()));
+        } catch (Exception e) {
+            sextaHorarioA.setText("");
+            sextaProfessorA.setText("");
+            sextaDisciplinaA.setText("");
+            sextaCodigoProfessorA.setText("");
+        }
+
+        try {
+            sextaHorarioB.setText(horariosSexta[1].getHoraInicio());
+            sextaProfessorB.setText(professoresSexta[1].getNomeProfessor());
+            sextaDisciplinaB.setText(disciplinasSexta[1].getNomeDisciplina());
+            sextaCodigoProfessorB.setText(Integer.toString(professoresSexta[1].getIdProfessor()));
+        } catch (Exception e) {
+            sextaHorarioB.setText("");
+            sextaProfessorB.setText("");
+            sextaDisciplinaB.setText("");
+            sextaCodigoProfessorB.setText("");
+        }
+
+        try {
+            sextaHorarioC.setText(horariosSexta[2].getHoraInicio());
+            sextaProfessorC.setText(professoresSexta[2].getNomeProfessor());
+            sextaDisciplinaC.setText(disciplinasSexta[2].getNomeDisciplina());
+            sextaCodigoProfessorC.setText(Integer.toString(professoresSexta[2].getIdProfessor()));
+        } catch (Exception e) {
+            sextaHorarioC.setText("");
+            sextaProfessorC.setText("");
+            sextaDisciplinaC.setText("");
+            sextaCodigoProfessorC.setText("");
+        }
+
+        try {
+            sextaHorarioD.setText(horariosSexta[3].getHoraInicio());
+            sextaProfessorD.setText(professoresSexta[3].getNomeProfessor());
+            sextaDisciplinaD.setText(disciplinasSexta[3].getNomeDisciplina());
+            sextaCodigoProfessorD.setText(Integer.toString(professoresSexta[3].getIdProfessor()));
+        } catch (Exception e) {
+            sextaHorarioD.setText("");
+            sextaProfessorD.setText("");
+            sextaDisciplinaD.setText("");
+            sextaCodigoProfessorD.setText("");
+        }
+
+        try {
+            sextaHorarioE.setText(horariosSexta[4].getHoraInicio());
+            sextaProfessorE.setText(professoresSexta[4].getNomeProfessor());
+            sextaDisciplinaE.setText(disciplinasSexta[4].getNomeDisciplina());
+            sextaCodigoProfessorE.setText(Integer.toString(professoresSexta[4].getIdProfessor()));
+        } catch (Exception e) {
+            sextaHorarioE.setText("");
+            sextaProfessorE.setText("");
+            sextaDisciplinaE.setText("");
+            sextaCodigoProfessorE.setText("");
+        }
+
+        try {
+            sextaHorarioF.setText(horariosSexta[5].getHoraInicio());
+            sextaProfessorF.setText(professoresSexta[5].getNomeProfessor());
+            sextaDisciplinaF.setText(disciplinasSexta[5].getNomeDisciplina());
+            sextaCodigoProfessorF.setText(Integer.toString(professoresSexta[5].getIdProfessor()));
+        } catch (Exception e) {
+            sextaHorarioF.setText("");
+            sextaProfessorF.setText("");
+            sextaDisciplinaF.setText("");
+            sextaCodigoProfessorF.setText("");
+        }
+        try {
+            sabadoHorarioA.setText(horariosSabado[0].getHoraInicio());
+            sabadoProfessorA.setText(professoresSabado[0].getNomeProfessor());
+            sabadoDisciplinaA.setText(disciplinasSabado[0].getNomeDisciplina());
+            sabadoCodigoProfessorA.setText(Integer.toString(professoresSabado[0].getIdProfessor()));
+        } catch (Exception e) {
+            sabadoHorarioA.setText("");
+            sabadoProfessorA.setText("");
+            sabadoDisciplinaA.setText("");
+            sabadoCodigoProfessorA.setText("");
+        }
+
+        try {
+            sabadoHorarioB.setText(horariosSabado[1].getHoraInicio());
+            sabadoProfessorB.setText(professoresSabado[1].getNomeProfessor());
+            sabadoDisciplinaB.setText(disciplinasSabado[1].getNomeDisciplina());
+            sabadoCodigoProfessorB.setText(Integer.toString(professoresSabado[1].getIdProfessor()));
+        } catch (Exception e) {
+            sabadoHorarioB.setText("");
+            sabadoProfessorB.setText("");
+            sabadoDisciplinaB.setText("");
+            sabadoCodigoProfessorB.setText("");
+        }
+
+        try {
+            sabadoHorarioC.setText(horariosSabado[2].getHoraInicio());
+            sabadoProfessorC.setText(professoresSabado[2].getNomeProfessor());
+            sabadoDisciplinaC.setText(disciplinasSabado[2].getNomeDisciplina());
+            sabadoCodigoProfessorC.setText(Integer.toString(professoresSabado[2].getIdProfessor()));
+        } catch (Exception e) {
+            sabadoHorarioC.setText("");
+            sabadoProfessorC.setText("");
+            sabadoDisciplinaC.setText("");
+            sabadoCodigoProfessorC.setText("");
+        }
+
+        try {
+            sabadoHorarioD.setText(horariosSabado[3].getHoraInicio());
+            sabadoProfessorD.setText(professoresSabado[3].getNomeProfessor());
+            sabadoDisciplinaD.setText(disciplinasSabado[3].getNomeDisciplina());
+            sabadoCodigoProfessorD.setText(Integer.toString(professoresSabado[3].getIdProfessor()));
+        } catch (Exception e) {
+            sabadoHorarioD.setText("");
+            sabadoProfessorD.setText("");
+            sabadoDisciplinaD.setText("");
+            sabadoCodigoProfessorD.setText("");
+        }
+
+        try {
+            sabadoHorarioE.setText(horariosSabado[4].getHoraInicio());
+            sabadoProfessorE.setText(professoresSabado[4].getNomeProfessor());
+            sabadoDisciplinaE.setText(disciplinasSabado[4].getNomeDisciplina());
+            sabadoCodigoProfessorE.setText(Integer.toString(professoresSabado[4].getIdProfessor()));
+        } catch (Exception e) {
+            sabadoHorarioE.setText("");
+            sabadoProfessorE.setText("");
+            sabadoDisciplinaE.setText("");
+            sabadoCodigoProfessorE.setText("");
+        }
+
+        try {
+            sabadoHorarioF.setText(horariosSabado[5].getHoraInicio());
+            sabadoProfessorF.setText(professoresSabado[5].getNomeProfessor());
+            sabadoDisciplinaF.setText(disciplinasSabado[5].getNomeDisciplina());
+            sabadoCodigoProfessorF.setText(Integer.toString(professoresSabado[5].getIdProfessor()));
+        } catch (Exception e) {
+            sabadoHorarioF.setText("");
+            sabadoProfessorF.setText("");
+            sabadoDisciplinaF.setText("");
+            sabadoCodigoProfessorF.setText("");
         }
 
     }
@@ -3945,7 +4321,15 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Quadro Horários");
         if (objetoRetorno != null) {
             quadroHorarios = quadroHorariosDAO.consultarObjetoId("idQuadroHorarios", objetoRetorno);
-            converterListasEmArrays();
+            curso = quadroHorarios.getCurso();
+            semestre = quadroHorarios.getSemestre();
+            gradeCurricular = quadroHorarios.getGradeCurricular();
+            jcAnoExercicio.setSelectedItem(quadroHorarios.getAnoExercicio());
+            jcTurno.setSelectedItem(quadroHorarios.getTurno());
+            tfNomeCurso.setText(curso.getNomeCurso());
+            tfNomeSemestre.setText(semestre.getNomeSemestre());
+            tfGradeCurricular.setText(gradeCurricular.getNomeGradeCurricular());
+            ordenarHorariosPesquisados();
             preencherCamposComArraysQuadroHorarios();
             btExcluir.setEnabled(true);
         }
@@ -3975,10 +4359,10 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfGradeCurricular.getText(), tfNomeCurso.getText(), tfNomeSemestre.getText(), String.valueOf(jcAnoExercicio.getSelectedItem()), String.valueOf(jcTurno.getSelectedItem()))) {
             quadroHorarios.setAnoExercicio(String.valueOf(jcAnoExercicio.getSelectedItem()));
+            quadroHorarios.setTurno(String.valueOf(jcTurno.getSelectedItem()));
             quadroHorarios.setCurso(curso);
             quadroHorarios.setSemestre(semestre);
-            quadroHorarios.setGrade(gradeCurricular);
-            converterArraysEmListas();
+            quadroHorarios.setGradeCurricular(gradeCurricular);
             capturarOrdenacao();
             quadroHorarios.setOrdenacaoHorarios(ordenacaoHorarios);
             quadroHorarios.setOrdenacaoDisciplinas(ordenacaoDisciplinas);
