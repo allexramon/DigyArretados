@@ -48,6 +48,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
         jmCadastrar = new javax.swing.JMenu();
+        subGrade2 = new javax.swing.JMenuItem();
         subUsuario1 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -120,6 +121,16 @@ public class MenuPrincipal extends javax.swing.JDialog {
         jmCadastrar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        subGrade2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subGrade2.setText("Ano Exercício");
+        subGrade2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subGrade2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subGrade2ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(subGrade2);
 
         subUsuario1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subUsuario1.setText("Biometria");
@@ -300,6 +311,11 @@ public class MenuPrincipal extends javax.swing.JDialog {
         cadastroHorario.setVisible(true);
     }//GEN-LAST:event_subGrade1ActionPerformed
 
+    private void subGrade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade2ActionPerformed
+        CadastroAnoExercicio cadastroAnoExercicio = new CadastroAnoExercicio(null, rootPaneCheckingEnabled);
+        cadastroAnoExercicio.setVisible(true);
+    }//GEN-LAST:event_subGrade2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -359,6 +375,7 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private javax.swing.JMenu jmCadastrar;
     private javax.swing.JMenuItem subGrade;
     private javax.swing.JMenuItem subGrade1;
+    private javax.swing.JMenuItem subGrade2;
     private javax.swing.JMenuItem subUsuario;
     private javax.swing.JMenuItem subUsuario1;
     private javax.swing.JMenuItem subUsuario2;

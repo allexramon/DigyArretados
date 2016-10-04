@@ -143,6 +143,14 @@ public class Util {
         return true;
     }
 
+    public static boolean chkVazioCamposHorarios(String campo1, String campo2, String campo3, String diaSemana, String horario) {
+        if ((campo1.isEmpty() && campo2.isEmpty() && campo3.isEmpty()) || (!campo1.isEmpty() && !campo2.isEmpty() && !campo3.isEmpty())) {
+            return true;
+        }
+        JOptionPane.showMessageDialog(null, "Dados incompletos, verifique o Horário: " + horario + " da: " + diaSemana, "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
     public static boolean chkCaracteres(String... caracteres) {
         Pattern regex = Pattern.compile("\\W");
         Matcher comparador;

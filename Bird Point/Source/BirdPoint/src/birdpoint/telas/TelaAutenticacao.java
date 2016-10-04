@@ -40,7 +40,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
 
         tfLogin = new javax.swing.JTextField();
         tfSenha = new javax.swing.JPasswordField();
-        jComboBox1 = new javax.swing.JComboBox();
         btCancelar = new javax.swing.JButton();
         btEntrar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -48,9 +47,11 @@ public class TelaAutenticacao extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(1000, 563));
+        setMaximumSize(new java.awt.Dimension(1000, 562));
+        setMinimumSize(new java.awt.Dimension(1000, 562));
         setModal(true);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1000, 565));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -76,22 +77,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 290, 40));
-
-        jComboBox1.setBackground(new java.awt.Color(255, 153, 0));
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2016.2" }));
-        jComboBox1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        jComboBox1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jComboBox1KeyPressed(evt);
-            }
-        });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 140, 40));
 
         btCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -133,7 +118,10 @@ public class TelaAutenticacao extends javax.swing.JDialog {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/login.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1000, 580));
+        jLabel1.setMaximumSize(new java.awt.Dimension(1000, 570));
+        jLabel1.setMinimumSize(new java.awt.Dimension(1000, 570));
+        jLabel1.setPreferredSize(new java.awt.Dimension(1000, 570));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 565));
 
         pack();
         setLocationRelativeTo(null);
@@ -177,10 +165,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void btCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCancelarMouseEntered
 
     }//GEN-LAST:event_btCancelarMouseEntered
@@ -196,12 +180,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             btEntrarActionPerformed(null);
         }
     }//GEN-LAST:event_tfSenhaKeyPressed
-
-    private void jComboBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btEntrarActionPerformed(null);
-        }
-    }//GEN-LAST:event_jComboBox1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -248,7 +226,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEntrar;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField tfLogin;

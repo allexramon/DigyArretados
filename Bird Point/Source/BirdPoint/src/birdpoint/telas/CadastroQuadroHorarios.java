@@ -5,6 +5,8 @@
  */
 package birdpoint.telas;
 
+import birdpoint.anoexercicio.AnoExercicio;
+import birdpoint.anoexercicio.AnoExercicioDAO;
 import birdpoint.curso.Curso;
 import birdpoint.curso.CursoDAO;
 import birdpoint.curso.CursoTableModel;
@@ -27,9 +29,7 @@ import birdpoint.semestre.Semestre;
 import birdpoint.semestre.SemestreDAO;
 import birdpoint.semestre.SemestreTableModel;
 import birdpoint.util.Util;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -38,6 +38,8 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     QuadroHorarios quadroHorarios;
     QuadroHorariosDAO quadroHorariosDAO = new QuadroHorariosDAO();
+
+    AnoExercicioDAO anoExercicioDAO = new AnoExercicioDAO();
 
     Semestre semestre;
     SemestreDAO semestreDAO = new SemestreDAO();
@@ -81,8 +83,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     Disciplina[] disciplinasSexta;
     Disciplina[] disciplinasSabado;
 
-    // Arrays para armazenar de forma ordenada a sequencia colocada pelo usuário 
-    //dos horarios, disciplinas e professores
+    // Arrays para armazenar de forma ordenada a sequencia dos horarios, disciplinas e professores
     int qtdHorDisPr = 36;
 
     int[] ordenacaoHorarios;
@@ -93,12 +94,13 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     List<Horario> listaHorarios;
     List<Professor> listaProfessores;
     List<Disciplina> listaDisciplinas;
+    List<QuadroHorarios> listaQuadroHorarios;
+    List<AnoExercicio> listaAnoExercicios;
 
     // Método construtor da classe
     public CadastroQuadroHorarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        carregarListas();
         btLimparActionPerformed(null);
     }
 
@@ -107,6 +109,25 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         listaHorarios = (horarioDAO.listar());
         listaProfessores = (professorDAO.listar());
         listaDisciplinas = (disciplinaDAO.listar());
+        listaAnoExercicios = (anoExercicioDAO.listar());
+    }
+
+    public void carregarQuadroHorario() {
+        listaQuadroHorarios = (quadroHorariosDAO.checkExistseq("anoExercicio", jcAnoExercicio.getSelectedItem()));
+    }
+
+    //Este método irá carregar o ano exercício atual
+    public void carregarAnoExercicioAtual() {
+        jcAnoExercicio.removeAllItems();
+        jcAnoExercicio.addItem("-----");
+        for (AnoExercicio anoExercicioAtual : listaAnoExercicios) {
+            jcAnoExercicio.addItem(anoExercicioAtual.getNomeAnoExercicio());
+        }
+        for (AnoExercicio anoExercicioAtual : listaAnoExercicios) {
+            if (anoExercicioAtual.isAnoExercicioAtual()) {
+                jcAnoExercicio.setSelectedItem(anoExercicioAtual.getNomeAnoExercicio());
+            }
+        }
     }
 
     //Método para carregar o professor com código
@@ -158,6 +179,34 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
     }
 
+//Este método limpara todos os campos do quadro de horários quando o Semestre, Grade, Curso, Turno ou Ano Exercício forem alterados
+    public void limparCamposSeTrocarValoresDoQuadro() {
+        Util.limparCamposJTabblePane(jTabbedPane1);
+        horariosSegunda = new Horario[qtdAulas];
+        horariosTerca = new Horario[qtdAulas];
+        horariosQuarta = new Horario[qtdAulas];
+        horariosQuinta = new Horario[qtdAulas];
+        horariosSexta = new Horario[qtdAulas];
+        horariosSabado = new Horario[qtdAulas];
+        professoresSegunda = new Professor[qtdAulas];
+        professoresTerca = new Professor[qtdAulas];
+        professoresQuarta = new Professor[qtdAulas];
+        professoresQuinta = new Professor[qtdAulas];
+        professoresSexta = new Professor[qtdAulas];
+        professoresSabado = new Professor[qtdAulas];
+        disciplinasSegunda = new Disciplina[qtdAulas];
+        disciplinasTerca = new Disciplina[qtdAulas];
+        disciplinasQuarta = new Disciplina[qtdAulas];
+        disciplinasQuinta = new Disciplina[qtdAulas];
+        disciplinasSexta = new Disciplina[qtdAulas];
+        disciplinasSabado = new Disciplina[qtdAulas];
+        ordenacaoHorarios = new int[qtdHorDisPr];
+        ordenacaoDisciplinas = new int[qtdHorDisPr];
+        ordenacaoProfessores = new int[qtdHorDisPr];
+        carregarQuadroHorario();
+    }
+
+    //Este método selecione alguma disciplina da lista
     public void selecionarDisciplina(JTextField campo) {
         if (jcAnoExercicio.getSelectedIndex() != 0 && jcTurno.getSelectedIndex() != 0 && !tfGradeCurricular.equals("") && !tfNomeCurso.equals("") && !tfNomeSemestre.equals("")) {
             List<Disciplina> listaFiltrada = new ArrayList<>();
@@ -183,6 +232,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
     }
 
+    //Este método selecione algum professor da lista 
     public void selecionarProfessor(JTextField campo1, JTextField campo2) {
         if (jcAnoExercicio.getSelectedIndex() != 0 && jcTurno.getSelectedIndex() != 0 && !tfGradeCurricular.equals("") && !tfNomeCurso.equals("") && !tfNomeSemestre.equals("")) {
             ProfessorTableModel itm = new ProfessorTableModel(listaProfessores);
@@ -200,6 +250,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
     }
 
+    //Este método seleciona algum horário da lista
     public void selecionarHorario(JTextField campo) {
         if (jcAnoExercicio.getSelectedIndex() != 0 && jcTurno.getSelectedIndex() != 0 && !tfGradeCurricular.equals("") && !tfNomeCurso.equals("") && !tfNomeSemestre.equals("")) {
             List<Horario> listaFiltrada = new ArrayList<>();
@@ -219,6 +270,82 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(null, "Selecione o Curso, Semestre, Grade, Turno e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    //Este método percorre todos os horários verificando se o professor está em outra disciplina no mesmo horário
+    public boolean choqueHorarioProfessor(int codigoProfessor, int codigoHorario, String nomeDia, String nomeHorario) {
+        // Condicação para verificar onde ele deve verificar o choque de horários
+        int inicioVerificacao = 0;
+        int fimVerificacao = 0;
+        if (nomeDia.equalsIgnoreCase("Segunda-Feira")) {
+            inicioVerificacao = 0;
+            fimVerificacao = 6;
+        } else if (nomeDia.equalsIgnoreCase("Terça-Feira")) {
+            inicioVerificacao = 6;
+            fimVerificacao = 12;
+        } else if (nomeDia.equalsIgnoreCase("Quarta-Feira")) {
+            inicioVerificacao = 12;
+            fimVerificacao = 18;
+        } else if (nomeDia.equalsIgnoreCase("Quinta-Feira")) {
+            inicioVerificacao = 18;
+            fimVerificacao = 24;
+        } else if (nomeDia.equalsIgnoreCase("Sexta-Feira")) {
+            inicioVerificacao = 24;
+            fimVerificacao = 30;
+        } else if (nomeDia.equalsIgnoreCase("Sábado")) {
+            inicioVerificacao = 30;
+            fimVerificacao = 36;
+        }
+        for (int j = 0; j < listaQuadroHorarios.size(); j++) {
+            for (int i = inicioVerificacao; i < fimVerificacao; i++) {
+                if ((listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i] == codigoProfessor)
+                        && (listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i] == codigoHorario)) {
+                    if ((!listaQuadroHorarios.get(j).getCurso().getNomeCurso().equals(curso.getNomeCurso()))
+                            && (!listaQuadroHorarios.get(j).getSemestre().getNomeSemestre().equals(semestre.getNomeSemestre()))) {
+                        Professor dadosProfessor = procurarProfessor(listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i]);
+                        Horario dadosHorario = procurarHorario(listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i]);
+                        Disciplina dadosDisciplina = procurarDisciplina(listaQuadroHorarios.get(j).getOrdenacaoDisciplinas()[i]);
+                        JOptionPane.showMessageDialog(null, "Choque de Horários em: " + nomeDia + "      Horário: " + nomeHorario + "\n\nO(A) professor(a): " + dadosProfessor.getNomeProfessor()
+                                + "\nEstá vinculado(a) no: " + listaQuadroHorarios.get(j).getSemestre().getNomeSemestre()
+                                + "\nDo Curso de: " + listaQuadroHorarios.get(j).getCurso().getNomeCurso()
+                                + "\nNo Horário de: " + dadosHorario.getHoraInicio() + " ás: " + dadosHorario.getHoraFim()
+                                + "\nNa Disciplina: " + dadosDisciplina.getNomeDisciplina(), "Choque de Horários!!", JOptionPane.ERROR_MESSAGE);
+                        return true;
+                    } else if ((listaQuadroHorarios.get(j).getCurso().getNomeCurso().equals(curso.getNomeCurso()))
+                            && (!listaQuadroHorarios.get(j).getSemestre().getNomeSemestre().equals(semestre.getNomeSemestre()))) {
+                        Professor dadosProfessor = procurarProfessor(listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i]);
+                        Horario dadosHorario = procurarHorario(listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i]);
+                        Disciplina dadosDisciplina = procurarDisciplina(listaQuadroHorarios.get(j).getOrdenacaoDisciplinas()[i]);
+                        JOptionPane.showMessageDialog(null, "Choque de Horários em: " + nomeDia + "      Horário: " + nomeHorario + "\n\nO(A) professor(a): " + dadosProfessor.getNomeProfessor()
+                                + "\nEstá vinculado(a) no: " + listaQuadroHorarios.get(j).getSemestre().getNomeSemestre()
+                                + "\nDo Curso de: " + listaQuadroHorarios.get(j).getCurso().getNomeCurso()
+                                + "\nNo Horário de: " + dadosHorario.getHoraInicio() + " ás: " + dadosHorario.getHoraFim()
+                                + "\nNa Disciplina: " + dadosDisciplina.getNomeDisciplina(), "Choque de Horários!!", JOptionPane.ERROR_MESSAGE);
+                        return true;
+                    }
+
+                }
+            }
+        }
+        return false;
+    }
+
+    // Este método verifica se existe algum horário cadastrado para o semestre selecionado
+    public boolean verificarHorarioDuplicado() {
+        if (quadroHorarios.getIdQuadroHorarios() != 0) {
+            return false;
+        }
+        for (QuadroHorarios horarios : listaQuadroHorarios) {
+            if ((horarios.getCurso().getNomeCurso().equals(curso.getNomeCurso()))
+                    && (horarios.getSemestre().getNomeSemestre().equals(semestre.getNomeSemestre()))
+                    && (horarios.getGradeCurricular().getNomeGradeCurricular().equals(gradeCurricular.getNomeGradeCurricular()))
+                    && (horarios.getTurno().equals(jcTurno.getSelectedItem()))
+                    && (horarios.getAnoExercicio().equals(jcAnoExercicio.getSelectedItem()))) {
+                JOptionPane.showMessageDialog(null, "Este horário deste semestre já está cadastrado! Pesquise-o para alterar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return true;
+            }
+        }
+        return false;
     }
 
     // Método para capturar a sequencia de horários, disicplinas e professoroes escolhidos pelo usuario
@@ -776,6 +903,354 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     }
 
+    public boolean verificarHorariosVazios() {
+        // Somente quando essa variável for igual a quantidade de campos de verificação o método retornará true
+        // Pois somente quando retornar true, não haverá linhas do quadro de horários incompleta
+        int verificarVazios = 0;
+        if (Util.chkVazioCamposHorarios(segundaHorarioA.getText(), segundaProfessorA.getText(), segundaDisciplinaA.getText(), "Segunda-Feira", "A")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(segundaHorarioB.getText(), segundaProfessorB.getText(), segundaDisciplinaB.getText(), "Segunda-Feira", "B")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(segundaHorarioC.getText(), segundaProfessorC.getText(), segundaDisciplinaC.getText(), "Segunda-Feira", "C")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(segundaHorarioD.getText(), segundaProfessorD.getText(), segundaDisciplinaD.getText(), "Segunda-Feira", "D")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(segundaHorarioE.getText(), segundaProfessorE.getText(), segundaDisciplinaE.getText(), "Segunda-Feira", "E")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(segundaHorarioF.getText(), segundaProfessorF.getText(), segundaDisciplinaF.getText(), "Segunda-Feira", "F")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(tercaHorarioA.getText(), tercaProfessorA.getText(), tercaDisciplinaA.getText(), "Terca-Feira", "A")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(tercaHorarioB.getText(), tercaProfessorB.getText(), tercaDisciplinaB.getText(), "Terca-Feira", "B")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(tercaHorarioC.getText(), tercaProfessorC.getText(), tercaDisciplinaC.getText(), "Terca-Feira", "C")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(tercaHorarioD.getText(), tercaProfessorD.getText(), tercaDisciplinaD.getText(), "Terca-Feira", "D")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(tercaHorarioE.getText(), tercaProfessorE.getText(), tercaDisciplinaE.getText(), "Terca-Feira", "E")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(tercaHorarioF.getText(), tercaProfessorF.getText(), tercaDisciplinaF.getText(), "Terca-Feira", "F")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quartaHorarioA.getText(), quartaProfessorA.getText(), quartaDisciplinaA.getText(), "Quarta-Feira", "A")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quartaHorarioB.getText(), quartaProfessorB.getText(), quartaDisciplinaB.getText(), "Quarta-Feira", "B")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quartaHorarioC.getText(), quartaProfessorC.getText(), quartaDisciplinaC.getText(), "Quarta-Feira", "C")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quartaHorarioD.getText(), quartaProfessorD.getText(), quartaDisciplinaD.getText(), "Quarta-Feira", "D")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quartaHorarioE.getText(), quartaProfessorE.getText(), quartaDisciplinaE.getText(), "Quarta-Feira", "E")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quartaHorarioF.getText(), quartaProfessorF.getText(), quartaDisciplinaF.getText(), "Quarta-Feira", "F")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quintaHorarioA.getText(), quintaProfessorA.getText(), quintaDisciplinaA.getText(), "Quinta-Feira", "A")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quintaHorarioB.getText(), quintaProfessorB.getText(), quintaDisciplinaB.getText(), "Quinta-Feira", "B")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quintaHorarioC.getText(), quintaProfessorC.getText(), quintaDisciplinaC.getText(), "Quinta-Feira", "C")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quintaHorarioD.getText(), quintaProfessorD.getText(), quintaDisciplinaD.getText(), "Quinta-Feira", "D")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quintaHorarioE.getText(), quintaProfessorE.getText(), quintaDisciplinaE.getText(), "Quinta-Feira", "E")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(quintaHorarioF.getText(), quintaProfessorF.getText(), quintaDisciplinaF.getText(), "Quinta-Feira", "F")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sextaHorarioA.getText(), sextaProfessorA.getText(), sextaDisciplinaA.getText(), "Sexta-Feira", "A")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sextaHorarioB.getText(), sextaProfessorB.getText(), sextaDisciplinaB.getText(), "Sexta-Feira", "B")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sextaHorarioC.getText(), sextaProfessorC.getText(), sextaDisciplinaC.getText(), "Sexta-Feira", "C")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sextaHorarioD.getText(), sextaProfessorD.getText(), sextaDisciplinaD.getText(), "Sexta-Feira", "D")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sextaHorarioE.getText(), sextaProfessorE.getText(), sextaDisciplinaE.getText(), "Sexta-Feira", "E")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sextaHorarioF.getText(), sextaProfessorF.getText(), sextaDisciplinaF.getText(), "Sexta-Feira", "F")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sabadoHorarioA.getText(), sabadoProfessorA.getText(), sabadoDisciplinaA.getText(), "Sábado", "A")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sabadoHorarioB.getText(), sabadoProfessorB.getText(), sabadoDisciplinaB.getText(), "Sábado", "B")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sabadoHorarioC.getText(), sabadoProfessorC.getText(), sabadoDisciplinaC.getText(), "Sábado", "C")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sabadoHorarioD.getText(), sabadoProfessorD.getText(), sabadoDisciplinaD.getText(), "Sábado", "D")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sabadoHorarioE.getText(), sabadoProfessorE.getText(), sabadoDisciplinaE.getText(), "Sábado", "E")) {
+            verificarVazios++;
+        }
+        if (Util.chkVazioCamposHorarios(sabadoHorarioF.getText(), sabadoProfessorF.getText(), sabadoDisciplinaF.getText(), "Sábado", "F")) {
+            verificarVazios++;
+        }
+
+        if (verificarVazios == 36) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean verificarChoqueHorarios() {
+        int contagemHorariosSemChoque = 0;
+        try {
+            if (choqueHorarioProfessor(professoresSegunda[0].getIdProfessor(), horariosSegunda[0].getIdHorario(), "Segunda-Feira", "A")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSegunda[1].getIdProfessor(), horariosSegunda[1].getIdHorario(), "Segunda-Feira", "B")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSegunda[2].getIdProfessor(), horariosSegunda[2].getIdHorario(), "Segunda-Feira", "C")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSegunda[3].getIdProfessor(), horariosSegunda[3].getIdHorario(), "Segunda-Feira", "D")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSegunda[4].getIdProfessor(), horariosSegunda[4].getIdHorario(), "Segunda-Feira", "E")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSegunda[5].getIdProfessor(), horariosSegunda[5].getIdHorario(), "Segunda-Feira", "F")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresTerca[0].getIdProfessor(), horariosTerca[0].getIdHorario(), "Terça-Feira", "A")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresTerca[1].getIdProfessor(), horariosTerca[1].getIdHorario(), "Terça-Feira", "B")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresTerca[2].getIdProfessor(), horariosTerca[2].getIdHorario(), "Terça-Feira", "C")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresTerca[3].getIdProfessor(), horariosTerca[3].getIdHorario(), "Terça-Feira", "D")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresTerca[4].getIdProfessor(), horariosTerca[4].getIdHorario(), "Terça-Feira", "E")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresTerca[5].getIdProfessor(), horariosTerca[5].getIdHorario(), "Terça-Feira", "F")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuarta[0].getIdProfessor(), horariosQuarta[0].getIdHorario(), "Quarta-Feira", "A")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuarta[1].getIdProfessor(), horariosQuarta[1].getIdHorario(), "Quarta-Feira", "B")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuarta[2].getIdProfessor(), horariosQuarta[2].getIdHorario(), "Quarta-Feira", "C")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuarta[3].getIdProfessor(), horariosQuarta[3].getIdHorario(), "Quarta-Feira", "D")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuarta[4].getIdProfessor(), horariosQuarta[4].getIdHorario(), "Quarta-Feira", "E")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuarta[5].getIdProfessor(), horariosQuarta[5].getIdHorario(), "Quarta-Feira", "F")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuinta[0].getIdProfessor(), horariosQuinta[0].getIdHorario(), "Quinta-Feira", "A")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuinta[1].getIdProfessor(), horariosQuinta[1].getIdHorario(), "Quinta-Feira", "B")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuinta[2].getIdProfessor(), horariosQuinta[2].getIdHorario(), "Quinta-Feira", "C")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuinta[3].getIdProfessor(), horariosQuinta[3].getIdHorario(), "Quinta-Feira", "D")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuinta[4].getIdProfessor(), horariosQuinta[4].getIdHorario(), "Quinta-Feira", "E")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresQuinta[5].getIdProfessor(), horariosQuinta[5].getIdHorario(), "Quinta-Feira", "F")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSexta[0].getIdProfessor(), horariosSexta[0].getIdHorario(), "Sexta-Feira", "A")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSexta[1].getIdProfessor(), horariosSexta[1].getIdHorario(), "Sexta-Feira", "B")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSexta[2].getIdProfessor(), horariosSexta[2].getIdHorario(), "Sexta-Feira", "C")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSexta[3].getIdProfessor(), horariosSexta[3].getIdHorario(), "Sexta-Feira", "D")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSexta[4].getIdProfessor(), horariosSexta[4].getIdHorario(), "Sexta-Feira", "E")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSexta[5].getIdProfessor(), horariosSexta[5].getIdHorario(), "Sexta-Feira", "F")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSabado[0].getIdProfessor(), horariosSabado[0].getIdHorario(), "Sábado", "A")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSabado[1].getIdProfessor(), horariosSabado[1].getIdHorario(), "Sábado", "B")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSabado[2].getIdProfessor(), horariosSabado[2].getIdHorario(), "Sábado", "C")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSabado[3].getIdProfessor(), horariosSabado[3].getIdHorario(), "Sábado", "D")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSabado[4].getIdProfessor(), horariosSabado[4].getIdHorario(), "Sábado", "E")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (choqueHorarioProfessor(professoresSabado[5].getIdProfessor(), horariosSabado[5].getIdHorario(), "Sábado", "F")) {
+                contagemHorariosSemChoque++;
+            }
+        } catch (Exception e) {
+        }
+
+        if (contagemHorariosSemChoque == 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -839,6 +1314,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         segundaCodigoProfessorE = new javax.swing.JTextField();
         segundaCodigoProfessorF = new javax.swing.JTextField();
         segundaCodigoProfessorA = new javax.swing.JTextField();
+        btCurso109 = new javax.swing.JButton();
+        btCurso110 = new javax.swing.JButton();
+        btCurso111 = new javax.swing.JButton();
+        btCurso112 = new javax.swing.JButton();
+        btCurso113 = new javax.swing.JButton();
+        btCurso114 = new javax.swing.JButton();
         jlquadro = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         tercaDisciplinaC = new javax.swing.JTextField();
@@ -883,6 +1364,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         tercaDisciplinaE = new javax.swing.JTextField();
         tercaCodigoProfessorD = new javax.swing.JTextField();
         tercaProfessorE = new javax.swing.JTextField();
+        btCurso115 = new javax.swing.JButton();
+        btCurso116 = new javax.swing.JButton();
+        btCurso117 = new javax.swing.JButton();
+        btCurso118 = new javax.swing.JButton();
+        btCurso119 = new javax.swing.JButton();
+        btCurso120 = new javax.swing.JButton();
         jlquadro1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         quartaDisciplinaC = new javax.swing.JTextField();
@@ -927,6 +1414,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         quartaDisciplinaE = new javax.swing.JTextField();
         quartaCodigoProfessorD = new javax.swing.JTextField();
         quartaProfessorE = new javax.swing.JTextField();
+        btCurso121 = new javax.swing.JButton();
+        btCurso122 = new javax.swing.JButton();
+        btCurso123 = new javax.swing.JButton();
+        btCurso124 = new javax.swing.JButton();
+        btCurso125 = new javax.swing.JButton();
+        btCurso126 = new javax.swing.JButton();
         jlquadro2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         quintaDisciplinaC = new javax.swing.JTextField();
@@ -971,6 +1464,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         quintaDisciplinaE = new javax.swing.JTextField();
         quintaCodigoProfessorD = new javax.swing.JTextField();
         quintaProfessorE = new javax.swing.JTextField();
+        btCurso127 = new javax.swing.JButton();
+        btCurso128 = new javax.swing.JButton();
+        btCurso129 = new javax.swing.JButton();
+        btCurso130 = new javax.swing.JButton();
+        btCurso131 = new javax.swing.JButton();
+        btCurso132 = new javax.swing.JButton();
         jlquadro3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         sextaDisciplinaC = new javax.swing.JTextField();
@@ -1015,6 +1514,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         sextaDisciplinaE = new javax.swing.JTextField();
         sextaCodigoProfessorD = new javax.swing.JTextField();
         sextaProfessorE = new javax.swing.JTextField();
+        btCurso133 = new javax.swing.JButton();
+        btCurso134 = new javax.swing.JButton();
+        btCurso135 = new javax.swing.JButton();
+        btCurso136 = new javax.swing.JButton();
+        btCurso137 = new javax.swing.JButton();
+        btCurso138 = new javax.swing.JButton();
         jlquadro4 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         sabadoDisciplinaC = new javax.swing.JTextField();
@@ -1059,6 +1564,12 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         sabadoDisciplinaE = new javax.swing.JTextField();
         sabadoCodigoProfessorD = new javax.swing.JTextField();
         sabadoProfessorE = new javax.swing.JTextField();
+        btCurso139 = new javax.swing.JButton();
+        btCurso140 = new javax.swing.JButton();
+        btCurso141 = new javax.swing.JButton();
+        btCurso142 = new javax.swing.JButton();
+        btCurso143 = new javax.swing.JButton();
+        btCurso144 = new javax.swing.JButton();
         jlquadro5 = new javax.swing.JLabel();
         jlNome6 = new javax.swing.JLabel();
         jlNome5 = new javax.swing.JLabel();
@@ -1259,11 +1770,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso1);
         btCurso1.setBounds(350, 100, 30, 20);
 
-        segundaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        segundaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioB.setEnabled(false);
         jPanel1.add(segundaHorarioB);
-        segundaHorarioB.setBounds(10, 70, 70, 19);
+        segundaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1279,11 +1790,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso2);
         btCurso2.setBounds(80, 70, 30, 20);
 
-        segundaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        segundaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioC.setEnabled(false);
         jPanel1.add(segundaHorarioC);
-        segundaHorarioC.setBounds(10, 100, 70, 20);
+        segundaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1313,17 +1824,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso4);
         btCurso4.setBounds(80, 190, 30, 20);
 
-        segundaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        segundaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioF.setEnabled(false);
         jPanel1.add(segundaHorarioF);
-        segundaHorarioF.setBounds(10, 190, 70, 20);
+        segundaHorarioF.setBounds(40, 190, 40, 20);
 
-        segundaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        segundaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioD.setEnabled(false);
         jPanel1.add(segundaHorarioD);
-        segundaHorarioD.setBounds(10, 130, 70, 20);
+        segundaHorarioD.setBounds(40, 130, 40, 20);
 
         btCurso5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1339,11 +1850,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso5);
         btCurso5.setBounds(80, 130, 30, 20);
 
-        segundaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        segundaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioE.setEnabled(false);
         jPanel1.add(segundaHorarioE);
-        segundaHorarioE.setBounds(10, 160, 70, 20);
+        segundaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1618,11 +2129,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(btCurso18);
         btCurso18.setBounds(670, 40, 30, 20);
 
-        segundaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        segundaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         segundaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         segundaHorarioA.setEnabled(false);
         jPanel1.add(segundaHorarioA);
-        segundaHorarioA.setBounds(10, 40, 70, 20);
+        segundaHorarioA.setBounds(40, 40, 40, 20);
 
         segundaCodigoProfessorC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         segundaCodigoProfessorC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -1724,6 +2235,90 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel1.add(segundaCodigoProfessorA);
         segundaCodigoProfessorA.setBounds(390, 40, 30, 20);
 
+        btCurso109.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso109.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso109.setContentAreaFilled(false);
+        btCurso109.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso109.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso109.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso109.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso109ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btCurso109);
+        btCurso109.setBounds(710, 70, 30, 20);
+
+        btCurso110.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso110.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso110.setContentAreaFilled(false);
+        btCurso110.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso110.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso110.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso110.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso110ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btCurso110);
+        btCurso110.setBounds(710, 100, 30, 20);
+
+        btCurso111.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso111.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso111.setContentAreaFilled(false);
+        btCurso111.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso111.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso111.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso111.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso111ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btCurso111);
+        btCurso111.setBounds(710, 130, 30, 20);
+
+        btCurso112.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso112.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso112.setContentAreaFilled(false);
+        btCurso112.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso112.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso112.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso112.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso112ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btCurso112);
+        btCurso112.setBounds(710, 160, 30, 20);
+
+        btCurso113.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso113.setContentAreaFilled(false);
+        btCurso113.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso113.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso113.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso113.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso113ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btCurso113);
+        btCurso113.setBounds(710, 190, 30, 20);
+
+        btCurso114.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso114.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso114.setContentAreaFilled(false);
+        btCurso114.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso114.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso114.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso114.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso114ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btCurso114);
+        btCurso114.setBounds(710, 40, 30, 20);
+
         jlquadro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel1.add(jlquadro);
         jlquadro.setBounds(0, 0, 750, 230);
@@ -1738,11 +2333,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaDisciplinaC);
         tercaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        tercaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tercaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tercaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioC.setEnabled(false);
         jPanel2.add(tercaHorarioC);
-        tercaHorarioC.setBounds(10, 100, 70, 20);
+        tercaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1857,11 +2452,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaProfessorD);
         tercaProfessorD.setBounds(430, 130, 240, 20);
 
-        tercaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tercaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tercaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioB.setEnabled(false);
         jPanel2.add(tercaHorarioB);
-        tercaHorarioB.setBounds(10, 70, 70, 19);
+        tercaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso24.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -1993,17 +2588,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaProfessorA);
         tercaProfessorA.setBounds(430, 40, 240, 20);
 
-        tercaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tercaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tercaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioA.setEnabled(false);
         jPanel2.add(tercaHorarioA);
-        tercaHorarioA.setBounds(10, 40, 70, 20);
+        tercaHorarioA.setBounds(40, 40, 40, 20);
 
-        tercaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tercaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tercaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioD.setEnabled(false);
         jPanel2.add(tercaHorarioD);
-        tercaHorarioD.setBounds(10, 130, 70, 20);
+        tercaHorarioD.setBounds(40, 130, 40, 20);
 
         tercaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -2099,11 +2694,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaProfessorB);
         tercaProfessorB.setBounds(430, 70, 240, 20);
 
-        tercaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tercaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tercaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioE.setEnabled(false);
         jPanel2.add(tercaHorarioE);
-        tercaHorarioE.setBounds(10, 160, 70, 20);
+        tercaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso33.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2125,11 +2720,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaProfessorC);
         tercaProfessorC.setBounds(430, 100, 240, 20);
 
-        tercaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tercaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tercaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         tercaHorarioF.setEnabled(false);
         jPanel2.add(tercaHorarioF);
-        tercaHorarioF.setBounds(10, 190, 70, 20);
+        tercaHorarioF.setBounds(40, 190, 40, 20);
 
         tercaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tercaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -2217,6 +2812,90 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel2.add(tercaProfessorE);
         tercaProfessorE.setBounds(430, 160, 240, 20);
 
+        btCurso115.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso115.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso115.setContentAreaFilled(false);
+        btCurso115.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso115.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso115.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso115.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso115ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btCurso115);
+        btCurso115.setBounds(710, 190, 30, 20);
+
+        btCurso116.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso116.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso116.setContentAreaFilled(false);
+        btCurso116.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso116.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso116.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso116.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso116ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btCurso116);
+        btCurso116.setBounds(710, 160, 30, 20);
+
+        btCurso117.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso117.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso117.setContentAreaFilled(false);
+        btCurso117.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso117.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso117.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso117.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso117ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btCurso117);
+        btCurso117.setBounds(710, 130, 30, 20);
+
+        btCurso118.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso118.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso118.setContentAreaFilled(false);
+        btCurso118.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso118.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso118.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso118.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso118ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btCurso118);
+        btCurso118.setBounds(710, 100, 30, 20);
+
+        btCurso119.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso119.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso119.setContentAreaFilled(false);
+        btCurso119.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso119.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso119.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso119.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso119ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btCurso119);
+        btCurso119.setBounds(710, 70, 30, 20);
+
+        btCurso120.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso120.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso120.setContentAreaFilled(false);
+        btCurso120.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso120.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso120.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso120.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso120ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btCurso120);
+        btCurso120.setBounds(710, 40, 30, 20);
+
         jlquadro1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel2.add(jlquadro1);
         jlquadro1.setBounds(0, 0, 750, 230);
@@ -2231,11 +2910,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaDisciplinaC);
         quartaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        quartaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quartaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quartaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioC.setEnabled(false);
         jPanel3.add(quartaHorarioC);
-        quartaHorarioC.setBounds(10, 100, 70, 20);
+        quartaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso37.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2350,11 +3029,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaProfessorD);
         quartaProfessorD.setBounds(430, 130, 240, 20);
 
-        quartaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quartaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quartaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioB.setEnabled(false);
         jPanel3.add(quartaHorarioB);
-        quartaHorarioB.setBounds(10, 70, 70, 19);
+        quartaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso42.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2486,17 +3165,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaProfessorA);
         quartaProfessorA.setBounds(430, 40, 240, 20);
 
-        quartaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quartaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quartaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioA.setEnabled(false);
         jPanel3.add(quartaHorarioA);
-        quartaHorarioA.setBounds(10, 40, 70, 20);
+        quartaHorarioA.setBounds(40, 40, 40, 20);
 
-        quartaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quartaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quartaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioD.setEnabled(false);
         jPanel3.add(quartaHorarioD);
-        quartaHorarioD.setBounds(10, 130, 70, 20);
+        quartaHorarioD.setBounds(40, 130, 40, 20);
 
         quartaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -2592,11 +3271,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaProfessorB);
         quartaProfessorB.setBounds(430, 70, 240, 20);
 
-        quartaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quartaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quartaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioE.setEnabled(false);
         jPanel3.add(quartaHorarioE);
-        quartaHorarioE.setBounds(10, 160, 70, 20);
+        quartaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso51.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2618,11 +3297,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaProfessorC);
         quartaProfessorC.setBounds(430, 100, 240, 20);
 
-        quartaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quartaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quartaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quartaHorarioF.setEnabled(false);
         jPanel3.add(quartaHorarioF);
-        quartaHorarioF.setBounds(10, 190, 70, 20);
+        quartaHorarioF.setBounds(40, 190, 40, 20);
 
         quartaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quartaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -2710,6 +3389,90 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel3.add(quartaProfessorE);
         quartaProfessorE.setBounds(430, 160, 240, 20);
 
+        btCurso121.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso121.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso121.setContentAreaFilled(false);
+        btCurso121.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso121.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso121.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso121.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso121ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btCurso121);
+        btCurso121.setBounds(710, 190, 30, 20);
+
+        btCurso122.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso122.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso122.setContentAreaFilled(false);
+        btCurso122.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso122.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso122.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso122.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso122ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btCurso122);
+        btCurso122.setBounds(710, 160, 30, 20);
+
+        btCurso123.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso123.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso123.setContentAreaFilled(false);
+        btCurso123.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso123.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso123.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso123.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso123ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btCurso123);
+        btCurso123.setBounds(710, 130, 30, 20);
+
+        btCurso124.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso124.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso124.setContentAreaFilled(false);
+        btCurso124.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso124.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso124.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso124.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso124ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btCurso124);
+        btCurso124.setBounds(710, 100, 30, 20);
+
+        btCurso125.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso125.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso125.setContentAreaFilled(false);
+        btCurso125.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso125.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso125.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso125.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso125ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btCurso125);
+        btCurso125.setBounds(710, 70, 30, 20);
+
+        btCurso126.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso126.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso126.setContentAreaFilled(false);
+        btCurso126.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso126.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso126.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso126.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso126ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btCurso126);
+        btCurso126.setBounds(710, 40, 30, 20);
+
         jlquadro2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel3.add(jlquadro2);
         jlquadro2.setBounds(0, 0, 750, 230);
@@ -2724,11 +3487,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaDisciplinaC);
         quintaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        quintaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quintaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quintaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioC.setEnabled(false);
         jPanel4.add(quintaHorarioC);
-        quintaHorarioC.setBounds(10, 100, 70, 20);
+        quintaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso55.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2843,11 +3606,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaProfessorD);
         quintaProfessorD.setBounds(430, 130, 240, 20);
 
-        quintaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quintaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quintaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioB.setEnabled(false);
         jPanel4.add(quintaHorarioB);
-        quintaHorarioB.setBounds(10, 70, 70, 19);
+        quintaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso60.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso60.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -2979,17 +3742,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaProfessorA);
         quintaProfessorA.setBounds(430, 40, 240, 20);
 
-        quintaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quintaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quintaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioA.setEnabled(false);
         jPanel4.add(quintaHorarioA);
-        quintaHorarioA.setBounds(10, 40, 70, 20);
+        quintaHorarioA.setBounds(40, 40, 40, 20);
 
-        quintaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quintaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quintaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioD.setEnabled(false);
         jPanel4.add(quintaHorarioD);
-        quintaHorarioD.setBounds(10, 130, 70, 20);
+        quintaHorarioD.setBounds(40, 130, 40, 20);
 
         quintaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -3085,11 +3848,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaProfessorB);
         quintaProfessorB.setBounds(430, 70, 240, 20);
 
-        quintaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quintaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quintaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioE.setEnabled(false);
         jPanel4.add(quintaHorarioE);
-        quintaHorarioE.setBounds(10, 160, 70, 20);
+        quintaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso69.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3111,11 +3874,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaProfessorC);
         quintaProfessorC.setBounds(430, 100, 240, 20);
 
-        quintaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quintaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         quintaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         quintaHorarioF.setEnabled(false);
         jPanel4.add(quintaHorarioF);
-        quintaHorarioF.setBounds(10, 190, 70, 20);
+        quintaHorarioF.setBounds(40, 190, 40, 20);
 
         quintaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         quintaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -3203,6 +3966,90 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel4.add(quintaProfessorE);
         quintaProfessorE.setBounds(430, 160, 240, 20);
 
+        btCurso127.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso127.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso127.setContentAreaFilled(false);
+        btCurso127.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso127.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso127.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso127.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso127ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btCurso127);
+        btCurso127.setBounds(710, 190, 30, 20);
+
+        btCurso128.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso128.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso128.setContentAreaFilled(false);
+        btCurso128.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso128.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso128.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso128.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso128ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btCurso128);
+        btCurso128.setBounds(710, 160, 30, 20);
+
+        btCurso129.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso129.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso129.setContentAreaFilled(false);
+        btCurso129.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso129.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso129.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso129.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso129ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btCurso129);
+        btCurso129.setBounds(710, 130, 30, 20);
+
+        btCurso130.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso130.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso130.setContentAreaFilled(false);
+        btCurso130.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso130.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso130.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso130.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso130ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btCurso130);
+        btCurso130.setBounds(710, 100, 30, 20);
+
+        btCurso131.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso131.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso131.setContentAreaFilled(false);
+        btCurso131.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso131.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso131.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso131.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso131ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btCurso131);
+        btCurso131.setBounds(710, 70, 30, 20);
+
+        btCurso132.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso132.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso132.setContentAreaFilled(false);
+        btCurso132.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso132.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso132.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso132.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso132ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btCurso132);
+        btCurso132.setBounds(710, 40, 30, 20);
+
         jlquadro3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel4.add(jlquadro3);
         jlquadro3.setBounds(0, 0, 750, 230);
@@ -3217,11 +4064,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaDisciplinaC);
         sextaDisciplinaC.setBounds(110, 100, 240, 20);
 
-        sextaHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sextaHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sextaHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioC.setEnabled(false);
         jPanel5.add(sextaHorarioC);
-        sextaHorarioC.setBounds(10, 100, 70, 20);
+        sextaHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso73.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso73.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3336,11 +4183,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaProfessorD);
         sextaProfessorD.setBounds(430, 130, 240, 20);
 
-        sextaHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sextaHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sextaHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioB.setEnabled(false);
         jPanel5.add(sextaHorarioB);
-        sextaHorarioB.setBounds(10, 70, 70, 19);
+        sextaHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso78.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso78.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3477,17 +4324,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaProfessorA);
         sextaProfessorA.setBounds(430, 40, 240, 20);
 
-        sextaHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sextaHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sextaHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioA.setEnabled(false);
         jPanel5.add(sextaHorarioA);
-        sextaHorarioA.setBounds(10, 40, 70, 20);
+        sextaHorarioA.setBounds(40, 40, 40, 20);
 
-        sextaHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sextaHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sextaHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioD.setEnabled(false);
         jPanel5.add(sextaHorarioD);
-        sextaHorarioD.setBounds(10, 130, 70, 20);
+        sextaHorarioD.setBounds(40, 130, 40, 20);
 
         sextaCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -3583,11 +4430,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaProfessorB);
         sextaProfessorB.setBounds(430, 70, 240, 20);
 
-        sextaHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sextaHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sextaHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioE.setEnabled(false);
         jPanel5.add(sextaHorarioE);
-        sextaHorarioE.setBounds(10, 160, 70, 20);
+        sextaHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso87.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso87.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3609,11 +4456,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaProfessorC);
         sextaProfessorC.setBounds(430, 100, 240, 20);
 
-        sextaHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sextaHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sextaHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sextaHorarioF.setEnabled(false);
         jPanel5.add(sextaHorarioF);
-        sextaHorarioF.setBounds(10, 190, 70, 20);
+        sextaHorarioF.setBounds(40, 190, 40, 20);
 
         sextaDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sextaDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -3701,6 +4548,90 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel5.add(sextaProfessorE);
         sextaProfessorE.setBounds(430, 160, 240, 20);
 
+        btCurso133.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso133.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso133.setContentAreaFilled(false);
+        btCurso133.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso133.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso133.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso133.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso133ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btCurso133);
+        btCurso133.setBounds(710, 190, 30, 20);
+
+        btCurso134.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso134.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso134.setContentAreaFilled(false);
+        btCurso134.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso134.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso134.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso134.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso134ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btCurso134);
+        btCurso134.setBounds(710, 160, 30, 20);
+
+        btCurso135.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso135.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso135.setContentAreaFilled(false);
+        btCurso135.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso135.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso135.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso135.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso135ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btCurso135);
+        btCurso135.setBounds(710, 130, 30, 20);
+
+        btCurso136.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso136.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso136.setContentAreaFilled(false);
+        btCurso136.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso136.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso136.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso136.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso136ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btCurso136);
+        btCurso136.setBounds(710, 100, 30, 20);
+
+        btCurso137.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso137.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso137.setContentAreaFilled(false);
+        btCurso137.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso137.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso137.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso137.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso137ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btCurso137);
+        btCurso137.setBounds(710, 70, 30, 20);
+
+        btCurso138.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso138.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso138.setContentAreaFilled(false);
+        btCurso138.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso138.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso138.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso138.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso138ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btCurso138);
+        btCurso138.setBounds(710, 40, 30, 20);
+
         jlquadro4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel5.add(jlquadro4);
         jlquadro4.setBounds(0, 0, 750, 230);
@@ -3715,11 +4646,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoDisciplinaC);
         sabadoDisciplinaC.setBounds(110, 100, 240, 20);
 
-        sabadoHorarioC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sabadoHorarioC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sabadoHorarioC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioC.setEnabled(false);
         jPanel6.add(sabadoHorarioC);
-        sabadoHorarioC.setBounds(10, 100, 70, 20);
+        sabadoHorarioC.setBounds(40, 100, 40, 20);
 
         btCurso91.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso91.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3834,11 +4765,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoProfessorD);
         sabadoProfessorD.setBounds(430, 130, 240, 20);
 
-        sabadoHorarioB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sabadoHorarioB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sabadoHorarioB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioB.setEnabled(false);
         jPanel6.add(sabadoHorarioB);
-        sabadoHorarioB.setBounds(10, 70, 70, 19);
+        sabadoHorarioB.setBounds(40, 70, 40, 19);
 
         btCurso96.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -3970,17 +4901,17 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoProfessorA);
         sabadoProfessorA.setBounds(430, 40, 240, 20);
 
-        sabadoHorarioA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sabadoHorarioA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sabadoHorarioA.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioA.setEnabled(false);
         jPanel6.add(sabadoHorarioA);
-        sabadoHorarioA.setBounds(10, 40, 70, 20);
+        sabadoHorarioA.setBounds(40, 40, 40, 20);
 
-        sabadoHorarioD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sabadoHorarioD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sabadoHorarioD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioD.setEnabled(false);
         jPanel6.add(sabadoHorarioD);
-        sabadoHorarioD.setBounds(10, 130, 70, 20);
+        sabadoHorarioD.setBounds(40, 130, 40, 20);
 
         sabadoCodigoProfessorF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoCodigoProfessorF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -4076,11 +5007,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoProfessorB);
         sabadoProfessorB.setBounds(430, 70, 240, 20);
 
-        sabadoHorarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sabadoHorarioE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sabadoHorarioE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioE.setEnabled(false);
         jPanel6.add(sabadoHorarioE);
-        sabadoHorarioE.setBounds(10, 160, 70, 20);
+        sabadoHorarioE.setBounds(40, 160, 40, 20);
 
         btCurso105.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btCurso105.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
@@ -4102,11 +5033,11 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoProfessorC);
         sabadoProfessorC.setBounds(430, 100, 240, 20);
 
-        sabadoHorarioF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sabadoHorarioF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sabadoHorarioF.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         sabadoHorarioF.setEnabled(false);
         jPanel6.add(sabadoHorarioF);
-        sabadoHorarioF.setBounds(10, 190, 70, 20);
+        sabadoHorarioF.setBounds(40, 190, 40, 20);
 
         sabadoDisciplinaB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sabadoDisciplinaB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
@@ -4194,6 +5125,90 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jPanel6.add(sabadoProfessorE);
         sabadoProfessorE.setBounds(430, 160, 240, 20);
 
+        btCurso139.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso139.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso139.setContentAreaFilled(false);
+        btCurso139.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso139.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso139.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso139.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso139ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btCurso139);
+        btCurso139.setBounds(710, 190, 30, 20);
+
+        btCurso140.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso140.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso140.setContentAreaFilled(false);
+        btCurso140.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso140.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso140.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso140.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso140ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btCurso140);
+        btCurso140.setBounds(710, 160, 30, 20);
+
+        btCurso141.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso141.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso141.setContentAreaFilled(false);
+        btCurso141.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso141.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso141.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso141.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso141ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btCurso141);
+        btCurso141.setBounds(710, 130, 30, 20);
+
+        btCurso142.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso142.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso142.setContentAreaFilled(false);
+        btCurso142.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso142.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso142.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso142.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso142ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btCurso142);
+        btCurso142.setBounds(710, 100, 30, 20);
+
+        btCurso143.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso143.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso143.setContentAreaFilled(false);
+        btCurso143.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso143.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso143.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso143.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso143ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btCurso143);
+        btCurso143.setBounds(710, 70, 30, 20);
+
+        btCurso144.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso144.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso144.setContentAreaFilled(false);
+        btCurso144.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso144.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso144.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso144.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso144ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btCurso144);
+        btCurso144.setBounds(710, 40, 30, 20);
+
         jlquadro5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/quadro.png"))); // NOI18N
         jPanel6.add(jlquadro5);
         jlquadro5.setBounds(0, 0, 750, 230);
@@ -4214,7 +5229,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         jlNome5.setBounds(520, 110, 140, 30);
 
         jcAnoExercicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jcAnoExercicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "2016.2", "2017.1", "2017.2" }));
+        jcAnoExercicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----" }));
         jcAnoExercicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         jcAnoExercicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4237,6 +5252,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCursoActionPerformed
+        btLimparActionPerformed(null);
         if (semestre.getIdSemestre() != 0) {
             semestre = new Semestre();
             tfNomeSemestre.setText("");
@@ -4255,6 +5271,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     }//GEN-LAST:event_btCursoActionPerformed
 
     private void btSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemestreActionPerformed
+        limparCamposSeTrocarValoresDoQuadro();
         if (curso.getIdCurso() != 0) {
             List<Semestre> lista;
             lista = (semestreDAO.listar());
@@ -4282,7 +5299,6 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         Util.limparCamposGenerico(this);
         Util.limparCamposJTabblePane(jTabbedPane1);
-
         //Inicialização de objetos
         quadroHorarios = new QuadroHorarios();
         semestre = new Semestre();
@@ -4312,26 +5328,50 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         ordenacaoHorarios = new int[qtdHorDisPr];
         ordenacaoDisciplinas = new int[qtdHorDisPr];
         ordenacaoProfessores = new int[qtdHorDisPr];
+        btCurso.setEnabled(true);
+        btSemestre.setEnabled(true);
+        btGrade.setEnabled(true);
+        jcTurno.setEnabled(true);
+        jcAnoExercicio.setEnabled(true);
+        btExcluir.setEnabled(false);
+        carregarListas();
+        carregarAnoExercicioAtual();
+        carregarQuadroHorario();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        List<QuadroHorarios> lista;
-        lista = (quadroHorariosDAO.listar());
-        QuadroHorariosTableModel itm = new QuadroHorariosTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Quadro Horários");
-        if (objetoRetorno != null) {
-            quadroHorarios = quadroHorariosDAO.consultarObjetoId("idQuadroHorarios", objetoRetorno);
-            curso = quadroHorarios.getCurso();
-            semestre = quadroHorarios.getSemestre();
-            gradeCurricular = quadroHorarios.getGradeCurricular();
-            jcAnoExercicio.setSelectedItem(quadroHorarios.getAnoExercicio());
-            jcTurno.setSelectedItem(quadroHorarios.getTurno());
-            tfNomeCurso.setText(curso.getNomeCurso());
-            tfNomeSemestre.setText(semestre.getNomeSemestre());
-            tfGradeCurricular.setText(gradeCurricular.getNomeGradeCurricular());
-            ordenarHorariosPesquisados();
-            preencherCamposComArraysQuadroHorarios();
-            btExcluir.setEnabled(true);
+        if ((!tfNomeCurso.getText().equals("")) && (!jcAnoExercicio.getSelectedItem().equals("-----"))) {
+            List<QuadroHorarios> listaQuadroHorariosInicial = quadroHorariosDAO.checkExistseq("anoExercicio", jcAnoExercicio.getSelectedItem());
+            List<QuadroHorarios> listaFiltrada = new ArrayList();
+            for (QuadroHorarios quadroH : listaQuadroHorariosInicial) {
+                if ((quadroH.getAnoExercicio().equals(jcAnoExercicio.getSelectedItem()))
+                        && quadroH.getCurso().getNomeCurso().equals(tfNomeCurso.getText())) {
+                    listaFiltrada.add(quadroH);
+                }
+            }
+            QuadroHorariosTableModel itm = new QuadroHorariosTableModel(listaFiltrada);
+            Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Quadro Horários");
+            if (objetoRetorno != null) {
+                quadroHorarios = quadroHorariosDAO.consultarObjetoId("idQuadroHorarios", objetoRetorno);
+                curso = quadroHorarios.getCurso();
+                semestre = quadroHorarios.getSemestre();
+                gradeCurricular = quadroHorarios.getGradeCurricular();
+                jcAnoExercicio.setSelectedItem(quadroHorarios.getAnoExercicio());
+                jcTurno.setSelectedItem(quadroHorarios.getTurno());
+                tfNomeCurso.setText(curso.getNomeCurso());
+                tfNomeSemestre.setText(semestre.getNomeSemestre());
+                tfGradeCurricular.setText(gradeCurricular.getNomeGradeCurricular());
+                ordenarHorariosPesquisados();
+                preencherCamposComArraysQuadroHorarios();
+                btCurso.setEnabled(false);
+                btSemestre.setEnabled(false);
+                btGrade.setEnabled(false);
+                jcTurno.setEnabled(false);
+                jcAnoExercicio.setEnabled(false);
+                btExcluir.setEnabled(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione o Curso e Ano Exercício!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
@@ -4358,21 +5398,28 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfGradeCurricular.getText(), tfNomeCurso.getText(), tfNomeSemestre.getText(), String.valueOf(jcAnoExercicio.getSelectedItem()), String.valueOf(jcTurno.getSelectedItem()))) {
-            quadroHorarios.setAnoExercicio(String.valueOf(jcAnoExercicio.getSelectedItem()));
-            quadroHorarios.setTurno(String.valueOf(jcTurno.getSelectedItem()));
-            quadroHorarios.setCurso(curso);
-            quadroHorarios.setSemestre(semestre);
-            quadroHorarios.setGradeCurricular(gradeCurricular);
-            capturarOrdenacao();
-            quadroHorarios.setOrdenacaoHorarios(ordenacaoHorarios);
-            quadroHorarios.setOrdenacaoDisciplinas(ordenacaoDisciplinas);
-            quadroHorarios.setOrdenacaoProfessores(ordenacaoProfessores);
-            quadroHorariosDAO.salvar(quadroHorarios);
-            btLimparActionPerformed(null);
+            if (verificarHorariosVazios()) {
+                if (!verificarHorarioDuplicado()) {
+                    if (!verificarChoqueHorarios()) {
+                        quadroHorarios.setAnoExercicio(String.valueOf(jcAnoExercicio.getSelectedItem()));
+                        quadroHorarios.setTurno(String.valueOf(jcTurno.getSelectedItem()));
+                        quadroHorarios.setCurso(curso);
+                        quadroHorarios.setSemestre(semestre);
+                        quadroHorarios.setGradeCurricular(gradeCurricular);
+                        capturarOrdenacao();
+                        quadroHorarios.setOrdenacaoHorarios(ordenacaoHorarios);
+                        quadroHorarios.setOrdenacaoDisciplinas(ordenacaoDisciplinas);
+                        quadroHorarios.setOrdenacaoProfessores(ordenacaoProfessores);
+                        quadroHorariosDAO.salvar(quadroHorarios);
+                        btLimparActionPerformed(null);
+                    }
+                }
+            }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGradeActionPerformed
+        limparCamposSeTrocarValoresDoQuadro();
         if (curso.getIdCurso() != 0) {
             List<GradeCurricular> lista;
             lista = (gradeCurricularDAO.listar());
@@ -4484,7 +5531,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     }//GEN-LAST:event_btCurso18ActionPerformed
 
     private void jcTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcTurnoActionPerformed
-        // TODO add your handling code here:
+        limparCamposSeTrocarValoresDoQuadro();
     }//GEN-LAST:event_jcTurnoActionPerformed
 
     private void segundaDisciplinaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segundaDisciplinaAActionPerformed
@@ -5282,7 +6329,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     }//GEN-LAST:event_segundaCodigoProfessorFFocusLost
 
     private void jcAnoExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAnoExercicioActionPerformed
-        // TODO add your handling code here:
+        limparCamposSeTrocarValoresDoQuadro();
     }//GEN-LAST:event_jcAnoExercicioActionPerformed
 
     private void tercaCodigoProfessorAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tercaCodigoProfessorAFocusLost
@@ -5439,6 +6486,369 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_sextaProfessorAActionPerformed
 
+    private void btCurso109ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso109ActionPerformed
+        professoresSegunda[1] = null;
+        disciplinasSegunda[1] = null;
+        horariosSegunda[1] = null;
+        segundaHorarioB.setText("");
+        segundaDisciplinaB.setText("");
+        segundaCodigoProfessorB.setText("");
+        segundaProfessorB.setText("");
+    }//GEN-LAST:event_btCurso109ActionPerformed
+
+    private void btCurso110ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso110ActionPerformed
+        professoresSegunda[2] = null;
+        disciplinasSegunda[2] = null;
+        horariosSegunda[2] = null;
+        segundaHorarioC.setText("");
+        segundaDisciplinaC.setText("");
+        segundaCodigoProfessorC.setText("");
+        segundaProfessorC.setText("");
+    }//GEN-LAST:event_btCurso110ActionPerformed
+
+    private void btCurso111ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso111ActionPerformed
+        professoresSegunda[3] = null;
+        disciplinasSegunda[3] = null;
+        horariosSegunda[3] = null;
+        segundaHorarioD.setText("");
+        segundaDisciplinaD.setText("");
+        segundaCodigoProfessorD.setText("");
+        segundaProfessorD.setText("");
+    }//GEN-LAST:event_btCurso111ActionPerformed
+
+    private void btCurso112ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso112ActionPerformed
+        professoresSegunda[4] = null;
+        disciplinasSegunda[4] = null;
+        horariosSegunda[4] = null;
+        segundaHorarioE.setText("");
+        segundaDisciplinaE.setText("");
+        segundaCodigoProfessorE.setText("");
+        segundaProfessorE.setText("");
+    }//GEN-LAST:event_btCurso112ActionPerformed
+
+    private void btCurso113ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso113ActionPerformed
+        professoresSegunda[5] = null;
+        disciplinasSegunda[5] = null;
+        horariosSegunda[5] = null;
+        segundaHorarioF.setText("");
+        segundaDisciplinaF.setText("");
+        segundaCodigoProfessorF.setText("");
+        segundaProfessorF.setText("");
+    }//GEN-LAST:event_btCurso113ActionPerformed
+
+    private void btCurso114ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso114ActionPerformed
+        professoresSegunda[0] = null;
+        disciplinasSegunda[0] = null;
+        horariosSegunda[0] = null;
+        segundaHorarioA.setText("");
+        segundaDisciplinaA.setText("");
+        segundaCodigoProfessorA.setText("");
+        segundaProfessorA.setText("");
+    }//GEN-LAST:event_btCurso114ActionPerformed
+
+    private void btCurso115ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso115ActionPerformed
+        professoresTerca[5] = null;
+        disciplinasTerca[5] = null;
+        horariosTerca[5] = null;
+        tercaHorarioF.setText("");
+        tercaDisciplinaF.setText("");
+        tercaCodigoProfessorF.setText("");
+        tercaProfessorF.setText("");
+    }//GEN-LAST:event_btCurso115ActionPerformed
+
+    private void btCurso116ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso116ActionPerformed
+        professoresTerca[4] = null;
+        disciplinasTerca[4] = null;
+        horariosTerca[4] = null;
+        tercaHorarioE.setText("");
+        tercaDisciplinaE.setText("");
+        tercaCodigoProfessorE.setText("");
+        tercaProfessorE.setText("");
+    }//GEN-LAST:event_btCurso116ActionPerformed
+
+    private void btCurso117ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso117ActionPerformed
+        professoresTerca[3] = null;
+        disciplinasTerca[3] = null;
+        horariosTerca[3] = null;
+        tercaHorarioD.setText("");
+        tercaDisciplinaD.setText("");
+        tercaCodigoProfessorD.setText("");
+        tercaProfessorD.setText("");
+    }//GEN-LAST:event_btCurso117ActionPerformed
+
+    private void btCurso118ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso118ActionPerformed
+        professoresTerca[2] = null;
+        disciplinasTerca[2] = null;
+        horariosTerca[2] = null;
+        tercaHorarioC.setText("");
+        tercaDisciplinaC.setText("");
+        tercaCodigoProfessorC.setText("");
+        tercaProfessorC.setText("");
+    }//GEN-LAST:event_btCurso118ActionPerformed
+
+    private void btCurso119ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso119ActionPerformed
+        professoresTerca[1] = null;
+        disciplinasTerca[1] = null;
+        horariosTerca[1] = null;
+        tercaHorarioB.setText("");
+        tercaDisciplinaB.setText("");
+        tercaCodigoProfessorB.setText("");
+        tercaProfessorB.setText("");
+    }//GEN-LAST:event_btCurso119ActionPerformed
+
+    private void btCurso120ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso120ActionPerformed
+        professoresTerca[0] = null;
+        disciplinasTerca[0] = null;
+        horariosTerca[0] = null;
+        tercaHorarioA.setText("");
+        tercaDisciplinaA.setText("");
+        tercaCodigoProfessorA.setText("");
+        tercaProfessorA.setText("");
+    }//GEN-LAST:event_btCurso120ActionPerformed
+
+    private void btCurso121ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso121ActionPerformed
+        professoresQuarta[5] = null;
+        disciplinasQuarta[5] = null;
+        horariosQuarta[5] = null;
+        quartaHorarioF.setText("");
+        quartaDisciplinaF.setText("");
+        quartaCodigoProfessorF.setText("");
+        quartaProfessorF.setText("");
+    }//GEN-LAST:event_btCurso121ActionPerformed
+
+    private void btCurso122ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso122ActionPerformed
+        professoresQuarta[4] = null;
+        disciplinasQuarta[4] = null;
+        horariosQuarta[4] = null;
+        quartaHorarioE.setText("");
+        quartaDisciplinaE.setText("");
+        quartaCodigoProfessorE.setText("");
+        quartaProfessorE.setText("");
+    }//GEN-LAST:event_btCurso122ActionPerformed
+
+    private void btCurso123ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso123ActionPerformed
+        professoresQuarta[3] = null;
+        disciplinasQuarta[3] = null;
+        horariosQuarta[3] = null;
+        quartaHorarioD.setText("");
+        quartaDisciplinaD.setText("");
+        quartaCodigoProfessorD.setText("");
+        quartaProfessorD.setText("");
+    }//GEN-LAST:event_btCurso123ActionPerformed
+
+    private void btCurso124ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso124ActionPerformed
+        professoresQuarta[2] = null;
+        disciplinasQuarta[2] = null;
+        horariosQuarta[2] = null;
+        quartaHorarioC.setText("");
+        quartaDisciplinaC.setText("");
+        quartaCodigoProfessorC.setText("");
+        quartaProfessorC.setText("");
+    }//GEN-LAST:event_btCurso124ActionPerformed
+
+    private void btCurso125ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso125ActionPerformed
+        professoresQuarta[1] = null;
+        disciplinasQuarta[1] = null;
+        horariosQuarta[1] = null;
+        quartaHorarioB.setText("");
+        quartaDisciplinaB.setText("");
+        quartaCodigoProfessorB.setText("");
+        quartaProfessorB.setText("");
+    }//GEN-LAST:event_btCurso125ActionPerformed
+
+    private void btCurso126ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso126ActionPerformed
+        professoresQuarta[0] = null;
+        disciplinasQuarta[0] = null;
+        horariosQuarta[0] = null;
+        quartaHorarioA.setText("");
+        quartaDisciplinaA.setText("");
+        quartaCodigoProfessorA.setText("");
+        quartaProfessorA.setText("");
+    }//GEN-LAST:event_btCurso126ActionPerformed
+
+    private void btCurso127ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso127ActionPerformed
+        professoresQuinta[5] = null;
+        disciplinasQuinta[5] = null;
+        horariosQuinta[5] = null;
+        quintaHorarioF.setText("");
+        quintaDisciplinaF.setText("");
+        quintaCodigoProfessorF.setText("");
+        quintaProfessorF.setText("");
+    }//GEN-LAST:event_btCurso127ActionPerformed
+
+    private void btCurso128ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso128ActionPerformed
+        professoresQuinta[4] = null;
+        disciplinasQuinta[4] = null;
+        horariosQuinta[4] = null;
+        quintaHorarioE.setText("");
+        quintaDisciplinaE.setText("");
+        quintaCodigoProfessorE.setText("");
+        quintaProfessorE.setText("");
+    }//GEN-LAST:event_btCurso128ActionPerformed
+
+    private void btCurso129ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso129ActionPerformed
+        professoresQuinta[3] = null;
+        disciplinasQuinta[3] = null;
+        horariosQuinta[3] = null;
+        quintaHorarioD.setText("");
+        quintaDisciplinaD.setText("");
+        quintaCodigoProfessorD.setText("");
+        quintaProfessorD.setText("");
+    }//GEN-LAST:event_btCurso129ActionPerformed
+
+    private void btCurso130ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso130ActionPerformed
+        professoresQuinta[2] = null;
+        disciplinasQuinta[2] = null;
+        horariosQuinta[2] = null;
+        quintaHorarioC.setText("");
+        quintaDisciplinaC.setText("");
+        quintaCodigoProfessorC.setText("");
+        quintaProfessorC.setText("");
+    }//GEN-LAST:event_btCurso130ActionPerformed
+
+    private void btCurso131ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso131ActionPerformed
+        professoresQuinta[1] = null;
+        disciplinasQuinta[1] = null;
+        horariosQuinta[1] = null;
+        quintaHorarioB.setText("");
+        quintaDisciplinaB.setText("");
+        quintaCodigoProfessorB.setText("");
+        quintaProfessorB.setText("");
+
+    }//GEN-LAST:event_btCurso131ActionPerformed
+
+    private void btCurso132ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso132ActionPerformed
+        professoresQuinta[0] = null;
+        disciplinasQuinta[0] = null;
+        horariosQuinta[0] = null;
+        quintaHorarioA.setText("");
+        quintaDisciplinaA.setText("");
+        quintaCodigoProfessorA.setText("");
+        quintaProfessorA.setText("");
+    }//GEN-LAST:event_btCurso132ActionPerformed
+
+    private void btCurso133ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso133ActionPerformed
+        professoresSexta[5] = null;
+        disciplinasSexta[5] = null;
+        horariosSexta[5] = null;
+        sextaHorarioF.setText("");
+        sextaDisciplinaF.setText("");
+        sextaCodigoProfessorF.setText("");
+        sextaProfessorF.setText("");
+    }//GEN-LAST:event_btCurso133ActionPerformed
+
+    private void btCurso134ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso134ActionPerformed
+        professoresSexta[4] = null;
+        disciplinasSexta[4] = null;
+        horariosSexta[4] = null;
+        sextaHorarioE.setText("");
+        sextaDisciplinaE.setText("");
+        sextaCodigoProfessorE.setText("");
+        sextaProfessorE.setText("");
+    }//GEN-LAST:event_btCurso134ActionPerformed
+
+    private void btCurso135ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso135ActionPerformed
+        professoresSexta[3] = null;
+        disciplinasSexta[3] = null;
+        horariosSexta[3] = null;
+        sextaHorarioD.setText("");
+        sextaDisciplinaD.setText("");
+        sextaCodigoProfessorD.setText("");
+        sextaProfessorD.setText("");
+    }//GEN-LAST:event_btCurso135ActionPerformed
+
+    private void btCurso136ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso136ActionPerformed
+        professoresSexta[2] = null;
+        disciplinasSexta[2] = null;
+        horariosSexta[2] = null;
+        sextaHorarioC.setText("");
+        sextaDisciplinaC.setText("");
+        sextaCodigoProfessorC.setText("");
+        sextaProfessorC.setText("");
+
+    }//GEN-LAST:event_btCurso136ActionPerformed
+
+    private void btCurso137ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso137ActionPerformed
+        professoresSexta[1] = null;
+        disciplinasSexta[1] = null;
+        horariosSexta[1] = null;
+        sextaHorarioB.setText("");
+        sextaDisciplinaB.setText("");
+        sextaCodigoProfessorB.setText("");
+        sextaProfessorB.setText("");
+    }//GEN-LAST:event_btCurso137ActionPerformed
+
+    private void btCurso138ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso138ActionPerformed
+        professoresSexta[0] = null;
+        disciplinasSexta[0] = null;
+        horariosSexta[0] = null;
+        sextaHorarioA.setText("");
+        sextaDisciplinaA.setText("");
+        sextaCodigoProfessorA.setText("");
+        sextaProfessorA.setText("");
+    }//GEN-LAST:event_btCurso138ActionPerformed
+
+    private void btCurso139ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso139ActionPerformed
+        professoresSabado[5] = null;
+        disciplinasSabado[5] = null;
+        horariosSabado[5] = null;
+        sabadoHorarioF.setText("");
+        sabadoDisciplinaF.setText("");
+        sabadoCodigoProfessorF.setText("");
+        sabadoProfessorF.setText("");
+    }//GEN-LAST:event_btCurso139ActionPerformed
+
+    private void btCurso140ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso140ActionPerformed
+        professoresSabado[4] = null;
+        disciplinasSabado[4] = null;
+        horariosSabado[4] = null;
+        sabadoHorarioE.setText("");
+        sabadoDisciplinaE.setText("");
+        sabadoCodigoProfessorE.setText("");
+        sabadoProfessorE.setText("");
+
+    }//GEN-LAST:event_btCurso140ActionPerformed
+
+    private void btCurso141ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso141ActionPerformed
+        professoresSabado[3] = null;
+        disciplinasSabado[3] = null;
+        horariosSabado[3] = null;
+        sabadoHorarioD.setText("");
+        sabadoDisciplinaD.setText("");
+        sabadoCodigoProfessorD.setText("");
+        sabadoProfessorD.setText("");
+    }//GEN-LAST:event_btCurso141ActionPerformed
+
+    private void btCurso142ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso142ActionPerformed
+        professoresSabado[2] = null;
+        disciplinasSabado[2] = null;
+        horariosSabado[2] = null;
+        sabadoHorarioC.setText("");
+        sabadoDisciplinaC.setText("");
+        sabadoCodigoProfessorC.setText("");
+        sabadoProfessorC.setText("");
+    }//GEN-LAST:event_btCurso142ActionPerformed
+
+    private void btCurso143ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso143ActionPerformed
+        professoresSabado[1] = null;
+        disciplinasSabado[1] = null;
+        horariosSabado[1] = null;
+        sabadoHorarioB.setText("");
+        sabadoDisciplinaB.setText("");
+        sabadoCodigoProfessorB.setText("");
+        sabadoProfessorB.setText("");
+    }//GEN-LAST:event_btCurso143ActionPerformed
+
+    private void btCurso144ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso144ActionPerformed
+        professoresSabado[0] = null;
+        disciplinasSabado[0] = null;
+        horariosSabado[0] = null;
+        sabadoHorarioA.setText("");
+        sabadoDisciplinaA.setText("");
+        sabadoCodigoProfessorA.setText("");
+        sabadoProfessorA.setText("");
+    }//GEN-LAST:event_btCurso144ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -5453,16 +6863,24 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroQuadroHorarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -5495,10 +6913,46 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     private javax.swing.JButton btCurso106;
     private javax.swing.JButton btCurso107;
     private javax.swing.JButton btCurso108;
+    private javax.swing.JButton btCurso109;
     private javax.swing.JButton btCurso11;
+    private javax.swing.JButton btCurso110;
+    private javax.swing.JButton btCurso111;
+    private javax.swing.JButton btCurso112;
+    private javax.swing.JButton btCurso113;
+    private javax.swing.JButton btCurso114;
+    private javax.swing.JButton btCurso115;
+    private javax.swing.JButton btCurso116;
+    private javax.swing.JButton btCurso117;
+    private javax.swing.JButton btCurso118;
+    private javax.swing.JButton btCurso119;
     private javax.swing.JButton btCurso12;
+    private javax.swing.JButton btCurso120;
+    private javax.swing.JButton btCurso121;
+    private javax.swing.JButton btCurso122;
+    private javax.swing.JButton btCurso123;
+    private javax.swing.JButton btCurso124;
+    private javax.swing.JButton btCurso125;
+    private javax.swing.JButton btCurso126;
+    private javax.swing.JButton btCurso127;
+    private javax.swing.JButton btCurso128;
+    private javax.swing.JButton btCurso129;
     private javax.swing.JButton btCurso13;
+    private javax.swing.JButton btCurso130;
+    private javax.swing.JButton btCurso131;
+    private javax.swing.JButton btCurso132;
+    private javax.swing.JButton btCurso133;
+    private javax.swing.JButton btCurso134;
+    private javax.swing.JButton btCurso135;
+    private javax.swing.JButton btCurso136;
+    private javax.swing.JButton btCurso137;
+    private javax.swing.JButton btCurso138;
+    private javax.swing.JButton btCurso139;
     private javax.swing.JButton btCurso14;
+    private javax.swing.JButton btCurso140;
+    private javax.swing.JButton btCurso141;
+    private javax.swing.JButton btCurso142;
+    private javax.swing.JButton btCurso143;
+    private javax.swing.JButton btCurso144;
     private javax.swing.JButton btCurso15;
     private javax.swing.JButton btCurso16;
     private javax.swing.JButton btCurso17;

@@ -23,7 +23,8 @@
         <mapping class="birdpoint.titulacao.Titulacao"/>     
         <mapping class="birdpoint.usuario.Usuario"/>  
         <mapping class="birdpoint.horario.Horario"/>  
-        <mapping class="birdpoint.quadrohorarios.QuadroHorarios"/>  
+        <mapping class="birdpoint.quadrohorarios.QuadroHorarios"/>
+        <mapping class="birdpoint.anoexercicio.AnoExercicio"/>  
         
     </session-factory>
 </hibernate-configuration>
