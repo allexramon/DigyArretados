@@ -902,7 +902,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
 
     }
-
+    // Método para verificar se existe algum campo preenchido pela metade
     public boolean verificarHorariosVazios() {
         // Somente quando essa variável for igual a quantidade de campos de verificação o método retornará true
         // Pois somente quando retornar true, não haverá linhas do quadro de horários incompleta
@@ -1023,7 +1023,8 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
 
     }
-
+    
+    //Método para percorrer o choque de horários em todos os campos
     public boolean verificarChoqueHorarios() {
         int contagemHorariosSemChoque = 0;
         try {
