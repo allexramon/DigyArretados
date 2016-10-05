@@ -78,7 +78,7 @@ public class LeitorBiometrico {
             contador = 0;
         } catch (DPFPImageQualityException e) {
             System.out.printf("Failed to enroll the finger.\n");
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar a digital ! \n\nrepita o processo novamente!",
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar a digital! \n\nRepita o processo novamente!",
                     "Digitais não conferem", JOptionPane.ERROR_MESSAGE);
             contador = 0;
         } catch (InterruptedException e) {
