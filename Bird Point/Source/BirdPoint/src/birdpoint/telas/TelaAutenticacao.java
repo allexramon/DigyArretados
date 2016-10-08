@@ -137,7 +137,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             if (usuario != null) {
                 BarraProgresso barraProgresso = new BarraProgresso(null, rootPaneCheckingEnabled);
                 barraProgresso.setVisible(true);
-                MenuPrincipal menu = new MenuPrincipal(null, true, usuario);
+                MenuPrincipal menu = new MenuPrincipal(usuario);
                 dispose();
                 menu.setVisible(true);
             }

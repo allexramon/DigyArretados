@@ -49,6 +49,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator1 = new javax.swing.JSeparator();
         btVoltar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btPesquisar = new javax.swing.JButton();
@@ -79,7 +80,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btVoltar);
-        btVoltar.setBounds(20, 340, 90, 70);
+        btVoltar.setBounds(30, 310, 90, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
@@ -94,7 +95,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(180, 340, 80, 70);
+        btLimpar.setBounds(190, 310, 80, 70);
 
         btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
@@ -109,7 +110,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar);
-        btPesquisar.setBounds(280, 340, 100, 69);
+        btPesquisar.setBounds(290, 310, 100, 69);
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
@@ -124,7 +125,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btExcluir);
-        btExcluir.setBounds(390, 340, 80, 70);
+        btExcluir.setBounds(400, 310, 80, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
@@ -139,7 +140,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(480, 340, 80, 70);
+        btSalvar.setBounds(490, 310, 80, 70);
 
         jLObrigatorioCidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioCidade.setForeground(new java.awt.Color(204, 0, 0));
@@ -174,6 +175,9 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
 
         jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadAnoExercicio.png"))); // NOI18N
         jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jlCadCidade.setMaximumSize(new java.awt.Dimension(602, 423));
+        jlCadCidade.setMinimumSize(new java.awt.Dimension(602, 423));
+        jlCadCidade.setPreferredSize(new java.awt.Dimension(602, 423));
         getContentPane().add(jlCadCidade);
         jlCadCidade.setBounds(0, 0, 600, 420);
 
@@ -307,6 +311,7 @@ public class CadastroAnoExercicio extends javax.swing.JDialog {
     private javax.swing.JLabel jLObrigatorioCidade;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JCheckBox jcAnoExercicio;
     private javax.swing.JLabel jlCadCidade;
     private javax.swing.JTextField tfAnoExercicio;

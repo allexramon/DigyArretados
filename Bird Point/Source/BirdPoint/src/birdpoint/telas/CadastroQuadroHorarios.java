@@ -5338,6 +5338,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         carregarListas();
         carregarAnoExercicioAtual();
         carregarQuadroHorario();
+        jTabbedPane1.setSelectedComponent(jPanel1);
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed

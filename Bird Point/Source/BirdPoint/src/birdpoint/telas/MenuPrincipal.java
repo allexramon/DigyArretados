@@ -6,27 +6,26 @@
 package birdpoint.telas;
 
 import birdpoint.usuario.Usuario;
+import birdpoint.usuario.UsuarioDAO;
 
 /**
  *
- * @author AlexRamon
+ * @author Adriano Lima
  */
-public class MenuPrincipal extends javax.swing.JDialog {
+public class MenuPrincipal extends javax.swing.JFrame {
 
     Usuario usuario = new Usuario();
-    
-    public MenuPrincipal(java.awt.Frame parent, boolean modal, Usuario usuario) {
-        super(parent, modal);
-        setModal(true);
+
+    public MenuPrincipal(Usuario usuario) {
         initComponents();
-        this.usuario=usuario;
+        this.usuario = usuario;
         jlUsuario.setText(usuario.getLoginUsuario());
         jlPermissao.setText(usuario.getTipoDeAcessoUsuario());
         permissao();
     }
-    
-    public void permissao(){
-        if(!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("administrador")){
+
+    public void permissao() {
+        if (!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("administrador")) {
             subUsuario.setVisible(false);
         }
     }
@@ -41,32 +40,29 @@ public class MenuPrincipal extends javax.swing.JDialog {
     private void initComponents() {
 
         btLogout = new javax.swing.JButton();
-        jlPermissao = new javax.swing.JLabel();
+        jlUsuario = new javax.swing.JLabel();
         jlNome2 = new javax.swing.JLabel();
         jlNome3 = new javax.swing.JLabel();
-        jlUsuario = new javax.swing.JLabel();
+        jlPermissao = new javax.swing.JLabel();
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
         jmCadastrar = new javax.swing.JMenu();
         subGrade2 = new javax.swing.JMenuItem();
-        subUsuario1 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        subGrade = new javax.swing.JMenuItem();
-        subGrade1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        subUsuario2 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        subGrade = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        subGrade1 = new javax.swing.JMenuItem();
+        subUsuario2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        subUsuario1 = new javax.swing.JMenuItem();
         subUsuario = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLocationByPlatform(true);
-        setMinimumSize(new java.awt.Dimension(902, 563));
-        setModal(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(900, 559));
         setUndecorated(true);
-        setResizable(false);
         getContentPane().setLayout(null);
 
         btLogout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -85,10 +81,10 @@ public class MenuPrincipal extends javax.swing.JDialog {
         getContentPane().add(btLogout);
         btLogout.setBounds(800, 360, 80, 69);
 
-        jlPermissao.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jlPermissao.setText("???");
-        getContentPane().add(jlPermissao);
-        jlPermissao.setBounds(720, 30, 160, 30);
+        jlUsuario.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jlUsuario.setText("???");
+        getContentPane().add(jlUsuario);
+        jlUsuario.setBounds(720, 10, 160, 30);
 
         jlNome2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome2.setText("Permissão.:");
@@ -100,10 +96,10 @@ public class MenuPrincipal extends javax.swing.JDialog {
         getContentPane().add(jlNome3);
         jlNome3.setBounds(650, 10, 70, 30);
 
-        jlUsuario.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jlUsuario.setText("???");
-        getContentPane().add(jlUsuario);
-        jlUsuario.setBounds(720, 10, 160, 30);
+        jlPermissao.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jlPermissao.setText("???");
+        getContentPane().add(jlPermissao);
+        jlPermissao.setBounds(720, 30, 160, 30);
 
         jlHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/home.png"))); // NOI18N
         getContentPane().add(jlHome);
@@ -132,16 +128,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(subGrade2);
 
-        subUsuario1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        subUsuario1.setText("Biometria");
-        subUsuario1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        subUsuario1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subUsuario1ActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(subUsuario1);
-
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem5.setText("Curso");
         jMenuItem5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -151,66 +137,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         jmCadastrar.add(jMenuItem5);
-
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        jMenuItem1.setText("Cidade");
-        jMenuItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(jMenuItem1);
-
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        jMenuItem7.setText("Disciplina");
-        jMenuItem7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(jMenuItem7);
-
-        subGrade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        subGrade.setText("Grade Curricular");
-        subGrade.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        subGrade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subGradeActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(subGrade);
-
-        subGrade1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        subGrade1.setText("Horário");
-        subGrade1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        subGrade1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subGrade1ActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(subGrade1);
-
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        jMenuItem3.setText("Professor");
-        jMenuItem3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(jMenuItem3);
-
-        subUsuario2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        subUsuario2.setText("Quadro de Horários");
-        subUsuario2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        subUsuario2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subUsuario2ActionPerformed(evt);
-            }
-        });
-        jmCadastrar.add(subUsuario2);
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem6.setText("Semestre");
@@ -222,6 +148,56 @@ public class MenuPrincipal extends javax.swing.JDialog {
         });
         jmCadastrar.add(jMenuItem6);
 
+        subGrade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subGrade.setText("Grade Curricular");
+        subGrade.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subGrade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subGradeActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(subGrade);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        jMenuItem7.setText("Disciplina");
+        jMenuItem7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem7);
+
+        subGrade1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subGrade1.setText("Horário");
+        subGrade1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subGrade1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subGrade1ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(subGrade1);
+
+        subUsuario2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subUsuario2.setText("Quadro de Horários");
+        subUsuario2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subUsuario2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subUsuario2ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(subUsuario2);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        jMenuItem1.setText("Cidade");
+        jMenuItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem1);
+
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem2.setText("Titulação");
         jMenuItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -231,6 +207,26 @@ public class MenuPrincipal extends javax.swing.JDialog {
             }
         });
         jmCadastrar.add(jMenuItem2);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        jMenuItem3.setText("Professor");
+        jMenuItem3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(jMenuItem3);
+
+        subUsuario1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subUsuario1.setText("Biometria");
+        subUsuario1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subUsuario1ActionPerformed(evt);
+            }
+        });
+        jmCadastrar.add(subUsuario1);
 
         subUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subUsuario.setText("Usuário");
@@ -250,16 +246,61 @@ public class MenuPrincipal extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       CadastroCidade cadastroCidade = new CadastroCidade(null, rootPaneCheckingEnabled);
-       cadastroCidade.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
         TelaAutenticacao telaAutenticar = new TelaAutenticacao(null, rootPaneCheckingEnabled);
         telaAutenticar.setVisible(true);
         dispose();
     }//GEN-LAST:event_btLogoutActionPerformed
+
+    private void subGrade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade2ActionPerformed
+        CadastroAnoExercicio cadastroAnoExercicio = new CadastroAnoExercicio(null, rootPaneCheckingEnabled);
+        cadastroAnoExercicio.setVisible(true);
+    }//GEN-LAST:event_subGrade2ActionPerformed
+
+    private void subUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subUsuario1ActionPerformed
+        CadastroDigital cadastroDigital = new CadastroDigital(null, rootPaneCheckingEnabled);
+        cadastroDigital.setVisible(true);
+    }//GEN-LAST:event_subUsuario1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
+        cadastroCurso.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        CadastroCidade cadastroCidade = new CadastroCidade(null, rootPaneCheckingEnabled);
+        cadastroCidade.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        CadastroDisciplina cadastroDisciplina = new CadastroDisciplina(null, rootPaneCheckingEnabled);
+        cadastroDisciplina.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void subGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGradeActionPerformed
+        CadastroGradeCurricular cadastroGradeCurricular = new CadastroGradeCurricular(null, rootPaneCheckingEnabled);
+        cadastroGradeCurricular.setVisible(true);
+    }//GEN-LAST:event_subGradeActionPerformed
+
+    private void subGrade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade1ActionPerformed
+        CadastroHorario cadastroHorario = new CadastroHorario(null, rootPaneCheckingEnabled);
+        cadastroHorario.setVisible(true);
+    }//GEN-LAST:event_subGrade1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        CadastroProfessor cadastroProfessor = new CadastroProfessor(null, rootPaneCheckingEnabled);
+        cadastroProfessor.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void subUsuario2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subUsuario2ActionPerformed
+        CadastroQuadroHorarios cadastroQuadroHorarios = new CadastroQuadroHorarios(null, rootPaneCheckingEnabled);
+        cadastroQuadroHorarios.setVisible(true);
+    }//GEN-LAST:event_subUsuario2ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        CadastroSemestre cadastroSemestre = new CadastroSemestre(null, rootPaneCheckingEnabled);
+        cadastroSemestre.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         CadastroTitulacao cadastroTitulacao = new CadastroTitulacao(null, rootPaneCheckingEnabled);
@@ -270,51 +311,6 @@ public class MenuPrincipal extends javax.swing.JDialog {
         CadastroUsuario cadUsuario = new CadastroUsuario(null, rootPaneCheckingEnabled);
         cadUsuario.setVisible(true);
     }//GEN-LAST:event_subUsuarioActionPerformed
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        CadastroProfessor cadastroProfessor = new CadastroProfessor(null, rootPaneCheckingEnabled);
-        cadastroProfessor.setVisible(true);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
-        cadastroCurso.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-       CadastroSemestre cadastroSemestre = new CadastroSemestre(null, rootPaneCheckingEnabled);
-       cadastroSemestre.setVisible(true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-      CadastroDisciplina cadastroDisciplina = new CadastroDisciplina(null, rootPaneCheckingEnabled);
-      cadastroDisciplina.setVisible(true);
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
-
-    private void subUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subUsuario1ActionPerformed
-        CadastroDigital cadastroDigital = new CadastroDigital(null, rootPaneCheckingEnabled);
-        cadastroDigital.setVisible(true);
-    }//GEN-LAST:event_subUsuario1ActionPerformed
-
-    private void subGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGradeActionPerformed
-        CadastroGradeCurricular cadastroGradeCurricular = new CadastroGradeCurricular(null, rootPaneCheckingEnabled);
-        cadastroGradeCurricular.setVisible(true);
-    }//GEN-LAST:event_subGradeActionPerformed
-
-    private void subUsuario2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subUsuario2ActionPerformed
-       CadastroQuadroHorarios cadastroQuadroHorarios = new CadastroQuadroHorarios(null, rootPaneCheckingEnabled);
-       cadastroQuadroHorarios.setVisible(true);
-    }//GEN-LAST:event_subUsuario2ActionPerformed
-
-    private void subGrade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade1ActionPerformed
-        CadastroHorario cadastroHorario = new CadastroHorario(null, rootPaneCheckingEnabled);
-        cadastroHorario.setVisible(true);
-    }//GEN-LAST:event_subGrade1ActionPerformed
-
-    private void subGrade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade2ActionPerformed
-        CadastroAnoExercicio cadastroAnoExercicio = new CadastroAnoExercicio(null, rootPaneCheckingEnabled);
-        cadastroAnoExercicio.setVisible(true);
-    }//GEN-LAST:event_subGrade2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,18 +338,12 @@ public class MenuPrincipal extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MenuPrincipal dialog = new MenuPrincipal(new javax.swing.JFrame(), true, null);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new MenuPrincipal(null).setVisible(true);
             }
         });
     }
