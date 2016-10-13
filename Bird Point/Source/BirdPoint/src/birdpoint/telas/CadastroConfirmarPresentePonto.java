@@ -8,7 +8,10 @@ package birdpoint.telas;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorPontoTableModel;
+import birdpoint.registro.ponto.Ponto;
+import birdpoint.registro.ponto.PontoDAO;
 import birdpoint.util.LeitorBiometrico;
+import birdpoint.util.Relogio;
 import birdpoint.util.Util;
 import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
@@ -24,6 +27,9 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     Professor professor = new Professor();
     ProfessorDAO professorDAO = new ProfessorDAO();
 
+    Ponto ponto = new Ponto();
+    PontoDAO pontoDAO = new PontoDAO();
+
     //Lista para verificação do ponto
     List<Professor> lista;
     //Lista dos professores validados
@@ -37,8 +43,9 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         initComponents();
         lista = (professorDAO.listar());
         atualizarTabela();
+        mostrarHora();
         btPesquisar2.setVisible(false);
-        
+
         //Sobrescrita para abrir o formulário antes de finalizar o construtor
         new Thread() {//instancia nova thread já implementando o método run()
             @Override
@@ -52,6 +59,16 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     private void atualizarTabela() {
         ProfessorPontoTableModel professorTableModel = new ProfessorPontoTableModel(listaProfessoresTable);
         tbProfessoresPonto.setModel(professorTableModel);
+    }
+
+    public void mostrarHora() {
+        Relogio ah = new Relogio(tfHora);
+        ah.mostrarData(true);
+        Thread thHora = ah;
+        thHora.start();
+    }
+    private void salvarPonto(){
+        
     }
 
     private void compararDigital() {
@@ -71,6 +88,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
             jlProfessorNaoLocalizado.setText("Professor não localizado!");
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,6 +106,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
         jlProfessorNaoLocalizado = new javax.swing.JLabel();
+        tfHora = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
         selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
@@ -142,7 +161,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar2);
-        btPesquisar2.setBounds(210, 330, 190, 69);
+        btPesquisar2.setBounds(250, 330, 190, 69);
 
         tbProfessoresPonto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,7 +181,12 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
 
         jlProfessorNaoLocalizado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jlProfessorNaoLocalizado);
-        jlProfessorNaoLocalizado.setBounds(160, 94, 360, 20);
+        jlProfessorNaoLocalizado.setBounds(160, 94, 290, 20);
+
+        tfHora.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        tfHora.setText("Hora.:");
+        getContentPane().add(tfHora);
+        tfHora.setBounds(400, 90, 180, 30);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -266,5 +290,6 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     private javax.swing.JLabel jlProfessorNaoLocalizado;
     private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTable tbProfessoresPonto;
+    private javax.swing.JLabel tfHora;
     // End of variables declaration//GEN-END:variables
 }

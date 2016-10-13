@@ -8,6 +8,8 @@ package birdpoint.telas;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorTableModel;
+import birdpoint.registro.ponto.Ponto;
+import birdpoint.registro.ponto.PontoDAO;
 import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Util;
 import com.digitalpersona.onetouch.DPFPTemplate;
@@ -36,7 +38,7 @@ public class CadastroDigital extends javax.swing.JDialog {
     }
 
     private void capturarDigitalMaoDireita() {
-        if(jlMaoDireita.getText().equals("Capturada!")){
+        if (jlMaoDireita.getText().equals("Capturada!")) {
             jlMaoDireita.setText("Não Capturada");
         }
         DPFPTemplate temp = digital.getTemplate(null, 1);
@@ -50,7 +52,7 @@ public class CadastroDigital extends javax.swing.JDialog {
     }
 
     private void capturarDigitalMaoEsquerda() {
-        if(jlMaoEsquerda.getText().equals("Capturada!")){
+        if (jlMaoEsquerda.getText().equals("Capturada!")) {
             jlMaoEsquerda.setText("Não Capturada");
         }
         DPFPTemplate temp = digital.getTemplate(null, 1);
@@ -62,7 +64,7 @@ public class CadastroDigital extends javax.swing.JDialog {
         } catch (Exception e) {
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
