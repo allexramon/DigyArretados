@@ -36,7 +36,7 @@ public class PontoTableModel extends AbstractTableModel {
             case 0:
                 return ponto.getIdPonto();
             case 1:
-                return ponto.getData();
+                return ponto.getDataRegistroPonto();
             case 2:
                 return ponto.getHoraEntrada();
             case 3:

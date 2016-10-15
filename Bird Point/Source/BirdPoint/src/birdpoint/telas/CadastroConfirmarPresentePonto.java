@@ -68,7 +68,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         thHora.start();
     }
     private void salvarPonto(){
-        
+    
     }
 
     private void compararDigital() {

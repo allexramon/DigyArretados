@@ -25,7 +25,7 @@ public class Ponto {
     private int idPonto;
 
     @Column(length = 20, nullable = false)
-    private Date data;
+    private Date dataRegistroPonto;
 
     @Column(length = 20, nullable = false)
     private Date horaEntrada;
@@ -51,17 +51,17 @@ public class Ponto {
     }
 
     /**
-     * @return the data
+     * @return the dataRegistroPonto
      */
-    public Date getData() {
-        return data;
+    public Date getDataRegistroPonto() {
+        return dataRegistroPonto;
     }
 
     /**
-     * @param data the data to set
+     * @param dataRegistroPonto the dataRegistroPonto to set
      */
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataRegistroPonto(Date dataRegistroPonto) {
+        this.dataRegistroPonto = dataRegistroPonto;
     }
 
     /**
@@ -105,5 +105,7 @@ public class Ponto {
     public void setProfessor(Professor professor) {
         this.professor = professor;
     }
+
+   
 
 }
