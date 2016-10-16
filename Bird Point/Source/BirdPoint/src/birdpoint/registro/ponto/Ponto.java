@@ -24,13 +24,13 @@ public class Ponto {
     @GeneratedValue
     private int idPonto;
 
-    @Column(length = 20, nullable = false)
-    private Date dataRegistroPonto;
-
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
+    private Date dataPonto;
+    
+    @Column(length = 20)
     private Date horaEntrada;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private Date horaSaida;
 
     @OneToOne
@@ -48,20 +48,6 @@ public class Ponto {
      */
     public void setIdPonto(int idPonto) {
         this.idPonto = idPonto;
-    }
-
-    /**
-     * @return the dataRegistroPonto
-     */
-    public Date getDataRegistroPonto() {
-        return dataRegistroPonto;
-    }
-
-    /**
-     * @param dataRegistroPonto the dataRegistroPonto to set
-     */
-    public void setDataRegistroPonto(Date dataRegistroPonto) {
-        this.dataRegistroPonto = dataRegistroPonto;
     }
 
     /**
@@ -104,6 +90,20 @@ public class Ponto {
      */
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    /**
+     * @return the dataPonto
+     */
+    public Date getDataPonto() {
+        return dataPonto;
+    }
+
+    /**
+     * @param dataPonto the dataPonto to set
+     */
+    public void setDataPonto(Date dataPonto) {
+        this.dataPonto = dataPonto;
     }
 
    

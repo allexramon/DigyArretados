@@ -10,13 +10,19 @@ import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorPontoTableModel;
 import birdpoint.registro.ponto.Ponto;
 import birdpoint.registro.ponto.PontoDAO;
+import birdpoint.registro.ponto.PontoTableModel;
 import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
 import birdpoint.util.Util;
 import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
@@ -27,13 +33,22 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     Professor professor = new Professor();
     ProfessorDAO professorDAO = new ProfessorDAO();
 
+    SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    Date dataHoraSistema;
+
     Ponto ponto = new Ponto();
     PontoDAO pontoDAO = new PontoDAO();
+
+    //Lista de Pontos diários
+    List<Ponto> listaPontos;
+
+    //Lista de Professores diário
+    List<Professor> listaProfessoresAula;
 
     //Lista para verificação do ponto
     List<Professor> lista;
     //Lista dos professores validados
-    List<Professor> listaProfessoresTable = new ArrayList<>();
+    List<Ponto> listaPontosBatidos = new ArrayList<>();
 
     LeitorBiometrico digital = new LeitorBiometrico();
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
@@ -43,7 +58,10 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         initComponents();
         lista = (professorDAO.listar());
         atualizarTabela();
+        listarPontos();
+        listaProfessores();
         mostrarHora();
+        preencherListaPontosLimpos();
         btPesquisar2.setVisible(false);
 
         //Sobrescrita para abrir o formulário antes de finalizar o construtor
@@ -56,9 +74,56 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
 
     }
 
+    // Este método irá gerar a lista de pontos diária
+    private void preencherListaPontosLimpos() {
+        if (listaPontos.isEmpty()) {
+            for (Professor professorLista : listaProfessoresAula) {
+                dataHoraSistema = new Date();
+                ponto.setProfessor(professorLista);
+                ponto.setDataPonto(dataHoraSistema);
+                pontoDAO.salvar(ponto);
+                limparCampos();
+            }
+        }
+    }
+
+    // Este método carrega o ponto do professor que está colocando a digital
+    private Ponto carregarPonto(int idProfessor) {
+        for (Ponto listaPonto : listaPontos) {
+            if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
+                return listaPonto;
+            }
+        }
+        return null;
+    }
+
     private void atualizarTabela() {
-        ProfessorPontoTableModel professorTableModel = new ProfessorPontoTableModel(listaProfessoresTable);
-        tbProfessoresPonto.setModel(professorTableModel);
+        PontoTableModel pontosBatidosTableModel = new PontoTableModel(listaPontosBatidos);
+        tbProfessoresPonto.setModel(pontosBatidosTableModel);
+        tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
+    }
+
+    public void listarPontos() {
+        listaPontos = pontoDAO.listar();
+    }
+
+    public void listaProfessores() {
+        listaProfessoresAula = professorDAO.listar();
+    }
+
+    public int verificarSeEntradaOuSaida(int idProfessor) {
+        for (Ponto listaPonto : listaPontos) {
+            if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
+                if (listaPonto.getHoraEntrada() == null) {
+                    return 1;
+                } else if (listaPonto.getHoraSaida() == null) {
+                    return 2;
+                } else {
+                    return 3;
+                }
+            }
+        }
+        return 0;
     }
 
     public void mostrarHora() {
@@ -67,24 +132,45 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         Thread thHora = ah;
         thHora.start();
     }
-    private void salvarPonto(){
-    
+
+    private void telaMensagemPonto(Professor professor, boolean verificarEntradaOuSaida) {
+        new MensagemPonto(null, rootPaneCheckingEnabled, professor, verificarEntradaOuSaida).setVisible(true);
+    }
+
+    private void salvarPonto(Professor professor) {
+        ponto = carregarPonto(professor.getIdProfessor());
+        dataHoraSistema = new Date();
+        if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 1) {
+            ponto.setHoraEntrada(dataHoraSistema);
+            telaMensagemPonto(professor, true);
+        } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 2) {
+            ponto.setHoraSaida(dataHoraSistema);
+            telaMensagemPonto(professor, false);
+        } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 3) {
+            ponto.setHoraEntrada(dataHoraSistema);
+            ponto.setHoraSaida(null);
+            telaMensagemPonto(professor, true);
+        }
+        ponto.setProfessor(professor);
+        pontoDAO.salvar(ponto);
+        listaPontosBatidos.add(0, ponto);
+        limparCampos();
+    }
+
+    private void limparCampos() {
+        ponto = new Ponto();
+        professor = new Professor();
+        listarPontos();
     }
 
     private void compararDigital() {
+        professor = new Professor();
         professor = digital.verificarSeCadastrado(null, lista);
         if (professor != null) {
-            listaProfessoresTable.add(professor);
-            try {
-                ImageIcon foto = new ImageIcon();
-                foto.setImage(Util.byteToImage(professor.getFotoProf()));
-                btFoto.setIcon(foto);
-            } catch (Exception e) {
-            }
+            salvarPonto(professor);
             atualizarTabela();
             jlProfessorNaoLocalizado.setText("");
         } else {
-            btFoto.setIcon(new ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg")));
             jlProfessorNaoLocalizado.setText("Professor não localizado!");
         }
     }
@@ -101,7 +187,6 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         selecionarFoto = new javax.swing.JFileChooser();
         btVoltar = new javax.swing.JButton();
-        btFoto = new javax.swing.JButton();
         btPesquisar2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
@@ -134,20 +219,6 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         getContentPane().add(btVoltar);
         btVoltar.setBounds(20, 340, 90, 70);
 
-        btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
-        btFoto.setContentAreaFilled(false);
-        btFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btFoto.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btFoto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btFotoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btFoto);
-        btFoto.setBounds(20, 90, 120, 140);
-
         btPesquisar2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btPesquisar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
         btPesquisar2.setText("Verificar Digital");
@@ -161,8 +232,9 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar2);
-        btPesquisar2.setBounds(250, 330, 190, 69);
+        btPesquisar2.setBounds(210, 340, 160, 69);
 
+        tbProfessoresPonto.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         tbProfessoresPonto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -177,7 +249,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbProfessoresPonto);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(150, 120, 420, 200);
+        jScrollPane1.setBounds(30, 110, 540, 230);
 
         jlProfessorNaoLocalizado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jlProfessorNaoLocalizado);
@@ -186,7 +258,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         tfHora.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         tfHora.setText("Hora.:");
         getContentPane().add(tfHora);
-        tfHora.setBounds(400, 90, 180, 30);
+        tfHora.setBounds(400, 90, 180, 19);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -200,10 +272,6 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
-
-    private void btFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFotoActionPerformed
-
-    }//GEN-LAST:event_btFotoActionPerformed
 
     private void btPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisar2ActionPerformed
         compararDigital();
@@ -281,7 +349,6 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btFoto;
     private javax.swing.JButton btPesquisar2;
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;

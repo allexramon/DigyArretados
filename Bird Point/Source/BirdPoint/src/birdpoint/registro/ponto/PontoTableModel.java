@@ -6,14 +6,17 @@
 package birdpoint.registro.ponto;
 
 import birdpoint.horario.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class PontoTableModel extends AbstractTableModel {
 
     private List<Ponto> pontos = new ArrayList<>();
-    private String[] colunas = {"Código", "Data", "Horário Entrada", "Horário Saída", "Professor"};
+    private String[] colunas = {"Professor", "Hora", "Tipo de Registro"};
+    SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm:ss");
 
     public PontoTableModel(List<Ponto> ponto) {
         this.pontos = ponto;
@@ -34,15 +37,19 @@ public class PontoTableModel extends AbstractTableModel {
         Ponto ponto = pontos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return ponto.getIdPonto();
-            case 1:
-                return ponto.getDataRegistroPonto();
-            case 2:
-                return ponto.getHoraEntrada();
-            case 3:
-                return ponto.getHoraSaida();
-            case 4:
                 return ponto.getProfessor().getNomeProfessor();
+            case 1:
+                if (ponto.getHoraSaida() == null) {
+                    return formatarHora.format(ponto.getHoraEntrada());
+                } else {
+                    return formatarHora.format(ponto.getHoraSaida());
+                }
+            case 2:
+                if (ponto.getHoraSaida() == null) {
+                    return "Entrada";
+                } else {
+                    return "Saída";
+                }
 
         }
         return null;
@@ -56,10 +63,6 @@ public class PontoTableModel extends AbstractTableModel {
                 return colunas[1];
             case 2:
                 return colunas[2];
-            case 3:
-                return colunas[3];
-            case 4:
-                return colunas[4];
 
         }
         return null;

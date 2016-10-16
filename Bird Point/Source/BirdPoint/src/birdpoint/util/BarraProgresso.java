@@ -20,8 +20,6 @@ public class BarraProgresso extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         progressoBarra();
-
-
     }
 
     public void progressoBarra() {
