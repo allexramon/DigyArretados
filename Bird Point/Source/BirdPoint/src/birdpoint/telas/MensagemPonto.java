@@ -63,11 +63,11 @@ public class MensagemPonto extends javax.swing.JDialog {
 
     public void preencherTextoTela() {
         if (entradaOuSaida) {
-            tfMensagem1.setText("Seja Bem vindo(a) Professor(a).:");
+            tfMensagem1.setText("Seja Bem Vindo(a) Professor(a).:");
             tfMensagem2.setText("A Faculdade Vale do Salgado lhe deseja uma ótima aula.");
             tfMensagem3.setText("Entrada");
         } else {
-            tfMensagem1.setText("Até logo Professor(a).:");
+            tfMensagem1.setText("Até Logo Professor(a).:");
             tfMensagem2.setText("A Faculdade Vale do Salgado agradece sua presença.");
             tfMensagem3.setText("Saída");
         }

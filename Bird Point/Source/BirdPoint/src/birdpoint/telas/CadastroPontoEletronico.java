@@ -22,40 +22,25 @@ import java.util.List;
 /**
  * @author Adriano Lima
  */
-public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
+public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     Professor professor = new Professor();
     ProfessorDAO professorDAO = new ProfessorDAO();
 
-    SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
-    Date dataHoraSistema;
-
     Ponto ponto = new Ponto();
     PontoDAO pontoDAO = new PontoDAO();
 
-    //Lista de Pontos diários
-    List<Ponto> listaPontos;
-
-    //Lista de Professores diário
-    List<Professor> listaProfessoresAula;
-
     //Lista para verificação do ponto
-    List<Professor> lista;
-    //Lista dos professores validados
-    List<Ponto> listaPontosBatidos = new ArrayList<>();
+    List<Professor> listaProfessores;
 
     LeitorBiometrico digital = new LeitorBiometrico();
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
 
-    public CadastroConfirmarPresentePonto(java.awt.Frame parent, boolean modal) {
+    public CadastroPontoEletronico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        lista = (professorDAO.listar());
-        atualizarTabela();
-        
-        listaProfessores();
+        listaProfessores = (professorDAO.listar());
         mostrarHora();
-        preencherListaPontosLimpos();
         btPesquisar2.setVisible(false);
 
         //Sobrescrita para abrir o formulário antes de finalizar o construtor
@@ -67,60 +52,9 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         }.start();//Fim Thread
 
     }
+    
+    
 
-    // Este método irá gerar a lista de pontos diária
-    private void preencherListaPontosLimpos() {
-        listarPontos();
-        if (listaPontos.isEmpty()) {
-            for (Professor professorLista : listaProfessoresAula) {
-                ponto.setProfessor(professorLista);
-                dataHoraSistema = new Date();
-                ponto.setDataPonto(formatarData.format(dataHoraSistema));
-                pontoDAO.salvar(ponto);
-                limparCampos();
-            }
-        }
-    }
-
-    // Este método carrega o ponto do professor que está colocando a digital
-    private Ponto carregarPonto(int idProfessor) {
-        for (Ponto listaPonto : listaPontos) {
-            if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
-                return listaPonto;
-            }
-        }
-        return null;
-    }
-
-    private void atualizarTabela() {
-        PontoTableModel pontosBatidosTableModel = new PontoTableModel(listaPontosBatidos);
-        tbProfessoresPonto.setModel(pontosBatidosTableModel);
-        tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
-    }
-
-    public void listarPontos() {
-        dataHoraSistema = new Date();
-        listaPontos = pontoDAO.checkExists("dataPonto", formatarData.format(dataHoraSistema));
-    }
-
-    public void listaProfessores() {
-        listaProfessoresAula = professorDAO.listar();
-    }
-
-    public int verificarSeEntradaOuSaida(int idProfessor) {
-        for (Ponto listaPonto : listaPontos) {
-            if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
-                if (listaPonto.getHoraEntrada() == null) {
-                    return 1;
-                } else if (listaPonto.getHoraSaida() == null) {
-                    return 2;
-                } else {
-                    return 3;
-                }
-            }
-        }
-        return 0;
-    }
 
     public void mostrarHora() {
         Relogio ah = new Relogio(tfHora);
@@ -133,38 +67,16 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         new MensagemPonto(null, rootPaneCheckingEnabled, professor, verificarEntradaOuSaida).setVisible(true);
     }
 
-    private void salvarPonto(Professor professor) {
-        ponto = carregarPonto(professor.getIdProfessor());
-        dataHoraSistema = new Date();
-        if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 1) {
-            ponto.setHoraEntrada(dataHoraSistema);
-            telaMensagemPonto(professor, true);
-        } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 2) {
-            ponto.setHoraSaida(dataHoraSistema);
-            telaMensagemPonto(professor, false);
-        } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 3) {
-            ponto.setHoraEntrada(dataHoraSistema);
-            ponto.setHoraSaida(null);
-            telaMensagemPonto(professor, true);
-        }
-        ponto.setProfessor(professor);
-        pontoDAO.salvar(ponto);
-        listaPontosBatidos.add(0, ponto);
-        limparCampos();
-    }
-
     private void limparCampos() {
         ponto = new Ponto();
         professor = new Professor();
-        listarPontos();
+        
     }
 
     private void compararDigital() {
         professor = new Professor();
-        professor = digital.verificarSeCadastrado(null, lista);
+        professor = digital.verificarSeCadastrado(null, listaProfessores);
         if (professor != null) {
-            salvarPonto(professor);
-            atualizarTabela();
             jlProfessorNaoLocalizado.setText("");
         } else {
             jlProfessorNaoLocalizado.setText("Professor não localizado!");
@@ -297,21 +209,37 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroConfirmarPresentePonto.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroConfirmarPresentePonto.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroConfirmarPresentePonto.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroConfirmarPresentePonto.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -332,7 +260,7 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CadastroConfirmarPresentePonto dialog = new CadastroConfirmarPresentePonto(new javax.swing.JFrame(), true);
+                CadastroPontoEletronico dialog = new CadastroPontoEletronico(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

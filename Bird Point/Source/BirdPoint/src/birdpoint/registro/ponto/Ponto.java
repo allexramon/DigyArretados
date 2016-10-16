@@ -25,7 +25,10 @@ public class Ponto {
     private int idPonto;
 
     @Column(length = 20)
-    private Date dataPonto;
+    private String dataPonto;
+    
+    @Column(length = 20)
+    private String turnoPonto;
     
     @Column(length = 20)
     private Date horaEntrada;
@@ -48,6 +51,20 @@ public class Ponto {
      */
     public void setIdPonto(int idPonto) {
         this.idPonto = idPonto;
+    }
+
+    /**
+     * @return the dataPonto
+     */
+    public String getDataPonto() {
+        return dataPonto;
+    }
+
+    /**
+     * @param dataPonto the dataPonto to set
+     */
+    public void setDataPonto(String dataPonto) {
+        this.dataPonto = dataPonto;
     }
 
     /**
@@ -92,20 +109,5 @@ public class Ponto {
         this.professor = professor;
     }
 
-    /**
-     * @return the dataPonto
-     */
-    public Date getDataPonto() {
-        return dataPonto;
-    }
-
-    /**
-     * @param dataPonto the dataPonto to set
-     */
-    public void setDataPonto(Date dataPonto) {
-        this.dataPonto = dataPonto;
-    }
-
-   
 
 }
