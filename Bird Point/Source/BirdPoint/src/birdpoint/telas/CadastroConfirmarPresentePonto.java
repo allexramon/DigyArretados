@@ -28,6 +28,8 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     ProfessorDAO professorDAO = new ProfessorDAO();
 
     SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formatarHora = new SimpleDateFormat("HH");
+    SimpleDateFormat formatarMinuto = new SimpleDateFormat("mm");
     Date dataHoraSistema;
 
     Ponto ponto = new Ponto();
@@ -52,10 +54,8 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         initComponents();
         lista = (professorDAO.listar());
         atualizarTabela();
-        
         listaProfessores();
         mostrarHora();
-        preencherListaPontosLimpos();
         btPesquisar2.setVisible(false);
 
         //Sobrescrita para abrir o formulário antes de finalizar o construtor
@@ -66,15 +66,40 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
             }//- Fim do Run
         }.start();//Fim Thread
 
+        // Essa Thread verifica o horário para preencher os campos de ponto no banco de dados
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    preencherListaPontosLimpos();
+                    try {
+                        sleep(300000);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }.start();
+
     }
 
     // Este método irá gerar a lista de pontos diária
     private void preencherListaPontosLimpos() {
         listarPontos();
+        dataHoraSistema = new Date();
+        int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
+        int minutos = Integer.parseInt(formatarMinuto.format(dataHoraSistema));
+        String turno;
         if (listaPontos.isEmpty()) {
             for (Professor professorLista : listaProfessoresAula) {
                 ponto.setProfessor(professorLista);
-                dataHoraSistema = new Date();
+                if ((hora >= 00 && hora <= 12) || (hora == 13 && minutos <= 20)) {
+                    turno = "Manhã";
+                } else if ((hora >= 13 && hora <= 16) || (hora == 17 && minutos <= 30)) {
+                    turno = "Tarde";
+                } else {
+                    turno = "Noite";
+                }
+                ponto.setTurnoPonto(turno);
                 ponto.setDataPonto(formatarData.format(dataHoraSistema));
                 pontoDAO.salvar(ponto);
                 limparCampos();
@@ -98,9 +123,31 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
         tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
     }
 
+    // Método para listar os pontos diários
     public void listarPontos() {
         dataHoraSistema = new Date();
+        String turno;
         listaPontos = pontoDAO.checkExists("dataPonto", formatarData.format(dataHoraSistema));
+        List<Ponto> listaFiltradaPontos = new ArrayList<>();
+        dataHoraSistema = new Date();
+        int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
+        int minutos = Integer.parseInt(formatarMinuto.format(dataHoraSistema));
+
+        if ((hora >= 00 && hora <= 12) || (hora == 13 && minutos <= 20)) {
+            turno = "Manhã";
+        } else if ((hora >= 13 && hora <= 16) || (hora == 17 && minutos <= 30)) {
+            turno = "Tarde";
+        } else {
+            turno = "Noite";
+        }
+        if (!listaPontos.isEmpty()) {
+            for (Ponto filtro : listaPontos) {
+                if (filtro.getTurnoPonto().equals(turno)) {
+                    listaFiltradaPontos.add(filtro);
+                }
+            }
+            listaPontos = listaFiltradaPontos;
+        }
     }
 
     public void listaProfessores() {
@@ -136,17 +183,23 @@ public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
     private void salvarPonto(Professor professor) {
         ponto = carregarPonto(professor.getIdProfessor());
         dataHoraSistema = new Date();
-        if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 1) {
-            ponto.setHoraEntrada(dataHoraSistema);
-            telaMensagemPonto(professor, true);
-        } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 2) {
-            ponto.setHoraSaida(dataHoraSistema);
-            telaMensagemPonto(professor, false);
-        } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 3) {
-            ponto.setHoraEntrada(dataHoraSistema);
-            ponto.setHoraSaida(null);
-            telaMensagemPonto(professor, true);
-        }
+        new Thread() {//instancia nova thread já implementando o método run()
+            @Override
+            public void run() {//sobrescreve o método run()
+                if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 1) {
+                    ponto.setHoraEntrada(dataHoraSistema);
+                    telaMensagemPonto(professor, true);
+                } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 2) {
+                    ponto.setHoraSaida(dataHoraSistema);
+                    telaMensagemPonto(professor, false);
+                } else if (verificarSeEntradaOuSaida(professor.getIdProfessor()) == 3) {
+                    ponto.setHoraEntrada(dataHoraSistema);
+                    ponto.setHoraSaida(null);
+                    telaMensagemPonto(professor, true);
+                }
+            }//- Fim do Run
+        }.start();//Fim Thread
+
         ponto.setProfessor(professor);
         pontoDAO.salvar(ponto);
         listaPontosBatidos.add(0, ponto);

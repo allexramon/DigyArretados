@@ -109,5 +109,19 @@ public class Ponto {
         this.professor = professor;
     }
 
+    /**
+     * @return the turnoPonto
+     */
+    public String getTurnoPonto() {
+        return turnoPonto;
+    }
+
+    /**
+     * @param turnoPonto the turnoPonto to set
+     */
+    public void setTurnoPonto(String turnoPonto) {
+        this.turnoPonto = turnoPonto;
+    }
+
 
 }

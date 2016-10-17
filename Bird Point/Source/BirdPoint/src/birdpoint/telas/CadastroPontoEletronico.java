@@ -33,6 +33,9 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     //Lista para verificação do ponto
     List<Professor> listaProfessores;
 
+    //Lista de Pontos diários
+    List<Ponto> listaPontos;
+
     LeitorBiometrico digital = new LeitorBiometrico();
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
 
@@ -52,9 +55,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         }.start();//Fim Thread
 
     }
-    
-    
-
 
     public void mostrarHora() {
         Relogio ah = new Relogio(tfHora);
@@ -70,7 +70,19 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     private void limparCampos() {
         ponto = new Ponto();
         professor = new Professor();
-        
+
+    }
+
+    // Este método carrega o ponto do professor que está colocando a digital
+    private Ponto carregarPonto(int idProfessor) {
+        if (!listaPontos.isEmpty()) {
+            for (Ponto listaPonto : listaPontos) {
+                if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
+                    return listaPonto;
+                }
+            }
+        }
+        return null;
     }
 
     private void compararDigital() {
@@ -78,6 +90,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         professor = digital.verificarSeCadastrado(null, listaProfessores);
         if (professor != null) {
             jlProfessorNaoLocalizado.setText("");
+
         } else {
             jlProfessorNaoLocalizado.setText("Professor não localizado!");
         }
