@@ -6,20 +6,11 @@
 package birdpoint.telas;
 
 import birdpoint.professor.Professor;
-import birdpoint.professor.ProfessorDAO;
-import birdpoint.registro.ponto.Ponto;
-import birdpoint.registro.ponto.PontoDAO;
-import birdpoint.registro.ponto.PontoTableModel;
-import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
 import birdpoint.util.Util;
-import com.digitalpersona.onetouch.DPFPGlobal;
-import com.digitalpersona.onetouch.DPFPTemplate;
 import static java.lang.Thread.sleep;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.swing.ImageIcon;
 
 /**
@@ -31,9 +22,9 @@ public class MensagemPonto extends javax.swing.JDialog {
     Date dataHoraSistema;
 
     Professor professor = new Professor();
-    boolean entradaOuSaida;
+    String entradaOuSaida;
 
-    public MensagemPonto(java.awt.Frame parent, boolean modal, Professor professor, boolean entradaOuSaida) {
+    public MensagemPonto(java.awt.Frame parent, boolean modal, Professor professor, String entradaOuSaida) {
         super(parent, modal);
         initComponents();
         tfNomeProfessor.setText(professor.getNomeProfessor());
@@ -62,7 +53,7 @@ public class MensagemPonto extends javax.swing.JDialog {
     }
 
     public void preencherTextoTela() {
-        if (entradaOuSaida) {
+        if (entradaOuSaida.equalsIgnoreCase("Entrada")) {
             tfMensagem1.setText("Seja Bem Vindo(a) Professor(a).:");
             tfMensagem2.setText("A Faculdade Vale do Salgado lhe deseja uma ótima aula.");
             tfMensagem3.setText("Entrada");
@@ -258,7 +249,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MensagemPonto dialog = new MensagemPonto(new javax.swing.JFrame(), true, null, false);
+                MensagemPonto dialog = new MensagemPonto(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

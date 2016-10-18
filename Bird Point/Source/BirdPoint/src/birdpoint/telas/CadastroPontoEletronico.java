@@ -14,10 +14,13 @@ import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
 import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
+import static java.lang.Thread.sleep;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  * @author Adriano Lima
@@ -27,14 +30,21 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     Professor professor = new Professor();
     ProfessorDAO professorDAO = new ProfessorDAO();
 
-    Ponto ponto = new Ponto();
+    Ponto ponto;
     PontoDAO pontoDAO = new PontoDAO();
+
+    SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formatarHora = new SimpleDateFormat("HH");
+    Date dataHoraSistema;
 
     //Lista para verificação do ponto
     List<Professor> listaProfessores;
 
-    //Lista de Pontos diários
-    List<Ponto> listaPontos;
+    //Lista de Pontos diários Local
+    List<Ponto> listaPontosLocal = new ArrayList<>();
+
+    //Lista de Pontos Batidos GERAL
+    List<Ponto> listaPontosBatidosGeral = new ArrayList<>();
 
     LeitorBiometrico digital = new LeitorBiometrico();
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
@@ -44,6 +54,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         initComponents();
         listaProfessores = (professorDAO.listar());
         mostrarHora();
+        carregarPontosDiario();
         btPesquisar2.setVisible(false);
 
         //Sobrescrita para abrir o formulário antes de finalizar o construtor
@@ -54,6 +65,20 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             }//- Fim do Run
         }.start();//Fim Thread
 
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    reiniciarPonto();
+                    salvarPontoBanco();
+                    try {
+                        sleep(60000);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }.start();
+
     }
 
     public void mostrarHora() {
@@ -63,20 +88,14 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         thHora.start();
     }
 
-    private void telaMensagemPonto(Professor professor, boolean verificarEntradaOuSaida) {
+    private void telaMensagemPonto(Professor professor, String verificarEntradaOuSaida) {
         new MensagemPonto(null, rootPaneCheckingEnabled, professor, verificarEntradaOuSaida).setVisible(true);
-    }
-
-    private void limparCampos() {
-        ponto = new Ponto();
-        professor = new Professor();
-
     }
 
     // Este método carrega o ponto do professor que está colocando a digital
     private Ponto carregarPonto(int idProfessor) {
-        if (!listaPontos.isEmpty()) {
-            for (Ponto listaPonto : listaPontos) {
+        if (!listaPontosLocal.isEmpty()) {
+            for (Ponto listaPonto : listaPontosLocal) {
                 if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
                     return listaPonto;
                 }
@@ -85,10 +104,85 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         return null;
     }
 
+    // Este método atualiza a tabela de pontos batidos
+    private void atualizarTabela() {
+        PontoTableModel pontosBatidosTableModel = new PontoTableModel(listaPontosBatidosGeral);
+        tbProfessoresPonto.setModel(pontosBatidosTableModel);
+        tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
+    }
+    
+    //Este método irá carregar o novo dia para registro de ponto no horário programado
+    public void reiniciarPonto(){
+        dataHoraSistema = new Date();
+        int horaAtual = Integer.parseInt(formatarHora.format(dataHoraSistema));
+        if(horaAtual>=00 && horaAtual <= 06){
+            carregarPontosDiario();
+        }
+    }
+    
+    //Este método carrega todos os pontos daquele dia pra não duplicar saida ou entrada
+    public void carregarPontosDiario(){
+        dataHoraSistema = new Date();
+        listaPontosBatidosGeral = pontoDAO.checkExists("dataPontoDiario", formatarData.format(dataHoraSistema));
+        atualizarTabela();
+    }
+
+    //Verifica quantas vezes o professor está na lista de ponto pra atribuir saídas e entradas
+    public int verificarProfessorLista(int idProfessor) {
+        int qtdProfessor = 0;
+        for (Ponto lista : listaPontosBatidosGeral) {
+            if (lista.getProfessor().getIdProfessor() == idProfessor) {
+                qtdProfessor++;
+            }
+        }
+        return qtdProfessor;
+    }
+
+    // Este método adiciona o ponto na lista local
+    public void salvarPontoLocal(Professor professor) {
+        dataHoraSistema = new Date();
+        ponto = new Ponto();
+        String tipoBatida;
+        ponto.setDataPontoDiario(formatarData.format(dataHoraSistema));
+        ponto.setDataPontoCompleta(dataHoraSistema);
+        ponto.setProfessor(professor);
+        if (verificarProfessorLista(professor.getIdProfessor()) == 0) {
+            tipoBatida = "Entrada";
+        } else if (verificarProfessorLista(professor.getIdProfessor()) % 2 == 0) {
+            tipoBatida = "Entrada";
+        } else {
+            tipoBatida = "Saída";
+        }
+        ponto.setTipoBatida(tipoBatida);
+        listaPontosLocal.add(ponto);
+        listaPontosBatidosGeral.add(0, ponto);
+        jlSalvarBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/carregando.gif")));
+        atualizarTabela();
+        telaMensagemPonto(professor, tipoBatida);
+    }
+
+    // Este método salvar a lista de pontos no banco de dados
+    public void salvarPontoBanco() {
+        boolean salvoSucesso=false;
+        for (Ponto pontoLocal : listaPontosLocal) {
+            salvoSucesso = pontoDAO.adicionarPonto(pontoLocal);
+        }
+        if(salvoSucesso){
+        try {
+            jlSalvarBanco.setIcon(null);
+            listaPontosLocal.clear();
+        } catch (Exception e) {
+        }
+        }
+
+    }
+
+    // Este método compara a digital inserida no leitor
     private void compararDigital() {
         professor = new Professor();
         professor = digital.verificarSeCadastrado(null, listaProfessores);
         if (professor != null) {
+            salvarPontoLocal(professor);
             jlProfessorNaoLocalizado.setText("");
 
         } else {
@@ -112,6 +206,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
         jlProfessorNaoLocalizado = new javax.swing.JLabel();
+        jlSalvarBanco = new javax.swing.JLabel();
         tfHora = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
@@ -170,11 +265,13 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbProfessoresPonto);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(30, 110, 540, 230);
+        jScrollPane1.setBounds(20, 110, 560, 230);
 
         jlProfessorNaoLocalizado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jlProfessorNaoLocalizado);
         jlProfessorNaoLocalizado.setBounds(160, 94, 290, 20);
+        getContentPane().add(jlSalvarBanco);
+        jlSalvarBanco.setBounds(520, 10, 70, 60);
 
         tfHora.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         tfHora.setText("Hora.:");
@@ -292,6 +389,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JLabel jlProfessorNaoLocalizado;
+    private javax.swing.JLabel jlSalvarBanco;
     private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTable tbProfessoresPonto;
     private javax.swing.JLabel tfHora;

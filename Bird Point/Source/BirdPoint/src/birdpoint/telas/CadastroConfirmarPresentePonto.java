@@ -22,6 +22,7 @@ import java.util.List;
 /**
  * @author Adriano Lima
  */
+
 public class CadastroConfirmarPresentePonto extends javax.swing.JDialog {
 
     Professor professor = new Professor();

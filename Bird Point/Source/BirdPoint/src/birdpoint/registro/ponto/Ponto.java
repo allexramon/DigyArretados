@@ -24,18 +24,15 @@ public class Ponto {
     @GeneratedValue
     private int idPonto;
 
-    @Column(length = 20)
-    private String dataPonto;
+    @Column(length = 100)
+    private Date dataPontoCompleta;
     
-    @Column(length = 20)
-    private String turnoPonto;
+    @Column(length = 12)
+    private String dataPontoDiario;
     
-    @Column(length = 20)
-    private Date horaEntrada;
-
-    @Column(length = 20)
-    private Date horaSaida;
-
+    @Column(length = 10)
+    private String tipoBatida;    
+    
     @OneToOne
     private Professor professor;
 
@@ -54,45 +51,45 @@ public class Ponto {
     }
 
     /**
-     * @return the dataPonto
+     * @return the dataPontoCompleta
      */
-    public String getDataPonto() {
-        return dataPonto;
+    public Date getDataPontoCompleta() {
+        return dataPontoCompleta;
     }
 
     /**
-     * @param dataPonto the dataPonto to set
+     * @param dataPontoCompleta the dataPontoCompleta to set
      */
-    public void setDataPonto(String dataPonto) {
-        this.dataPonto = dataPonto;
+    public void setDataPontoCompleta(Date dataPontoCompleta) {
+        this.dataPontoCompleta = dataPontoCompleta;
     }
 
     /**
-     * @return the horaEntrada
+     * @return the dataPontoDiario
      */
-    public Date getHoraEntrada() {
-        return horaEntrada;
+    public String getDataPontoDiario() {
+        return dataPontoDiario;
     }
 
     /**
-     * @param horaEntrada the horaEntrada to set
+     * @param dataPontoDiario the dataPontoDiario to set
      */
-    public void setHoraEntrada(Date horaEntrada) {
-        this.horaEntrada = horaEntrada;
+    public void setDataPontoDiario(String dataPontoDiario) {
+        this.dataPontoDiario = dataPontoDiario;
     }
 
     /**
-     * @return the horaSaida
+     * @return the tipoBatida
      */
-    public Date getHoraSaida() {
-        return horaSaida;
+    public String getTipoBatida() {
+        return tipoBatida;
     }
 
     /**
-     * @param horaSaida the horaSaida to set
+     * @param tipoBatida the tipoBatida to set
      */
-    public void setHoraSaida(Date horaSaida) {
-        this.horaSaida = horaSaida;
+    public void setTipoBatida(String tipoBatida) {
+        this.tipoBatida = tipoBatida;
     }
 
     /**
@@ -108,20 +105,5 @@ public class Ponto {
     public void setProfessor(Professor professor) {
         this.professor = professor;
     }
-
-    /**
-     * @return the turnoPonto
-     */
-    public String getTurnoPonto() {
-        return turnoPonto;
-    }
-
-    /**
-     * @param turnoPonto the turnoPonto to set
-     */
-    public void setTurnoPonto(String turnoPonto) {
-        this.turnoPonto = turnoPonto;
-    }
-
 
 }

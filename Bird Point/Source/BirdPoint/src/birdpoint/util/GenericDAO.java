@@ -44,6 +44,23 @@ public abstract class GenericDAO<T> {
         }
         return true;
     }
+    
+     public boolean adicionarPonto(T entity) {
+        try {
+            this.setSessao(HibernateUtil.getSessionFactory().openSession());
+            this.setTransacao(getSessao().beginTransaction());
+            this.getSessao().save(entity);
+            this.getTransacao().commit();
+
+        } catch (HibernateException e) {
+            System.out.println("Erro ao se conectar com o banco de dados! Reconectando...");
+            return false;
+        } finally {
+            getSessao().close();
+
+        }
+        return true;
+    }
 
     public boolean atualizar(T entity) {
         try {

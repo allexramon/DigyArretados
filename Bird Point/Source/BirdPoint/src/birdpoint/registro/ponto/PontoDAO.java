@@ -13,12 +13,6 @@ public class PontoDAO extends GenericDAO<Ponto> {
         super(Ponto.class);
     }
 
-    public void salvar(Ponto ponto) {
-        if (ponto.getIdPonto() == 0) {
-            adicionar(ponto);
-        } else {
-            atualizar(ponto);
-        }
-    }
+
 
 }

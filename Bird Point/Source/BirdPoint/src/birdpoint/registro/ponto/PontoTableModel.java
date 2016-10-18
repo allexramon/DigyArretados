@@ -39,17 +39,9 @@ public class PontoTableModel extends AbstractTableModel {
             case 0:
                 return ponto.getProfessor().getNomeProfessor();
             case 1:
-                if (ponto.getHoraSaida() == null) {
-                    return formatarHora.format(ponto.getHoraEntrada());
-                } else {
-                    return formatarHora.format(ponto.getHoraSaida());
-                }
+                return formatarHora.format(ponto.getDataPontoCompleta());
             case 2:
-                if (ponto.getHoraSaida() == null) {
-                    return "Entrada";
-                } else {
-                    return "Saída";
-                }
+                return ponto.getTipoBatida();
 
         }
         return null;
