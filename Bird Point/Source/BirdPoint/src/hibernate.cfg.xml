@@ -6,22 +6,15 @@
     <session-factory>
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://bancopontotest.mysql.dbaas.com.br/bancopontotest</property>
-        <property name="connection.username">bancopontotest</property>
-        <property name="connection.password">teste123</property>
+        <property name="connection.url">jdbc:mysql://192.168.3.38:1892/birdpoint</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">ads20161</property>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="generate_statistics">false</property>
         <property name="use_sql_coments">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        
-        <property name="hibernate.connection.provider_class">
-            org.hibernate.connection.C3P0ConnectionProvider
-        </property>
-        <property name="hibernate.c3p0.min_size">1</property>
-        <property name="hibernate.c3p0.max_size">20</property>
-        <property name="hibernate.c3p0.timeout">30</property>
-        <property name="hibernate.c3p0.idle_test_period">100</property>
+       
         
         
         <mapping class="birdpoint.cidade.Cidade"/>
