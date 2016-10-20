@@ -143,8 +143,13 @@ public class PesquisaGenerica extends javax.swing.JDialog {
         btVoltar.setBounds(10, 350, 80, 60);
 
         tfPesquisa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfPesquisaKeyPressed(evt);
+            }
+        });
         getContentPane().add(tfPesquisa);
-        tfPesquisa.setBounds(100, 60, 340, 23);
+        tfPesquisa.setBounds(100, 53, 340, 30);
 
         jlPesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jlPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar_1.png"))); // NOI18N
@@ -181,6 +186,11 @@ public class PesquisaGenerica extends javax.swing.JDialog {
             btEditarActionPerformed(null);
         }
     }//GEN-LAST:event_tbPesquisaMouseClicked
+
+    private void tfPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPesquisaKeyPressed
+        procuraTable(tfPesquisa.getText());
+
+    }//GEN-LAST:event_tfPesquisaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -235,6 +245,5 @@ public class PesquisaGenerica extends javax.swing.JDialog {
     private javax.swing.JTable tbPesquisa;
     private javax.swing.JTextField tfPesquisa;
     // End of variables declaration//GEN-END:variables
-
 
 }

@@ -14,9 +14,6 @@
         <property name="generate_statistics">false</property>
         <property name="use_sql_coments">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-       
-        
-        
         <mapping class="birdpoint.cidade.Cidade"/>
         <mapping class="birdpoint.curso.Curso"/>  
         <mapping class="birdpoint.disciplina.Disciplina"/>  
