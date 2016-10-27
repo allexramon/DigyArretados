@@ -44,8 +44,8 @@ public abstract class GenericDAO<T> {
         }
         return true;
     }
-    
-     public boolean adicionarPonto(T entity) {
+
+    public boolean adicionarPonto(T entity) {
         try {
             this.setSessao(HibernateUtil.getSessionFactory().openSession());
             this.setTransacao(getSessao().beginTransaction());
@@ -149,6 +149,21 @@ public abstract class GenericDAO<T> {
         return lista;
 
     }
+    
+    public List<T> checkExistsPonto(String campo, String valor) {
+        List<T> lista = null;
+        try {
+            this.setSessao(HibernateUtil.getSessionFactory().openSession());
+            setTransacao(getSessao().beginTransaction());
+            lista = this.getSessao().createCriteria(classe).add(Restrictions.ilike(campo, valor, MatchMode.ANYWHERE)).list();
+            sessao.close();
+        } catch (Throwable e) {
+         
+            
+        }
+        return lista;
+
+    }
 
     public List<T> checkExistseq(String campo, Object valor) {
         List<T> lista = null;
@@ -225,7 +240,6 @@ public abstract class GenericDAO<T> {
         return objeto;
 
     }
-
 
     /**
      * @return the sessao

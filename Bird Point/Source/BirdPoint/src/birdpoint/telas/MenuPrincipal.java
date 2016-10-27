@@ -59,6 +59,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         subUsuario1 = new javax.swing.JMenuItem();
         subUsuario = new javax.swing.JMenuItem();
+        jmCadastrar1 = new javax.swing.JMenu();
+        subGrade3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 559));
@@ -240,6 +242,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu.add(jmCadastrar);
 
+        jmCadastrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar80.png"))); // NOI18N
+        jmCadastrar1.setText("Ponto Eletrônico");
+        jmCadastrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jmCadastrar1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jmCadastrar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jmCadastrar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jmCadastrar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCadastrar1ActionPerformed(evt);
+            }
+        });
+
+        subGrade3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subGrade3.setText("Registrar Ponto");
+        subGrade3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subGrade3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subGrade3ActionPerformed(evt);
+            }
+        });
+        jmCadastrar1.add(subGrade3);
+
+        jMenu.add(jmCadastrar1);
+
         setJMenuBar(jMenu);
 
         pack();
@@ -312,6 +338,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         cadUsuario.setVisible(true);
     }//GEN-LAST:event_subUsuarioActionPerformed
 
+    private void jmCadastrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCadastrar1ActionPerformed
+       
+    }//GEN-LAST:event_jmCadastrar1ActionPerformed
+
+    private void subGrade3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade3ActionPerformed
+        CadastroPontoEletronico cadPonto = new CadastroPontoEletronico(null, rootPaneCheckingEnabled);
+       cadPonto.setVisible(true);
+    }//GEN-LAST:event_subGrade3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -363,9 +398,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jlPermissao;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JMenu jmCadastrar;
+    private javax.swing.JMenu jmCadastrar1;
     private javax.swing.JMenuItem subGrade;
     private javax.swing.JMenuItem subGrade1;
     private javax.swing.JMenuItem subGrade2;
+    private javax.swing.JMenuItem subGrade3;
     private javax.swing.JMenuItem subUsuario;
     private javax.swing.JMenuItem subUsuario1;
     private javax.swing.JMenuItem subUsuario2;

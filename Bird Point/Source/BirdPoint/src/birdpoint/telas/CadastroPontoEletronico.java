@@ -30,7 +30,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     Professor professor = new Professor();
     ProfessorDAO professorDAO = new ProfessorDAO();
 
-    Ponto ponto;
+    Ponto ponto = new Ponto();
     PontoDAO pontoDAO = new PontoDAO();
 
     SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
@@ -69,10 +69,12 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             @Override
             public void run() {
                 while (true) {
+                    if (!listaPontosLocal.isEmpty()) {
+                        salvarPontoBanco();
+                    }
                     reiniciarPonto();
-                    salvarPontoBanco();
                     try {
-                        sleep(60000);
+                        sleep(20000);
                     } catch (Exception e) {
                     }
                 }
@@ -110,20 +112,29 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         tbProfessoresPonto.setModel(pontosBatidosTableModel);
         tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
     }
-    
+
     //Este método irá carregar o novo dia para registro de ponto no horário programado
-    public void reiniciarPonto(){
+    public void reiniciarPonto() {
         dataHoraSistema = new Date();
         int horaAtual = Integer.parseInt(formatarHora.format(dataHoraSistema));
-        if(horaAtual>=00 && horaAtual <= 06){
+        if (horaAtual >= 00 && horaAtual <= 01) {
             carregarPontosDiario();
         }
     }
-    
+
     //Este método carrega todos os pontos daquele dia pra não duplicar saida ou entrada
-    public void carregarPontosDiario(){
+    public void carregarPontosDiario() {
         dataHoraSistema = new Date();
-        listaPontosBatidosGeral = pontoDAO.checkExists("dataPontoDiario", formatarData.format(dataHoraSistema));
+        listaPontosBatidosGeral = pontoDAO.checkExistsPonto("dataPontoDiario", formatarData.format(dataHoraSistema));
+        List<Ponto> pontosOrdenados = new ArrayList<>();
+        try {
+            for (int i = listaPontosBatidosGeral.size(); i > 0; i--) {
+                pontosOrdenados.add(listaPontosBatidosGeral.get(i - 1));
+            }
+            listaPontosBatidosGeral = pontosOrdenados;
+        } catch (Exception e) {
+        }
+
         atualizarTabela();
     }
 
@@ -163,21 +174,21 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     // Este método salvar a lista de pontos no banco de dados
     public void salvarPontoBanco() {
-        boolean salvoSucesso=false;
+        boolean salvoSucesso = false;
         for (Ponto pontoLocal : listaPontosLocal) {
             salvoSucesso = pontoDAO.adicionarPonto(pontoLocal);
         }
-        if(salvoSucesso){
-        try {
-            jlSalvarBanco.setIcon(null);
-            listaPontosLocal.clear();
-        } catch (Exception e) {
-        }
+        if (salvoSucesso) {
+            try {
+                jlSalvarBanco.setIcon(null);
+                listaPontosLocal.clear();
+            } catch (Exception e) {
+            }
         }
 
     }
-
     // Este método compara a digital inserida no leitor
+
     private void compararDigital() {
         professor = new Professor();
         professor = digital.verificarSeCadastrado(null, listaProfessores);
