@@ -90,7 +90,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
     int[] ordenacaoDisciplinas;
     int[] ordenacaoProfessores;
 
-    // Lista para pesquisas logicais
+    // Lista para pesquisas locais
     List<Horario> listaHorarios;
     List<Professor> listaProfessores;
     List<Disciplina> listaDisciplinas;

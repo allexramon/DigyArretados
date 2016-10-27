@@ -42,7 +42,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         tfSenha = new javax.swing.JPasswordField();
         btCancelar = new javax.swing.JButton();
         btEntrar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -65,7 +64,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 tfLoginKeyPressed(evt);
             }
         });
-        getContentPane().add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 290, 40));
+        getContentPane().add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 220, 370, 50));
 
         tfSenha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tfSenha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
@@ -74,7 +73,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 tfSenhaKeyPressed(evt);
             }
         });
-        getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 290, 40));
+        getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 290, 370, 50));
 
         btCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -94,7 +93,7 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 btCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 440, -1, 110));
+        getContentPane().add(btCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, 110));
 
         btEntrar.setBackground(new java.awt.Color(255, 255, 255));
         btEntrar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -107,19 +106,14 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 btEntrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 440, 100, 110));
+        getContentPane().add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 390, 100, 110));
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Copyright © DigyArretados 2016");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, 270, 30));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/login.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/TelaLoginNova.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel1.setMaximumSize(new java.awt.Dimension(1000, 570));
         jLabel1.setMinimumSize(new java.awt.Dimension(1000, 570));
         jLabel1.setPreferredSize(new java.awt.Dimension(1000, 570));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 565));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 560));
 
         pack();
         setLocationRelativeTo(null);
@@ -225,7 +219,6 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEntrar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField tfLogin;
     private javax.swing.JPasswordField tfSenha;
     // End of variables declaration//GEN-END:variables

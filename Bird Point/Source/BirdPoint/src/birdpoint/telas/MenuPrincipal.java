@@ -242,7 +242,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu.add(jmCadastrar);
 
-        jmCadastrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar80.png"))); // NOI18N
+        jmCadastrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/BotaoBiometria.png"))); // NOI18N
         jmCadastrar1.setText("Ponto Eletrônico");
         jmCadastrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jmCadastrar1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N

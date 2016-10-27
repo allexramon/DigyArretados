@@ -31,7 +31,11 @@ public class Ponto {
     private String dataPontoDiario;
     
     @Column(length = 10)
-    private String tipoBatida;    
+    private String tipoBatida;
+    
+
+    @Column(length = 5)
+    private String anoExercicio;
     
     @OneToOne
     private Professor professor;
@@ -90,6 +94,20 @@ public class Ponto {
      */
     public void setTipoBatida(String tipoBatida) {
         this.tipoBatida = tipoBatida;
+    }
+
+    /**
+     * @return the anoExercicio
+     */
+    public String getAnoExercicio() {
+        return anoExercicio;
+    }
+
+    /**
+     * @param anoExercicio the anoExercicio to set
+     */
+    public void setAnoExercicio(String anoExercicio) {
+        this.anoExercicio = anoExercicio;
     }
 
     /**

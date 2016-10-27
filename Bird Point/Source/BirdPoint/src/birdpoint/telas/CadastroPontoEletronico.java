@@ -5,6 +5,9 @@
  */
 package birdpoint.telas;
 
+import birdpoint.anoexercicio.AnoExercicio;
+import birdpoint.anoexercicio.AnoExercicioDAO;
+import birdpoint.pendencia.ponto.PendenciaRN;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.registro.ponto.Ponto;
@@ -21,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import static java.lang.Thread.sleep;
 
 /**
  * @author Adriano Lima
@@ -33,6 +37,10 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     Ponto ponto = new Ponto();
     PontoDAO pontoDAO = new PontoDAO();
 
+    List<AnoExercicio> listaAnosExercicio;
+    AnoExercicio anoExercicio = new AnoExercicio();
+    AnoExercicioDAO anoExercicioDAO = new AnoExercicioDAO();
+
     SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatarHora = new SimpleDateFormat("HH");
     Date dataHoraSistema;
@@ -40,22 +48,24 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     //Lista para verificação do ponto
     List<Professor> listaProfessores;
 
-    //Lista de Pontos diários Local
-    List<Ponto> listaPontosLocal = new ArrayList<>();
-
     //Lista de Pontos Batidos GERAL
     List<Ponto> listaPontosBatidosGeral = new ArrayList<>();
 
     LeitorBiometrico digital = new LeitorBiometrico();
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
+    
+    PendenciaRN pendenciaDAO = new PendenciaRN();
 
     public CadastroPontoEletronico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         listaProfessores = (professorDAO.listar());
+        listaAnosExercicio = anoExercicioDAO.listar();
+        carregarAnoExercicioAtual();
         mostrarHora();
         carregarPontosDiario();
         btPesquisar2.setVisible(false);
+        pendenciaDAO.verificarPendenciaEntradaSemSaida();
 
         //Sobrescrita para abrir o formulário antes de finalizar o construtor
         new Thread() {//instancia nova thread já implementando o método run()
@@ -65,22 +75,14 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             }//- Fim do Run
         }.start();//Fim Thread
 
-        new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    if (!listaPontosLocal.isEmpty()) {
-                        salvarPontoBanco();
-                    }
-                    reiniciarPonto();
-                    try {
-                        sleep(20000);
-                    } catch (Exception e) {
-                    }
-                }
+    }
+    
+    public void carregarAnoExercicioAtual(){
+        for (AnoExercicio anoExercicio1 : listaAnosExercicio) {
+            if(anoExercicio1.isAnoExercicioAtual()){
+                anoExercicio = anoExercicio1;
             }
-        }.start();
-
+        }
     }
 
     public void mostrarHora() {
@@ -94,32 +96,11 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         new MensagemPonto(null, rootPaneCheckingEnabled, professor, verificarEntradaOuSaida).setVisible(true);
     }
 
-    // Este método carrega o ponto do professor que está colocando a digital
-    private Ponto carregarPonto(int idProfessor) {
-        if (!listaPontosLocal.isEmpty()) {
-            for (Ponto listaPonto : listaPontosLocal) {
-                if (listaPonto.getProfessor().getIdProfessor() == idProfessor) {
-                    return listaPonto;
-                }
-            }
-        }
-        return null;
-    }
-
     // Este método atualiza a tabela de pontos batidos
     private void atualizarTabela() {
         PontoTableModel pontosBatidosTableModel = new PontoTableModel(listaPontosBatidosGeral);
         tbProfessoresPonto.setModel(pontosBatidosTableModel);
         tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
-    }
-
-    //Este método irá carregar o novo dia para registro de ponto no horário programado
-    public void reiniciarPonto() {
-        dataHoraSistema = new Date();
-        int horaAtual = Integer.parseInt(formatarHora.format(dataHoraSistema));
-        if (horaAtual >= 00 && horaAtual <= 01) {
-            carregarPontosDiario();
-        }
     }
 
     //Este método carrega todos os pontos daquele dia pra não duplicar saida ou entrada
@@ -150,7 +131,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     }
 
     // Este método adiciona o ponto na lista local
-    public void salvarPontoLocal(Professor professor) {
+    public void salvarPonto(Professor professor) {
         dataHoraSistema = new Date();
         ponto = new Ponto();
         String tipoBatida;
@@ -165,35 +146,19 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             tipoBatida = "Saída";
         }
         ponto.setTipoBatida(tipoBatida);
-        listaPontosLocal.add(ponto);
+        ponto.setAnoExercicio(anoExercicio.getNomeAnoExercicio());
+        pontoDAO.adicionar(ponto);
         listaPontosBatidosGeral.add(0, ponto);
-        jlSalvarBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/carregando.gif")));
         atualizarTabela();
         telaMensagemPonto(professor, tipoBatida);
     }
 
-    // Este método salvar a lista de pontos no banco de dados
-    public void salvarPontoBanco() {
-        boolean salvoSucesso = false;
-        for (Ponto pontoLocal : listaPontosLocal) {
-            salvoSucesso = pontoDAO.adicionarPonto(pontoLocal);
-        }
-        if (salvoSucesso) {
-            try {
-                jlSalvarBanco.setIcon(null);
-                listaPontosLocal.clear();
-            } catch (Exception e) {
-            }
-        }
-
-    }
     // Este método compara a digital inserida no leitor
-
     private void compararDigital() {
         professor = new Professor();
         professor = digital.verificarSeCadastrado(null, listaProfessores);
         if (professor != null) {
-            salvarPontoLocal(professor);
+            salvarPonto(professor);
             jlProfessorNaoLocalizado.setText("");
 
         } else {
@@ -212,12 +177,12 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         selecionarFoto = new javax.swing.JFileChooser();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
         btVoltar = new javax.swing.JButton();
         btPesquisar2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
         jlProfessorNaoLocalizado = new javax.swing.JLabel();
-        jlSalvarBanco = new javax.swing.JLabel();
         tfHora = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
@@ -225,8 +190,11 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         selecionarFoto.setMinimumSize(new java.awt.Dimension(550, 245));
         selecionarFoto.setPreferredSize(new java.awt.Dimension(520, 320));
 
+        jInternalFrame1.setVisible(true);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(600, 421));
+        setMaximumSize(new java.awt.Dimension(600, 410));
+        setMinimumSize(new java.awt.Dimension(600, 410));
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(null);
@@ -244,7 +212,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btVoltar);
-        btVoltar.setBounds(20, 340, 90, 70);
+        btVoltar.setBounds(90, 330, 90, 70);
 
         btPesquisar2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btPesquisar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
@@ -259,7 +227,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar2);
-        btPesquisar2.setBounds(210, 340, 160, 69);
+        btPesquisar2.setBounds(250, 330, 160, 69);
 
         tbProfessoresPonto.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         tbProfessoresPonto.setModel(new javax.swing.table.DefaultTableModel(
@@ -276,23 +244,21 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbProfessoresPonto);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(20, 110, 560, 230);
+        jScrollPane1.setBounds(20, 110, 560, 220);
 
         jlProfessorNaoLocalizado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jlProfessorNaoLocalizado);
         jlProfessorNaoLocalizado.setBounds(160, 94, 290, 20);
-        getContentPane().add(jlSalvarBanco);
-        jlSalvarBanco.setBounds(520, 10, 70, 60);
 
         tfHora.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         tfHora.setText("Hora.:");
         getContentPane().add(tfHora);
         tfHora.setBounds(400, 90, 180, 19);
 
-        jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
+        jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroDePonto.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadProfessores);
-        jlCadProfessores.setBounds(0, 0, 600, 420);
+        jlCadProfessores.setBounds(0, 0, 600, 410);
 
         pack();
         setLocationRelativeTo(null);
@@ -397,10 +363,10 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     private javax.swing.JButton btPesquisar2;
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JLabel jlProfessorNaoLocalizado;
-    private javax.swing.JLabel jlSalvarBanco;
     private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTable tbProfessoresPonto;
     private javax.swing.JLabel tfHora;
