@@ -147,7 +147,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLObrigatorioTitulacao = new javax.swing.JLabel();
         btAdd21 = new javax.swing.JButton();
         btAdd22 = new javax.swing.JButton();
+        jcEmail = new javax.swing.JCheckBox();
         btFoto = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
         selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
@@ -166,9 +168,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel2.setBounds(150, 100, 60, 20);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setText("E-mail.:");
+        jLabel11.setText("Enviar E-mail.:");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(150, 190, 60, 17);
+        jLabel11.setBounds(440, 190, 100, 20);
 
         tfEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         tfEmail.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +179,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
         getContentPane().add(tfEmail);
-        tfEmail.setBounds(210, 190, 350, 23);
+        tfEmail.setBounds(210, 190, 220, 23);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Telefone:");
@@ -425,6 +427,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         getContentPane().add(btAdd22);
         btAdd22.setBounds(420, 220, 30, 20);
 
+        jcEmail.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jcEmail.setSelected(true);
+        jcEmail.setContentAreaFilled(false);
+        getContentPane().add(jcEmail);
+        jcEmail.setBounds(540, 190, 20, 20);
+
         btFoto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg"))); // NOI18N
         btFoto.setContentAreaFilled(false);
@@ -438,6 +446,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
         });
         getContentPane().add(btFoto);
         btFoto.setBounds(20, 90, 120, 150);
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("E-mail.:");
+        getContentPane().add(jLabel13);
+        jLabel13.setBounds(150, 190, 60, 17);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadProfessor.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -467,6 +480,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
         professor = new Professor();
         tfCPF.setEnabled(true);
         btFoto.setIcon(new ImageIcon(getClass().getResource("/birdpoint/imagens/default.jpg")));
+        jcEmail.setSelected(true);
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -497,6 +511,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
             } else {
                 jrInativo.setSelected(true);
             }
+            if (professor.isReceberEmail()) {
+                jcEmail.setSelected(true);
+            } else {
+                jcEmail.setSelected(false);
+            }
+            
             btExcluir.setEnabled(true);
             tfCPF.setEnabled(false);
         }
@@ -539,6 +559,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
             } catch (Exception e) {
             }
 
+            if (jcEmail.isSelected()) {
+                professor.setReceberEmail(true);
+            } else {
+                professor.setReceberEmail(false);
+            }
+            
             if (jrAtivo.isSelected()) {
                 professor.setSituacaoProfessor(true);
             } else {
@@ -645,6 +671,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -654,6 +681,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JComboBox jcCidade;
+    private javax.swing.JCheckBox jcEmail;
     private javax.swing.JComboBox jcTitulacao;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JRadioButton jrAtivo;

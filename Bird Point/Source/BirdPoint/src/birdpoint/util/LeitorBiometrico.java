@@ -181,21 +181,23 @@ public class LeitorBiometrico {
 
                 if (templateMaoDireita != null && templateMaoEsquerda != null) {
                     for (int i = 0; i < professores.size(); i++) {
-                        templateMaoDireita.deserialize(professores.get(i).getDigitalDireita());
-                        templateMaoEsquerda.deserialize(professores.get(i).getDigitalEsquerda());
-                        DPFPVerificationResult resultMaoDireita = matcher.verify(featureSet, templateMaoDireita);
-                        DPFPVerificationResult resultMaoEsquerda = matcher.verify(featureSet, templateMaoEsquerda);
-                        if (resultMaoDireita.isVerified()) {
-                            System.out.printf("Matching finger: %s, FAR achieved: %g.\n",
-                                    fingerName(finger), (double) resultMaoDireita.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
-                            return professores.get(i);
-                        } else if (resultMaoEsquerda.isVerified()) {
-                            System.out.printf("Matching finger: %s, FAR achieved: %g.\n",
-                                    fingerName(finger), (double) resultMaoEsquerda.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
-                            return professores.get(i);
+                        try {
+                            templateMaoDireita.deserialize(professores.get(i).getDigitalDireita());
+                            templateMaoEsquerda.deserialize(professores.get(i).getDigitalEsquerda());
+                            DPFPVerificationResult resultMaoDireita = matcher.verify(featureSet, templateMaoDireita);
+                            DPFPVerificationResult resultMaoEsquerda = matcher.verify(featureSet, templateMaoEsquerda);
+                            if (resultMaoDireita.isVerified()) {
+                                System.out.printf("Matching finger: %s, FAR achieved: %g.\n",
+                                        fingerName(finger), (double) resultMaoDireita.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
+                                return professores.get(i);
+                            } else if (resultMaoEsquerda.isVerified()) {
+                                System.out.printf("Matching finger: %s, FAR achieved: %g.\n",
+                                        fingerName(finger), (double) resultMaoEsquerda.getFalseAcceptRate() / DPFPVerification.PROBABILITY_ONE);
+                                return professores.get(i);
+                            }
+                        } catch (Exception e) {
                         }
                     }
-
                 }
             }
         } catch (Exception e) {

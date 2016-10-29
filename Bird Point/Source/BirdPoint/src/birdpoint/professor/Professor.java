@@ -5,16 +5,11 @@
  */
 package birdpoint.professor;
 
-import birdpoint.cidade.Cidade;
-import birdpoint.titulacao.Titulacao;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -47,6 +42,9 @@ public class Professor {
 
     @Column(length = 100)
     private String emailProfessor;
+    
+    @Column
+    private boolean receberEmail;
 
     @Column(nullable = false)
     private boolean situacaoProfessor;
@@ -280,6 +278,20 @@ public class Professor {
      */
     public void setFotoProf(byte[] fotoProf) {
         this.fotoProf = fotoProf;
+    }
+
+    /**
+     * @return the receberEmail
+     */
+    public boolean isReceberEmail() {
+        return receberEmail;
+    }
+
+    /**
+     * @param receberEmail the receberEmail to set
+     */
+    public void setReceberEmail(boolean receberEmail) {
+        this.receberEmail = receberEmail;
     }
 
 

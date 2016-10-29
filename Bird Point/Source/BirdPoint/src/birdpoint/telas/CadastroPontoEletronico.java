@@ -7,33 +7,33 @@ package birdpoint.telas;
 
 import birdpoint.anoexercicio.AnoExercicio;
 import birdpoint.anoexercicio.AnoExercicioDAO;
-import birdpoint.pendencia.ponto.PendenciaRN;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
+import birdpoint.quadrohorarios.QuadroHorarios;
+import birdpoint.quadrohorarios.QuadroHorariosDAO;
 import birdpoint.registro.ponto.Ponto;
 import birdpoint.registro.ponto.PontoDAO;
-import birdpoint.registro.ponto.PontoTableModel;
 import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
 import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
-import static java.lang.Thread.sleep;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import static java.lang.Thread.sleep;
 
-/**
- * @author Adriano Lima
- */
 public class CadastroPontoEletronico extends javax.swing.JDialog {
 
+    List<QuadroHorarios> listaQuadroHorarios;
+    QuadroHorariosDAO quadroDAO = new QuadroHorariosDAO();
+
+    List<Professor> listaProfessores;
     Professor professor = new Professor();
     ProfessorDAO professorDAO = new ProfessorDAO();
 
+    List<Ponto> listaPontoLocal = new ArrayList<>();
+    List<Ponto> listaPontosDiario = new ArrayList<>();
     Ponto ponto = new Ponto();
     PontoDAO pontoDAO = new PontoDAO();
 
@@ -43,44 +43,227 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatarHora = new SimpleDateFormat("HH");
+    SimpleDateFormat formatarMinuto = new SimpleDateFormat("mm");
+    SimpleDateFormat formatarDiaSemana = new SimpleDateFormat("E");
+    SimpleDateFormat formatarHoraCompleta = new SimpleDateFormat("HH:mm:ss");
     Date dataHoraSistema;
-
-    //Lista para verificação do ponto
-    List<Professor> listaProfessores;
-
-    //Lista de Pontos Batidos GERAL
-    List<Ponto> listaPontosBatidosGeral = new ArrayList<>();
 
     LeitorBiometrico digital = new LeitorBiometrico();
     DPFPTemplate templateDigital = DPFPGlobal.getTemplateFactory().createTemplate();
-    
-    PendenciaRN pendenciaDAO = new PendenciaRN();
+
+    List<Integer> listaCodigoProfessoresManha = new ArrayList<>();
+    List<Integer> listaCodigoProfessoresTarde = new ArrayList<>();
+    List<Integer> listaCodigoProfessoresNoite = new ArrayList<>();
+
+    List<Professor> listaProfessoresManha = new ArrayList<>();
+    List<Professor> listaProfessoresTarde = new ArrayList<>();
+    List<Professor> listaProfessoresNoite = new ArrayList<>();
 
     public CadastroPontoEletronico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        listaProfessores = (professorDAO.listar());
+        dataHoraSistema = new Date();
+        listaPontosDiario = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
+        listaProfessores = professorDAO.listar();
         listaAnosExercicio = anoExercicioDAO.listar();
         carregarAnoExercicioAtual();
+        listaQuadroHorarios = quadroDAO.checkExists("anoExercicio", anoExercicio.getNomeAnoExercicio());
         mostrarHora();
-        carregarPontosDiario();
         btPesquisar2.setVisible(false);
-        pendenciaDAO.verificarPendenciaEntradaSemSaida();
 
-        //Sobrescrita para abrir o formulário antes de finalizar o construtor
-        new Thread() {//instancia nova thread já implementando o método run()
+        // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
+        if (listaPontosDiario.isEmpty()) {
+            cadastrarPontoDiario();
+        }
+
+        new Thread() {
             @Override
-            public void run() {//sobrescreve o método run()
+            public void run() {
                 btPesquisar2ActionPerformed(null);
-            }//- Fim do Run
-        }.start();//Fim Thread
+            }
+        }.start();
+    }
+
+    // Este método registrará o ponto do professor
+    public void registrarPresentePonto(Professor professor) {
+        boolean verificarSeAtualizou = false;
+        ponto = new Ponto();
+        List<Ponto> listaPontosProfessor = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
+        List<Ponto> listaFiltrada = new ArrayList<>();
+        for (Ponto pontoLocal : listaPontosProfessor) {
+            if (pontoLocal.getProfessor().getIdProfessor() == professor.getIdProfessor()) {
+                listaFiltrada.add(pontoLocal);
+            }
+        }
+        dataHoraSistema = new Date();
+        for (Ponto pontoLocal : listaFiltrada) {
+            if (pontoLocal.getTurnoPonto().equalsIgnoreCase(carregarTurno())) {
+                verificarSeAtualizou = true;
+                ponto = pontoLocal;
+                if (ponto.getHoraEntradaPonto() == null) {
+                    ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+                } else if (ponto.getHoraEntradaPonto() != null && ponto.getHoraSaidaPonto() == null) {
+                    ponto.setHoraSaidaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+                } else {
+                    ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+                    ponto.setHoraSaidaPonto(null);
+                }
+                pontoDAO.atualizar(ponto);
+            }
+        }
+        if (verificarSeAtualizou == false) {
+            ponto.setAnoExercicio(anoExercicio);
+            ponto.setDataPonto(formatarData.format(dataHoraSistema));
+            ponto.setDiaDaSemana(formatarDiaSemana.format(dataHoraSistema));
+            ponto.setProfessor(professor);
+            ponto.setTurnoPonto(carregarTurno());
+            ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+            pontoDAO.adicionar(ponto);
+        }
 
     }
-    
-    public void carregarAnoExercicioAtual(){
+
+// Este método retorna o turno baseado no horário atual
+    public String carregarTurno() {
+        dataHoraSistema = new Date();
+        int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
+        int minuto = Integer.parseInt(formatarMinuto.format(dataHoraSistema));
+        if ((hora >= 5 && hora <= 12) || ((hora == 13) && minuto <= 15)) {
+            return "Manhã";
+        } else if ((hora >= 13 && hora <= 16) || ((hora == 17) && minuto <= 20)) {
+            return "Tarde";
+        } else {
+            return "Noite";
+        }
+    }
+
+//este método deve preencher a lista de codigo de professores sem que eles se repitam
+    public void preencherListaProfessor(int[] arrayProfessores, String turno) {
+        dataHoraSistema = new Date();
+        for (int i = 0; i < arrayProfessores.length; i++) {
+            if (arrayProfessores[i] != 0) {
+                if (turno.equalsIgnoreCase("Manhã")) {
+                    if (!listaCodigoProfessoresManha.contains(arrayProfessores[i])) {
+                        listaCodigoProfessoresManha.add(arrayProfessores[i]);
+                    }
+                } else if (turno.equalsIgnoreCase("Tarde")) {
+                    if (!listaCodigoProfessoresTarde.contains(arrayProfessores[i])) {
+                        listaCodigoProfessoresTarde.add(arrayProfessores[i]);
+                    }
+                } else if (turno.equalsIgnoreCase("Noite")) {
+                    if (!listaCodigoProfessoresNoite.contains(arrayProfessores[i])) {
+                        listaCodigoProfessoresNoite.add(arrayProfessores[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    //Este método captura somente o codigo dos professores daquele dia, exemplo, segunda feira
+    public int[] capturarProfessoresDoDia(int[] arrayParametro) {
+        dataHoraSistema = new Date();
+        List<Integer> listaCodigo = new ArrayList();
+        if (formatarDiaSemana.format(dataHoraSistema).equalsIgnoreCase("Seg")) {
+            for (int i = 0; i < 6; i++) {
+                listaCodigo.add(arrayParametro[i]);
+            }
+        } else if (formatarDiaSemana.format(dataHoraSistema).equalsIgnoreCase("Ter")) {
+            for (int i = 6; i < 12; i++) {
+                listaCodigo.add(arrayParametro[i]);
+            }
+        } else if (formatarDiaSemana.format(dataHoraSistema).equalsIgnoreCase("Qua")) {
+            for (int i = 12; i < 18; i++) {
+                listaCodigo.add(arrayParametro[i]);
+            }
+        } else if (formatarDiaSemana.format(dataHoraSistema).equalsIgnoreCase("Qui")) {
+            for (int i = 18; i < 24; i++) {
+                listaCodigo.add(arrayParametro[i]);
+            }
+        } else if (formatarDiaSemana.format(dataHoraSistema).equalsIgnoreCase("Sex")) {
+            for (int i = 24; i < 30; i++) {
+                listaCodigo.add(arrayParametro[i]);
+            }
+        } else if (formatarDiaSemana.format(dataHoraSistema).equalsIgnoreCase("Sáb")) {
+            for (int i = 30; i < 36; i++) {
+                listaCodigo.add(arrayParametro[i]);
+            }
+        }
+        int[] arrayRetorno = new int[6];
+        for (int i = 0; i < arrayRetorno.length; i++) {
+            arrayRetorno[i] = listaCodigo.get(i);
+        }
+
+        return arrayRetorno;
+    }
+
+    public void cadastrarPontoDiario() {
+        dataHoraSistema = new Date();
+        for (QuadroHorarios quadroHorario : listaQuadroHorarios) {
+            int[] arrayProfessoresDiario = capturarProfessoresDoDia(quadroHorario.getOrdenacaoProfessores());
+            if (quadroHorario.getTurno().equalsIgnoreCase("Manhã")) {
+                preencherListaProfessor(arrayProfessoresDiario, "Manhã");
+            } else if (quadroHorario.getTurno().equalsIgnoreCase("Tarde")) {
+                preencherListaProfessor(arrayProfessoresDiario, "Tarde");
+            } else if (quadroHorario.getTurno().equalsIgnoreCase("Noite")) {
+                preencherListaProfessor(arrayProfessoresDiario, "Noite");
+            }
+        }
+        carregarProfessoresNaLista();
+        for (Professor profManha : listaProfessoresManha) {
+            ponto.setAnoExercicio(anoExercicio);
+            ponto.setDataPonto(formatarData.format(dataHoraSistema));
+            ponto.setProfessor(profManha);
+            ponto.setTurnoPonto("Manhã");
+            ponto.setDiaDaSemana(formatarDiaSemana.format(dataHoraSistema));
+            pontoDAO.adicionar(ponto);
+            ponto = new Ponto();
+        }
+        for (Professor profTarde : listaProfessoresTarde) {
+            ponto.setAnoExercicio(anoExercicio);
+            ponto.setDataPonto(formatarData.format(dataHoraSistema));
+            ponto.setProfessor(profTarde);
+            ponto.setTurnoPonto("Tarde");
+            ponto.setDiaDaSemana(formatarDiaSemana.format(dataHoraSistema));
+            pontoDAO.adicionar(ponto);
+            ponto = new Ponto();
+        }
+        for (Professor profNoite : listaProfessoresNoite) {
+            ponto.setAnoExercicio(anoExercicio);
+            ponto.setDataPonto(formatarData.format(dataHoraSistema));
+            ponto.setProfessor(profNoite);
+            ponto.setTurnoPonto("Noite");
+            ponto.setDiaDaSemana(formatarDiaSemana.format(dataHoraSistema));
+            pontoDAO.adicionar(ponto);
+            ponto = new Ponto();
+        }
+    }
+
+    public void carregarProfessoresNaLista() {
+        for (Integer profManha : listaCodigoProfessoresManha) {
+            listaProfessoresManha.add(carregarProfessor(profManha));
+        }
+        for (Integer profTarde : listaCodigoProfessoresTarde) {
+            listaProfessoresTarde.add(carregarProfessor(profTarde));
+        }
+        for (Integer profNoite : listaCodigoProfessoresNoite) {
+            listaProfessoresNoite.add(carregarProfessor(profNoite));
+        }
+    }
+
+    public Professor carregarProfessor(int id) {
+        for (Professor professor : listaProfessores) {
+            if (professor.getIdProfessor() == id) {
+                return professor;
+            }
+        }
+        return null;
+    }
+
+    public void carregarAnoExercicioAtual() {
         for (AnoExercicio anoExercicio1 : listaAnosExercicio) {
-            if(anoExercicio1.isAnoExercicioAtual()){
+            if (anoExercicio1.isAnoExercicioAtual()) {
                 anoExercicio = anoExercicio1;
+                return;
             }
         }
     }
@@ -96,69 +279,12 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         new MensagemPonto(null, rootPaneCheckingEnabled, professor, verificarEntradaOuSaida).setVisible(true);
     }
 
-    // Este método atualiza a tabela de pontos batidos
-    private void atualizarTabela() {
-        PontoTableModel pontosBatidosTableModel = new PontoTableModel(listaPontosBatidosGeral);
-        tbProfessoresPonto.setModel(pontosBatidosTableModel);
-        tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
-    }
-
-    //Este método carrega todos os pontos daquele dia pra não duplicar saida ou entrada
-    public void carregarPontosDiario() {
-        dataHoraSistema = new Date();
-        listaPontosBatidosGeral = pontoDAO.checkExistsPonto("dataPontoDiario", formatarData.format(dataHoraSistema));
-        List<Ponto> pontosOrdenados = new ArrayList<>();
-        try {
-            for (int i = listaPontosBatidosGeral.size(); i > 0; i--) {
-                pontosOrdenados.add(listaPontosBatidosGeral.get(i - 1));
-            }
-            listaPontosBatidosGeral = pontosOrdenados;
-        } catch (Exception e) {
-        }
-
-        atualizarTabela();
-    }
-
-    //Verifica quantas vezes o professor está na lista de ponto pra atribuir saídas e entradas
-    public int verificarProfessorLista(int idProfessor) {
-        int qtdProfessor = 0;
-        for (Ponto lista : listaPontosBatidosGeral) {
-            if (lista.getProfessor().getIdProfessor() == idProfessor) {
-                qtdProfessor++;
-            }
-        }
-        return qtdProfessor;
-    }
-
-    // Este método adiciona o ponto na lista local
-    public void salvarPonto(Professor professor) {
-        dataHoraSistema = new Date();
-        ponto = new Ponto();
-        String tipoBatida;
-        ponto.setDataPontoDiario(formatarData.format(dataHoraSistema));
-        ponto.setDataPontoCompleta(dataHoraSistema);
-        ponto.setProfessor(professor);
-        if (verificarProfessorLista(professor.getIdProfessor()) == 0) {
-            tipoBatida = "Entrada";
-        } else if (verificarProfessorLista(professor.getIdProfessor()) % 2 == 0) {
-            tipoBatida = "Entrada";
-        } else {
-            tipoBatida = "Saída";
-        }
-        ponto.setTipoBatida(tipoBatida);
-        ponto.setAnoExercicio(anoExercicio.getNomeAnoExercicio());
-        pontoDAO.adicionar(ponto);
-        listaPontosBatidosGeral.add(0, ponto);
-        atualizarTabela();
-        telaMensagemPonto(professor, tipoBatida);
-    }
-
     // Este método compara a digital inserida no leitor
     private void compararDigital() {
         professor = new Professor();
         professor = digital.verificarSeCadastrado(null, listaProfessores);
         if (professor != null) {
-            salvarPonto(professor);
+            registrarPresentePonto(professor);
             jlProfessorNaoLocalizado.setText("");
 
         } else {

@@ -5,7 +5,9 @@
  */
 package birdpoint.registro.ponto;
 
+import birdpoint.anoexercicio.AnoExercicio;
 import birdpoint.professor.Professor;
+import java.sql.Time;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,19 +26,36 @@ public class Ponto {
     @GeneratedValue
     private int idPonto;
 
-    @Column(length = 100)
-    private Date dataPontoCompleta;
-    
-    @Column(length = 12)
-    private String dataPontoDiario;
-    
-    @Column(length = 10)
-    private String tipoBatida;
-    
+    @Column
+    private String dataPonto;
 
-    @Column(length = 5)
-    private String anoExercicio;
+    @Column
+    private Time horaEntradaPonto;
+
+    @Column
+    private Time horaSaidaPonto;
     
+    @Column
+    private String diaDaSemana;
+
+    @Column(length = 2000)
+    private String justEntrada;
+
+    @Column(length = 2000)
+    private String justSaida;
+
+    @Column(length = 10)
+    private String turnoPonto;
+
+    @Column
+    private boolean emailPonto;
+
+    @Column
+    private boolean atestadoPonto;
+
+    @OneToOne
+    private AnoExercicio anoExercicio;
+
     @OneToOne
     private Professor professor;
 
@@ -55,58 +74,128 @@ public class Ponto {
     }
 
     /**
-     * @return the dataPontoCompleta
+     * @return the dataPonto
      */
-    public Date getDataPontoCompleta() {
-        return dataPontoCompleta;
+    public String getDataPonto() {
+        return dataPonto;
     }
 
     /**
-     * @param dataPontoCompleta the dataPontoCompleta to set
+     * @param dataPonto the dataPonto to set
      */
-    public void setDataPontoCompleta(Date dataPontoCompleta) {
-        this.dataPontoCompleta = dataPontoCompleta;
+    public void setDataPonto(String dataPonto) {
+        this.dataPonto = dataPonto;
     }
 
     /**
-     * @return the dataPontoDiario
+     * @return the horaEntradaPonto
      */
-    public String getDataPontoDiario() {
-        return dataPontoDiario;
+    public Time getHoraEntradaPonto() {
+        return horaEntradaPonto;
     }
 
     /**
-     * @param dataPontoDiario the dataPontoDiario to set
+     * @param horaEntradaPonto the horaEntradaPonto to set
      */
-    public void setDataPontoDiario(String dataPontoDiario) {
-        this.dataPontoDiario = dataPontoDiario;
+    public void setHoraEntradaPonto(Time horaEntradaPonto) {
+        this.horaEntradaPonto = horaEntradaPonto;
     }
 
     /**
-     * @return the tipoBatida
+     * @return the horaSaidaPonto
      */
-    public String getTipoBatida() {
-        return tipoBatida;
+    public Time getHoraSaidaPonto() {
+        return horaSaidaPonto;
     }
 
     /**
-     * @param tipoBatida the tipoBatida to set
+     * @param horaSaidaPonto the horaSaidaPonto to set
      */
-    public void setTipoBatida(String tipoBatida) {
-        this.tipoBatida = tipoBatida;
+    public void setHoraSaidaPonto(Time horaSaidaPonto) {
+        this.horaSaidaPonto = horaSaidaPonto;
+    }
+
+    /**
+     * @return the justEntrada
+     */
+    public String getJustEntrada() {
+        return justEntrada;
+    }
+
+    /**
+     * @param justEntrada the justEntrada to set
+     */
+    public void setJustEntrada(String justEntrada) {
+        this.justEntrada = justEntrada;
+    }
+
+    /**
+     * @return the justSaida
+     */
+    public String getJustSaida() {
+        return justSaida;
+    }
+
+    /**
+     * @param justSaida the justSaida to set
+     */
+    public void setJustSaida(String justSaida) {
+        this.justSaida = justSaida;
+    }
+
+    /**
+     * @return the turnoPonto
+     */
+    public String getTurnoPonto() {
+        return turnoPonto;
+    }
+
+    /**
+     * @param turnoPonto the turnoPonto to set
+     */
+    public void setTurnoPonto(String turnoPonto) {
+        this.turnoPonto = turnoPonto;
+    }
+
+    /**
+     * @return the emailPonto
+     */
+    public boolean isEmailPonto() {
+        return emailPonto;
+    }
+
+    /**
+     * @param emailPonto the emailPonto to set
+     */
+    public void setEmailPonto(boolean emailPonto) {
+        this.emailPonto = emailPonto;
+    }
+
+    /**
+     * @return the atestadoPonto
+     */
+    public boolean isAtestadoPonto() {
+        return atestadoPonto;
+    }
+
+    /**
+     * @param atestadoPonto the atestadoPonto to set
+     */
+    public void setAtestadoPonto(boolean atestadoPonto) {
+        this.atestadoPonto = atestadoPonto;
     }
 
     /**
      * @return the anoExercicio
      */
-    public String getAnoExercicio() {
+    public AnoExercicio getAnoExercicio() {
         return anoExercicio;
     }
 
     /**
      * @param anoExercicio the anoExercicio to set
      */
-    public void setAnoExercicio(String anoExercicio) {
+    public void setAnoExercicio(AnoExercicio anoExercicio) {
         this.anoExercicio = anoExercicio;
     }
 
@@ -122,6 +211,20 @@ public class Ponto {
      */
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    /**
+     * @return the diaDaSemana
+     */
+    public String getDiaDaSemana() {
+        return diaDaSemana;
+    }
+
+    /**
+     * @param diaDaSemana the diaDaSemana to set
+     */
+    public void setDiaDaSemana(String diaDaSemana) {
+        this.diaDaSemana = diaDaSemana;
     }
 
 }
