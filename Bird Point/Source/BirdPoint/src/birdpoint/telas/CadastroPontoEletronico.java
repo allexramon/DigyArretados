@@ -7,12 +7,14 @@ package birdpoint.telas;
 
 import birdpoint.anoexercicio.AnoExercicio;
 import birdpoint.anoexercicio.AnoExercicioDAO;
+import birdpoint.email.Email;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.quadrohorarios.QuadroHorarios;
 import birdpoint.quadrohorarios.QuadroHorariosDAO;
 import birdpoint.registro.ponto.Ponto;
 import birdpoint.registro.ponto.PontoDAO;
+import birdpoint.registro.ponto.PontoTableModel;
 import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -24,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 
 public class CadastroPontoEletronico extends javax.swing.JDialog {
+
+    Email email = new Email();
 
     List<QuadroHorarios> listaQuadroHorarios;
     QuadroHorariosDAO quadroDAO = new QuadroHorariosDAO();
@@ -59,6 +63,8 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     List<Professor> listaProfessoresTarde = new ArrayList<>();
     List<Professor> listaProfessoresNoite = new ArrayList<>();
 
+    List<Ponto> listaPontoTabela = new ArrayList<>();
+
     public CadastroPontoEletronico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -70,6 +76,8 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         listaQuadroHorarios = quadroDAO.checkExists("anoExercicio", anoExercicio.getNomeAnoExercicio());
         mostrarHora();
         btPesquisar2.setVisible(false);
+        atualizarTabela();
+        //  email.enviarEmail();
 
         // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
         if (listaPontosDiario.isEmpty()) {
@@ -82,6 +90,12 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                 btPesquisar2ActionPerformed(null);
             }
         }.start();
+    }
+
+    public void atualizarTabela() {
+        PontoTableModel modeloTabela = new PontoTableModel(listaPontoTabela);
+        tbProfessoresPonto.setModel(modeloTabela);
+        tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
     }
 
     // Este método registrará o ponto do professor
@@ -108,7 +122,10 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                     ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
                     ponto.setHoraSaidaPonto(null);
                 }
+                listaPontoTabela.add(0, ponto);
+                atualizarTabela();
                 pontoDAO.atualizar(ponto);
+                abrirTelaMensagemPonto(ponto);
             }
         }
         if (verificarSeAtualizou == false) {
@@ -118,9 +135,22 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             ponto.setProfessor(professor);
             ponto.setTurnoPonto(carregarTurno());
             ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+            listaPontoTabela.add(0, ponto);
+            atualizarTabela();
             pontoDAO.adicionar(ponto);
+            abrirTelaMensagemPonto(ponto);
         }
 
+    }
+
+    public void abrirTelaMensagemPonto(Ponto ponto) {
+        String entradaOuSaida = "";
+        if (ponto.getHoraSaidaPonto() == null) {
+            entradaOuSaida = "Entrada";
+        } else {
+            entradaOuSaida = "Saída";
+        }
+        new MensagemPonto(null, true, ponto.getProfessor(), entradaOuSaida).setVisible(true);
     }
 
 // Este método retorna o turno baseado no horário atual

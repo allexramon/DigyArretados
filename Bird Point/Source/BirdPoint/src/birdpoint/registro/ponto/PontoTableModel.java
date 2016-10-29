@@ -36,13 +36,20 @@ public class PontoTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Ponto ponto = pontos.get(rowIndex);
         switch (columnIndex) {
-            /*case 0:
+            case 0:
                 return ponto.getProfessor().getNomeProfessor();
             case 1:
-                return formatarHora.format(ponto.getDataPontoCompleta());
+                if (ponto.getHoraSaidaPonto() == null) {
+                    return ponto.getHoraEntradaPonto();
+                } else {
+                    return ponto.getHoraSaidaPonto();
+                }
             case 2:
-                return ponto.getTipoBatida();
-             */
+                if (ponto.getHoraSaidaPonto() == null) {
+                    return "Entrada";
+                } else {
+                    return "Saída";
+                }
 
         }
         return null;
