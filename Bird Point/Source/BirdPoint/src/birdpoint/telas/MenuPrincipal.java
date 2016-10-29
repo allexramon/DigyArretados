@@ -273,7 +273,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
-        TelaAutenticacao telaAutenticar = new TelaAutenticacao(null, rootPaneCheckingEnabled);
+        TelaAutenticacao telaAutenticar = new TelaAutenticacao();
         telaAutenticar.setVisible(true);
         dispose();
     }//GEN-LAST:event_btLogoutActionPerformed

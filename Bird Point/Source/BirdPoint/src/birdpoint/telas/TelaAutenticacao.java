@@ -14,19 +14,16 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-public class TelaAutenticacao extends javax.swing.JDialog {
+public class TelaAutenticacao extends javax.swing.JFrame {
 
     Usuario usuario = new Usuario();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    
-    
 
-
-    public TelaAutenticacao(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    /**
+     * Creates new form TelaLogin
+     */
+    public TelaAutenticacao() {
         initComponents();
-        
-
     }
 
     /**
@@ -39,18 +36,15 @@ public class TelaAutenticacao extends javax.swing.JDialog {
     private void initComponents() {
 
         tfLogin = new javax.swing.JTextField();
-        tfSenha = new javax.swing.JPasswordField();
         btCancelar = new javax.swing.JButton();
         btEntrar = new javax.swing.JButton();
+        tfSenha = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1000, 562));
-        setModal(true);
         setUndecorated(true);
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         tfLogin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tfLogin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
@@ -64,16 +58,8 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 tfLoginKeyPressed(evt);
             }
         });
-        getContentPane().add(tfLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 220, 370, 50));
-
-        tfSenha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tfSenha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
-        tfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tfSenhaKeyPressed(evt);
-            }
-        });
-        getContentPane().add(tfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 290, 370, 50));
+        getContentPane().add(tfLogin);
+        tfLogin.setBounds(600, 220, 370, 50);
 
         btCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -93,7 +79,8 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 btCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, 110));
+        getContentPane().add(btCancelar);
+        btCancelar.setBounds(680, 390, 101, 110);
 
         btEntrar.setBackground(new java.awt.Color(255, 255, 255));
         btEntrar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -106,14 +93,26 @@ public class TelaAutenticacao extends javax.swing.JDialog {
                 btEntrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 390, 100, 110));
+        getContentPane().add(btEntrar);
+        btEntrar.setBounds(810, 390, 100, 110);
+
+        tfSenha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tfSenha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 2, true));
+        tfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfSenhaKeyPressed(evt);
+            }
+        });
+        getContentPane().add(tfSenha);
+        tfSenha.setBounds(600, 290, 370, 50);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/TelaLoginNova.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel1.setMaximumSize(new java.awt.Dimension(1000, 570));
         jLabel1.setMinimumSize(new java.awt.Dimension(1000, 570));
         jLabel1.setPreferredSize(new java.awt.Dimension(1000, 570));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 560));
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1000, 560);
 
         pack();
         setLocationRelativeTo(null);
@@ -123,20 +122,15 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfLoginActionPerformed
 
-    private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
-        if (Util.chkVazio(tfLogin.getText(), tfSenha.getText())) {
-            usuario = usuarioDAO.autenticarUsuario(tfLogin.getText(), tfSenha.getText());
-            if (usuario != null) {
-                BarraProgresso barraProgresso = new BarraProgresso(null, rootPaneCheckingEnabled);
-                barraProgresso.setVisible(true);
-                MenuPrincipal menu = new MenuPrincipal(usuario);
-                dispose();
-                menu.setVisible(true);
-            }
-
+    private void tfLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfLoginKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btEntrarActionPerformed(null);
         }
+    }//GEN-LAST:event_tfLoginKeyPressed
 
-    }//GEN-LAST:event_btEntrarActionPerformed
+    private void btCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCancelarMouseEntered
+
+    }//GEN-LAST:event_btCancelarMouseEntered
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
 
@@ -157,15 +151,19 @@ public class TelaAutenticacao extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void btCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCancelarMouseEntered
+    private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
+        if (Util.chkVazio(tfLogin.getText(), tfSenha.getText())) {
+            usuario = usuarioDAO.autenticarUsuario(tfLogin.getText(), tfSenha.getText());
+            if (usuario != null) {
+                BarraProgresso barraProgresso = new BarraProgresso(null, rootPaneCheckingEnabled);
+                barraProgresso.setVisible(true);
+                MenuPrincipal menu = new MenuPrincipal(usuario);
+                dispose();
+                menu.setVisible(true);
+            }
 
-    }//GEN-LAST:event_btCancelarMouseEntered
-
-    private void tfLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfLoginKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btEntrarActionPerformed(null);
         }
-    }//GEN-LAST:event_tfLoginKeyPressed
+    }//GEN-LAST:event_btEntrarActionPerformed
 
     private void tfSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSenhaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -199,18 +197,12 @@ public class TelaAutenticacao extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(TelaAutenticacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaAutenticacao dialog = new TelaAutenticacao(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new TelaAutenticacao().setVisible(true);
             }
         });
     }
