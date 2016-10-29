@@ -8,6 +8,7 @@ package birdpoint.telas;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.professor.ProfessorTableModel;
+import birdpoint.professor.ProfessorTableModelDigital;
 import birdpoint.registro.ponto.Ponto;
 import birdpoint.registro.ponto.PontoDAO;
 import birdpoint.util.LeitorBiometrico;
@@ -88,6 +89,7 @@ public class CadastroDigital extends javax.swing.JDialog {
         btMaoEsquerda = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jlMaoEsquerda = new javax.swing.JLabel();
+        btPesquisar = new javax.swing.JButton();
         jlCadProfessores = new javax.swing.JLabel();
 
         selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
@@ -136,7 +138,7 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(260, 330, 80, 70);
+        btLimpar.setBounds(160, 330, 80, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
@@ -223,7 +225,7 @@ public class CadastroDigital extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btMaoEsquerda);
-        btMaoEsquerda.setBounds(180, 170, 180, 131);
+        btMaoEsquerda.setBounds(180, 170, 180, 129);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Nome:");
@@ -235,6 +237,21 @@ public class CadastroDigital extends javax.swing.JDialog {
         jlMaoEsquerda.setText("Não Capturada");
         getContentPane().add(jlMaoEsquerda);
         jlMaoEsquerda.setBounds(210, 300, 120, 20);
+
+        btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
+        btPesquisar.setText("Pesquisar");
+        btPesquisar.setContentAreaFilled(false);
+        btPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesquisar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btPesquisar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesquisarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btPesquisar);
+        btPesquisar.setBounds(310, 330, 99, 70);
 
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadBiometria1.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -309,6 +326,25 @@ public class CadastroDigital extends javax.swing.JDialog {
         capturarDigitalMaoEsquerda();
     }//GEN-LAST:event_btMaoEsquerdaActionPerformed
 
+    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
+        List<Professor> lista;
+        lista = (professorDAO.listar());
+        ProfessorTableModelDigital itm = new ProfessorTableModelDigital(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Digital");
+        if (objetoRetorno != null) {
+            professor = professorDAO.consultarObjetoId("idProfessor", objetoRetorno);
+            tfNome.setText(professor.getNomeProfessor());
+            if(professor.getDigitalDireita()!=null){
+                jlMaoDireita.setText("Capturada!");
+            }
+            if(professor.getDigitalEsquerda()!=null){
+                jlMaoEsquerda.setText("Capturada!");
+            }
+            btMaoDireita.setEnabled(true);
+            btMaoEsquerda.setEnabled(true);
+        }
+    }//GEN-LAST:event_btPesquisarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -372,6 +408,7 @@ public class CadastroDigital extends javax.swing.JDialog {
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btMaoDireita;
     private javax.swing.JButton btMaoEsquerda;
+    private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;

@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CadastroPontoEletronico extends javax.swing.JDialog {
 
@@ -71,7 +73,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         dataHoraSistema = new Date();
         listaPontosDiario = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
         listaProfessores = professorDAO.listar();
-        listaAnosExercicio = anoExercicioDAO.listar();
         carregarAnoExercicioAtual();
         listaQuadroHorarios = quadroDAO.checkExists("anoExercicio", anoExercicio.getNomeAnoExercicio());
         mostrarHora();
@@ -88,6 +89,19 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             @Override
             public void run() {
                 btPesquisar2ActionPerformed(null);
+            }
+        }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    carregarAnoExercicioAtual();
+                    System.out.println("DeuCerto");
+                    sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(CadastroPontoEletronico.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }.start();
     }
@@ -290,6 +304,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     }
 
     public void carregarAnoExercicioAtual() {
+        listaAnosExercicio = anoExercicioDAO.listar();
         for (AnoExercicio anoExercicio1 : listaAnosExercicio) {
             if (anoExercicio1.isAnoExercicioAtual()) {
                 anoExercicio = anoExercicio1;
