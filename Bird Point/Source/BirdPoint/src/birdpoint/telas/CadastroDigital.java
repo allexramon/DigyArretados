@@ -296,22 +296,7 @@ public class CadastroDigital extends javax.swing.JDialog {
     }//GEN-LAST:event_btFotoActionPerformed
 
     private void btAdd21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdd21ActionPerformed
-        List<Professor> lista;
-        lista = (professorDAO.listar());
-        ProfessorTableModel itm = new ProfessorTableModel(lista);
-        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Professor");
-        if (objetoRetorno != null) {
-            professor = professorDAO.consultarObjetoId("idProfessor", objetoRetorno);
-            tfNome.setText(professor.getNomeProfessor());
-            try {
-                ImageIcon foto = new ImageIcon();
-                foto.setImage(Util.byteToImage(professor.getFotoProf()));
-                btFoto.setIcon(foto);
-            } catch (Exception e) {
-            }
-        }
-        btMaoDireita.setEnabled(true);
-        btMaoEsquerda.setEnabled(true);
+        btPesquisarActionPerformed(null);
     }//GEN-LAST:event_btAdd21ActionPerformed
 
     private void btMaoDireitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMaoDireitaActionPerformed
