@@ -92,7 +92,7 @@ public class CadastroUsuario extends javax.swing.JDialog {
         tfSenha.setBounds(170, 220, 340, 30);
 
         tfTipoDeUsuario.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        tfTipoDeUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "Administrador", "Coordenador", "Copex", "RH" }));
+        tfTipoDeUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-----", "Administrador", "Coordenador", "Copex", "Direção", "RH" }));
         tfTipoDeUsuario.setAutoscrolls(true);
         tfTipoDeUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
         getContentPane().add(tfTipoDeUsuario);

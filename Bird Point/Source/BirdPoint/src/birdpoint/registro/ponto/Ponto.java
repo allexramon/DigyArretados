@@ -39,10 +39,7 @@ public class Ponto {
     private String diaDaSemana;
 
     @Column(length = 2000)
-    private String justEntrada;
-
-    @Column(length = 2000)
-    private String justSaida;
+    private String justificativaPonto;
 
     @Column(length = 10)
     private String turnoPonto;
@@ -116,31 +113,31 @@ public class Ponto {
     }
 
     /**
-     * @return the justEntrada
+     * @return the diaDaSemana
      */
-    public String getJustEntrada() {
-        return justEntrada;
+    public String getDiaDaSemana() {
+        return diaDaSemana;
     }
 
     /**
-     * @param justEntrada the justEntrada to set
+     * @param diaDaSemana the diaDaSemana to set
      */
-    public void setJustEntrada(String justEntrada) {
-        this.justEntrada = justEntrada;
+    public void setDiaDaSemana(String diaDaSemana) {
+        this.diaDaSemana = diaDaSemana;
     }
 
     /**
-     * @return the justSaida
+     * @return the justificativaPonto
      */
-    public String getJustSaida() {
-        return justSaida;
+    public String getJustificativaPonto() {
+        return justificativaPonto;
     }
 
     /**
-     * @param justSaida the justSaida to set
+     * @param justificativaPonto the justificativaPonto to set
      */
-    public void setJustSaida(String justSaida) {
-        this.justSaida = justSaida;
+    public void setJustificativaPonto(String justificativaPonto) {
+        this.justificativaPonto = justificativaPonto;
     }
 
     /**
@@ -213,18 +210,5 @@ public class Ponto {
         this.professor = professor;
     }
 
-    /**
-     * @return the diaDaSemana
-     */
-    public String getDiaDaSemana() {
-        return diaDaSemana;
-    }
-
-    /**
-     * @param diaDaSemana the diaDaSemana to set
-     */
-    public void setDiaDaSemana(String diaDaSemana) {
-        this.diaDaSemana = diaDaSemana;
-    }
 
 }

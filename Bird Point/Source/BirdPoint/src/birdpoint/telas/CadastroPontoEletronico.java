@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     Email email = new Email();
+    boolean enviouEmail = false;
 
     List<QuadroHorarios> listaQuadroHorarios;
     QuadroHorariosDAO quadroDAO = new QuadroHorariosDAO();
@@ -78,7 +79,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         mostrarHora();
         btPesquisar2.setVisible(false);
         atualizarTabela();
-        //  email.enviarEmail();
 
         // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
         if (listaPontosDiario.isEmpty()) {
@@ -96,14 +96,25 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             @Override
             public void run() {
                 try {
-                    carregarAnoExercicioAtual();
-                    System.out.println("DeuCerto");
-                    sleep(3000);
+                    while (true) {
+                        carregarAnoExercicioAtual();
+                        System.out.println("DeuCerto");
+                        dataHoraSistema = new Date();
+                        int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
+                        if (hora == 23 && enviouEmail == false) {
+                            email.enviarEmail();
+                            enviouEmail = true;
+                        } else if (hora < 23) {
+                            enviouEmail = false;
+                        }
+                        sleep(900000);
+                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CadastroPontoEletronico.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }.start();
+
     }
 
     public void atualizarTabela() {
@@ -233,8 +244,12 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             }
         }
         int[] arrayRetorno = new int[6];
-        for (int i = 0; i < arrayRetorno.length; i++) {
-            arrayRetorno[i] = listaCodigo.get(i);
+        try {
+
+            for (int i = 0; i < arrayRetorno.length; i++) {
+                arrayRetorno[i] = listaCodigo.get(i);
+            }
+        } catch (Exception e) {
         }
 
         return arrayRetorno;

@@ -10,6 +10,9 @@ import birdpoint.curso.CursoDAO;
 import birdpoint.curso.CursoTableModel;
 import birdpoint.semestre.Semestre;
 import birdpoint.semestre.SemestreDAO;
+import birdpoint.usuario.Usuario;
+import birdpoint.usuario.UsuarioDAO;
+import birdpoint.usuario.UsuarioTableModel;
 import birdpoint.util.Util;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,9 @@ import javax.swing.JOptionPane;
  */
 public class CadastroCurso extends javax.swing.JDialog {
 
+    Usuario usuario = new Usuario();
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+    
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
 
@@ -51,6 +57,10 @@ public class CadastroCurso extends javax.swing.JDialog {
         btLimpar = new javax.swing.JButton();
         btPesquisar = new javax.swing.JButton();
         jLObrigatorioCurso = new javax.swing.JLabel();
+        jlNome2 = new javax.swing.JLabel();
+        tfNomeCoordenador = new javax.swing.JTextField();
+        btPesqusar1 = new javax.swing.JButton();
+        jLObrigatorioCurso1 = new javax.swing.JLabel();
         jlCadTitulacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -62,7 +72,7 @@ public class CadastroCurso extends javax.swing.JDialog {
         tfNomeCurso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tfNomeCurso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
         getContentPane().add(tfNomeCurso);
-        tfNomeCurso.setBounds(160, 140, 390, 30);
+        tfNomeCurso.setBounds(160, 140, 380, 30);
 
         jlNome.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jlNome.setText("Nome do Curso.:");
@@ -148,7 +158,39 @@ public class CadastroCurso extends javax.swing.JDialog {
         jLObrigatorioCurso.setForeground(new java.awt.Color(204, 0, 0));
         jLObrigatorioCurso.setText("*");
         getContentPane().add(jLObrigatorioCurso);
-        jLObrigatorioCurso.setBounds(550, 130, 20, 30);
+        jLObrigatorioCurso.setBounds(540, 170, 20, 30);
+
+        jlNome2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNome2.setText("Coordenador.:");
+        getContentPane().add(jlNome2);
+        jlNome2.setBounds(50, 180, 110, 30);
+
+        tfNomeCoordenador.setEditable(false);
+        tfNomeCoordenador.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfNomeCoordenador.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tfNomeCoordenador.setEnabled(false);
+        getContentPane().add(tfNomeCoordenador);
+        tfNomeCoordenador.setBounds(160, 180, 380, 30);
+
+        btPesqusar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPesqusar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
+        btPesqusar1.setContentAreaFilled(false);
+        btPesqusar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesqusar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btPesqusar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btPesqusar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesqusar1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btPesqusar1);
+        btPesqusar1.setBounds(550, 180, 20, 30);
+
+        jLObrigatorioCurso1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLObrigatorioCurso1.setForeground(new java.awt.Color(204, 0, 0));
+        jLObrigatorioCurso1.setText("*");
+        getContentPane().add(jLObrigatorioCurso1);
+        jLObrigatorioCurso1.setBounds(540, 130, 20, 30);
 
         jlCadTitulacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroCurso.png"))); // NOI18N
         jlCadTitulacao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -166,6 +208,7 @@ public class CadastroCurso extends javax.swing.JDialog {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (Util.chkVazio(tfNomeCurso.getText())) {
             curso.setNomeCurso(tfNomeCurso.getText().toUpperCase());
+            curso.setUsuario(usuario);
             cursoDAO.salvar(curso);
             btLimparActionPerformed(null);
         }
@@ -201,6 +244,7 @@ public class CadastroCurso extends javax.swing.JDialog {
         btExcluir.setEnabled(false);
         curso = new Curso();
         semestre = new Semestre();
+        usuario = new Usuario();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -211,8 +255,9 @@ public class CadastroCurso extends javax.swing.JDialog {
         Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Curso");
         if (objetoRetorno != null) {
             curso = cursoDAO.consultarObjetoId("idCurso", objetoRetorno);
+            usuario = curso.getUsuario();
             tfNomeCurso.setText(curso.getNomeCurso());
-            
+            tfNomeCoordenador.setText(curso.getUsuario().getNomeUsuario());
             listaSemestre = (semestreDAO.listar());
             List<Semestre> listaFiltrada = new ArrayList<>();
             for (Semestre semestre1 : listaSemestre) {
@@ -225,6 +270,17 @@ public class CadastroCurso extends javax.swing.JDialog {
             btExcluir.setEnabled(true);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void btPesqusar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesqusar1ActionPerformed
+        List<Usuario> lista;
+        lista = (usuarioDAO.checkExists("tipoDeAcessoUsuario", "Coordenador"));
+        UsuarioTableModel itm = new UsuarioTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Usuário");
+        if (objetoRetorno != null) {
+            usuario = usuarioDAO.consultarObjetoId("idUsuario", objetoRetorno);
+            tfNomeCoordenador.setText(usuario.getNomeUsuario());
+        }
+    }//GEN-LAST:event_btPesqusar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,11 +329,15 @@ public class CadastroCurso extends javax.swing.JDialog {
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btPesquisar;
+    private javax.swing.JButton btPesqusar1;
     private javax.swing.JButton btSalvar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLObrigatorioCurso;
+    private javax.swing.JLabel jLObrigatorioCurso1;
     private javax.swing.JLabel jlCadTitulacao;
     private javax.swing.JLabel jlNome;
+    private javax.swing.JLabel jlNome2;
+    private javax.swing.JTextField tfNomeCoordenador;
     private javax.swing.JTextField tfNomeCurso;
     // End of variables declaration//GEN-END:variables
 }

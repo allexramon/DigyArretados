@@ -25,7 +25,8 @@
         <mapping class="birdpoint.horario.Horario"/>  
         <mapping class="birdpoint.quadrohorarios.QuadroHorarios"/>
         <mapping class="birdpoint.anoexercicio.AnoExercicio"/>  
-        <mapping class="birdpoint.registro.ponto.Ponto"/>   
+        <mapping class="birdpoint.registro.ponto.Ponto"/>  
+        <mapping class="birdpoint.despesas.Despesas"/>  
         
     </session-factory>
 </hibernate-configuration>

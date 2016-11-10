@@ -33,6 +33,8 @@ public class Usuario {
     @Column(length = 100, nullable = false)
     private String tipoDeAcessoUsuario;
 
+    
+    
     /**
      * @return the idUsuario
      */

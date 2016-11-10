@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -300,6 +301,9 @@ public class Util {
             } else if (c instanceof JCheckBox) {
                 JCheckBox field = (JCheckBox) c;
                 field.setSelected(false);
+            }else if (c instanceof JTextArea) {
+                JTextArea field = (JTextArea) c;
+                field.setText("");
             }
 
         }

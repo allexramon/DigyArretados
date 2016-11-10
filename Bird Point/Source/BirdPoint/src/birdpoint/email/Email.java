@@ -51,7 +51,7 @@ public class Email {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("adriano@fvs.edu.br", "1892376krokro");
+                return new PasswordAuthentication("recursoshumanos@fvs.edu.br", "rh123456");
             }
         });
         /**
@@ -61,7 +61,7 @@ public class Email {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("adriano@fvs.edu.br")); //Remetente
+            message.setFrom(new InternetAddress("recursoshumanos@fvs.edu.br")); //Remetente
 
             for (Ponto ponto : listaFiltrada) {
                 Address[] toUser = InternetAddress //Destinatário(s)
@@ -72,7 +72,7 @@ public class Email {
                         + "O sistema eletrônico Bird Point não registrou seu ponto nas aulas do dia: \n\nData da Ocorrência: "
                         + ponto.getDataPonto() + " (" + ponto.getDiaDaSemana() + ")"
                         + "\nTurno.: " + ponto.getTurnoPonto() + "\nHorário de Entrada.: " + ponto.getHoraEntradaPonto()
-                        + "\nHorário de Saída.: " + ponto.getJustSaida()
+                        + "\nHorário de Saída.: " + ponto.getHoraSaidaPonto()
                         + "\nAno Exercício.: " + ponto.getAnoExercicio().getNomeAnoExercicio()
                         + "\n\nPor gentileza, dirija-se ao setor de Recursos Humanos para verificar esta pendência;"
                         + "\n\nEste é um e-mail automático, por favor, não responda!"

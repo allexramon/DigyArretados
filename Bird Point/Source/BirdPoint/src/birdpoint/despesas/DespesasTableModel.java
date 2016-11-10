@@ -3,28 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package birdpoint.registro.ponto;
+package birdpoint.despesas;
 
-import birdpoint.horario.*;
-import java.text.SimpleDateFormat;
+import birdpoint.semestre.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class PontoTableModel extends AbstractTableModel {
+/**
+ *
+ * @author Adriano Lima
+ */
+public class DespesasTableModel extends AbstractTableModel {
 
-    private List<Ponto> pontos = new ArrayList<>();
-    private String[] colunas = {"Código", "Professor", "Data", "Entrada", "Saída", "Justificado", "Atestado"};
-    SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm:ss");
+    private List<Despesas> despesas = new ArrayList<>();
+    private String[] colunas = {"Código", "Curso", "Mês", "Ano", "Total", "Resultado", "Situação"};
 
-    public PontoTableModel(List<Ponto> ponto) {
-        this.pontos = ponto;
+    public DespesasTableModel(List<Despesas> despesa) {
+        this.despesas = despesa;
     }
 
     @Override
     public int getRowCount() {
-        return pontos.size();
+        return despesas.size();
     }
 
     @Override
@@ -34,29 +35,25 @@ public class PontoTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Ponto ponto = pontos.get(rowIndex);
+        Despesas despesa = despesas.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return ponto.getIdPonto();
+                return despesa.getIdDespesa();
             case 1:
-                return ponto.getProfessor().getNomeProfessor();
+                return despesa.getCurso().getNomeCurso();
             case 2:
-                return ponto.getDataPonto();
+                return despesa.getMesDispesa();
             case 3:
-                return ponto.getHoraEntradaPonto();
+                return despesa.getAnoDispesa();
             case 4:
-                return ponto.getHoraSaidaPonto();
+                return despesa.getTotalDespesa();
             case 5:
-                if (ponto.getJustificativaPonto() == null) {
-                    return "Não";
-                } else {
-                    return "Sim";
-                }
+                return despesa.getResultadoDespesa();
             case 6:
-                if (ponto.isAtestadoPonto()) {
-                    return "Sim";
+                if (despesa.getResultadoDespesa() < 0) {
+                    return "Prejuízo";
                 } else {
-                    return "Não";
+                    return "Lucro";
                 }
 
         }
