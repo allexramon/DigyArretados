@@ -80,11 +80,11 @@ public class CadastroDespesasCursos extends javax.swing.JDialog {
             tfResultado.setText(df.format(resultadoTemp));
 
             if (resultadoTemp < 0) {
-                tfSituação.setText("Prejuízo");
+                tfSituação.setText("Negativo");
                 tfSituação.setForeground(new java.awt.Color(255, 51, 0));
                 tfResultado.setForeground(new java.awt.Color(255, 51, 0));
             } else if (resultadoTemp > 0) {
-                tfSituação.setText("Lucro");
+                tfSituação.setText("Positivo");
                 tfSituação.setForeground(new java.awt.Color(0, 153, 51));
                 tfResultado.setForeground(new java.awt.Color(0, 153, 51));
             }

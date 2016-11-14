@@ -25,6 +25,9 @@ public class Ponto {
     @Id
     @GeneratedValue
     private int idPonto;
+    
+    @Column
+    private Date dataPontoCompleta;
 
     @Column
     private String dataPonto;
@@ -208,6 +211,20 @@ public class Ponto {
      */
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    /**
+     * @return the dataPontoCompleta
+     */
+    public Date getDataPontoCompleta() {
+        return dataPontoCompleta;
+    }
+
+    /**
+     * @param dataPontoCompleta the dataPontoCompleta to set
+     */
+    public void setDataPontoCompleta(Date dataPontoCompleta) {
+        this.dataPontoCompleta = dataPontoCompleta;
     }
 
 

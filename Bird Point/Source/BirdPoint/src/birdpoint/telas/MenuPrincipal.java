@@ -21,7 +21,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.usuario = usuario;
         jlUsuario.setText(usuario.getLoginUsuario());
         jlPermissao.setText(usuario.getTipoDeAcessoUsuario());
-        permissao();
+        if (!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("administrador")) {
+            permissao();
+        }else{
+            menuDespesas.setVisible(false);
+        }
+
     }
 
     public void permissao() {
@@ -30,6 +35,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
         if (!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("Direção")) {
             subCadDespesas.setVisible(false);
+        }
+        if (!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("Direção") && !usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("Coordenador")) {
+            menuDespesas.setVisible(false);
+        }
+        if (!usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("RH")) {
+            subCadCurso.setVisible(false);
+            subJustificativa.setVisible(false);
+        }
+        if (usuario.getTipoDeAcessoUsuario().equalsIgnoreCase("DTI")) {
+            menuCadastros.setVisible(false);
         }
     }
 
@@ -49,9 +64,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jlPermissao = new javax.swing.JLabel();
         jlHome = new javax.swing.JLabel();
         jMenu = new javax.swing.JMenuBar();
-        jmCadastrar = new javax.swing.JMenu();
+        menuCadastros = new javax.swing.JMenu();
         subGrade2 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        subCadCurso = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         subGrade = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -64,8 +79,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         subUsuario = new javax.swing.JMenuItem();
         jmCadastrar1 = new javax.swing.JMenu();
         subGrade3 = new javax.swing.JMenuItem();
-        subGrade4 = new javax.swing.JMenuItem();
+        subJustificativa = new javax.swing.JMenuItem();
+        menuDespesas = new javax.swing.JMenu();
         subCadDespesas = new javax.swing.JMenuItem();
+        subConsultaDespesas = new javax.swing.JMenuItem();
+        menuRelatorio = new javax.swing.JMenu();
+        subCadDespesas1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 559));
@@ -118,12 +137,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu.setMaximumSize(new java.awt.Dimension(900, 200));
         jMenu.setMinimumSize(new java.awt.Dimension(900, 200));
 
-        jmCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar80.png"))); // NOI18N
-        jmCadastrar.setText("Cadastro");
-        jmCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jmCadastrar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        jmCadastrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jmCadastrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        menuCadastros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar80.png"))); // NOI18N
+        menuCadastros.setText("Cadastro");
+        menuCadastros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuCadastros.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        menuCadastros.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        menuCadastros.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         subGrade2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subGrade2.setText("Ano Exercício");
@@ -133,17 +152,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 subGrade2ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(subGrade2);
+        menuCadastros.add(subGrade2);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        jMenuItem5.setText("Curso");
-        jMenuItem5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        subCadCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subCadCurso.setText("Curso");
+        subCadCurso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subCadCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                subCadCursoActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem5);
+        menuCadastros.add(subCadCurso);
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem6.setText("Semestre");
@@ -153,7 +172,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem6);
+        menuCadastros.add(jMenuItem6);
 
         subGrade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subGrade.setText("Grade Curricular");
@@ -163,7 +182,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 subGradeActionPerformed(evt);
             }
         });
-        jmCadastrar.add(subGrade);
+        menuCadastros.add(subGrade);
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem7.setText("Disciplina");
@@ -173,7 +192,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem7);
+        menuCadastros.add(jMenuItem7);
 
         subGrade1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subGrade1.setText("Horário");
@@ -183,7 +202,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 subGrade1ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(subGrade1);
+        menuCadastros.add(subGrade1);
 
         subUsuario2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subUsuario2.setText("Quadro de Horários");
@@ -193,7 +212,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 subUsuario2ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(subUsuario2);
+        menuCadastros.add(subUsuario2);
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem1.setText("Cidade");
@@ -203,7 +222,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem1);
+        menuCadastros.add(jMenuItem1);
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem2.setText("Titulação");
@@ -213,7 +232,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem2);
+        menuCadastros.add(jMenuItem2);
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem3.setText("Professor");
@@ -223,7 +242,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(jMenuItem3);
+        menuCadastros.add(jMenuItem3);
 
         subUsuario1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subUsuario1.setText("Biometria");
@@ -233,7 +252,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 subUsuario1ActionPerformed(evt);
             }
         });
-        jmCadastrar.add(subUsuario1);
+        menuCadastros.add(subUsuario1);
 
         subUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         subUsuario.setText("Usuário");
@@ -243,12 +262,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 subUsuarioActionPerformed(evt);
             }
         });
-        jmCadastrar.add(subUsuario);
+        menuCadastros.add(subUsuario);
 
-        jMenu.add(jmCadastrar);
+        jMenu.add(menuCadastros);
 
         jmCadastrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/BotaoBiometria.png"))); // NOI18N
-        jmCadastrar1.setText("Ponto Eletrônico");
+        jmCadastrar1.setText("Biometria");
         jmCadastrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jmCadastrar1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jmCadastrar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -269,27 +288,75 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jmCadastrar1.add(subGrade3);
 
-        subGrade4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        subGrade4.setText("Verificar Despesas");
-        subGrade4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        subGrade4.addActionListener(new java.awt.event.ActionListener() {
+        subJustificativa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subJustificativa.setText("Justificativa");
+        subJustificativa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subJustificativa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subGrade4ActionPerformed(evt);
+                subJustificativaActionPerformed(evt);
             }
         });
-        jmCadastrar1.add(subGrade4);
+        jmCadastrar1.add(subJustificativa);
+
+        jMenu.add(jmCadastrar1);
+
+        menuDespesas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cifrão-80.png"))); // NOI18N
+        menuDespesas.setText("Despesas");
+        menuDespesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuDespesas.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        menuDespesas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        menuDespesas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        menuDespesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDespesasActionPerformed(evt);
+            }
+        });
 
         subCadDespesas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
-        subCadDespesas.setText("Cadastrar Despesas");
+        subCadDespesas.setText("Cadastrar Despesas Curso");
         subCadDespesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         subCadDespesas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 subCadDespesasActionPerformed(evt);
             }
         });
-        jmCadastrar1.add(subCadDespesas);
+        menuDespesas.add(subCadDespesas);
 
-        jMenu.add(jmCadastrar1);
+        subConsultaDespesas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subConsultaDespesas.setText("Consultar Despesas Curso");
+        subConsultaDespesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subConsultaDespesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subConsultaDespesasActionPerformed(evt);
+            }
+        });
+        menuDespesas.add(subConsultaDespesas);
+
+        jMenu.add(menuDespesas);
+
+        menuRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/relatorio.png"))); // NOI18N
+        menuRelatorio.setText("Relatórios");
+        menuRelatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuRelatorio.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        menuRelatorio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        menuRelatorio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        menuRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRelatorioActionPerformed(evt);
+            }
+        });
+
+        subCadDespesas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subCadDespesas1.setText("Ponto Eletrônico");
+        subCadDespesas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subCadDespesas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subCadDespesas1ActionPerformed(evt);
+            }
+        });
+        menuRelatorio.add(subCadDespesas1);
+
+        jMenu.add(menuRelatorio);
 
         setJMenuBar(jMenu);
 
@@ -313,10 +380,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         cadastroDigital.setVisible(true);
     }//GEN-LAST:event_subUsuario1ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void subCadCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCadCursoActionPerformed
         CadastroCurso cadastroCurso = new CadastroCurso(null, rootPaneCheckingEnabled);
         cadastroCurso.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_subCadCursoActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         CadastroCidade cadastroCidade = new CadastroCidade(null, rootPaneCheckingEnabled);
@@ -364,23 +431,41 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_subUsuarioActionPerformed
 
     private void jmCadastrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCadastrar1ActionPerformed
-       
+
     }//GEN-LAST:event_jmCadastrar1ActionPerformed
 
     private void subGrade3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade3ActionPerformed
         CadastroPontoEletronico cadPonto = new CadastroPontoEletronico(null, rootPaneCheckingEnabled);
-       cadPonto.setVisible(true);
+        cadPonto.setVisible(true);
     }//GEN-LAST:event_subGrade3ActionPerformed
 
-    private void subGrade4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade4ActionPerformed
-        ConsultaDespesasCurso consultaDesp = new ConsultaDespesasCurso(this, rootPaneCheckingEnabled, usuario);
+    private void subConsultaDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subConsultaDespesasActionPerformed
+        ConsultaDespesasCurso consultaDesp = new ConsultaDespesasCurso(null, rootPaneCheckingEnabled, usuario);
         consultaDesp.setVisible(true);
-    }//GEN-LAST:event_subGrade4ActionPerformed
+    }//GEN-LAST:event_subConsultaDespesasActionPerformed
 
     private void subCadDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCadDespesasActionPerformed
-        CadastroDespesasCursos cadDespesa = new CadastroDespesasCursos(null, rootPaneCheckingEnabled);
-        cadDespesa.setVisible(true);
+        CadastroDespesasCursos cadDespesas = new CadastroDespesasCursos(null, rootPaneCheckingEnabled);
+        cadDespesas.setVisible(true);
     }//GEN-LAST:event_subCadDespesasActionPerformed
+
+    private void menuDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDespesasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuDespesasActionPerformed
+
+    private void subJustificativaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subJustificativaActionPerformed
+        CadastroJustificativa cadJustificativa = new CadastroJustificativa(null, rootPaneCheckingEnabled);
+        cadJustificativa.setVisible(true);
+    }//GEN-LAST:event_subJustificativaActionPerformed
+
+    private void subCadDespesas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCadDespesas1ActionPerformed
+        RelatorioPontoEletronico relatorioPonto = new RelatorioPontoEletronico(null, rootPaneCheckingEnabled);
+        relatorioPonto.setVisible(true);
+    }//GEN-LAST:event_subCadDespesas1ActionPerformed
+
+    private void menuRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRelatorioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuRelatorioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,7 +509,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JLabel jlHome;
@@ -432,14 +516,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jlNome3;
     private javax.swing.JLabel jlPermissao;
     private javax.swing.JLabel jlUsuario;
-    private javax.swing.JMenu jmCadastrar;
     private javax.swing.JMenu jmCadastrar1;
+    private javax.swing.JMenu menuCadastros;
+    private javax.swing.JMenu menuDespesas;
+    private javax.swing.JMenu menuRelatorio;
+    private javax.swing.JMenuItem subCadCurso;
     private javax.swing.JMenuItem subCadDespesas;
+    private javax.swing.JMenuItem subCadDespesas1;
+    private javax.swing.JMenuItem subConsultaDespesas;
     private javax.swing.JMenuItem subGrade;
     private javax.swing.JMenuItem subGrade1;
     private javax.swing.JMenuItem subGrade2;
     private javax.swing.JMenuItem subGrade3;
-    private javax.swing.JMenuItem subGrade4;
+    private javax.swing.JMenuItem subJustificativa;
     private javax.swing.JMenuItem subUsuario;
     private javax.swing.JMenuItem subUsuario1;
     private javax.swing.JMenuItem subUsuario2;

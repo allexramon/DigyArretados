@@ -108,10 +108,8 @@ public class MensagemPonto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
-        setMaximumSize(new java.awt.Dimension(560, 270));
         setMinimumSize(new java.awt.Dimension(560, 270));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(560, 270));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -127,7 +125,7 @@ public class MensagemPonto extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btFoto);
-        btFoto.setBounds(10, 10, 120, 140);
+        btFoto.setBounds(30, 20, 80, 110);
 
         tfHora.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         tfHora.setText("Hora.:");
@@ -137,7 +135,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         tfNomeProfessor.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         tfNomeProfessor.setText("nomeProfessor");
         getContentPane().add(tfNomeProfessor);
-        tfNomeProfessor.setBounds(140, 80, 390, 30);
+        tfNomeProfessor.setBounds(120, 30, 390, 30);
 
         tfMensagem2.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
         tfMensagem2.setText("Mensagem2");
@@ -147,7 +145,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         tfMensagem1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         tfMensagem1.setText("Mensagem1");
         getContentPane().add(tfMensagem1);
-        tfMensagem1.setBounds(140, 50, 300, 30);
+        tfMensagem1.setBounds(30, 140, 300, 30);
 
         tfHora1.setFont(new java.awt.Font("Tahoma", 2, 15)); // NOI18N
         tfHora1.setText("Aguarde enquanto estamos registrando o horário de sua");
@@ -163,6 +161,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         getContentPane().add(tfMensagem3);
         tfMensagem3.setBounds(450, 230, 60, 30);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Adriano Lima\\Desktop\\tela de alerta.png")); // NOI18N
         jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jLabel2);
         jLabel2.setBounds(0, 0, 560, 270);

@@ -10,7 +10,7 @@ public class ConnectionFactory {
     public Connection getConnection() {
         System.out.println("Conectando ao Banco de Dados...");
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/techpesc", 
+            return DriverManager.getConnection("jdbc:mysql://localhost/birdpoint", 
                     "root", "");
         } catch (SQLException e) {
             throw new RuntimeException(e);
