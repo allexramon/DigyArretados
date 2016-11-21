@@ -319,10 +319,16 @@ public class CadastroDigital extends javax.swing.JDialog {
         if (objetoRetorno != null) {
             professor = professorDAO.consultarObjetoId("idProfessor", objetoRetorno);
             tfNome.setText(professor.getNomeProfessor());
-            if(professor.getDigitalDireita()!=null){
+            try {
+                ImageIcon foto = new ImageIcon();
+                foto.setImage(Util.byteToImage(professor.getFotoProf()));
+                btFoto.setIcon(foto);
+            } catch (Exception e) {
+            }
+            if (professor.getDigitalDireita() != null) {
                 jlMaoDireita.setText("Capturada!");
             }
-            if(professor.getDigitalEsquerda()!=null){
+            if (professor.getDigitalEsquerda() != null) {
                 jlMaoEsquerda.setText("Capturada!");
             }
             btMaoDireita.setEnabled(true);

@@ -170,7 +170,7 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
         Connection connection = new ConnectionFactory().getConnection();
 
         try {
-            pathjrxml = JasperCompileManager.compileReport("C:/Users/Adriano Lima/Desktop/DigyArretados/Bird Point/Source/BirdPoint/src/birdpoint/relatorio/RelatorioPendenciaPontoEletronico.jrxml");
+            pathjrxml = JasperCompileManager.compileReport("src/birdpoint/relatorio/RelatorioPendenciaPontoEletronico.jrxml");
             JasperPrint printReport = JasperFillManager.fillReport(pathjrxml, parametros, connection);
             JDialog viewer = new JDialog(new javax.swing.JFrame(), "Visualização do Relatório", true);
             viewer.setSize(1000, 600);

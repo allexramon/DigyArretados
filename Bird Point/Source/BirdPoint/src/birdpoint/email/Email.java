@@ -26,13 +26,10 @@ public class Email {
     List<Ponto> listaPonto;
     PontoDAO pontoDAO = new PontoDAO();
 
-    SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
-    Date dataAtual = new Date();
-
     List<Ponto> listaFiltrada = new ArrayList<>();
 
     public void enviarEmail() {
-        listaPonto = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataAtual));
+        listaPonto = pontoDAO.checkExistseq("emailPonto", false);
         for (Ponto ponto : listaPonto) {
             if ((ponto.getHoraEntradaPonto() == null || ponto.getHoraSaidaPonto() == null) && (ponto.getProfessor().isReceberEmail())) {
                 listaFiltrada.add(ponto);
@@ -64,6 +61,7 @@ public class Email {
             message.setFrom(new InternetAddress("recursoshumanos@fvs.edu.br")); //Remetente
 
             for (Ponto ponto : listaFiltrada) {
+                ponto.setEmailPonto(true);
                 try {
                     if (ponto.getProfessor().getEmailProfessor() != null && !ponto.getProfessor().getEmailProfessor().equals("")) {
                         Address[] toUser = InternetAddress //Destinatário(s)
@@ -83,7 +81,7 @@ public class Email {
                     }
                 } catch (Exception e) {
                 }
-
+              pontoDAO.atualizar(ponto);
             }
             System.out.println("Mensagens Enviadas com Sucesso!");
         } catch (MessagingException e) {
