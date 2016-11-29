@@ -27,9 +27,14 @@ public class Email {
     PontoDAO pontoDAO = new PontoDAO();
 
     List<Ponto> listaFiltrada = new ArrayList<>();
+    List<Ponto> listaFiltradaParcial = new ArrayList<>();
+
+    SimpleDateFormat formatarData = new SimpleDateFormat("dd/MM/yyyy");
+    Date dataHoraSistema;
 
     public void enviarEmail() {
-        listaPonto = pontoDAO.checkExistseq("emailPonto", false);
+        dataHoraSistema = new Date();
+        listaPonto = pontoDAO.checkExists("dataPonto", formatarData.format(dataHoraSistema));
         for (Ponto ponto : listaPonto) {
             if ((ponto.getHoraEntradaPonto() == null || ponto.getHoraSaidaPonto() == null) && (ponto.getProfessor().isReceberEmail())) {
                 listaFiltrada.add(ponto);
