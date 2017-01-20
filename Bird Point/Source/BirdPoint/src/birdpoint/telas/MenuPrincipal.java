@@ -75,6 +75,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         subGrade1 = new javax.swing.JMenuItem();
         subUsuario2 = new javax.swing.JMenuItem();
+        subGrade3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -216,6 +217,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         menuCadastros.add(subUsuario2);
+
+        subGrade3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
+        subGrade3.setText("Feriado");
+        subGrade3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subGrade3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subGrade3ActionPerformed(evt);
+            }
+        });
+        menuCadastros.add(subGrade3);
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/adicionar10.png"))); // NOI18N
         jMenuItem1.setText("Cidade");
@@ -470,6 +481,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menuRelatorioActionPerformed
 
+    private void subGrade3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subGrade3ActionPerformed
+        CadastroFeriado telaFeriado = new CadastroFeriado(null, rootPaneCheckingEnabled);
+        telaFeriado.setVisible(true);
+    }//GEN-LAST:event_subGrade3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -530,6 +546,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem subGrade;
     private javax.swing.JMenuItem subGrade1;
     private javax.swing.JMenuItem subGrade2;
+    private javax.swing.JMenuItem subGrade3;
     private javax.swing.JMenuItem subJustificativa;
     private javax.swing.JMenuItem subRegistrarPonto;
     private javax.swing.JMenuItem subUsuario;

@@ -5,13 +5,19 @@
  */
 package birdpoint.telas;
 
+import birdpoint.professor.Professor;
+import birdpoint.professor.ProfessorDAO;
+import birdpoint.professor.ProfessorTableModel;
 import birdpoint.util.ConnectionFactory;
+import birdpoint.util.Util;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -26,6 +32,9 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Adriano Lima
  */
 public class RelatorioPontoEletronico extends javax.swing.JDialog {
+
+    Professor professor = new Professor();
+    ProfessorDAO professorDAO = new ProfessorDAO();
 
     public RelatorioPontoEletronico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -45,6 +54,10 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
         btVoltar1 = new javax.swing.JButton();
         tfDataFim = new javax.swing.JFormattedTextField();
         tfDataInicio = new javax.swing.JFormattedTextField();
+        tfNome = new javax.swing.JTextField();
+        btCurso18 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        btCurso114 = new javax.swing.JButton();
         jlCadCidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -60,14 +73,14 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
         tfMensagem1.setBounds(30, 30, 300, 30);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("Data Fim.:");
+        jLabel3.setText("Professor.:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(70, 160, 100, 30);
+        jLabel3.setBounds(20, 170, 100, 30);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setText("Data Início.:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(50, 120, 120, 30);
+        jLabel6.setBounds(50, 80, 120, 30);
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/imprimir - 40.png"))); // NOI18N
@@ -110,7 +123,7 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
         tfDataFim.setName(""); // NOI18N
         tfDataFim.setPreferredSize(new java.awt.Dimension(2, 19));
         getContentPane().add(tfDataFim);
-        tfDataFim.setBounds(170, 160, 100, 30);
+        tfDataFim.setBounds(170, 120, 100, 30);
 
         tfDataInicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 102, 0), 1, true));
         try {
@@ -123,7 +136,46 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
         tfDataInicio.setName(""); // NOI18N
         tfDataInicio.setPreferredSize(new java.awt.Dimension(2, 19));
         getContentPane().add(tfDataInicio);
-        tfDataInicio.setBounds(170, 120, 100, 30);
+        tfDataInicio.setBounds(170, 80, 100, 30);
+
+        tfNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tfNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 121, 0), 1, true));
+        tfNome.setEnabled(false);
+        getContentPane().add(tfNome);
+        tfNome.setBounds(20, 200, 270, 30);
+
+        btCurso18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar20.png"))); // NOI18N
+        btCurso18.setContentAreaFilled(false);
+        btCurso18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso18.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso18.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso18ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btCurso18);
+        btCurso18.setBounds(290, 200, 30, 30);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setText("Data Fim.:");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(70, 120, 100, 30);
+
+        btCurso114.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCurso114.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar20.png"))); // NOI18N
+        btCurso114.setContentAreaFilled(false);
+        btCurso114.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCurso114.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btCurso114.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btCurso114.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCurso114ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btCurso114);
+        btCurso114.setBounds(320, 200, 20, 29);
 
         jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/tela relatório.png"))); // NOI18N
         jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -143,46 +195,50 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
         String sql = "", texto = "";
         String novo = "", novoTexto = "";
 
-        if(!tfDataInicio.getText().equals("  /  /    ") && !tfDataFim.getText().equals("  /  /    ")){
-        String dataInicial = "", dataFinal = "";
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            java.sql.Date data = new java.sql.Date(format.parse(tfDataInicio.getText()).getTime());
-            dataInicial = String.valueOf(data);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        if (!tfDataInicio.getText().equals("  /  /    ") && !tfDataFim.getText().equals("  /  /    ")) {
+            String dataInicial = "", dataFinal = "";
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                java.sql.Date data = new java.sql.Date(format.parse(tfDataInicio.getText()).getTime());
+                dataInicial = String.valueOf(data);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            java.sql.Date data = new java.sql.Date(format.parse(tfDataFim.getText()).getTime());
-            dataFinal = String.valueOf(data);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        sql += " dataPontoCompleta between '" + dataInicial + " 00:00:00'" + " and '" + dataFinal + " 23:59:59" + "'";
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                java.sql.Date data = new java.sql.Date(format.parse(tfDataFim.getText()).getTime());
+                dataFinal = String.valueOf(data);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            sql += " dataPontoCompleta between '" + dataInicial + " 00:00:00'" + " and '" + dataFinal + " 23:59:59" + "'";
 
-        novo += "De: "+tfDataInicio.getText()+" Até: "+tfDataFim.getText();
-        
-        parametros.put("texto", sql);
-        parametros.put("novoTexto", novo);
+            novo += "De: " + tfDataInicio.getText() + " Até: " + tfDataFim.getText();
+            
+            if(professor.getIdProfessor()!=0){
+                sql += " and professor_idProfessor="+professor.getIdProfessor();
+            }
 
-        Connection connection = new ConnectionFactory().getConnection();
+            parametros.put("texto", sql);
+            parametros.put("novoTexto", novo);
 
-        try {
-            pathjrxml = JasperCompileManager.compileReport("src/birdpoint/relatorio/RelatorioPendenciaPontoEletronico.jrxml");
-            JasperPrint printReport = JasperFillManager.fillReport(pathjrxml, parametros, connection);
-            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Visualização do Relatório", true);
-            viewer.setSize(1000, 600);
-            viewer.setLocationRelativeTo(null);
-            viewer.setModal(true);
-            JasperViewer jv = new JasperViewer(printReport, false);
-            viewer.getContentPane().add(jv.getContentPane());
-            viewer.setVisible(true);
-        } catch (JRException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }else{
+            Connection connection = new ConnectionFactory().getConnection();
+
+            try {
+                pathjrxml = JasperCompileManager.compileReport("relatorios/RelatorioPendenciaPontoEletronico.jrxml");
+                JasperPrint printReport = JasperFillManager.fillReport(pathjrxml, parametros, connection);
+                JDialog viewer = new JDialog(new javax.swing.JFrame(), "Visualização do Relatório", true);
+                viewer.setSize(1000, 600);
+                viewer.setLocationRelativeTo(null);
+                viewer.setModal(true);
+                JasperViewer jv = new JasperViewer(printReport, false);
+                viewer.getContentPane().add(jv.getContentPane());
+                viewer.setVisible(true);
+            } catch (JRException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
             JOptionPane.showMessageDialog(rootPane, "É obrigatório informar as duas datas!");
         }
     }//GEN-LAST:event_btVoltarActionPerformed
@@ -190,6 +246,22 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
     private void btVoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltar1ActionPerformed
         dispose();
     }//GEN-LAST:event_btVoltar1ActionPerformed
+
+    private void btCurso18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso18ActionPerformed
+        List<Professor> lista;
+        lista = (professorDAO.listar());
+        ProfessorTableModel itm = new ProfessorTableModel(lista);
+        Object objetoRetorno = PesquisaGenerica.exibeTela(itm, "Professor");
+        if (objetoRetorno != null) {
+            professor = professorDAO.consultarObjetoId("idProfessor", objetoRetorno);
+            tfNome.setText(professor.getNomeProfessor());
+        }
+    }//GEN-LAST:event_btCurso18ActionPerformed
+
+    private void btCurso114ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCurso114ActionPerformed
+       tfNome.setText("");
+       professor = new Professor();
+    }//GEN-LAST:event_btCurso114ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,14 +321,18 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCurso114;
+    private javax.swing.JButton btCurso18;
     private javax.swing.JButton btVoltar;
     private javax.swing.JButton btVoltar1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel jlCadCidade;
     private javax.swing.JFormattedTextField tfDataFim;
     private javax.swing.JFormattedTextField tfDataInicio;
     private javax.swing.JLabel tfMensagem1;
+    private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
 }

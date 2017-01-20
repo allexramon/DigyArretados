@@ -8,13 +8,14 @@ package birdpoint.telas;
 import birdpoint.anoexercicio.AnoExercicio;
 import birdpoint.anoexercicio.AnoExercicioDAO;
 import birdpoint.email.Email;
+import birdpoint.feriado.Feriado;
+import birdpoint.feriado.FeriadoDAO;
 import birdpoint.professor.Professor;
 import birdpoint.professor.ProfessorDAO;
 import birdpoint.quadrohorarios.QuadroHorarios;
 import birdpoint.quadrohorarios.QuadroHorariosDAO;
 import birdpoint.registro.ponto.Ponto;
 import birdpoint.registro.ponto.PontoDAO;
-import birdpoint.registro.ponto.PontoTableModel;
 import birdpoint.registro.ponto.PontoTableModelRegistro;
 import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
@@ -33,6 +34,9 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     Email email = new Email();
     boolean enviouEmail = false;
 
+    List<Feriado> listaFeriados = new ArrayList<>();
+    FeriadoDAO feriadoDAO = new FeriadoDAO();
+    
     List<QuadroHorarios> listaQuadroHorarios;
     QuadroHorariosDAO quadroDAO = new QuadroHorariosDAO();
 
@@ -73,6 +77,8 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         dataHoraSistema = new Date();
+        listaFeriados = feriadoDAO.listar();
+        verificarFeriado();
         listaPontosDiario = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
         listaProfessores = professorDAO.listar();
         carregarAnoExercicioAtual();
@@ -82,9 +88,11 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         atualizarTabela();
         
     // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
-        if (listaPontosDiario.isEmpty()) {
+    // e não for feriado e estiver programado para gerar horário automático
+        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado()) {
             cadastrarPontoDiario();
         }
+        
 
         new Thread() {
             @Override
@@ -102,6 +110,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                         dataHoraSistema = new Date();
                         int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
                         if (hora == 23 && enviouEmail == false) {
+                            email = new Email();
                             email.enviarEmail();
                             enviouEmail = true;
                         } else if (hora < 23) {
@@ -115,6 +124,16 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             }
         }.start();
 
+    }
+    
+    public boolean verificarFeriado(){
+        dataHoraSistema = new Date();
+        String dataAtual = formatarData.format(dataHoraSistema);
+        for (Feriado feriados : listaFeriados) {
+            if(feriados.getDataFeriado().equals(dataAtual));
+            return false;
+        }
+        return true;
     }
 
     public void verificarPontoVazio() {

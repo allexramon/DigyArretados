@@ -23,7 +23,7 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 
-    List<Ponto> listaPonto;
+    List<Ponto> listaPonto = new ArrayList<>();
     PontoDAO pontoDAO = new PontoDAO();
 
     List<Ponto> listaFiltrada = new ArrayList<>();
@@ -34,6 +34,8 @@ public class Email {
 
     public void enviarEmail() {
         dataHoraSistema = new Date();
+        listaPonto = new ArrayList<>();
+        listaFiltrada = new ArrayList<>();
         listaPonto = pontoDAO.checkExists("dataPonto", formatarData.format(dataHoraSistema));
         for (Ponto ponto : listaPonto) {
             if ((ponto.getHoraEntradaPonto() == null || ponto.getHoraSaidaPonto() == null) && (ponto.getProfessor().isReceberEmail())) {

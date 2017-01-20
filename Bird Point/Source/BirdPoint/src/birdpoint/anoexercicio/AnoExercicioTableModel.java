@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class AnoExercicioTableModel extends AbstractTableModel {
 
     private List<AnoExercicio> anosExercicios = new ArrayList<>();
-    private String[] colunas = {"Código", "Ano Exercício", "Ano Exercício Atual"};
+    private String[] colunas = {"Código", "Ano Exercício", "Ano Exercício Atual", "Gerar Horário Automático"};
 
     public AnoExercicioTableModel(List<AnoExercicio> anoExercicio) {
         this.anosExercicios = anoExercicio;
@@ -42,7 +42,17 @@ public class AnoExercicioTableModel extends AbstractTableModel {
             case 1:
                 return anoExercicio.getNomeAnoExercicio();
             case 2:
-                return anoExercicio.isAnoExercicioAtual();
+                if (anoExercicio.isAnoExercicioAtual()) {
+                    return "Sim";
+                } else {
+                    return "Não";
+                }
+            case 3:
+                if (anoExercicio.isGerarHorarioAutomatico()) {
+                    return "Sim";
+                } else {
+                    return "Não";
+                }
 
         }
         return null;
@@ -56,6 +66,8 @@ public class AnoExercicioTableModel extends AbstractTableModel {
                 return colunas[1];
             case 2:
                 return colunas[2];
+            case 3:
+                return colunas[3];
 
         }
         return null;

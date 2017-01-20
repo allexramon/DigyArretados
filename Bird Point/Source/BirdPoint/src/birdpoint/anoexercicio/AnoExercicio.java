@@ -26,6 +26,9 @@ public class AnoExercicio {
 
     @Column(nullable = false)
     private boolean anoExercicioAtual;
+    
+    @Column(nullable = false)
+    private boolean gerarHorarioAutomatico;
 
     /**
      * @return the idAnoExercicio
@@ -67,6 +70,20 @@ public class AnoExercicio {
      */
     public void setAnoExercicioAtual(boolean anoExercicioAtual) {
         this.anoExercicioAtual = anoExercicioAtual;
+    }
+
+    /**
+     * @return the gerarHorarioAutomatico
+     */
+    public boolean isGerarHorarioAutomatico() {
+        return gerarHorarioAutomatico;
+    }
+
+    /**
+     * @param gerarHorarioAutomatico the gerarHorarioAutomatico to set
+     */
+    public void setGerarHorarioAutomatico(boolean gerarHorarioAutomatico) {
+        this.gerarHorarioAutomatico = gerarHorarioAutomatico;
     }
 
   
