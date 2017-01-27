@@ -219,6 +219,7 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
             if(professor.getIdProfessor()!=0){
                 sql += " and professor_idProfessor="+professor.getIdProfessor();
             }
+            sql +=" ORDER BY nomeProfessor ASC";
 
             parametros.put("texto", sql);
             parametros.put("novoTexto", novo);

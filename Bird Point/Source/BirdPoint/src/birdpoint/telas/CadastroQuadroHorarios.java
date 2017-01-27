@@ -301,7 +301,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 if ((listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i] == codigoProfessor)
                         && (listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i] == codigoHorario)) {
                     if ((!listaQuadroHorarios.get(j).getCurso().getNomeCurso().equals(curso.getNomeCurso()))
-                            && (!listaQuadroHorarios.get(j).getSemestre().getNomeSemestre().equals(semestre.getNomeSemestre()))) {
+                            && (listaQuadroHorarios.get(j).getSemestre().getIdSemestre()!=semestre.getIdSemestre())) {
                         Professor dadosProfessor = procurarProfessor(listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i]);
                         Horario dadosHorario = procurarHorario(listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i]);
                         Disciplina dadosDisciplina = procurarDisciplina(listaQuadroHorarios.get(j).getOrdenacaoDisciplinas()[i]);

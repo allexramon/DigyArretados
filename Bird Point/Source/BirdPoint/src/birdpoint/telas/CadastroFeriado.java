@@ -86,7 +86,7 @@ public class CadastroFeriado extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btVoltar);
-        btVoltar.setBounds(20, 340, 90, 70);
+        btVoltar.setBounds(70, 320, 90, 70);
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/limpar.png"))); // NOI18N
@@ -101,7 +101,7 @@ public class CadastroFeriado extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btLimpar);
-        btLimpar.setBounds(180, 340, 80, 70);
+        btLimpar.setBounds(180, 320, 80, 70);
 
         btPesquisar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
@@ -116,7 +116,7 @@ public class CadastroFeriado extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btPesquisar);
-        btPesquisar.setBounds(280, 340, 100, 69);
+        btPesquisar.setBounds(280, 320, 100, 69);
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/excluir.png"))); // NOI18N
@@ -131,7 +131,7 @@ public class CadastroFeriado extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btExcluir);
-        btExcluir.setBounds(390, 340, 80, 70);
+        btExcluir.setBounds(390, 320, 80, 70);
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/Salvar.png"))); // NOI18N
@@ -146,7 +146,7 @@ public class CadastroFeriado extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btSalvar);
-        btSalvar.setBounds(480, 340, 80, 70);
+        btSalvar.setBounds(480, 320, 80, 70);
 
         jLObrigatorioCidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLObrigatorioCidade.setForeground(new java.awt.Color(204, 0, 0));
@@ -183,7 +183,7 @@ public class CadastroFeriado extends javax.swing.JDialog {
         getContentPane().add(jLabel5);
         jLabel5.setBounds(90, 150, 120, 30);
 
-        jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cadCidade.png"))); // NOI18N
+        jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/cad. de feriado.png"))); // NOI18N
         jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadCidade);
         jlCadCidade.setBounds(0, 0, 600, 420);

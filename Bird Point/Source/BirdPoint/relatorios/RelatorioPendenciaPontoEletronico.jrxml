@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-12-09T09:16:43 -->
+<!-- 2017-01-27T11:33:55 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioPontoEletronico" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7af6b275-8a23-4059-bb79-71ab4eddca77">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -112,7 +112,7 @@
 					<textElement textAlignment="Center">
 						<font size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Justificado?]]></text>
+					<text><![CDATA[Justificado??]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="208" y="82" width="73" height="20" uuid="50fe5788-5ce0-4055-a0e3-f4e73aef8a18"/>
@@ -191,47 +191,48 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="23">
+		<band height="27">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="95" y="2" width="121" height="20" uuid="343bb6ae-39c9-40e7-9954-4b4333578272"/>
+				<reportElement x="95" y="4" width="121" height="20" uuid="343bb6ae-39c9-40e7-9954-4b4333578272"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dataPontoCompleta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="2" width="59" height="20" uuid="7c27a7e9-1c78-4c0f-b1de-bd921d574a97"/>
+				<reportElement x="171" y="4" width="59" height="20" uuid="7c27a7e9-1c78-4c0f-b1de-bd921d574a97"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{diaDaSemana}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm">
-				<reportElement x="301" y="2" width="81" height="20" uuid="9390bfb1-7c85-4f64-9af3-68aa065b6e53"/>
+				<reportElement x="301" y="4" width="81" height="20" uuid="9390bfb1-7c85-4f64-9af3-68aa065b6e53"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[IF($F{horaEntradaPonto}.equals(null), "FALTOU", $F{horaEntradaPonto})]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm">
-				<reportElement x="368" y="2" width="81" height="20" uuid="1c9c256b-ebbf-4a7c-899d-2b5b10124f96"/>
+				<reportElement x="368" y="4" width="81" height="20" uuid="1c9c256b-ebbf-4a7c-899d-2b5b10124f96"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[IF($F{horaSaidaPonto}.equals(null), "FALTOU", $F{horaSaidaPonto})]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement mode="Transparent" x="80" y="2" width="447" height="20" uuid="402d81c1-cc60-407c-aa9c-85333b2a4710"/>
+				<reportElement mode="Transparent" x="80" y="4" width="447" height="20" uuid="402d81c1-cc60-407c-aa9c-85333b2a4710"/>
 			</rectangle>
 			<textField pattern="HH:mm">
-				<reportElement x="452" y="1" width="81" height="20" uuid="c880d4b4-bc04-4e82-af9b-827a3e65a3eb"/>
+				<reportElement x="452" y="3" width="81" height="20" uuid="c880d4b4-bc04-4e82-af9b-827a3e65a3eb"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[IF(($F{horaSaidaPonto}.equals(null) || $F{horaEntradaPonto}.equals(null)) && ($F{justificativaPonto}.equals(null) || $F{justificativaPonto}.equals("")),"NÃO",IF((!$F{horaSaidaPonto}.equals(null) && !$F{horaEntradaPonto}.equals(null)), "", "SIM"))]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="226" y="3" width="59" height="20" uuid="8501beae-2891-4ffa-aea2-7fbc5c539ba6"/>
+				<reportElement x="226" y="5" width="59" height="20" uuid="8501beae-2891-4ffa-aea2-7fbc5c539ba6"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>

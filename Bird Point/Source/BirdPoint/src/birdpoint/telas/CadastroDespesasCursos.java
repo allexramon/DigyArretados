@@ -47,7 +47,6 @@ public class CadastroDespesasCursos extends javax.swing.JDialog {
         initComponents();
         btLimparActionPerformed(null);
         calcularResultado();
-        preencherAnos();
     }
 
     public void preencherAnos() {
