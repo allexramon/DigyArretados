@@ -106,6 +106,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             public void run() {
                 try {
                     while (true) {
+                        if(jcEmail.isSelected()){
                         verificarPontoVazio();
                         dataHoraSistema = new Date();
                         int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
@@ -117,6 +118,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                             enviouEmail = false;
                         }
                         sleep(900000);
+                      }
                     }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CadastroPontoEletronico.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,8 +132,9 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         dataHoraSistema = new Date();
         String dataAtual = formatarData.format(dataHoraSistema);
         for (Feriado feriados : listaFeriados) {
-            if(feriados.getDataFeriado().equals(dataAtual));
+            if(feriados.getDataFeriado().equals(dataAtual)){
             return false;
+            }
         }
         return true;
     }
@@ -405,6 +408,8 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         tfHora1 = new javax.swing.JLabel();
         tfHora2 = new javax.swing.JLabel();
         tfHora3 = new javax.swing.JLabel();
+        jcEmail = new javax.swing.JCheckBox();
+        jLabel11 = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
         selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
@@ -489,6 +494,16 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         getContentPane().add(tfHora3);
         tfHora3.setBounds(20, 80, 200, 19);
 
+        jcEmail.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jcEmail.setContentAreaFilled(false);
+        getContentPane().add(jcEmail);
+        jcEmail.setBounds(560, 60, 20, 20);
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Enviar E-mail.:");
+        getContentPane().add(jLabel11);
+        jLabel11.setBounds(460, 60, 100, 20);
+
         jlCadProfessores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/CadastroDePonto.png"))); // NOI18N
         jlCadProfessores.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         getContentPane().add(jlCadProfessores);
@@ -568,7 +583,9 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox jcEmail;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JLabel jlProfessorNaoLocalizado;
     private javax.swing.JFileChooser selecionarFoto;
