@@ -301,7 +301,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
                 if ((listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i] == codigoProfessor)
                         && (listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i] == codigoHorario)) {
                     if ((!listaQuadroHorarios.get(j).getCurso().getNomeCurso().equals(curso.getNomeCurso()))
-                            && (listaQuadroHorarios.get(j).getSemestre().getIdSemestre()!=semestre.getIdSemestre())) {
+                            && (listaQuadroHorarios.get(j).getSemestre().getIdSemestre() != semestre.getIdSemestre())) {
                         Professor dadosProfessor = procurarProfessor(listaQuadroHorarios.get(j).getOrdenacaoProfessores()[i]);
                         Horario dadosHorario = procurarHorario(listaQuadroHorarios.get(j).getOrdenacaoHorarios()[i]);
                         Disciplina dadosDisciplina = procurarDisciplina(listaQuadroHorarios.get(j).getOrdenacaoDisciplinas()[i]);
@@ -902,6 +902,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
 
     }
+
     // Método para verificar se existe algum campo preenchido pela metade
     public boolean verificarHorariosVazios() {
         // Somente quando essa variável for igual a quantidade de campos de verificação o método retornará true
@@ -1023,7 +1024,7 @@ public class CadastroQuadroHorarios extends javax.swing.JDialog {
         }
 
     }
-    
+
     //Método para percorrer o choque de horários em todos os campos
     public boolean verificarChoqueHorarios() {
         int contagemHorariosSemChoque = 0;

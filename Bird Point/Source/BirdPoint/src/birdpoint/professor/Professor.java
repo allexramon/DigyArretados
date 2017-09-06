@@ -5,6 +5,8 @@
  */
 package birdpoint.professor;
 
+import java.util.Arrays;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +32,91 @@ public class Professor {
     
     @Column(length = 100, nullable = false)
     private String cpfProfessor;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + this.idProfessor;
+        hash = 67 * hash + Objects.hashCode(this.nomeProfessor);
+        hash = 67 * hash + Objects.hashCode(this.ruaProfessor);
+        hash = 67 * hash + Objects.hashCode(this.cpfProfessor);
+        hash = 67 * hash + Objects.hashCode(this.RGProfessor);
+        hash = 67 * hash + Objects.hashCode(this.bairroProfessor);
+        hash = 67 * hash + Objects.hashCode(this.telefoneProfessor);
+        hash = 67 * hash + Objects.hashCode(this.emailProfessor);
+        hash = 67 * hash + (this.receberEmail ? 1 : 0);
+        hash = 67 * hash + (this.situacaoProfessor ? 1 : 0);
+        hash = 67 * hash + this.numeroCasa;
+        hash = 67 * hash + Objects.hashCode(this.titulacaoProfessor);
+        hash = 67 * hash + Objects.hashCode(this.cidadeProfessor);
+        hash = 67 * hash + Arrays.hashCode(this.digitalDireita);
+        hash = 67 * hash + Arrays.hashCode(this.digitalEsquerda);
+        hash = 67 * hash + Arrays.hashCode(this.fotoProf);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Professor other = (Professor) obj;
+        if (this.idProfessor != other.idProfessor) {
+            return false;
+        }
+        if (this.receberEmail != other.receberEmail) {
+            return false;
+        }
+        if (this.situacaoProfessor != other.situacaoProfessor) {
+            return false;
+        }
+        if (this.numeroCasa != other.numeroCasa) {
+            return false;
+        }
+        if (!Objects.equals(this.nomeProfessor, other.nomeProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.ruaProfessor, other.ruaProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.cpfProfessor, other.cpfProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.RGProfessor, other.RGProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.bairroProfessor, other.bairroProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.telefoneProfessor, other.telefoneProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.emailProfessor, other.emailProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.titulacaoProfessor, other.titulacaoProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(this.cidadeProfessor, other.cidadeProfessor)) {
+            return false;
+        }
+        if (!Arrays.equals(this.digitalDireita, other.digitalDireita)) {
+            return false;
+        }
+        if (!Arrays.equals(this.digitalEsquerda, other.digitalEsquerda)) {
+            return false;
+        }
+        if (!Arrays.equals(this.fotoProf, other.fotoProf)) {
+            return false;
+        }
+        return true;
+    }
     
     @Column(length = 100)
     private String RGProfessor;

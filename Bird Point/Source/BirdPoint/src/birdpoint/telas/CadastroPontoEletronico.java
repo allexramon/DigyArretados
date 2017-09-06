@@ -89,7 +89,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         
     // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
     // e não for feriado e estiver programado para gerar horário automático
-        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado()) {
+        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado() && jcEmail.isSelected()) {
             cadastrarPontoDiario();
         }
         
@@ -142,8 +142,8 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     public void verificarPontoVazio() {
         dataHoraSistema = new Date();
         listaPontosDiario = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
-        // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
-        if (listaPontosDiario.isEmpty()) {
+        // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia 
+        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado() && jcEmail.isSelected()) {
             cadastrarPontoDiario();
         }
     }

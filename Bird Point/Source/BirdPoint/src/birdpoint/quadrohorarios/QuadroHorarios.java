@@ -8,6 +8,8 @@ package birdpoint.quadrohorarios;
 import birdpoint.curso.Curso;
 import birdpoint.gradecurricular.GradeCurricular;
 import birdpoint.semestre.Semestre;
+import java.util.Arrays;
+import java.util.Objects;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,6 +52,63 @@ public class QuadroHorarios {
 
     @CollectionTable
     private int[] ordenacaoDisciplinas;
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + this.idQuadroHorarios;
+        hash = 89 * hash + Objects.hashCode(this.anoExercicio);
+        hash = 89 * hash + Objects.hashCode(this.turno);
+        hash = 89 * hash + Objects.hashCode(this.curso);
+        hash = 89 * hash + Objects.hashCode(this.semestre);
+        hash = 89 * hash + Objects.hashCode(this.gradeCurricular);
+        hash = 89 * hash + Arrays.hashCode(this.ordenacaoHorarios);
+        hash = 89 * hash + Arrays.hashCode(this.ordenacaoProfessores);
+        hash = 89 * hash + Arrays.hashCode(this.ordenacaoDisciplinas);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final QuadroHorarios other = (QuadroHorarios) obj;
+        if (this.idQuadroHorarios != other.idQuadroHorarios) {
+            return false;
+        }
+        if (!Objects.equals(this.anoExercicio, other.anoExercicio)) {
+            return false;
+        }
+        if (!Objects.equals(this.turno, other.turno)) {
+            return false;
+        }
+        if (!Objects.equals(this.curso, other.curso)) {
+            return false;
+        }
+        if (!Objects.equals(this.semestre, other.semestre)) {
+            return false;
+        }
+        if (!Objects.equals(this.gradeCurricular, other.gradeCurricular)) {
+            return false;
+        }
+        if (!Arrays.equals(this.ordenacaoHorarios, other.ordenacaoHorarios)) {
+            return false;
+        }
+        if (!Arrays.equals(this.ordenacaoProfessores, other.ordenacaoProfessores)) {
+            return false;
+        }
+        if (!Arrays.equals(this.ordenacaoDisciplinas, other.ordenacaoDisciplinas)) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @return the idQuadroHorarios

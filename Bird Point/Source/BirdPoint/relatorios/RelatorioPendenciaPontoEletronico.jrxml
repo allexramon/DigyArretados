@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-01-27T11:33:55 -->
+<!-- 2017-04-25T15:26:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioPontoEletronico" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7af6b275-8a23-4059-bb79-71ab4eddca77">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cG9udG8gLDE1NCwxNSwwZmVlYWQyNy1iZTU4LTQzMWQtOTk2NS1kZjhkYzQ2NzBhYzQ7cHJvZmVz&#xA;c29yICwxNSwxNSw2MWFjYWQ1MC0yYzI5LTQ1Y2UtYmIwNC1jMTdiMmM3ZTc4ZDE7"/>
 	<subDataset name="dataset1" uuid="0967c58a-bb40-496d-9474-f29fc4086914"/>
 	<subDataset name="dataset2" uuid="03709086-e9d3-4543-8c83-5250e170f64b"/>
 	<subDataset name="dataset3" uuid="d2425392-aeae-4765-8953-0b6a147cde4e"/>
@@ -14,9 +14,12 @@
 	<parameter name="texto" class="java.lang.String"/>
 	<parameter name="novoTexto" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT * FROM professor professor
+		<![CDATA[SELECT *
+FROM professor professor
 	INNER JOIN ponto ponto ON 
-	 professor.`idProfessor` = ponto.`professor_idProfessor` where $P!{texto}]]>
+	 professor.`idProfessor` = ponto.`professor_idProfessor` 
+WHERE 
+	 $P!{texto}]]>
 	</queryString>
 	<field name="idProfessor" class="java.lang.Integer"/>
 	<field name="RGProfessor" class="java.lang.String"/>

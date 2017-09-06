@@ -10,8 +10,8 @@ public class ConnectionFactory {
     public Connection getConnection() {
         System.out.println("Conectando ao Banco de Dados...");
         try {
-            return DriverManager.getConnection("jdbc:mysql://192.168.3.38:1892/birdpoint", 
-                    "root", "ads20161");
+            return DriverManager.getConnection("jdbc:mysql://localhost/birdpoint", 
+                    "root", "");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
