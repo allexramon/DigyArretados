@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-25T15:26:47 -->
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioPontoEletronico" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7af6b275-8a23-4059-bb79-71ab4eddca77">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value="cG9udG8gLDE1NCwxNSwwZmVlYWQyNy1iZTU4LTQzMWQtOTk2NS1kZjhkYzQ2NzBhYzQ7cHJvZmVz&#xA;c29yICwxNSwxNSw2MWFjYWQ1MC0yYzI5LTQ1Y2UtYmIwNC1jMTdiMmM3ZTc4ZDE7"/>
-	<subDataset name="dataset1" uuid="0967c58a-bb40-496d-9474-f29fc4086914"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cG9udG8gLDE1NCwxNSwwZmVlYWQyNy1iZTU4LTQzMWQtOTk2NS1kZjhkYzQ2NzBhYzQ7cHJvZmVz&#xA;c29yICwxNSwxNSw2MWFjYWQ1MC0yYzI5LTQ1Y2UtYmIwNC1jMTdiMmM3ZTc4ZDE7"/><subDataset name="dataset1" uuid="0967c58a-bb40-496d-9474-f29fc4086914"/>
 	<subDataset name="dataset2" uuid="03709086-e9d3-4543-8c83-5250e170f64b"/>
 	<subDataset name="dataset3" uuid="d2425392-aeae-4765-8953-0b6a147cde4e"/>
 	<subDataset name="dataset4" uuid="b11b49ff-27b6-4730-8bf6-8bc3f9f02144"/>
@@ -136,7 +134,7 @@ WHERE
 					<textElement>
 						<font size="16" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[IF($F{emailProfessor}.equals(""),"Não cadastrado",$F{emailProfessor})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{emailProfessor}.equals("") ? "Não cadastrado" : $F{emailProfessor}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -215,14 +213,14 @@ WHERE
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[IF($F{horaEntradaPonto}.equals(null), "FALTOU", $F{horaEntradaPonto})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{horaEntradaPonto}.equals(null) ? "FALTOU" : $F{horaEntradaPonto}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm">
 				<reportElement x="368" y="4" width="81" height="20" uuid="1c9c256b-ebbf-4a7c-899d-2b5b10124f96"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[IF($F{horaSaidaPonto}.equals(null), "FALTOU", $F{horaSaidaPonto})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{horaSaidaPonto}.equals(null) ? "FALTOU" : $F{horaSaidaPonto}]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement mode="Transparent" x="80" y="4" width="447" height="20" uuid="402d81c1-cc60-407c-aa9c-85333b2a4710"/>
@@ -232,7 +230,7 @@ WHERE
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[IF(($F{horaSaidaPonto}.equals(null) || $F{horaEntradaPonto}.equals(null)) && ($F{justificativaPonto}.equals(null) || $F{justificativaPonto}.equals("")),"NÃO",IF((!$F{horaSaidaPonto}.equals(null) && !$F{horaEntradaPonto}.equals(null)), "", "SIM"))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(($F{horaSaidaPonto}.equals(null) || $F{horaEntradaPonto}.equals(null)) && ($F{justificativaPonto}.equals(null) || $F{justificativaPonto}.equals("")) ? "NÃO" : (!$F{horaSaidaPonto}.equals(null) && !$F{horaEntradaPonto}.equals(null) ? "" : "SIM"))]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="226" y="5" width="59" height="20" uuid="8501beae-2891-4ffa-aea2-7fbc5c539ba6"/>

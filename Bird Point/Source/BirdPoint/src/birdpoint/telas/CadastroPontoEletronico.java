@@ -36,7 +36,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     List<Feriado> listaFeriados = new ArrayList<>();
     FeriadoDAO feriadoDAO = new FeriadoDAO();
-    
+
     List<QuadroHorarios> listaQuadroHorarios;
     QuadroHorariosDAO quadroDAO = new QuadroHorariosDAO();
 
@@ -84,20 +84,19 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         carregarAnoExercicioAtual();
         listaQuadroHorarios = quadroDAO.checkExists("anoExercicio", anoExercicio.getNomeAnoExercicio());
         mostrarHora();
-        btPesquisar2.setVisible(false);
+
         atualizarTabela();
-        
-    // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
-    // e não for feriado e estiver programado para gerar horário automático
-        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado() && jcEmail.isSelected()) {
+
+        // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
+        // e não for feriado e estiver programado para gerar horário automático
+        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado()) {
             cadastrarPontoDiario();
         }
-        
 
         new Thread() {
             @Override
             public void run() {
-                btPesquisar2ActionPerformed(null);
+                compararDigital();
             }
         }.start();
 
@@ -106,19 +105,21 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
             public void run() {
                 try {
                     while (true) {
-                        if(jcEmail.isSelected()){
-                        verificarPontoVazio();
-                        dataHoraSistema = new Date();
-                        int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
-                        if (hora == 23 && enviouEmail == false) {
-                            email = new Email();
-                            email.enviarEmail();
-                            enviouEmail = true;
-                        } else if (hora < 23) {
-                            enviouEmail = false;
+                        if (!jcEmail.isSelected()) {
+                            verificarPontoVazio();
+                            dataHoraSistema = new Date();
+                            int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
+                            if (hora == 23 && enviouEmail == false) {
+                                email = new Email();
+                                email.enviarEmail();
+                                enviouEmail = true;
+                                System.exit(0);
+                            } else if (hora < 23) {
+                                enviouEmail = false;
+                            }
+                            sleep(900000);
                         }
-                        sleep(900000);
-                      }
+
                     }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CadastroPontoEletronico.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,13 +128,13 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         }.start();
 
     }
-    
-    public boolean verificarFeriado(){
+
+    public boolean verificarFeriado() {
         dataHoraSistema = new Date();
         String dataAtual = formatarData.format(dataHoraSistema);
         for (Feriado feriados : listaFeriados) {
-            if(feriados.getDataFeriado().equals(dataAtual)){
-            return false;
+            if (feriados.getDataFeriado().equals(dataAtual)) {
+                return false;
             }
         }
         return true;
@@ -385,6 +386,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         } else {
             jlProfessorNaoLocalizado.setText("Professor não localizado!");
         }
+        compararDigital();
     }
 
     /**
@@ -400,7 +402,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         selecionarFoto = new javax.swing.JFileChooser();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         btVoltar = new javax.swing.JButton();
-        btPesquisar2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
         jlProfessorNaoLocalizado = new javax.swing.JLabel();
@@ -437,21 +438,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         });
         getContentPane().add(btVoltar);
         btVoltar.setBounds(60, 350, 90, 50);
-
-        btPesquisar2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btPesquisar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/pesquisar.png"))); // NOI18N
-        btPesquisar2.setText("Verificar Digital");
-        btPesquisar2.setContentAreaFilled(false);
-        btPesquisar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btPesquisar2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btPesquisar2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btPesquisar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPesquisar2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btPesquisar2);
-        btPesquisar2.setBounds(250, 330, 160, 69);
 
         tbProfessoresPonto.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         tbProfessoresPonto.setModel(new javax.swing.table.DefaultTableModel(
@@ -517,16 +503,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
 
-    private void btPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisar2ActionPerformed
-        compararDigital();
-        new Thread() {
-            @Override
-            public void run() {
-                btPesquisar2ActionPerformed(evt);
-            }
-        }.start();
-    }//GEN-LAST:event_btPesquisar2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -561,7 +537,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -579,7 +555,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btPesquisar2;
     private javax.swing.JButton btVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JInternalFrame jInternalFrame1;
