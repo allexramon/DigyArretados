@@ -155,8 +155,41 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         tbProfessoresPonto.getColumnModel().getColumn(0).setPreferredWidth(300);
     }
 
+    // Este método apagará todas as duplicidades de ponto
+    public void apagarDuplicidadePonto(Professor professor) {
+        ponto = new Ponto();
+        List<Ponto> listaPontosProfessor = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
+        List<Ponto> listaFiltradaManha = new ArrayList<>();
+        List<Ponto> listaFiltradaTarde = new ArrayList<>();
+        List<Ponto> listaFiltradaNoite = new ArrayList<>();
+        for (Ponto pontoLocal : listaPontosProfessor) {
+            if ((pontoLocal.getProfessor().getIdProfessor() == professor.getIdProfessor())
+                    && pontoLocal.getTurnoPonto().equalsIgnoreCase("Manhã")) {
+                listaFiltradaManha.add(pontoLocal);
+            } else if ((pontoLocal.getProfessor().getIdProfessor() == professor.getIdProfessor())
+                    && pontoLocal.getTurnoPonto().equalsIgnoreCase("Tarde")) {
+                listaFiltradaTarde.add(pontoLocal);
+            } else {
+                listaFiltradaNoite.add(pontoLocal);
+            }
+        }
+
+        for (int i = 1; i < listaFiltradaManha.size(); i++) {
+            pontoDAO.remover(listaFiltradaManha.get(i));
+        }
+
+        for (int i = 1; i < listaFiltradaTarde.size(); i++) {
+            pontoDAO.remover(listaFiltradaTarde.get(i));
+        }
+
+        for (int i = 1; i < listaFiltradaNoite.size(); i++) {
+            pontoDAO.remover(listaFiltradaNoite.get(i));
+        }
+    }
+    
     // Este método registrará o ponto do professor
     public void registrarPresentePonto(Professor professor) {
+        apagarDuplicidadePonto(professor);
         boolean verificarSeAtualizou = false;
         ponto = new Ponto();
         List<Ponto> listaPontosProfessor = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
