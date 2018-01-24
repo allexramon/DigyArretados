@@ -173,7 +173,7 @@ public class RelatorioPontoEletronico extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btCurso114);
-        btCurso114.setBounds(320, 200, 20, 29);
+        btCurso114.setBounds(320, 200, 20, 32);
 
         jlCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/tela relatório.png"))); // NOI18N
         jlCadCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
