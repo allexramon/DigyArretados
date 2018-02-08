@@ -23,13 +23,16 @@ public class MensagemPonto extends javax.swing.JDialog {
 
     Professor professor = new Professor();
     String entradaOuSaida;
+    
+    String turno;
 
-    public MensagemPonto(java.awt.Frame parent, boolean modal, Professor professor, String entradaOuSaida) {
+    public MensagemPonto(java.awt.Frame parent, boolean modal, Professor professor, String entradaOuSaida, String turno) {
         super(parent, modal);
         initComponents();
         tfNomeProfessor.setText(professor.getNomeProfessor());
         this.professor = professor;
         this.entradaOuSaida = entradaOuSaida;
+        this.turno = turno;
         preencherTextoTela();
         carregarFoto();
         mostrarHora();
@@ -57,10 +60,12 @@ public class MensagemPonto extends javax.swing.JDialog {
             tfMensagem1.setText("Seja Bem Vindo(a) Professor(a).:");
             tfMensagem2.setText("A Faculdade Vale do Salgado lhe deseja uma ótima aula.");
             tfMensagem3.setText("Entrada");
+            tfTurno.setText("Turno.: "+turno);
         } else {
             tfMensagem1.setText("Até Logo Professor(a).:");
             tfMensagem2.setText("A Faculdade Vale do Salgado agradece sua presença.");
             tfMensagem3.setText("Saída");
+            tfTurno.setText("Turno.: "+turno);
         }
     }
 
@@ -99,6 +104,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         tfHora1 = new javax.swing.JLabel();
         tfTempo = new javax.swing.JLabel();
         tfMensagem3 = new javax.swing.JLabel();
+        tfTurno = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
@@ -130,7 +136,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         tfHora.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         tfHora.setText("Hora.:");
         getContentPane().add(tfHora);
-        tfHora.setBounds(370, 10, 180, 30);
+        tfHora.setBounds(370, 10, 180, 20);
 
         tfNomeProfessor.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         tfNomeProfessor.setText("nomeProfessor");
@@ -160,6 +166,11 @@ public class MensagemPonto extends javax.swing.JDialog {
         tfMensagem3.setText("Entrada");
         getContentPane().add(tfMensagem3);
         tfMensagem3.setBounds(450, 230, 60, 30);
+
+        tfTurno.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        tfTurno.setText("Turno.: ");
+        getContentPane().add(tfTurno);
+        tfTurno.setBounds(370, 30, 180, 20);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/birdpoint/imagens/tela de alerta 3.png"))); // NOI18N
         jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -248,7 +259,7 @@ public class MensagemPonto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MensagemPonto dialog = new MensagemPonto(new javax.swing.JFrame(), true, null, null);
+                MensagemPonto dialog = new MensagemPonto(new javax.swing.JFrame(), true, null, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -273,5 +284,6 @@ public class MensagemPonto extends javax.swing.JDialog {
     private javax.swing.JLabel tfMensagem3;
     private javax.swing.JLabel tfNomeProfessor;
     private javax.swing.JLabel tfTempo;
+    private javax.swing.JLabel tfTurno;
     // End of variables declaration//GEN-END:variables
 }

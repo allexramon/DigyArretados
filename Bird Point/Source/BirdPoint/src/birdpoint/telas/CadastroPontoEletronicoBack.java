@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CadastroPontoEletronico extends javax.swing.JDialog {
+public class CadastroPontoEletronicoBack extends javax.swing.JDialog {
 
     Email email = new Email();
     boolean enviouEmail = false;
@@ -73,7 +73,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     List<Ponto> listaPontoTabela = new ArrayList<>();
 
-    public CadastroPontoEletronico(java.awt.Frame parent, boolean modal) {
+    public CadastroPontoEletronicoBack(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         dataHoraSistema = new Date();
@@ -86,7 +86,11 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         mostrarHora();
         atualizarTabela();
 
-        verificarPontoVazio();
+        // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia ainda
+        // e não for feriado e estiver programado para gerar horário automático
+        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado()) {
+            cadastrarPontoDiario();
+        }
 
         new Thread() {
             @Override
@@ -101,6 +105,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                 try {
                     while (true) {
                         if (!jcEmail.isSelected()) {
+                            verificarPontoVazio();
                             dataHoraSistema = new Date();
                             int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
                             if (hora == 23 && enviouEmail == false) {
@@ -108,8 +113,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                                 email.enviarEmail();
                                 enviouEmail = true;
                                 System.exit(0);
-                            } 
-                            else if (hora < 23) {
+                            } else if (hora < 23) {
                                 enviouEmail = false;
                             }
                             sleep(900000);
@@ -117,7 +121,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
                     }
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(CadastroPontoEletronico.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CadastroPontoEletronicoBack.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }.start();
@@ -139,7 +143,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         dataHoraSistema = new Date();
         listaPontosDiario = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
         // Só cadastra o ponto diário se não tiver sido cadastrado naquele dia 
-        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado()) {
+        if (listaPontosDiario.isEmpty() && anoExercicio.isGerarHorarioAutomatico() && verificarFeriado() && jcEmail.isSelected()) {
             cadastrarPontoDiario();
         }
     }
@@ -152,40 +156,68 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
 
     // Este método apagará todas as duplicidades de ponto
     public void apagarDuplicidadePonto(Professor professor) {
-        List<Ponto> listaPontosProfessor = pontoDAO.checkExistsPontoProfessor("dataPonto", formatarData.format(dataHoraSistema),
-                "professor.idProfessor", professor.getIdProfessor(),
-                "turnoPonto", carregarTurno());
-
-        for (int i = 1; i < listaPontosProfessor.size(); i++) {
-            pontoDAO.remover(listaPontosProfessor.get(i));
+        ponto = new Ponto();
+        List<Ponto> listaPontosProfessor = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
+        List<Ponto> listaFiltradaManha = new ArrayList<>();
+        List<Ponto> listaFiltradaTarde = new ArrayList<>();
+        List<Ponto> listaFiltradaNoite = new ArrayList<>();
+        for (Ponto pontoLocal : listaPontosProfessor) {
+            if ((pontoLocal.getProfessor().getIdProfessor() == professor.getIdProfessor())
+                    && pontoLocal.getTurnoPonto().equalsIgnoreCase("Manhã")) {
+                listaFiltradaManha.add(pontoLocal);
+            } else if ((pontoLocal.getProfessor().getIdProfessor() == professor.getIdProfessor())
+                    && pontoLocal.getTurnoPonto().equalsIgnoreCase("Tarde")) {
+                listaFiltradaTarde.add(pontoLocal);
+            } else {
+                listaFiltradaNoite.add(pontoLocal);
+            }
         }
 
+        for (int i = 1; i < listaFiltradaManha.size(); i++) {
+            pontoDAO.remover(listaFiltradaManha.get(i));
+        }
+
+        for (int i = 1; i < listaFiltradaTarde.size(); i++) {
+            pontoDAO.remover(listaFiltradaTarde.get(i));
+        }
+
+        for (int i = 1; i < listaFiltradaNoite.size(); i++) {
+            pontoDAO.remover(listaFiltradaNoite.get(i));
+        }
     }
 
     // Este método registrará o ponto do professor
     public void registrarPresentePonto(Professor professor) {
         apagarDuplicidadePonto(professor);
+        boolean verificarSeAtualizou = false;
         ponto = new Ponto();
-        List<Ponto> listaPontosProfessor = pontoDAO.checkExistsPontoProfessor("dataPonto", formatarData.format(dataHoraSistema),
-                "professor.idProfessor", professor.getIdProfessor(),
-                "turnoPonto", carregarTurno());
-        dataHoraSistema = new Date();
-        if (!listaPontosProfessor.isEmpty()) {
-            ponto = listaPontosProfessor.get(0);
-            if (ponto.getHoraEntradaPonto() == null) {
-                ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
-            } else if (ponto.getHoraEntradaPonto() != null && ponto.getHoraSaidaPonto() == null) {
-                ponto.setHoraSaidaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
-            } else {
-                ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
-                ponto.setHoraSaidaPonto(null);
+        List<Ponto> listaPontosProfessor = pontoDAO.checkExistseq("dataPonto", formatarData.format(dataHoraSistema));
+        List<Ponto> listaFiltrada = new ArrayList<>();
+        for (Ponto pontoLocal : listaPontosProfessor) {
+            if (pontoLocal.getProfessor().getIdProfessor() == professor.getIdProfessor()) {
+                listaFiltrada.add(pontoLocal);
             }
-            listaPontoTabela.add(0, ponto);
-            atualizarTabela();
-            pontoDAO.atualizar(ponto);
-            abrirTelaMensagemPonto(ponto);
-
-        } else {
+        }
+        dataHoraSistema = new Date();
+        for (Ponto pontoLocal : listaFiltrada) {
+            if (pontoLocal.getTurnoPonto().equalsIgnoreCase(carregarTurno())) {
+                verificarSeAtualizou = true;
+                ponto = pontoLocal;
+                if (ponto.getHoraEntradaPonto() == null) {
+                    ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+                } else if (ponto.getHoraEntradaPonto() != null && ponto.getHoraSaidaPonto() == null) {
+                    ponto.setHoraSaidaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+                } else {
+                    ponto.setHoraEntradaPonto(Time.valueOf(formatarHoraCompleta.format(dataHoraSistema)));
+                    ponto.setHoraSaidaPonto(null);
+                }
+                listaPontoTabela.add(0, ponto);
+                atualizarTabela();
+                pontoDAO.atualizar(ponto);
+                abrirTelaMensagemPonto(ponto);
+            }
+        }
+        if (verificarSeAtualizou == false) {
             ponto.setAnoExercicio(anoExercicio);
             ponto.setDataPontoCompleta(dataHoraSistema);
             ponto.setDataPonto(formatarData.format(dataHoraSistema));
@@ -521,23 +553,21 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronicoBack.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronicoBack.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronicoBack.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
+            java.util.logging.Logger.getLogger(CadastroPontoEletronicoBack.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -545,7 +575,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CadastroPontoEletronico dialog = new CadastroPontoEletronico(new javax.swing.JFrame(), true);
+                CadastroPontoEletronicoBack dialog = new CadastroPontoEletronicoBack(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

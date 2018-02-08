@@ -449,7 +449,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuBiometriaActionPerformed
 
     private void subRegistrarPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subRegistrarPontoActionPerformed
-        CadastroPontoEletronico cadPonto = new CadastroPontoEletronico(null, rootPaneCheckingEnabled);
+        CadastroPontoEletronicoBack cadPonto = new CadastroPontoEletronicoBack(null, rootPaneCheckingEnabled);
         cadPonto.setVisible(true);
     }//GEN-LAST:event_subRegistrarPontoActionPerformed
 

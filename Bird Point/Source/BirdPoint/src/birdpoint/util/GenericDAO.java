@@ -1,8 +1,5 @@
 package birdpoint.util;
 
-import birdpoint.disciplina.Disciplina;
-import birdpoint.horario.Horario;
-import birdpoint.professor.Professor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
@@ -149,7 +146,7 @@ public abstract class GenericDAO<T> {
         return lista;
 
     }
-    
+
     public List<T> checkExistsPonto(String campo, String valor) {
         List<T> lista = null;
         try {
@@ -158,11 +155,24 @@ public abstract class GenericDAO<T> {
             lista = this.getSessao().createCriteria(classe).add(Restrictions.ilike(campo, valor, MatchMode.ANYWHERE)).list();
             sessao.close();
         } catch (Throwable e) {
-         
-            
+
         }
         return lista;
+    }
+    
+        public List<T> checkExistsPontoProfessor(String campo1, String valor1, String campo2, int valor2, String campo3, String valor3) {
+        List<T> lista = null;
+        try {
+            this.setSessao(HibernateUtil.getSessionFactory().openSession());
+            setTransacao(getSessao().beginTransaction());
+            lista = this.getSessao().createCriteria(classe).add(Restrictions.eq(campo1, valor1))
+                    .add(Restrictions.eq(campo2, valor2))
+                    .add(Restrictions.eq(campo3, valor3)).list();
+            sessao.close();
+        } catch (Throwable e) {
 
+        }
+        return lista;
     }
 
     public List<T> checkExistseq(String campo, Object valor) {
