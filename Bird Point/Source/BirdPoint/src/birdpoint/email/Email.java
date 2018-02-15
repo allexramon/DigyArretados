@@ -91,6 +91,7 @@ public class Email {
               pontoDAO.atualizar(ponto);
             }
             System.out.println("Mensagens Enviadas com Sucesso!");
+            System.exit(0);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
