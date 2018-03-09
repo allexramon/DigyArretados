@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
 public class PontoTableModelRegistro extends AbstractTableModel {
 
     private List<Ponto> pontos = new ArrayList<>();
-    private String[] colunas = {"Professor", "Hora", "Tipo Registro"};
+    private String[] colunas = {"Professor", "Hora", "Turno", "Tipo Registro"};
     SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm:ss");
 
     public PontoTableModelRegistro(List<Ponto> ponto) {
@@ -45,6 +45,8 @@ public class PontoTableModelRegistro extends AbstractTableModel {
                     return ponto.getHoraSaidaPonto();
                 }
             case 2:
+                ponto.getTurnoPonto();
+            case 3:
                 if (ponto.getHoraSaidaPonto() == null) {
                     return "Entrada";
                 } else {
@@ -62,6 +64,8 @@ public class PontoTableModelRegistro extends AbstractTableModel {
                 return colunas[1];
             case 2:
                 return colunas[2];
+            case 3:
+                return colunas[3];
 
         }
         return null;

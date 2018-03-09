@@ -21,6 +21,7 @@ import birdpoint.util.LeitorBiometrico;
 import birdpoint.util.Relogio;
 import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
+import static java.lang.Thread.sleep;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,10 +30,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CadastroPontoEletronico extends javax.swing.JDialog {
+/**
+ *
+ * @author adrianolimacandido
+ */
+public class CadastroPontoEletronico extends javax.swing.JFrame {
 
     Email email = new Email();
-    boolean enviouEmail = false;
 
     List<Feriado> listaFeriados = new ArrayList<>();
     FeriadoDAO feriadoDAO = new FeriadoDAO();
@@ -72,9 +76,9 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     List<Professor> listaProfessoresNoite = new ArrayList<>();
 
     List<Ponto> listaPontoTabela = new ArrayList<>();
-
-    public CadastroPontoEletronico(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    
+    
+    public CadastroPontoEletronico() {
         initComponents();
         dataHoraSistema = new Date();
         listaFeriados = feriadoDAO.listar();
@@ -103,17 +107,19 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                             dataHoraSistema = new Date();
                             int hora = Integer.parseInt(formatarHora.format(dataHoraSistema));
                             if (hora == 23) {
+                                email = new Email();
+                                email.enviarEmail();
                                 System.exit(0);
                             }
                             sleep(900000);
                     }
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(CadastroPontoEletronico.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CadastroPontoEletronicoBack.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }.start();
-
     }
+    
 
     public boolean verificarFeriado() {
         dataHoraSistema = new Date();
@@ -380,6 +386,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         compararDigital();
     }
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -389,9 +396,6 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        selecionarFoto = new javax.swing.JFileChooser();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
         btVoltar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProfessoresPonto = new javax.swing.JTable();
@@ -402,13 +406,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
         tfHora3 = new javax.swing.JLabel();
         jlCadProfessores = new javax.swing.JLabel();
 
-        selecionarFoto.setMaximumSize(new java.awt.Dimension(580, 245));
-        selecionarFoto.setMinimumSize(new java.awt.Dimension(550, 245));
-        selecionarFoto.setPreferredSize(new java.awt.Dimension(520, 320));
-
-        jInternalFrame1.setVisible(true);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 410));
         setUndecorated(true);
         setResizable(false);
@@ -479,7 +477,7 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        dispose();
+        System.exit(0);
     }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
@@ -496,54 +494,33 @@ public class CadastroPontoEletronico extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPontoEletronico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CadastroPontoEletronico dialog = new CadastroPontoEletronico(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new CadastroPontoEletronico().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btVoltar;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlCadProfessores;
     private javax.swing.JLabel jlProfessorNaoLocalizado;
-    private javax.swing.JFileChooser selecionarFoto;
     private javax.swing.JTable tbProfessoresPonto;
     private javax.swing.JLabel tfHora;
     private javax.swing.JLabel tfHora1;
