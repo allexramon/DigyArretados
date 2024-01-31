@@ -1,0 +1,1 @@
+<property name="com.jaspersoft.studio.data.sql.tables" value="cG9udG8gLDE1NCwxNSwwZmVlYWQyNy1iZTU4LTQzMWQtOTk2NS1kZjhkYzQ2NzBhYzQ7cHJvZmVz&#xA;c29yICwxNSwxNSw2MWFjYWQ1MC0yYzI5LTQ1Y2UtYmIwNC1jMTdiMmM3ZTc4ZDE7"/>

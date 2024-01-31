@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioPontoEletronico" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7af6b275-8a23-4059-bb79-71ab4eddca77">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cG9udG8gLDE1NCwxNSwwZmVlYWQyNy1iZTU4LTQzMWQtOTk2NS1kZjhkYzQ2NzBhYzQ7cHJvZmVz&#xA;c29yICwxNSwxNSw2MWFjYWQ1MC0yYzI5LTQ1Y2UtYmIwNC1jMTdiMmM3ZTc4ZDE7"/><subDataset name="dataset1" uuid="0967c58a-bb40-496d-9474-f29fc4086914"/>
+	<subDataset name="dataset2" uuid="03709086-e9d3-4543-8c83-5250e170f64b"/>
+	<subDataset name="dataset3" uuid="d2425392-aeae-4765-8953-0b6a147cde4e"/>
+	<subDataset name="dataset4" uuid="b11b49ff-27b6-4730-8bf6-8bc3f9f02144"/>
+	<parameter name="texto" class="java.lang.String"/>
+	<parameter name="novoTexto" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT *
+FROM professor professor
+	INNER JOIN ponto ponto ON 
+	 professor.`idProfessor` = ponto.`professor_idProfessor` 
+WHERE 
+	 $P!{texto}]]>
+	</queryString>
+	<field name="idProfessor" class="java.lang.Integer"/>
+	<field name="RGProfessor" class="java.lang.String"/>
+	<field name="bairroProfessor" class="java.lang.String"/>
+	<field name="cidadeProfessor" class="java.lang.String"/>
+	<field name="cpfProfessor" class="java.lang.String"/>
+	<field name="digitalDireita" class="java.lang.Object"/>
+	<field name="digitalEsquerda" class="java.lang.Object"/>
+	<field name="emailProfessor" class="java.lang.String"/>
+	<field name="fotoProf" class="java.awt.Image"/>
+	<field name="nomeProfessor" class="java.lang.String"/>
+	<field name="numeroCasa" class="java.lang.Integer"/>
+	<field name="ruaProfessor" class="java.lang.String"/>
+	<field name="situacaoProfessor" class="java.lang.Boolean"/>
+	<field name="telefoneProfessor" class="java.lang.String"/>
+	<field name="titulacaoProfessor" class="java.lang.String"/>
+	<field name="receberEmail" class="java.lang.Boolean"/>
+	<field name="idPonto" class="java.lang.Integer"/>
+	<field name="atestadoPonto" class="java.lang.Boolean"/>
+	<field name="dataPonto" class="java.lang.String"/>
+	<field name="diaDaSemana" class="java.lang.String"/>
+	<field name="emailPonto" class="java.lang.Boolean"/>
+	<field name="horaEntradaPonto" class="java.sql.Time"/>
+	<field name="horaSaidaPonto" class="java.sql.Time"/>
+	<field name="turnoPonto" class="java.lang.String"/>
+	<field name="anoExercicio_idAnoExercicio" class="java.lang.Integer"/>
+	<field name="professor_idProfessor" class="java.lang.Integer"/>
+	<field name="justificativaPonto" class="java.lang.String"/>
+	<field name="dataPontoCompleta" class="java.sql.Timestamp"/>
+	<variable name="soma" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<group name="idLote">
+		<groupExpression><![CDATA[$F{nomeProfessor}]]></groupExpression>
+		<groupHeader>
+			<band height="107">
+				<elementGroup/>
+				<rectangle>
+					<reportElement x="21" y="7" width="550" height="1" uuid="1d3588f1-d569-4b2c-9c24-6439eddacc48"/>
+				</rectangle>
+				<staticText>
+					<reportElement mode="Opaque" x="103" y="12" width="110" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="e917cace-6095-44e9-9efb-1188d5598bbe"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Professor(a).:]]></text>
+				</staticText>
+				<image>
+					<reportElement x="10" y="16" width="80" height="80" uuid="73e9fbbc-ff1f-4dcf-80bb-cfa99da38976"/>
+					<imageExpression><![CDATA[$F{fotoProf}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="95" y="82" width="65" height="20" uuid="43173983-404c-49f2-9b22-61dcac92c83b">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="284" y="82" width="75" height="20" uuid="825c0c44-6111-4c17-ad97-766f7998de3e"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Entrada]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="363" y="82" width="61" height="20" uuid="639c15fe-91ee-41e6-ad61-41ec17e6c70d"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saída]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="167" y="82" width="39" height="20" uuid="819402b5-62d9-4c78-95bf-1fee9d1eb27e"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dia]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="105" y="40" width="110" height="28" forecolor="#000000" backcolor="#FFFFFF" uuid="768acdee-1e41-446f-8d4f-31e7a5c61262"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[E-mail.:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="426" y="82" width="95" height="20" uuid="683f07da-683e-4c1a-9a5a-98792aa33f21"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Justificado??]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="208" y="82" width="73" height="20" uuid="50fe5788-5ce0-4055-a0e3-f4e73aef8a18"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Turno]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="218" y="11" width="336" height="26" forecolor="#006699" uuid="548dbbe7-6fc7-4438-b762-63cc720bcfd2"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomeProfessor}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="219" y="41" width="336" height="26" forecolor="#006699" uuid="7ee9497b-d910-4f76-94aa-2581c1c4341f"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{emailProfessor}.equals("") ? "Não cadastrado" : $F{emailProfessor}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="94">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="7" width="595" height="85" backcolor="#17316A" uuid="fddced2e-4fb3-42f0-9a05-e10bd970012c"/>
+				<staticText>
+					<reportElement x="168" y="3" width="297" height="43" forecolor="#FFFFFF" uuid="518b70ae-f717-4e92-af3d-10c43eb0011b"/>
+					<textElement>
+						<font fontName="Arial" size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ponto Eletrônico]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="501" y="65" width="84" height="17" forecolor="#FFFFFF" uuid="6a7983b6-5645-4187-b63b-05ea19880529"/>
+					<textElement>
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="143" y="50" width="216" height="15" forecolor="#FFFFFF" uuid="b95ce9d9-466b-406f-9f85-77356f8ceb3a"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fábrica de Software - Digy Arretados]]></text>
+				</staticText>
+				<image>
+					<reportElement x="40" y="9" width="90" height="71" uuid="2bfa5707-2bde-4d99-a705-5cf702f9342c"/>
+					<imageExpression><![CDATA["birdpoint/imagens/logo-1.png"]]></imageExpression>
+				</image>
+				<image>
+					<reportElement x="501" y="5" width="69" height="55" uuid="4d5043ce-95dd-4034-9600-0ad5f4eb9879"/>
+					<imageExpression><![CDATA["birdpoint/imagens/logofvs.png"]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="286" y="68" width="192" height="15" forecolor="#FFFFFF" uuid="e4011c04-48aa-4517-90a1-c9e2bd45db31"/>
+					<box>
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{novoTexto}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="27">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="95" y="4" width="121" height="20" uuid="343bb6ae-39c9-40e7-9954-4b4333578272"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataPontoCompleta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="4" width="59" height="20" uuid="7c27a7e9-1c78-4c0f-b1de-bd921d574a97"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diaDaSemana}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm">
+				<reportElement x="301" y="4" width="81" height="20" uuid="9390bfb1-7c85-4f64-9af3-68aa065b6e53"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horaEntradaPonto}.equals(null) ? "FALTOU" : $F{horaEntradaPonto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm">
+				<reportElement x="368" y="4" width="81" height="20" uuid="1c9c256b-ebbf-4a7c-899d-2b5b10124f96"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horaSaidaPonto}.equals(null) ? "FALTOU" : $F{horaSaidaPonto}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="80" y="4" width="447" height="20" uuid="402d81c1-cc60-407c-aa9c-85333b2a4710"/>
+			</rectangle>
+			<textField pattern="HH:mm">
+				<reportElement x="452" y="3" width="81" height="20" uuid="c880d4b4-bc04-4e82-af9b-827a3e65a3eb"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{horaSaidaPonto}.equals(null) || $F{horaEntradaPonto}.equals(null)) && ($F{justificativaPonto}.equals(null) || $F{justificativaPonto}.equals("")) ? "NÃO" : (!$F{horaSaidaPonto}.equals(null) && !$F{horaEntradaPonto}.equals(null) ? "" : "SIM"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="226" y="5" width="59" height="20" uuid="8501beae-2891-4ffa-aea2-7fbc5c539ba6"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{turnoPonto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="33">
+			<textField>
+				<reportElement mode="Opaque" x="337" y="4" width="190" height="13" backcolor="#FFFFFF" uuid="7ef44891-819b-47bd-8f95-ead35132aab3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="532" y="4" width="40" height="13" backcolor="#FFFFFF" uuid="230c9bc1-c5aa-4211-8eb8-cf1ec06c1169"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
